@@ -1,0 +1,911 @@
+// cTab - Commander's Tablet with FBCB2 Blue Force Tracking
+// Battlefield tablet to access real time intel and blue force tracker.
+// By - Riouken
+// http://forums.bistudio.com/member.php?64032-Riouken
+// You may re-use any of this work as long as you provide credit back to me.
+
+// set base colors from BI -- Helps keep colors matching if user changes colors in options.
+_r = profilenamespace getvariable ['Map_BLUFOR_R',0];
+_g = profilenamespace getvariable ['Map_BLUFOR_G',0.8];
+_b = profilenamespace getvariable ['Map_BLUFOR_B',1];
+_a = profilenamespace getvariable ['Map_BLUFOR_A',0.8];
+cTabColorBlue = [_r,_g,_b,_a];
+
+_r = profilenamespace getvariable ['Map_OPFOR_R',0];
+_g = profilenamespace getvariable ['Map_OPFOR_G',1];
+_b = profilenamespace getvariable ['Map_OPFOR_B',1];
+_a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
+cTabColorRed = [_r,_g,_b,_a];
+
+_r = profilenamespace getvariable ['Map_Independent_R',0];
+_g = profilenamespace getvariable ['Map_Independent_G',1];
+_b = profilenamespace getvariable ['Map_Independent_B',1];
+_a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
+cTabColorGreen = [_r,_g,_b,_a];
+
+
+// temp assignmet gets set later when user selects a uav.
+cTabActUav = player;
+
+// Begining text and icon size
+cTabTxtFctr = 12;
+cTabBFTtxt = true;
+
+//set up array for user stored icons, data waits here until it is sent out to other clients.
+// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+cTabUserSelIcon = [[],"","",500,[],""];
+
+// Base defines.
+cTabUserIconList = [];
+cTabUavViewActive = false;
+cTabHCamViewActive = false;
+
+// Set up the array that will hold text messages.
+player setVariable ["ctab_messages",[]];
+
+// fnc to check if the player is in a vehicle that has a FBCB2 monitor.
+// ---todo create a function to allow users to be able to assign this to other vehicles.
+cTab_Veh_check = 
+{
+	private["_unit", "_return"];
+	_unit = _this select 0;
+	_veh = _this select 1;
+	_return = false;
+	// ToDo write / fix for opening outside of vehicle.
+	//_testVeh = _veh getVariable ["cTabVehDisp",false];
+	//if (_testVeh) exitWith {_return = True;};
+	if (vehicle _unit isKindOf "MRAP_01_base_F") then {_return = True;};
+	if (vehicle _unit isKindOf "Wheeled_APC_F") then {_return = True;};
+	if (vehicle _unit isKindOf "Tank") then {_return = True;};
+	if (vehicle _unit isKindOf "Truck_01_base_F") then {_return = True;};
+	
+_return;
+};
+
+// fnc for Key handler. 
+cTab_keyDown = 
+{
+	private["_handled", "_ctrl", "_dikCode", "_shift", "_ctrlKey", "_alt","_target"];
+	_ctrl = _this select 0;
+	_dikCode = _this select 1;
+	_shift = _this select 2;
+	_ctrlKey = _this select 3;
+	_alt = _this select 4;
+  
+	_handled = false;
+
+	// -todo - add userconfig so player can change key.
+	if (_dikCode in (actionKeys "User12")) then
+	{
+		_chk_items = (items player);
+		_chk_asgnItems = (assignedItems player);
+		
+		if (cTabUavViewActive) exitWith {objNull remoteControl ((crew cTabActUav) select 1);player switchCamera 'internal';cTabUavViewActive = false;};
+		if (cTabHCamViewActive) exitWith {objNull remoteControl cTabActHcam;player switchCamera 'internal';cTabHCamViewActive = false;};
+	
+		_chk_all_items = _chk_items + _chk_asgnItems;
+		
+		
+		// -- todo - update to CBA_fnc_find to increase performance in EH.
+		if (("ItemcTab" in _chk_all_items)) exitWith
+		{
+			
+			if (isNull (findDisplay 1775154)) then {
+					nul = [] execVM "cTab\cTab_gui_start.sqf";
+					
+				}else
+				{
+					closeDialog 0;
+
+				};
+			_handled = true;	
+		};
+		
+		_target = cursorTarget;
+		if ([player,_target] call cTab_Veh_check) exitWith {
+		
+			if (isNull (findDisplay 1775144)) then 
+				{
+					nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+					
+				}else
+				{
+					closeDialog 0;
+
+				};
+			_handled = true;
+		};			
+
+		
+		// -- todo - update to CBA_fnc_find to increase performance in EH.
+		if ("ItemAndroid" in _chk_all_items) exitWith {
+		
+			if (isNull (findDisplay 177382)) then 
+				{
+					nul = [] execVM "cTab\bft\cTab_android_gui_start.sqf";
+					
+				}else
+				{
+					closeDialog 0;
+
+				};
+			_handled = true;
+		};		
+		
+	};
+
+	_handled;  
+};
+
+// This is drawn every frame on the tablet. fnc
+cTabOnDrawbft = {
+
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_main_dlg");
+	_cntrlScreen = _display displayCtrl 1201;
+
+	{
+		_obj = _x select 0;
+		_texture = _x select 1;
+		_text = "";
+		_pos = getPosATL _obj;
+		
+		if (cTabBFTtxt) then {_text = _x select 2;};
+		
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+
+
+	} forEach cTabBFTlist;
+	
+	
+	if ((count cTabUserIconList) != 0) then 
+	{
+		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+		{
+			_pos = _x select 0;
+			//_WorldCoordtmp = screenToWorld _pos;
+			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
+			_texture1 = _x select 1;
+			_texture2 = _x select 2;
+			_dir = _x select 3;
+			_color = _x select 4;
+			_text = "";
+			if (cTabBFTtxt) then {_text = _x select 5;};
+			//hint str _x;
+		
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+
+			if (_texture2 != "") then 
+			{
+				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, "", 0, 0.035,"TahomaB"];
+			};
+	
+			if (_dir < 360) then
+			{
+			
+				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
+				_cntrlScreen drawArrow [_pos, _secondPos, _color];
+		
+			};
+
+		
+		} forEach cTabUserIconList;
+	};
+	
+_return;
+};
+
+// This is drawn every frame on the vehicle display. fnc
+cTabOnDrawbftVeh = {
+
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_Veh_dlg");
+	_cntrlScreen = _display displayCtrl 1201;
+
+	{
+		_obj = _x select 0;
+		_texture = _x select 1;
+		_text = "";
+		_pos = getPosATL _obj;
+		
+		if (cTabBFTtxt) then {_text = _x select 2;};
+		
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+
+
+	} forEach cTabBFTlist;
+	
+	
+	if ((count cTabUserIconList) != 0) then 
+	{
+		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+		{
+			_pos = _x select 0;
+			//_WorldCoordtmp = screenToWorld _pos;
+			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
+			_texture1 = _x select 1;
+			_texture2 = _x select 2;
+			_dir = _x select 3;
+			_color = _x select 4;
+			_text = "";
+			if (cTabBFTtxt) then {_text = _x select 5;};
+			//hint str _x;
+		
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+
+			if (_texture2 != "") then 
+			{
+				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, "", 0, 0.035,"TahomaB"];
+			};
+	
+			if (_dir < 360) then
+			{
+			
+				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
+				_cntrlScreen drawArrow [_pos, _secondPos, _color];
+		
+			};
+
+		
+		} forEach cTabUserIconList;
+	};
+	
+_return;
+};
+
+
+// This is drawn every frame on the android. fnc
+cTabOnDrawbftAndroid = {
+
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_Android_dlg");
+	_cntrlScreen = _display displayCtrl 17354;
+
+	{
+		_obj = _x select 0;
+		_texture = _x select 1;
+		_text = "";
+		_pos = getPosATL _obj;
+		
+		if (cTabBFTtxt) then {_text = _x select 2;};
+		
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+
+
+	} forEach cTabBFTlist;
+	
+	
+	if ((count cTabUserIconList) != 0) then 
+	{
+		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+		{
+			_pos = _x select 0;
+			//_WorldCoordtmp = screenToWorld _pos;
+			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
+			_texture1 = _x select 1;
+			_texture2 = _x select 2;
+			_dir = _x select 3;
+			_color = _x select 4;
+			_text = "";
+			if (cTabBFTtxt) then {_text = _x select 5;};
+			//hint str _x;
+		
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+
+			if (_texture2 != "") then 
+			{
+				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, "", 0, 0.035,"TahomaB"];
+			};
+	
+			if (_dir < 360) then
+			{
+			
+				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
+				_cntrlScreen drawArrow [_pos, _secondPos, _color];
+		
+			};
+
+		
+		} forEach cTabUserIconList;
+	};
+	
+_return;
+};
+
+// This is drawn every frame on the tablet uav screen. fnc
+cTabOnDrawUAV = {
+
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_UAV_dlg");
+	_cntrlScreen = _display displayCtrl 1774;
+	
+	if ((count allUnitsUav) == 0) exitWith {};
+
+	{
+		_obj = _x ;
+		_texture = "\A3\ui_f\data\map\markers\nato\b_uav.paa";
+		_text = "";
+		_pos = getPosATL _obj;
+		
+		//if (cTabBFTtxt) then {_text = _x select 2;};
+		
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+
+
+	} forEach allUnitsUav;
+	
+	if (cTabActUav == player) exitWith {};
+	ctrlMapAnimClear _cntrlScreen;
+	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosAtl cTabActUav];
+	ctrlMapAnimCommit _cntrlScreen;
+_return;
+};
+
+// This is drawn every frame on the tablet helmet cam screen. fnc
+cTabOnDrawHCam = {
+
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_hCam_dlg");
+	_cntrlScreen = _display displayCtrl 1774;
+		
+	_obj = cTabActHcam;
+	
+	if (_obj == player) exitWith {};
+	
+	_texture = "\A3\ui_f\data\map\markers\nato\b_inf.paa";
+	_text = "";
+	_pos = getPosATL _obj;
+		
+	//if (cTabBFTtxt) then {_text = _x select 2;};
+		
+	_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+	
+	ctrlMapAnimClear _cntrlScreen;
+	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosAtl _obj];
+	ctrlMapAnimCommit _cntrlScreen;
+_return;
+};
+
+
+
+//Main loop to add the key handler to the unit.
+[] spawn {
+
+	waituntil {!isNull (findDisplay 46) && !isDedicated};
+	sleep .1;
+	(findDisplay 46) displayAddEventHandler ["KeyDown", "_this call cTab_keyDown;"];
+};
+
+// fnc for user menu opperation.
+cTabUsrMenuSelect = {
+	disableSerialization;
+	_type = _this select 0;
+	_dlg = _this select 1;
+	_display = (uiNamespace getVariable _dlg);
+	_return = True;
+	
+	switch (_type) do
+	{
+		case 11:
+		{
+			ctrlShow [3300, False];
+			_control = _display displayCtrl 3301;
+			ctrlShow [3301, True];
+			_control ctrlSetPosition cTabUserPos;
+			_control ctrlCommit 0;
+		};
+
+		case 12:
+		{
+			ctrlShow [3301, False];		
+			_control = _display displayCtrl 3303;
+			ctrlShow [3303, True];
+			_control ctrlSetPosition cTabUserPos;
+			_control ctrlCommit 0;
+		};
+		
+		case 13:
+		{
+			ctrlShow [3303, False];
+			_control = _display displayCtrl 3304;
+			ctrlShow [3304, True];
+			_control ctrlSetPosition cTabUserPos;
+			_control ctrlCommit 0;
+		};
+		
+		case 10:
+		{
+			ctrlShow [3304, False];
+		};
+		
+		case 21:
+		{
+			ctrlShow [3300, False];
+			_control = _display displayCtrl 3305;
+			ctrlShow [3305, True];
+			_control ctrlSetPosition cTabUserPos;
+			_control ctrlCommit 0;
+		};
+		
+		case 20:
+		{
+			ctrlShow [3305, False];
+		};
+		
+		case 31:
+		{
+			ctrlShow [3300, False];
+			_control = _display displayCtrl 3306;
+			ctrlShow [3306, True];
+			_control ctrlSetPosition cTabUserPos;
+			_control ctrlCommit 0;
+		};
+			
+		case 30:
+		{
+			ctrlShow [3306, False];
+		};			
+				
+	};
+
+_return;
+
+};
+
+// fnc to push out data from the user placed icon to all clents.
+cTabUserIconPush = {
+	// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+	
+	//if ((count cTabUserIconList) == 0) exitWith {};
+	
+	_return = true;
+	_nop = [cTabUserIconList,cTabUserSelIcon] call BIS_fnc_arrayPush;
+	//hint str cTabUserIconList;
+	publicVariable "cTabUserIconList";
+	cTabUserSelIcon = [[],"","",500,[],""];
+	_return;
+};
+
+// fnc to delete cameras after UAV interface is closed.
+cTabUavDelCam = {
+	
+	_return = true;
+	player cameraEffect ["terminate","back"];
+	_camArray = player getVariable "cTabUAVcams";
+	_targets = _camArray select 2;
+	camDestroy (_camArray select 0);
+	camDestroy (_camArray select 1);
+	{deleteVehicle _x;} forEach _targets;	
+_return;
+};
+
+// fnc to delete cameras after helmet cam interface is closed.
+cTabHcamDelCam = {
+	
+	_return = true;
+	player cameraEffect ["terminate","back"];
+	_camArray = player getVariable "cTabHcams";
+	_targets = _camArray select 2;
+	camDestroy (_camArray select 0);
+	deleteVehicle (_camArray select 1);	
+_return;
+};
+
+cTabUavTakeControl = {
+	
+	_controlArray = uavControl cTabActUav;
+	_canControl = true;
+	_return = true;
+	
+	if (count _controlArray > 0) then 
+	{
+		if (_controlArray select 1 == "GUNNER") then
+			{
+				_canControl = false;
+			};
+	};	
+	
+	if (count _controlArray > 2) then 
+	{	
+		if (_controlArray select 1 == "GUNNER") then
+			{
+				_canControl = false;
+			};
+		if (_controlArray select 3 == "GUNNER") then
+			{
+				_canControl = false;
+			};	
+	};
+	
+	if (_canControl) then
+	{
+		player remoteControl ((crew cTabActUav) select 1);
+		 cTabActUav switchCamera "Gunner";
+		closeDialog 0;
+		cTabUavViewActive = true;
+	}else
+	{
+	
+		["cTabUavNotAval",["Unable to access the UAV stream... Another user is streaming"]] call BIS_fnc_showNotification;
+	
+	};
+_return;
+};
+
+
+
+// ---------------------------Main loop----------------------------------------------------------------------------
+
+
+//prep the arrays that will hold ctab data
+cTabBFTlist = [];
+cTabHcamlist = [];
+
+if (isnil ("cTabSide")) then {cTabSide = west;}; 
+
+
+// fnc to check players gear for ctab.
+cTabCheckGear = {
+		
+		_unit = _this select 0;
+		_return = false;
+		_chk_items = (items _unit);
+		_chk_asgnItems = (assignedItems _unit);
+	
+		_chk_all_items = _chk_items + _chk_asgnItems;
+		
+		if (("ItemcTab" in _chk_all_items)) then
+		{
+			_return = true;
+		} else
+		{
+			_return = false;
+		};
+		
+		if (("ItemAndroid" in _chk_all_items)) then
+		{
+			_return = true;
+		};
+
+		
+_return;
+};
+
+// fnc to check if unit has helmet cam.
+hCamCheckGear = {
+		
+		_unit = _this select 0;
+		_return = false;
+		_chk_items = (items _unit);
+		_chk_asgnItems = (assignedItems _unit);
+	
+		_chk_all_items = _chk_items + _chk_asgnItems;
+		
+		if (("ItemcTabHCam" in _chk_all_items)) then
+		{
+			_return = true;
+		} else
+		{
+			_return = false;
+		};
+		
+_return;
+};
+
+
+// Main loop to manage lists of people and veh that are shown in FBCB2
+[] spawn {
+
+	waituntil {time > 0};
+	sleep .1;
+	
+	while {true} do 
+	{
+		cTabBFTlist = [];
+		cTabHcamlist = [];
+		
+		{
+			
+			if (side _x == cTabSide) then
+			{
+				_gearTestTab = [_x] call cTabCheckGear;
+				_gearTestHcam = [_x] call hCamCheckGear;
+				if (_gearTestTab) then
+				{
+					_name = groupID (group _x);
+					_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name];
+					cTabBFTlist set [count cTabBFTlist,_tmpArray];
+				};
+				
+				if (_gearTestHcam) then
+				{
+					cTabHcamlist set [count cTabHcamlist,_x];
+				};
+			};
+			
+		} forEach allUnits;
+		
+		
+		{
+			if ((count (crew _x) > 0) && (side _x == cTabSide)) then
+			{
+				_name = groupID (group _x);
+				_txture = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
+				
+				if (vehicle _x isKindOf "Car_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
+				if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				if (vehicle _x isKindOf "Truck_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
+				if (vehicle _x isKindOf "Helicopter") then {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
+				if (vehicle _x isKindOf "Plane") then {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
+				if (vehicle _x isKindOf "Tank") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
+				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
+						
+				_tmpArray = [_x,_txture,_name];
+				cTabBFTlist set [count cTabBFTlist,_tmpArray];
+			};
+			
+		} forEach vehicles;
+		
+
+		// Hold over from when this was run on server.
+		//publicVariable "cTabBFTlist";
+		//publicVariable "cTabHcamlist";
+		sleep 30;
+	};
+		
+	
+	
+	
+
+
+};
+
+cTab_spawn_msg_dlg = 
+{
+	closeDialog 0;
+
+	ShowDialog = {
+		sleep 0.01;
+		_ok = createDialog "cTab_msg_main_dlg";
+		waitUntil { !dialog };
+	};
+ 
+	_void = [] call ShowDialog;
+
+};
+
+cTab_msg_gui_load = 
+{
+	disableSerialization;
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_msg_main_dlg");
+	_msgarry = player getVariable ["ctab_messages",[]];
+	_msgControl = _display displayCtrl 15000;
+	_plrlistControl = _display displayCtrl 15010;
+	lbClear 15000;
+	lbClear 15010;
+	_plrList = playableUnits;
+	
+	if (count _plrList < 1) then { _plrList = switchableUnits;};
+	
+	uiNamespace setVariable ['cTab_msg_playerList', _plrList];
+	// Messages
+	if ((count _msgarry) > 0) then 
+	{
+		{		
+			_title =  _x select 0;
+			_msgIsRead = _x select 2;
+			_img = "";
+			if (_msgIsRead) then 
+			{
+				_img = "\cTab\img\icoOpenmail.paa";
+			}
+			else
+			{
+				_img = "\cTab\img\icoUnopenedmail.paa";
+			};
+		
+			_index = _msgControl lbAdd _title;
+			_index = _msgControl lbSetPicture [_forEachIndex,_img];
+		
+		} forEach _msgarry;
+	};
+	
+	{
+		_index = _plrlistControl lbAdd name _x;
+		if (!([_x] call cTabCheckGear)) then { _plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];};
+		
+	} forEach _plrList;
+	
+	367 cutText ["", "PLAIN"];
+	_return;
+};
+
+cTab_msg_get_mailTxt = 
+{
+	disableSerialization;
+	_return = true;
+	_index = _this select 1;
+	_display = (uiNamespace getVariable "cTab_msg_main_dlg");
+	_msgArray = player getVariable ["ctab_messages",[]];
+	_msgName = (_msgArray select _index) select 0;
+	_msgtxt = (_msgArray select _index) select 1;
+	_msgArray set [_index,[_msgName,_msgtxt,true]];
+	   
+	player setVariable ["ctab_messages",_msgArray];
+	
+	_nop = [] call cTab_msg_gui_load;
+	
+	_txtControl = _display displayCtrl 18510;
+
+	_nul = _txtControl ctrlSetText  _msgtxt;
+	
+	_return;
+};
+
+cTabGetTime = 
+{
+	_return = "";
+    _seconds = time;   
+    _hours = floor(_seconds / 3600);
+    _seconds = _seconds - (_hours * 3600);
+    _tensOfMinutes = floor(_seconds / 600);
+    _seconds = _seconds - (_tensOfMinutes * 600);
+    _minutes = floor(_seconds / 60);
+    _seconds = _seconds - (_minutes * 60);
+    _tensOfSeconds = floor(_seconds / 10);
+    _wholeSeconds = floor(_seconds - (_tensOfSeconds * 10));
+
+    _return = format ["%1:%2%3:%4%5", _hours, _tensOfMinutes, _minutes,_tensOfSeconds, _wholeSeconds];
+	
+	_return;
+
+};
+
+cTab_msg_Send = 
+{
+	disableSerialization;
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_msg_main_dlg");
+	_plrLBctrl = _display displayCtrl 15010;
+	_msgBodyctrl = _display displayCtrl 14000;
+	_plrList = (uiNamespace getVariable "cTab_msg_playerList");
+	
+	_indices = lbSelection _plrLBctrl;
+	_hr = date select 3;
+	_min = date select 4;
+	_msgTitle = str _hr + ":"+ str _min + " - " + name player;
+	_msgBody = ctrlText _msgBodyctrl;
+	
+	{
+		_recip = _plrList select _x;
+		
+		["cTab_msg_receive", [_recip,_msgTitle,_msgBody]] call CBA_fnc_whereLocalEvent;
+		
+	} forEach _indices;
+	
+	_nop = ["cTabMsgSent",[]] call bis_fnc_showNotification;
+	_return;
+};
+
+["cTab_msg_receive", 
+  { 
+       _msgTitle = _this select 1;
+	   _msgBody = _this select 2;
+	   _msgarry = player getVariable ["ctab_messages",[]];
+	   _msgarry set [count _msgarry,[_msgTitle,_msgBody,false]];
+	   
+	   player setVariable ["ctab_messages",_msgarry];
+	   
+	   if ([player] call cTabCheckGear) then 
+	   {
+			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
+	   
+			if (!isnull (findDisplay 19457)) then 
+			{
+				_nop = [] call cTab_msg_gui_load;
+				367 cutRsc ["cTab_Mail_ico_disp", "PLAIN"];
+			}
+			else
+			{
+				367 cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; //show
+			};
+		};
+  }
+] call CBA_fnc_addLocalEventHandler; 
+	
+cTab_msg_delete_all = 
+{
+	player setVariable ["ctab_messages",[]];
+};	
+	
+cTab_load_BFT = 
+{
+	closeDialog 0;
+
+	ShowDialog = {
+		sleep 0.01;
+		_ok = createDialog "cTab_main_dlg";
+		sleep .5;
+	    _nop = [] execVM '\cTab\main\loadBFT.sqf';
+		waitUntil { !dialog };
+	};
+ 
+	_void = [] call ShowDialog;
+
+};
+
+cTab_keyDownShortcut = 
+{
+	private["_handled", "_ctrl", "_dikCode", "_shift", "_ctrlKey", "_alt","_target"];
+	_ctrl = _this select 0;
+	_dikCode = _this select 1;
+	_shift = _this select 2;
+	_ctrlKey = _this select 3;
+	_alt = _this select 4;
+	_fKeys = [59,60,61,62];
+	_handled = false;
+
+	if (_dikCode in _fKeys) then
+	{
+		switch (_dikCode) do
+		{
+			case 59:
+			{
+				_nop = [] spawn cTab_load_BFT;
+				_handled = true;
+			};
+
+			case 60:
+			{
+				_ok = [] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
+				_handled = true;
+			};
+			
+			case 61:
+			{
+				_ok = [] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
+				_handled = true;
+			};
+			
+			case 62:
+			{
+				_ok = [] spawn cTab_spawn_msg_dlg;
+				_handled = true;
+			};
+			
+			default
+			{
+			};
+		};
+	
+	};
+
+
+	_handled;  
+};	
+
+
+cTab_hCam_Full_View = 
+{
+
+	if (vehicle cTabActHcam isKindOf "CAManBase") then 
+	{
+		player switchCamera 'Internal';
+		cTabActHcam switchCamera 'Internal';
+		closeDialog 0;
+		cTabHCamViewActive = true;
+	}
+	else
+	{
+		player switchCamera "EXTERNAL";
+		(vehicle cTabActHcam) switchCamera "EXTERNAL";
+		closeDialog 0;
+		cTabHCamViewActive = true;		
+	};
+	
+};	
