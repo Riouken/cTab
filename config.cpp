@@ -166,8 +166,7 @@ class RscTitles
 {
 	titles[]={};
 	#include <\cTab\msg\msg_mail_title.hpp>
-
-
+	#include <\cTab\TAD\cTab_TAD_gui.hpp>
 };
 
 

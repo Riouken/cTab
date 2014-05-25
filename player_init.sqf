@@ -4,6 +4,33 @@
 // http://forums.bistudio.com/member.php?64032-Riouken
 // You may re-use any of this work as long as you provide credit back to me.
 
+/*
+TAD setup
+*/
+// Get a rsc layer for TAD monitor
+cTabTADrscLayer = ["cTab_TAD"] call BIS_fnc_rscLayer;
+// initialize TAD as not open
+cTabTADopen = false;
+// set initial TAD map scale in km
+cTabTADmapScale = 2;
+// define min and max TAD map scales in km
+cTabTADmapScaleMin = 2;
+cTabTADmapScaleMax = 32;
+/*
+ figure out the scaling factor based on the map being played
+ on Stratis we have a map scaling factor of 3.125 km per ctrlMapScale
+ Stratis map size is 8192 (Altis is 30720)
+ 8192 / 3.125 = 2621.44
+ Divide the actual mapSize by this factor to obtain the scaling factor
+ It seems to work fine
+*/
+_mapSize = (getNumber (configFile>>"CfgWorlds">>worldName>>"mapSize"));
+cTabMapScaleFactor = _mapSize / 2621.44;
+// set TAD font colour to neon green
+cTabTADfontColour = [57/255, 255/255, 20/255, 1];
+// set TAD highlight colour to neon yellow
+cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
+
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.
 _r = profilenamespace getvariable ['Map_BLUFOR_R',0];
 _g = profilenamespace getvariable ['Map_BLUFOR_G',0.8];
@@ -62,6 +89,19 @@ cTab_Veh_check =
 _return;
 };
 
+// fnc to check if the player is in a vehicle that has a TAD monitor.
+// ---todo create a function to allow users to be able to assign this to other vehicles.
+cTab_TAD_check = 
+{
+	private["_unit", "_return"];
+	_unit = _this select 0;
+	_veh = _this select 1;
+	_return = false;
+	if (vehicle _unit isKindOf "Helicopter") then {_return = true;};
+	if (vehicle _unit isKindOf "Plane") then {_return = true;};
+_return;
+};
+
 // fnc for Key handler. 
 cTab_keyDown = 
 {
@@ -75,7 +115,7 @@ cTab_keyDown =
 	_handled = false;
 
 	// -todo - add userconfig so player can change key.
-	if (_dikCode in (actionKeys "User12")) then
+	if (_dikCode in (actionKeys "User12") && !_shift && !_ctrlKey && !_alt) then
 	{
 		_chk_items = (items player);
 		_chk_asgnItems = (assignedItems player);
@@ -115,7 +155,31 @@ cTab_keyDown =
 				};
 			_handled = true;
 		};			
-
+		
+		_vehicle = vehicle player;
+		if ([player,_vehicle] call cTab_TAD_check) exitWith
+		{
+			// findDisplay to check for rsc layer? Could not get it to work
+			if (!cTabTADopen) then 
+			{
+				nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
+				cTabTADopen = true;
+				// Register Event Handler to be notified when the player exits the current vehicle
+				_vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
+			}
+			else
+			{
+				if (isNull (findDisplay 1775144)) then 
+				{
+					[_vehicle] call cTab_close;
+				}
+				else
+				{
+					closeDialog 0;
+				};
+			};
+			_handled = true;
+		};
 		
 		// -- todo - update to CBA_fnc_find to increase performance in EH.
 		if ("ItemAndroid" in _chk_all_items) exitWith {
@@ -133,8 +197,50 @@ cTab_keyDown =
 		};		
 		
 	};
-
+	
+	// TAD key handlers, process only if TAD is open
+	if (cTabTADopen) then
+	{
+		if ((_dikCode in (actionKeys "ZoomIn")) && _shift && _ctrlKey && !_alt) exitWith
+		{
+			cTabTADmapScale = cTabTADmapScale / 2;
+			if (cTabTADmapScale < cTabTADmapScaleMin) then {cTabTADmapScale = cTabTADmapScaleMin};
+			_handled = true;
+		};
+		if ((_dikCode in (actionKeys "ZoomOut")) && _shift && _ctrlKey && !_alt) exitWith
+		{
+			cTabTADmapScale = cTabTADmapScale * 2 ;
+			if (cTabTADmapScale > cTabTADmapScaleMax) then {cTabTADmapScale = cTabTADmapScaleMax};
+			_handled = true;
+		};
+		if ((_dikCode in (actionKeys "User12")) && !_shift && _ctrlKey && !_alt) exitWith
+		{
+			if (isNull (findDisplay 1775144)) then 
+			{
+				nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+			}else
+			{
+				closeDialog 0;
+			};
+			_handled = true;
+		};
+	};
+	
 	_handled;  
+};
+
+// fnc to close cTab
+cTab_Close =
+{
+	_vehicle = _this select 0;
+	if (cTabTADopen) then
+	{
+		// not sure which one is better, they both work
+		// cTabTADrscLayer cutText ["", "PLAIN"];
+		(uiNamespace getVariable "cTab_TAD_dsp") closeDisplay 0;
+		cTabTADopen = false;
+	};
+	_vehicle removeEventHandler ["GetOut",0];
 };
 
 // This is drawn every frame on the tablet. fnc
@@ -255,6 +361,105 @@ cTabOnDrawbftVeh = {
 _return;
 };
 
+// This is drawn every frame on the TAD display. fnc
+cTabOnDrawbftTAD = {
+	// is disableSerialization really required? If so, not sure this is the right place to call it
+	disableSerialization;
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_TAD_dsp");
+	_cntrlScreen = _display displayCtrl 1201;
+	
+	// current position
+	_mapCentrePos = position player;
+	_heading = direction player;
+	// change scale of map and centre to player position
+	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScale / cTabMapScaleFactor, _mapCentrePos];
+	ctrlMapAnimCommit _cntrlScreen;
+	
+	// draw vehicle icon at own location
+	if (vehicle player isKindOf "Plane") then
+	{
+		_cntrlScreen drawIcon ["\cTab\img\icon_a10_ca.paa",cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
+	}
+	else
+	{
+		_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconhelicopter_ca.paa",cTabTADfontColour,_mapCentrePos,18,18,_heading,"",1,0.035,"TahomaB"];
+	};
+	
+	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
+	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,_heading,"",1,0.035,"TahomaB"];
+	
+	{
+		_obj = _x select 0;
+		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
+		if (!(player in _obj)) then
+		{
+			_texture = _x select 1;
+			_text = "";
+			_pos = getPosATL _obj;
+			if (cTabBFTtxt) then {_text = _x select 2;};
+			// check if object is an air vehicle
+			if (_obj isKindOf "Air") then
+			{
+				// draw air contact icon and dummy icon for the text to have a better alignment
+				_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,32,32,direction _obj,"",0,0.035,"TahomaB"];
+				_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,20,20,0,_text,0,0.035,"TahomaB"];
+			}
+			else
+			{
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabTxtFctr * 2,cTabTxtFctr * 2,0,_text,0,0.035,"TahomaB"];
+			};
+		};
+	} forEach cTabBFTlist;
+	
+	if ((count cTabUserIconList) != 0) then 
+	{
+		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+		{
+			_pos = _x select 0;
+			//_WorldCoordtmp = screenToWorld _pos;
+			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
+			_texture1 = _x select 1;
+			_texture2 = _x select 2;
+			_dir = _x select 3;
+			_color = _x select 4;
+			_text = "";
+			if (cTabBFTtxt) then {_text = _x select 5;};
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+			if (_texture2 != "") then 
+			{
+				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, "", 0, 0.035,"TahomaB"];
+			};
+			if (_dir < 360) then
+			{
+				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
+				_cntrlScreen drawArrow [_pos, _secondPos, _color];
+			};
+		} forEach cTabUserIconList;
+	};
+	
+	// update time on TAD
+	_hour = date select 3;
+	if (_hour < 10) then {
+		_hour = format ["0%1", _hour];
+	};
+	_min = date select 4;
+	if (_min < 10) then {
+		_min = format ["0%1", _min];
+	};
+
+	(_display displayCtrl 1202) ctrlSetText format ["%1:%2", _hour, _min];
+	
+	// update grid position on TAD
+	(_display displayCtrl 1203) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
+	
+	// update current map scale on TAD
+	// divide by 2 because we want to display the radius, not the diameter
+	(_display displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
+	
+	_return;
+};
 
 // This is drawn every frame on the android. fnc
 cTabOnDrawbftAndroid = {
