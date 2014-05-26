@@ -132,10 +132,13 @@ cTab_keyDown =
 			// findDisplay to check for rsc layer? Could not get it to work
 			if (!cTabTADopen) then 
 			{
-				nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
-				cTabTADopen = true;
-				// Register Event Handler to be notified when the player exits the current vehicle
-				_vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
+				if (player in [driver _vehicle,_vehicle turretUnit[0]]) then
+				{
+					nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
+					cTabTADopen = true;
+					// Register Event Handler to be notified when the player exits the current vehicle
+					_vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
+				}
 			}
 			else
 			{
