@@ -98,16 +98,17 @@ _return;
 			{
 				_name = groupID (group _x);
 				_txture = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
+				_vehicle = vehicle _x;
 				
-				if (vehicle _x isKindOf "Car_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
-				if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				if (vehicle _x isKindOf "Truck_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
-				if (vehicle _x isKindOf "Helicopter") then {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
-				if (vehicle _x isKindOf "Plane") then {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
-				if (vehicle _x isKindOf "Tank") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
-				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
-						
+				call {
+					if (_vehicle isKindOf "Car_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
+					if (_vehicle isKindOf "Wheeled_APC_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+					if (_vehicle isKindOf "Truck_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
+					if (_vehicle isKindOf "Helicopter") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
+					if (_vehicle isKindOf "Plane") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
+					if (_vehicle isKindOf "Tank") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				};
+				
 				_tmpArray = [_x,_txture,_name];
 				cTabBFTlist set [count cTabBFTlist,_tmpArray];
 			};
