@@ -227,7 +227,7 @@ cTabOnDrawbft = {
 		_obj = _x select 0;
 		_texture = _x select 1;
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -286,7 +286,7 @@ cTabOnDrawbftVeh = {
 		_obj = _x select 0;
 		_texture = _x select 1;
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -343,7 +343,7 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen = _display displayCtrl 1201;
 	
 	// current position
-	_mapCentrePos = position player;
+	_mapCentrePos = getPosASL player;
 	_heading = direction player;
 	// change scale of map and centre to player position
 	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScale / cTabMapScaleFactor, _mapCentrePos];
@@ -369,7 +369,7 @@ cTabOnDrawbftTAD = {
 		{
 			_texture = _x select 1;
 			_text = "";
-			_pos = getPosATL _obj;
+			_pos = getPosASL _obj;
 			if (cTabBFTtxt) then {_text = _x select 2;};
 			// check if object is an air vehicle
 			if (_obj isKindOf "Air") then
@@ -445,7 +445,7 @@ cTabOnDrawbftAndroid = {
 		_obj = _x select 0;
 		_texture = _x select 1;
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -506,7 +506,7 @@ cTabOnDrawUAV = {
 		_obj = _x ;
 		_texture = "\A3\ui_f\data\map\markers\nato\b_uav.paa";
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		//if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -517,7 +517,7 @@ cTabOnDrawUAV = {
 	
 	if (cTabActUav == player) exitWith {};
 	ctrlMapAnimClear _cntrlScreen;
-	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosAtl cTabActUav];
+	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosASL cTabActUav];
 	ctrlMapAnimCommit _cntrlScreen;
 _return;
 };
@@ -535,14 +535,14 @@ cTabOnDrawHCam = {
 	
 	_texture = "\A3\ui_f\data\map\markers\nato\b_inf.paa";
 	_text = "";
-	_pos = getPosATL _obj;
+	_pos = getPosASL _obj;
 		
 	//if (cTabBFTtxt) then {_text = _x select 2;};
 		
 	_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
 	
 	ctrlMapAnimClear _cntrlScreen;
-	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosAtl _obj];
+	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosASL _obj];
 	ctrlMapAnimCommit _cntrlScreen;
 _return;
 };
