@@ -24,9 +24,6 @@ cTabCheckGear = {
 		if (("ItemcTab" in _chk_all_items)) then
 		{
 			_return = true;
-		} else
-		{
-			_return = false;
 		};
 		
 		if (("ItemAndroid" in _chk_all_items)) then
@@ -51,9 +48,6 @@ hCamCheckGear = {
 		if (("ItemcTabHCam" in _chk_all_items)) then
 		{
 			_return = true;
-		} else
-		{
-			_return = false;
 		};
 		
 _return;
