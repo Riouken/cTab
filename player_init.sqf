@@ -134,6 +134,7 @@ cTab_keyDown =
 			{
 				if (player in [driver _vehicle,_vehicle turretUnit[0]]) then
 				{
+					cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
 					nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
 					cTabTADopen = true;
 					// Register Event Handler to be notified when the player exits the current vehicle
@@ -350,14 +351,7 @@ cTabOnDrawbftTAD = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
-	if (vehicle player isKindOf "Plane") then
-	{
-		_cntrlScreen drawIcon ["\cTab\img\icon_a10_ca.paa",cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
-	}
-	else
-	{
-		_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconhelicopter_ca.paa",cTabTADfontColour,_mapCentrePos,18,18,_heading,"",1,0.035,"TahomaB"];
-	};
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
 	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,_heading,"",1,0.035,"TahomaB"];
