@@ -10,50 +10,6 @@ cTabHcamlist = [];
 
 if (isnil ("cTabSide")) then {cTabSide = west;}; 
 
-
-// fnc to check players gear for ctab.
-cTabCheckGear = {
-		
-		_unit = _this select 0;
-		_return = false;
-		_chk_items = (items _unit);
-		_chk_asgnItems = (assignedItems _unit);
-	
-		_chk_all_items = _chk_items + _chk_asgnItems;
-		
-		if (("ItemcTab" in _chk_all_items)) then
-		{
-			_return = true;
-		};
-		
-		if (("ItemAndroid" in _chk_all_items)) then
-		{
-			_return = true;
-		};
-
-		
-_return;
-};
-
-// fnc to check if unit has helmet cam.
-hCamCheckGear = {
-		
-		_unit = _this select 0;
-		_return = false;
-		_chk_items = (items _unit);
-		_chk_asgnItems = (assignedItems _unit);
-	
-		_chk_all_items = _chk_items + _chk_asgnItems;
-		
-		if (("ItemcTabHCam" in _chk_all_items)) then
-		{
-			_return = true;
-		};
-		
-_return;
-};
-
-
 // Main loop to manage lists of people and veh that are shown in FBCB2
 [] spawn {
 
@@ -69,16 +25,16 @@ _return;
 			
 			if (side _x == cTabSide) then
 			{
-				_gearTestTab = [_x] call cTabCheckGear;
-				_gearTestHcam = [_x] call hCamCheckGear;
-				if (_gearTestTab) then
+				_chk_all_items = (items _x) + (assignedItems _x);
+				
+				if (("ItemcTab" in _chk_all_items) || ("ItemAndroid" in _chk_all_items)) then
 				{
 					_name = groupID (group _x);
 					_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name];
 					cTabBFTlist set [count cTabBFTlist,_tmpArray];
 				};
 				
-				if (_gearTestHcam) then
+				if ("ItemcTabHCam" in _chk_all_items) then
 				{
 					cTabHcamlist set [count cTabHcamlist,_x];
 				};
@@ -108,17 +64,10 @@ _return;
 			
 		} forEach vehicles;
 		
-
-
 		publicVariable "cTabBFTlist";
 		publicVariable "cTabHcamlist";
 		sleep 20;
 	};
-		
-	
-	
-	
-
 
 };
 
