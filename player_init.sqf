@@ -721,50 +721,34 @@ if (isnil ("cTabSide")) then {cTabSide = west;};
 
 // fnc to check players gear for ctab.
 cTabCheckGear = {
-		
-		_unit = _this select 0;
-		_return = false;
-		_chk_items = (items _unit);
-		_chk_asgnItems = (assignedItems _unit);
 	
-		_chk_all_items = _chk_items + _chk_asgnItems;
-		
-		if (("ItemcTab" in _chk_all_items)) then
-		{
-			_return = true;
-		} else
-		{
-			_return = false;
-		};
-		
-		if (("ItemAndroid" in _chk_all_items)) then
-		{
-			_return = true;
-		};
-
-		
-_return;
+	_unit = _this select 0;
+	_return = false;
+	
+	_chk_all_items = (items _unit) + (assignedItems _unit);
+	
+	if (("ItemcTab" in _chk_all_items) || ("ItemAndroid" in _chk_all_items)) then
+	{
+		_return = true;
+	};
+	
+	_return;
 };
 
 // fnc to check if unit has helmet cam.
 hCamCheckGear = {
-		
-		_unit = _this select 0;
-		_return = false;
-		_chk_items = (items _unit);
-		_chk_asgnItems = (assignedItems _unit);
 	
-		_chk_all_items = _chk_items + _chk_asgnItems;
-		
-		if (("ItemcTabHCam" in _chk_all_items)) then
-		{
-			_return = true;
-		} else
-		{
-			_return = false;
-		};
-		
-_return;
+	_unit = _this select 0;
+	_return = false;
+	
+	_chk_all_items = (items _unit) + (assignedItems _unit);
+	
+	if (("ItemcTabHCam" in _chk_all_items)) then
+	{
+		_return = true;
+	};
+	
+	_return;
 };
 
 
@@ -783,16 +767,14 @@ _return;
 			
 			if (side _x == cTabSide) then
 			{
-				_gearTestTab = [_x] call cTabCheckGear;
-				_gearTestHcam = [_x] call hCamCheckGear;
-				if (_gearTestTab) then
+				if ([_x] call cTabCheckGear) then
 				{
 					_name = groupID (group _x);
 					_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name];
 					cTabBFTlist set [count cTabBFTlist,_tmpArray];
 				};
 				
-				if (_gearTestHcam) then
+				if ([_x] call hCamCheckGear) then
 				{
 					cTabHcamlist set [count cTabHcamlist,_x];
 				};
@@ -800,40 +782,30 @@ _return;
 			
 		} forEach allUnits;
 		
-		
 		{
 			if ((count (crew _x) > 0) && (side _x == cTabSide)) then
 			{
 				_name = groupID (group _x);
 				_txture = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
 				
-				if (vehicle _x isKindOf "Car_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
-				if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				if (vehicle _x isKindOf "Truck_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
-				if (vehicle _x isKindOf "Helicopter") then {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
-				if (vehicle _x isKindOf "Plane") then {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
-				if (vehicle _x isKindOf "Tank") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
-				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
-						
+				call {
+					if (_x isKindOf "Car_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
+					if (_x isKindOf "Wheeled_APC_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+					if (_x isKindOf "Truck_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
+					if (_x isKindOf "Helicopter") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
+					if (_x isKindOf "Plane") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
+					if (_x isKindOf "Tank") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				};
+				
 				_tmpArray = [_x,_txture,_name];
 				cTabBFTlist set [count cTabBFTlist,_tmpArray];
 			};
 			
 		} forEach vehicles;
 		
-
-		// Hold over from when this was run on server.
-		//publicVariable "cTabBFTlist";
-		//publicVariable "cTabHcamlist";
 		sleep 30;
 	};
-		
 	
-	
-	
-
-
 };
 
 cTab_spawn_msg_dlg = 
