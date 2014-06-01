@@ -68,7 +68,7 @@ class Extended_PostInit_EventHandlers
 	{
 		clientInit = QUOTE(call COMPILE_FILE2(\cTab\player_init.sqf));
 
-		//serverInit = QUOTE(call COMPILE_FILE2(\cTab\server_init.sqf));
+		serverInit = QUOTE(call COMPILE_FILE2(\cTab\server_init.sqf));
 	};
 };
 
