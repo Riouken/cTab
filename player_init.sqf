@@ -6,7 +6,9 @@
 
 // add cTab_updatePulse event handler triggered periodically by the server
 ["cTab_FBCB2_updatePulse",{
-	call cTab_fnc_update_lists;
+	[] spawn {
+		call cTab_fnc_update_lists;
+	};
 }] call CBA_fnc_addEventHandler;
 
 //prep the arrays that will hold ctab data
