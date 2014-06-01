@@ -754,23 +754,22 @@ hCamCheckGear = {
 
 // Main loop to manage lists of people and veh that are shown in FBCB2
 cTab_fnc_update_lists = {
-	cTabBFTlist = [];
-	cTabHcamlist = [];
+	_cTabBFTlist = [];
+	_cTabHcamlist = [];
 	
 	{
-		
 		if (side _x == cTabSide) then
 		{
 			if ([_x] call cTabCheckGear) then
 			{
 				_name = groupID (group _x);
 				_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name];
-				cTabBFTlist set [count cTabBFTlist,_tmpArray];
+				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 			};
 			
 			if ([_x] call hCamCheckGear) then
 			{
-				cTabHcamlist set [count cTabHcamlist,_x];
+				_cTabHcamlist set [count _cTabHcamlist,_x];
 			};
 		};
 		
@@ -792,10 +791,14 @@ cTab_fnc_update_lists = {
 			};
 			
 			_tmpArray = [_x,_txture,_name];
-			cTabBFTlist set [count cTabBFTlist,_tmpArray];
+			_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 		};
 		
 	} forEach vehicles;
+	
+	// replace the global list arrays in the end so that we avoid them being empty unnecessarily
+	cTabBFTlist = [] + _cTabBFTlist;
+	cTabHcamlist = [] + _cTabHcamlist;
 };
 
 cTab_spawn_msg_dlg = 
