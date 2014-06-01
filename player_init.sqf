@@ -754,7 +754,7 @@ hCamCheckGear = {
 
 // Main loop to manage lists of people and veh that are shown in FBCB2
 [] spawn {
-
+	
 	waituntil {time > 0};
 	sleep .1;
 	

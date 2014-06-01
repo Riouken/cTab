@@ -8,15 +8,15 @@
 cTabBFTlist = [];
 cTabHcamlist = [];
 
-if (isnil ("cTabSide")) then {cTabSide = west;}; 
+if (isnil ("cTabSide")) then {cTabSide = west;};
 
 // Main loop to manage lists of people and veh that are shown in FBCB2
 [] spawn {
-
+	
 	waituntil {time > 0};
 	sleep .1;
 	
-	while {true} do 
+	while {true} do
 	{
 		cTabBFTlist = [];
 		cTabHcamlist = [];
@@ -68,12 +68,5 @@ if (isnil ("cTabSide")) then {cTabSide = west;};
 		publicVariable "cTabHcamlist";
 		sleep 20;
 	};
-
+	
 };
-
-
-	
-	
-	
-	
-	
