@@ -4,7 +4,7 @@
 // http://forums.bistudio.com/member.php?64032-Riouken
 // You may re-use any of this work as long as you provide credit back to me.
 
-// add cTab_updatePulse event handler triggered periodically by the server
+// add cTab_FBCB2_updatePulse event handler triggered periodically by the server
 ["cTab_FBCB2_updatePulse",{
 	[] spawn {
 		call cTab_fnc_update_lists;
