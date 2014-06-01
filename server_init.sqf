@@ -4,6 +4,17 @@
 // http://forums.bistudio.com/member.php?64032-Riouken
 // You may re-use any of this work as long as you provide credit back to me.
 
+[] spawn {
+	waituntil {time > 0};
+	sleep .1;
+	
+	while {true} do {
+		["cTab_FBCB2_updatePulse"] call CBA_fnc_globalEvent;
+		sleep 10;
+	};
+};
+
+/*
 //prep the arrays that will hold ctab data
 cTabBFTlist = [];
 cTabHcamlist = [];
@@ -70,3 +81,4 @@ if (isnil ("cTabSide")) then {cTabSide = west;};
 	};
 	
 };
+*/
