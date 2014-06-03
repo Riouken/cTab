@@ -62,6 +62,9 @@ class CfgMods {
 		description = "Battlefield tablet to access real time intel and blue force tracker.";
 	};
 };
+
+#include "\userconfig\ctab\ctab_settings.hpp"
+
 class Extended_PostInit_EventHandlers
 {
 	class PREFIX
