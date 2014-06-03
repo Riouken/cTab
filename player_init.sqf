@@ -64,10 +64,22 @@ _a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
 cTabColorGreen = [_r,_g,_b,_a];
 
 // define vehicles that have FBCB2 monitor
-cTab_has_FBCB2 = ["MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"];
+if (isNil "cTab_vehicleClass_has_FBCB2") then {
+	if (!isNil "cTab_vehicleClass_has_FBCB2_server") then {
+		cTab_vehicleClass_has_FBCB2 = cTab_vehicleClass_has_FBCB2_server;
+	} else {
+		cTab_vehicleClass_has_FBCB2 = ["MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"];
+	};
+};
 
 // define vehicles that have TAD
-cTab_has_TAD = ["Helicopter","Plane"];
+if (isNil "cTab_vehicleClass_has_TAD") then {
+	if (!isNil "cTab_vehicleClass_has_TAD_server") then {
+		cTab_vehicleClass_has_TAD = cTab_vehicleClass_has_TAD_server;
+	} else {
+		cTab_vehicleClass_has_TAD = ["Helicopter","Plane"];
+	};
+};
 
 // temp assignmet gets set later when user selects a uav.
 cTabActUav = player;
@@ -129,7 +141,7 @@ cTab_keyDown =
 		
 		_vehicle = vehicle player;
 		
-		if (({_vehicle isKindOf _x} count cTab_has_FBCB2) > 0) exitWith {
+		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0) exitWith {
 			if (isNull (findDisplay 1775144)) then 
 				{
 					nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
@@ -140,7 +152,7 @@ cTab_keyDown =
 			_handled = true;
 		};
 		
-		if (({_vehicle isKindOf _x} count cTab_has_TAD) > 0) exitWith
+		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0) exitWith
 		{
 			// findDisplay to check for rsc layer? Could not get it to work
 			if (!cTabTADopen) then 
