@@ -4,6 +4,22 @@
 // http://forums.bistudio.com/member.php?64032-Riouken
 // You may re-use any of this work as long as you provide credit back to me.
 
+// define vehicles that have FBCB2 monitor and broadcast it
+if (isArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_FBCB2")) then {
+	cTab_vehicleClass_has_FBCB2_server = getArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_FBCB2");
+} else {
+	cTab_vehicleClass_has_FBCB2_server = ["MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"];
+};
+publicVariable "cTab_vehicleClass_has_FBCB2_server";
+
+// define vehicles that have TAD  and broadcast it
+if (isArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_TAD")) then {
+	cTab_vehicleClass_has_TAD_server = getArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_TAD");
+} else {
+	cTab_vehicleClass_has_TAD_server = ["Helicopter","Plane"];
+};
+publicVariable "cTab_vehicleClass_has_FBCB2_server";
+
 [] spawn {
 	waituntil {time > 0};
 	sleep .1;
