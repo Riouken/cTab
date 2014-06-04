@@ -4,6 +4,35 @@ class cTab_settings {
 };
 
 class cTab_keys {
+	
+	class if_main {
+		key = 35; // H
+		ctrl = 0;
+		shift = 0;
+		alt = 0;
+	};
+	
+	class if_secondary {
+		key = 35; // H
+		ctrl = 1;
+		shift = 0;
+		alt = 0;
+	};
+	
+	class zoom_in {
+		key = 78; // NUM_+
+		ctrl = 1;
+		shift = 1;
+		alt = 0;
+	};
+	
+	class zoom_out {
+		key = 74; // NUM_-
+		ctrl = 1;
+		shift = 1;
+		alt = 0;
+	};
+	
 };
 
 /* KEY LIST // US keyboard layout*/
