@@ -4,6 +4,9 @@
 // http://forums.bistudio.com/member.php?64032-Riouken
 // You may re-use any of this work as long as you provide credit back to me.
 
+// keys.sqf parses the userconfig
+#include "functions\keys.sqf";
+
 // add cTab_FBCB2_updatePulse event handler triggered periodically by the server
 ["cTab_FBCB2_updatePulse",{
 	[] spawn {
@@ -570,10 +573,53 @@ _return;
 
 //Main loop to add the key handler to the unit.
 [] spawn {
-
-	waituntil {!isNull (findDisplay 46) && !isDedicated};
-	sleep .1;
-	(findDisplay 46) displayAddEventHandler ["KeyDown", "_this call cTab_keyDown;"];
+	waitUntil {sleep 0.1;!(IsNull (findDisplay 46))};
+	
+	if (cTab_key_if_main_scancode != 0) then {
+ 		// [cTab_key_if_main_scancode, cTab_key_if_main_modifiers, {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		// [cTab_key_if_secondary_scancode, cTab_key_if_secondary_modifiers, {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		// [cTab_key_zoom_in_scancode, cTab_key_zoom_in_modifiers, {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		// [cTab_key_zoom_out_scancode, cTab_key_zoom_out_modifiers, {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+		
+		[cTab_key_if_main_scancode,cTab_key_if_main_modifiers,{[
+			"",
+			cTab_key_if_main_scancode,
+			cTab_key_if_main_modifiers select 0,
+			cTab_key_if_main_modifiers select 1,
+			cTab_key_if_main_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		[cTab_key_if_secondary_scancode, cTab_key_if_secondary_modifiers, {[
+			"",
+			cTab_key_if_secondary_scancode,
+			cTab_key_if_secondary_modifiers select 0,
+			cTab_key_if_secondary_modifiers select 1,
+			cTab_key_if_secondary_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		[cTab_key_zoom_in_scancode, cTab_key_zoom_in_modifiers, {[
+			"",
+			cTab_key_zoom_in_scancode,
+			cTab_key_zoom_in_modifiers select 0,
+			cTab_key_zoom_in_modifiers select 1,
+			cTab_key_zoom_in_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[cTab_key_zoom_out_scancode, cTab_key_zoom_out_modifiers, {[
+			"",
+			cTab_key_zoom_out_scancode,
+			cTab_key_zoom_out_modifiers select 0,
+			cTab_key_zoom_out_modifiers select 1,
+			cTab_key_zoom_out_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+	} else {
+		// [actionKeys "User12" select 0, [false,false,false], {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		// [actionKeys "User12" select 0, [false,true,false], {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		// [actionKeys "ZoomIn" select 0, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		// [actionKeys "ZoomOut" select 0, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+		
+		[actionKeys "User12" select 0, [false,false,false], {["",actionKeys "User12" select 0,false,false,false] call cTab_keyDown},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		[actionKeys "User12" select 0, [false,true,false], {["",actionKeys "User12" select 0,false,true,false] call cTab_keyDown},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		[actionKeys "ZoomIn" select 0, [true,true,false], {["",actionKeys "ZoomIn" select 0,true,true,false] call cTab_keyDown},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[actionKeys "ZoomOut" select 0, [true,true,false], {["",actionKeys "ZoomOut" select 0,true,true,false]call cTab_keyDown},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+	};
 };
 
 // fnc for user menu opperation.
