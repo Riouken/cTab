@@ -50,6 +50,11 @@ _b = profilenamespace getvariable ['Map_Independent_B',1];
 _a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
 cTabColorGreen = [_r,_g,_b,_a];
 
+// define vehicles that have FBCB2 monitor
+cTab_has_FBCB2 = ["MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"];
+
+// define vehicles that have TAD
+cTab_has_TAD = ["Helicopter","Plane"];
 
 // temp assignmet gets set later when user selects a uav.
 cTabActUav = player;
@@ -70,42 +75,10 @@ cTabHCamViewActive = false;
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
 
-// fnc to check if the player is in a vehicle that has a FBCB2 monitor.
-// ---todo create a function to allow users to be able to assign this to other vehicles.
-cTab_Veh_check = 
-{
-	private["_unit", "_return"];
-	_unit = _this select 0;
-	_veh = _this select 1;
-	_return = false;
-	// ToDo write / fix for opening outside of vehicle.
-	//_testVeh = _veh getVariable ["cTabVehDisp",false];
-	//if (_testVeh) exitWith {_return = True;};
-	if (vehicle _unit isKindOf "MRAP_01_base_F") then {_return = True;};
-	if (vehicle _unit isKindOf "Wheeled_APC_F") then {_return = True;};
-	if (vehicle _unit isKindOf "Tank") then {_return = True;};
-	if (vehicle _unit isKindOf "Truck_01_base_F") then {_return = True;};
-	
-_return;
-};
-
-// fnc to check if the player is in a vehicle that has a TAD monitor.
-// ---todo create a function to allow users to be able to assign this to other vehicles.
-cTab_TAD_check = 
-{
-	private["_unit", "_return"];
-	_unit = _this select 0;
-	_veh = _this select 1;
-	_return = false;
-	if (vehicle _unit isKindOf "Helicopter") then {_return = true;};
-	if (vehicle _unit isKindOf "Plane") then {_return = true;};
-_return;
-};
-
 // fnc for Key handler. 
 cTab_keyDown = 
 {
-	private["_handled", "_ctrl", "_dikCode", "_shift", "_ctrlKey", "_alt","_target"];
+	private["_handled", "_ctrl", "_dikCode", "_shift", "_ctrlKey", "_alt","_vehicle"];
 	_ctrl = _this select 0;
 	_dikCode = _this select 1;
 	_shift = _this select 2;
@@ -141,31 +114,31 @@ cTab_keyDown =
 			_handled = true;	
 		};
 		
-		_target = cursorTarget;
-		if ([player,_target] call cTab_Veh_check) exitWith {
+		_vehicle = vehicle player;
 		
+		if (({_vehicle isKindOf _x} count cTab_has_FBCB2) > 0) exitWith {
 			if (isNull (findDisplay 1775144)) then 
 				{
 					nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
-					
 				}else
 				{
 					closeDialog 0;
-
 				};
 			_handled = true;
-		};			
+		};
 		
-		_vehicle = vehicle player;
-		if ([player,_vehicle] call cTab_TAD_check) exitWith
+		if (({_vehicle isKindOf _x} count cTab_has_TAD) > 0) exitWith
 		{
 			// findDisplay to check for rsc layer? Could not get it to work
 			if (!cTabTADopen) then 
 			{
-				nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
-				cTabTADopen = true;
-				// Register Event Handler to be notified when the player exits the current vehicle
-				_vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
+				if (player in [driver _vehicle,_vehicle turretUnit[0]]) then
+				{
+					nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
+					cTabTADopen = true;
+					// Register Event Handler to be notified when the player exits the current vehicle
+					_vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
+				}
 			}
 			else
 			{
