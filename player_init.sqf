@@ -217,7 +217,7 @@ cTab_keyDown =
 		{
 			if (isNull (findDisplay 1775144)) then 
 			{
-				nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+				nul = [] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 			}else
 			{
 				closeDialog 0;
