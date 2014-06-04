@@ -62,13 +62,16 @@ class CfgMods {
 		description = "Battlefield tablet to access real time intel and blue force tracker.";
 	};
 };
+
+#include "\userconfig\ctab\ctab_settings.hpp"
+
 class Extended_PostInit_EventHandlers
 {
 	class PREFIX
 	{
 		clientInit = QUOTE(call COMPILE_FILE2(\cTab\player_init.sqf));
 
-		//serverInit = QUOTE(call COMPILE_FILE2(\cTab\server_init.sqf));
+		serverInit = QUOTE(call COMPILE_FILE2(\cTab\server_init.sqf));
 	};
 };
 

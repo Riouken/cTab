@@ -4,6 +4,22 @@
 // http://forums.bistudio.com/member.php?64032-Riouken
 // You may re-use any of this work as long as you provide credit back to me.
 
+// keys.sqf parses the userconfig
+#include "functions\keys.sqf";
+
+// add cTab_FBCB2_updatePulse event handler triggered periodically by the server
+["cTab_FBCB2_updatePulse",{
+	[] spawn {
+		call cTab_fnc_update_lists;
+	};
+}] call CBA_fnc_addEventHandler;
+
+//prep the arrays that will hold ctab data
+cTabBFTlist = [];
+cTabHcamlist = [];
+
+if (isnil ("cTabSide")) then {cTabSide = west;}; 
+
 /*
 TAD setup
 */
@@ -51,10 +67,22 @@ _a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
 cTabColorGreen = [_r,_g,_b,_a];
 
 // define vehicles that have FBCB2 monitor
-cTab_has_FBCB2 = ["MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"];
+if (isNil "cTab_vehicleClass_has_FBCB2") then {
+	if (!isNil "cTab_vehicleClass_has_FBCB2_server") then {
+		cTab_vehicleClass_has_FBCB2 = cTab_vehicleClass_has_FBCB2_server;
+	} else {
+		cTab_vehicleClass_has_FBCB2 = ["MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"];
+	};
+};
 
 // define vehicles that have TAD
-cTab_has_TAD = ["Helicopter","Plane"];
+if (isNil "cTab_vehicleClass_has_TAD") then {
+	if (!isNil "cTab_vehicleClass_has_TAD_server") then {
+		cTab_vehicleClass_has_TAD = cTab_vehicleClass_has_TAD_server;
+	} else {
+		cTab_vehicleClass_has_TAD = ["Helicopter","Plane"];
+	};
+};
 
 // temp assignmet gets set later when user selects a uav.
 cTabActUav = player;
@@ -116,7 +144,7 @@ cTab_keyDown =
 		
 		_vehicle = vehicle player;
 		
-		if (({_vehicle isKindOf _x} count cTab_has_FBCB2) > 0) exitWith {
+		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0) exitWith {
 			if (isNull (findDisplay 1775144)) then 
 				{
 					nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
@@ -127,13 +155,14 @@ cTab_keyDown =
 			_handled = true;
 		};
 		
-		if (({_vehicle isKindOf _x} count cTab_has_TAD) > 0) exitWith
+		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0) exitWith
 		{
 			// findDisplay to check for rsc layer? Could not get it to work
 			if (!cTabTADopen) then 
 			{
 				if (player in [driver _vehicle,_vehicle turretUnit[0]]) then
 				{
+					cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
 					nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
 					cTabTADopen = true;
 					// Register Event Handler to be notified when the player exits the current vehicle
@@ -227,7 +256,7 @@ cTabOnDrawbft = {
 		_obj = _x select 0;
 		_texture = _x select 1;
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -286,7 +315,7 @@ cTabOnDrawbftVeh = {
 		_obj = _x select 0;
 		_texture = _x select 1;
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -343,21 +372,14 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen = _display displayCtrl 1201;
 	
 	// current position
-	_mapCentrePos = position player;
+	_mapCentrePos = getPosASL player;
 	_heading = direction player;
 	// change scale of map and centre to player position
 	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScale / cTabMapScaleFactor, _mapCentrePos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
-	if (vehicle player isKindOf "Plane") then
-	{
-		_cntrlScreen drawIcon ["\cTab\img\icon_a10_ca.paa",cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
-	}
-	else
-	{
-		_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconhelicopter_ca.paa",cTabTADfontColour,_mapCentrePos,18,18,_heading,"",1,0.035,"TahomaB"];
-	};
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
 	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,_heading,"",1,0.035,"TahomaB"];
@@ -369,7 +391,7 @@ cTabOnDrawbftTAD = {
 		{
 			_texture = _x select 1;
 			_text = "";
-			_pos = getPosATL _obj;
+			_pos = getPosASL _obj;
 			if (cTabBFTtxt) then {_text = _x select 2;};
 			// check if object is an air vehicle
 			if (_obj isKindOf "Air") then
@@ -445,7 +467,7 @@ cTabOnDrawbftAndroid = {
 		_obj = _x select 0;
 		_texture = _x select 1;
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -506,7 +528,7 @@ cTabOnDrawUAV = {
 		_obj = _x ;
 		_texture = "\A3\ui_f\data\map\markers\nato\b_uav.paa";
 		_text = "";
-		_pos = getPosATL _obj;
+		_pos = getPosASL _obj;
 		
 		//if (cTabBFTtxt) then {_text = _x select 2;};
 		
@@ -517,7 +539,7 @@ cTabOnDrawUAV = {
 	
 	if (cTabActUav == player) exitWith {};
 	ctrlMapAnimClear _cntrlScreen;
-	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosAtl cTabActUav];
+	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosASL cTabActUav];
 	ctrlMapAnimCommit _cntrlScreen;
 _return;
 };
@@ -535,14 +557,14 @@ cTabOnDrawHCam = {
 	
 	_texture = "\A3\ui_f\data\map\markers\nato\b_inf.paa";
 	_text = "";
-	_pos = getPosATL _obj;
+	_pos = getPosASL _obj;
 		
 	//if (cTabBFTtxt) then {_text = _x select 2;};
 		
 	_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
 	
 	ctrlMapAnimClear _cntrlScreen;
-	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosAtl _obj];
+	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosASL _obj];
 	ctrlMapAnimCommit _cntrlScreen;
 _return;
 };
@@ -551,10 +573,53 @@ _return;
 
 //Main loop to add the key handler to the unit.
 [] spawn {
-
-	waituntil {!isNull (findDisplay 46) && !isDedicated};
-	sleep .1;
-	(findDisplay 46) displayAddEventHandler ["KeyDown", "_this call cTab_keyDown;"];
+	waitUntil {sleep 0.1;!(IsNull (findDisplay 46))};
+	
+	if (cTab_key_if_main_scancode != 0) then {
+ 		// [cTab_key_if_main_scancode, cTab_key_if_main_modifiers, {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		// [cTab_key_if_secondary_scancode, cTab_key_if_secondary_modifiers, {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		// [cTab_key_zoom_in_scancode, cTab_key_zoom_in_modifiers, {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		// [cTab_key_zoom_out_scancode, cTab_key_zoom_out_modifiers, {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+		
+		[cTab_key_if_main_scancode,cTab_key_if_main_modifiers,{[
+			"",
+			cTab_key_if_main_scancode,
+			cTab_key_if_main_modifiers select 0,
+			cTab_key_if_main_modifiers select 1,
+			cTab_key_if_main_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		[cTab_key_if_secondary_scancode, cTab_key_if_secondary_modifiers, {[
+			"",
+			cTab_key_if_secondary_scancode,
+			cTab_key_if_secondary_modifiers select 0,
+			cTab_key_if_secondary_modifiers select 1,
+			cTab_key_if_secondary_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		[cTab_key_zoom_in_scancode, cTab_key_zoom_in_modifiers, {[
+			"",
+			cTab_key_zoom_in_scancode,
+			cTab_key_zoom_in_modifiers select 0,
+			cTab_key_zoom_in_modifiers select 1,
+			cTab_key_zoom_in_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[cTab_key_zoom_out_scancode, cTab_key_zoom_out_modifiers, {[
+			"",
+			cTab_key_zoom_out_scancode,
+			cTab_key_zoom_out_modifiers select 0,
+			cTab_key_zoom_out_modifiers select 1,
+			cTab_key_zoom_out_modifiers select 2
+		] call cTab_keyDown},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+	} else {
+		// [actionKeys "User12" select 0, [false,false,false], {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		// [actionKeys "User12" select 0, [false,true,false], {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		// [actionKeys "ZoomIn" select 0, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		// [actionKeys "ZoomOut" select 0, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+		
+		[actionKeys "User12" select 0, [false,false,false], {["",actionKeys "User12" select 0,false,false,false] call cTab_keyDown},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		[actionKeys "User12" select 0, [false,true,false], {["",actionKeys "User12" select 0,false,true,false] call cTab_keyDown},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		[actionKeys "ZoomIn" select 0, [true,true,false], {["",actionKeys "ZoomIn" select 0,true,true,false] call cTab_keyDown},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[actionKeys "ZoomOut" select 0, [true,true,false], {["",actionKeys "ZoomOut" select 0,true,true,false]call cTab_keyDown},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+	};
 };
 
 // fnc for user menu opperation.
@@ -713,133 +778,85 @@ cTabUavTakeControl = {
 _return;
 };
 
-
-
-// ---------------------------Main loop----------------------------------------------------------------------------
-
-
-//prep the arrays that will hold ctab data
-cTabBFTlist = [];
-cTabHcamlist = [];
-
-if (isnil ("cTabSide")) then {cTabSide = west;}; 
-
-
 // fnc to check players gear for ctab.
 cTabCheckGear = {
-		
-		_unit = _this select 0;
-		_return = false;
-		_chk_items = (items _unit);
-		_chk_asgnItems = (assignedItems _unit);
 	
-		_chk_all_items = _chk_items + _chk_asgnItems;
-		
-		if (("ItemcTab" in _chk_all_items)) then
-		{
-			_return = true;
-		} else
-		{
-			_return = false;
-		};
-		
-		if (("ItemAndroid" in _chk_all_items)) then
-		{
-			_return = true;
-		};
-
-		
-_return;
+	_unit = _this select 0;
+	_return = false;
+	
+	_chk_all_items = (items _unit) + (assignedItems _unit);
+	
+	if (("ItemcTab" in _chk_all_items) || ("ItemAndroid" in _chk_all_items)) then
+	{
+		_return = true;
+	};
+	
+	_return;
 };
 
 // fnc to check if unit has helmet cam.
 hCamCheckGear = {
-		
-		_unit = _this select 0;
-		_return = false;
-		_chk_items = (items _unit);
-		_chk_asgnItems = (assignedItems _unit);
 	
-		_chk_all_items = _chk_items + _chk_asgnItems;
-		
-		if (("ItemcTabHCam" in _chk_all_items)) then
-		{
-			_return = true;
-		} else
-		{
-			_return = false;
-		};
-		
-_return;
+	_unit = _this select 0;
+	_return = false;
+	
+	_chk_all_items = (items _unit) + (assignedItems _unit);
+	
+	if (("ItemcTabHCam" in _chk_all_items)) then
+	{
+		_return = true;
+	};
+	
+	_return;
 };
 
-
 // Main loop to manage lists of people and veh that are shown in FBCB2
-[] spawn {
-
-	waituntil {time > 0};
-	sleep .1;
+cTab_fnc_update_lists = {
+	_cTabBFTlist = [];
+	_cTabHcamlist = [];
 	
-	while {true} do 
 	{
-		cTabBFTlist = [];
-		cTabHcamlist = [];
-		
+		if (side _x == cTabSide) then
 		{
-			
-			if (side _x == cTabSide) then
-			{
-				_gearTestTab = [_x] call cTabCheckGear;
-				_gearTestHcam = [_x] call hCamCheckGear;
-				if (_gearTestTab) then
-				{
-					_name = groupID (group _x);
-					_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name];
-					cTabBFTlist set [count cTabBFTlist,_tmpArray];
-				};
-				
-				if (_gearTestHcam) then
-				{
-					cTabHcamlist set [count cTabHcamlist,_x];
-				};
-			};
-			
-		} forEach allUnits;
-		
-		
-		{
-			if ((count (crew _x) > 0) && (side _x == cTabSide)) then
+			if ([_x] call cTabCheckGear) then
 			{
 				_name = groupID (group _x);
-				_txture = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
-				
-				if (vehicle _x isKindOf "Car_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
-				if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				if (vehicle _x isKindOf "Truck_F") then {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
-				if (vehicle _x isKindOf "Helicopter") then {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
-				if (vehicle _x isKindOf "Plane") then {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
-				if (vehicle _x isKindOf "Tank") then {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
-				//if (vehicle _x isKindOf "Wheeled_APC_F") then {_txture = "";};
-						
-				_tmpArray = [_x,_txture,_name];
-				cTabBFTlist set [count cTabBFTlist,_tmpArray];
+				_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name];
+				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 			};
 			
-		} forEach vehicles;
+			if ([_x] call hCamCheckGear) then
+			{
+				_cTabHcamlist set [count _cTabHcamlist,_x];
+			};
+		};
 		
-
-		// Hold over from when this was run on server.
-		//publicVariable "cTabBFTlist";
-		//publicVariable "cTabHcamlist";
-		sleep 30;
-	};
+	} forEach allUnits;
+	
+	{
+		if ((count (crew _x) > 0) && (side _x == cTabSide)) then
+		{
+			_name = groupID (group _x);
+			_txture = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
+			
+			call {
+				if (_x isKindOf "Car_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
+				if (_x isKindOf "Wheeled_APC_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				if (_x isKindOf "Truck_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
+				if (_x isKindOf "Helicopter") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
+				if (_x isKindOf "Plane") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
+				if (_x isKindOf "Tank") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+			};
+			
+			_tmpArray = [_x,_txture,_name];
+			_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
+		};
 		
+	} forEach vehicles;
 	
-	
-	
-
-
+	// replace the global list arrays in the end so that we avoid them being empty unnecessarily
+	cTabBFTlist = [] + _cTabBFTlist;
+	cTabHcamlist = [] + _cTabHcamlist;
 };
 
 cTab_spawn_msg_dlg = 
