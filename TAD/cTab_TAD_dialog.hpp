@@ -359,7 +359,7 @@ class cTab_TAD_dialog
 
 
 
-			class RscText_1000: RscText
+			class RscText_1000: cTab_RscText
 			{
 				idc = 1000;
 				text = "1247859"; //--- ToDo: Localize;
@@ -368,7 +368,7 @@ class cTab_TAD_dialog
 				w = 5 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
 			};
-			class RscText_1001: RscText
+			class RscText_1001: cTab_RscText
 			{
 				idc = 1001;
 				text = "12:00"; //--- ToDo: Localize;
@@ -377,7 +377,7 @@ class cTab_TAD_dialog
 				w = 3 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
 			};
-			class RscText_1002: RscText
+			class RscText_1002: cTab_rscText
 			{
 				idc = 1002;
 				text = "12"; //--- ToDo: Localize;
