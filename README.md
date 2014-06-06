@@ -1,9 +1,9 @@
 cTab
 ====
-*Commander's Tablet - FBCB2, Bluforce Tracker, UAV, and Helmetcam Interface*
+**Commander's Tablet - FBCB2, Blue Force Tracker, UAV, and Helmet Cam Interface**
 
-Thanks to:
-----------
+Thanks to
+---------
 + SpectreRSG - Graphic Design
 + Capt Drumheller / Jester814 - Technical advisor / Ideas / Media
 + LCpl C. Johnston - Technical advisor
@@ -11,31 +11,32 @@ Thanks to:
 + Knobee - Documentation
 + Everyone else in the 15th MEU SOC for help with support and testing.
 
-+ BI - for Arma 3 and all the opportunities to mod for this game.
++ BI - for ArmA 3 and all the opportunities to mod for this game.
 
-Features:
----------
+Features
+--------
 + Commander's tablet
-+ Working FBCB2, Bluforce Tracker system
-+ User placed makers - Place markers for enemy, medical and general purpose.
++ Working FBCB2 Blue Force Tracker system
++ User placed makers - place markers for enemy, medical and general purpose
 + Tracks all crewed Bluefor Military vehicles
-+ Tracks any dismounted troops with the proper equipment.
-+ Android Based BFT Interface
++ Tracks any dismounted troops with the proper equipment
++ Android based BFT interface
 + Commanders Tablet can view live UAV streams
-+ Commanders Tablet can view live helmet cam streams
-+ Vehicle mounted Interface FBCB2, Blue Force Tracking
-+ This system is available to only one side, but there is a mission configurable parameter to have it work for other sides.
-+ None of the markers or icons show on maps, need one of the devices to view.
++ Commanders Tablet can view live Helmet Cam streams
++ Vehicle mounted FBCB2 interface, Blue Force Tracking
++ This system is available to only one side at a time, there is a mission configurable parameter to choose sides
++ None of the markers or icons show on maps, need one of the devices to view
 
 Known Issues
--------------
-+ Switching to or from the full screen views while in a vehicle can cause issues (fixed by exiting vehicle. *BIS issue with command, please vote for a fix* http://feedback.arma3.com/view.php?id=11577)
-+ If viewing yourself from UAV or Helmet Cam in pip screen your textures can bug on on your unit.
-+ Even though items go into the GPS slot and Radio slot they are not required to be there for cTab to operate, they can go anywhere in your inv. ie.. your vest or uniform.
+------------
++ Switching to or from the full screen views while in a vehicle can cause issues (fixed by exiting vehicle)
+  [*BIS issue with command, please vote for a fix*](http://feedback.arma3.com/view.php?id=11577)
++ If your are viewing yourself from the UAV or Helmet Cam in PiP screen, your textures can bug on your unit
++ Even though items go into the GPS and radio slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
 
 Required
 --------
-+ CBA_A3 - http://www.armaholic.com/page.php?id=18767
++ [CBA_A3](http://www.armaholic.com/page.php?id=18767)
 
 Media
 -----
@@ -45,44 +46,44 @@ Media
 
 Install
 -------
-place the `@cTab` folder in your Arma 3 folder.
+Place the `@cTab` folder in your ArmA 3 folder.
 
-Place the `cTab_Testing.Stratis` in your Arma 3 Other Profiles mission folder.
+Place the folder `cTab_Testing.Stratis` in your ArmA 3 profile's mission folder:
 
-    documents\Arma 3 Other Profiles\*Your User Name*\missions\
+    Documents\Arma 3 Other Profiles\*Your User Name*\missions\
 
-Then the test mission that I have will be availiable in your editor.
+This will make the test mission available in the editor.
 
-the keys folder is for the server key.
+The keys folder is for the server key.
 
-How to configure:
------------------
-You will need to assign user action 12 in your custom controls. This will be the key that opens up the ctab in game.
-This key is a lot like a function key, it is a smart key, if you have an android device it will open that, if you have the table it will open that, if an interface is open then it will close it.
+How to configure
+----------------
+You will need to assign user action 12 in your custom controls. This will be the key that opens up cTab in game. This key is used to open and close whatever cTab device you is available to you.
 
-*this is also the key you will need to use to exit from the full screen UAV and Helmet Cam views.*
+*This is also the key you will need to use to exit from the full screen UAV and Helmet Cam views.*
 
-For Mission Makers:
--------------------
+For mission Makers
+------------------
 ### Class Names ###
 
-    "ItemcTab"
-    "ItemAndroid"
-    "ItemcTabHCam"
+    ItemcTab // Commander Tablet
+    ItemAndroid // Android based Blue Force Tracker
+    ItemcTabHCam // Helmet Cam
 
 ### Add items to a box ###
-Put this next line in the init of a ammobox:
+Place this in the initialisation of an Ammo box to add 10 of each item:
 
-    this addItemCargo ["itemcTab", 10];this addItemCargo ["ItemcTabHCam", 10];this addItemCargo ["ItemAndroid", 10];
+    this addItemCargo ["ItemcTab",10];this addItemCargo ["ItemcTabHCam",10];this addItemCargo ["ItemAndroid",10];
 
 ### Add item to a player directly ###
+Place this in the initialisation of a soldier:
 
-    this addItem "itemcTab";
+    this addItem "ItemcTab";
 
-### For mission makers ###
-If you wish to use cTab on a diffrent side than bluefore then put this at the TOP(important) of your init.sqf
+### Set cTab side ###
+If you wish to use cTab on a different side than Bluefore, put this at the **TOP** of your `init.sqf`:
 
-    cTabSide = west;
+    cTabSide = east;
 
-Change the west to what ever side you wish to have cTab availible on.
-You can only have cTab availible for one side. If you want cTab availible on the west side or NATO then you do not need to include this.
+Change `east` to what ever side you wish to have cTab available on (i.e. `guer`).
+You can only have cTab available for one side. If you want cTab available on the west side or NATO then you do not need to include this.
