@@ -39,6 +39,8 @@ class cTab_TAD_dsp
 			y = safeZoneY + safeZoneH - GUI_MARGIN_Y - ((GUI_TAD_H - GUI_MAP_H) / 2) - GUI_MAP_H;
 			w = GUI_MAP_W * 3/4;
 			h = GUI_MAP_H;
+			// set initial map scale
+			scaleDefault = "(missionNamespace getVariable 'cTabTADmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor')";
 			// allow to zoom out further (defines the maximum map scale, usually 1)
 			scaleMax = 1000;
 			// turn on satellite map information (defines the map scale of when to switch to topographical)
