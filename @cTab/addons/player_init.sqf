@@ -166,7 +166,7 @@ cTab_keyDown =
 					nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
 					cTabTADopen = true;
 					// Register Event Handler to be notified when the player exits the current vehicle
-					_vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
+					cTabVehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
 				}
 			}
 			else
@@ -242,7 +242,7 @@ cTab_Close =
 		(uiNamespace getVariable "cTab_TAD_dsp") closeDisplay 0;
 		cTabTADopen = false;
 	};
-	_vehicle removeEventHandler ["GetOut",0];
+	_vehicle removeEventHandler ["GetOut",cTabVehicleGetOutEhId];
 };
 
 // This is drawn every frame on the tablet. fnc
