@@ -106,6 +106,7 @@ player setVariable ["ctab_messages",[]];
 // fnc handling IF_Main keydown event
 cTab_fnc_onIfMainPressed = {
 	_chk_all_items = (items player) + (assignedItems player);
+	_vehicle = vehicle player;
 	
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
@@ -118,27 +119,6 @@ cTab_fnc_onIfMainPressed = {
 		objNull remoteControl cTabActHcam;
 		player switchCamera 'internal';
 		cTabHCamViewActive = false;
-		true
-	};
-	
-	// -- todo - update to CBA_fnc_find to increase performance in EH.
-	if (("ItemcTab" in _chk_all_items)) exitWith {
-		if (isNull (findDisplay 1775154)) then {
-			nul = [] execVM "cTab\cTab_gui_start.sqf";
-		} else {
-			closeDialog 0;
-		};
-		true
-	};
-	
-	_vehicle = vehicle player;
-	
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0) exitWith {
-		if (isNull (findDisplay 1775144)) then {
-			nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
-		} else {
-			closeDialog 0;
-		};
 		true
 	};
 	
@@ -158,6 +138,25 @@ cTab_fnc_onIfMainPressed = {
 			} else {
 				closeDialog 0;
 			};
+		};
+		true
+	};
+	
+	// -- todo - update to CBA_fnc_find to increase performance in EH.
+	if (("ItemcTab" in _chk_all_items)) exitWith {
+		if (isNull (findDisplay 1775154)) then {
+			nul = [] execVM "cTab\cTab_gui_start.sqf";
+		} else {
+			closeDialog 0;
+		};
+		true
+	};
+	
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0) exitWith {
+		if (isNull (findDisplay 1775144)) then {
+			nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+		} else {
+			closeDialog 0;
 		};
 		true
 	};
