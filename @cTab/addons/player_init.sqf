@@ -103,132 +103,108 @@ cTabHCamViewActive = false;
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
 
-// fnc for Key handler. 
-cTab_keyDown = 
-{
-	private["_handled", "_ctrl", "_dikCode", "_shift", "_ctrlKey", "_alt","_vehicle"];
-	_ctrl = _this select 0;
-	_dikCode = _this select 1;
-	_shift = _this select 2;
-	_ctrlKey = _this select 3;
-	_alt = _this select 4;
-  
-	_handled = false;
-
-	// -todo - add userconfig so player can change key.
-	if (_dikCode in (actionKeys "User12") && !_shift && !_ctrlKey && !_alt) then
-	{
-		_chk_items = (items player);
-		_chk_asgnItems = (assignedItems player);
-		
-		if (cTabUavViewActive) exitWith {objNull remoteControl ((crew cTabActUav) select 1);player switchCamera 'internal';cTabUavViewActive = false;};
-		if (cTabHCamViewActive) exitWith {objNull remoteControl cTabActHcam;player switchCamera 'internal';cTabHCamViewActive = false;};
+// fnc handling IF_Main keydown event
+cTab_fnc_onIfMainPressed = {
+	_chk_all_items = (items player) + (assignedItems player);
 	
-		_chk_all_items = _chk_items + _chk_asgnItems;
-		
-		
-		// -- todo - update to CBA_fnc_find to increase performance in EH.
-		if (("ItemcTab" in _chk_all_items)) exitWith
-		{
-			
-			if (isNull (findDisplay 1775154)) then {
-					nul = [] execVM "cTab\cTab_gui_start.sqf";
-					
-				}else
-				{
-					closeDialog 0;
-
-				};
-			_handled = true;	
-		};
-		
-		_vehicle = vehicle player;
-		
-		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0) exitWith {
-			if (isNull (findDisplay 1775144)) then 
-				{
-					nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
-				}else
-				{
-					closeDialog 0;
-				};
-			_handled = true;
-		};
-		
-		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0) exitWith
-		{
-			// findDisplay to check for rsc layer? Could not get it to work
-			if (!cTabTADopen) then 
-			{
-				if (player in [driver _vehicle,_vehicle turretUnit[0]]) then
-				{
-					cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-					nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
-					cTabTADopen = true;
-					// Register Event Handler to be notified when the player exits the current vehicle
-					cTabVehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
-				}
-			}
-			else
-			{
-				if (isNull (findDisplay 1775144)) then 
-				{
-					[_vehicle] call cTab_close;
-				}
-				else
-				{
-					closeDialog 0;
-				};
-			};
-			_handled = true;
-		};
-		
-		// -- todo - update to CBA_fnc_find to increase performance in EH.
-		if ("ItemAndroid" in _chk_all_items) exitWith {
-		
-			if (isNull (findDisplay 177382)) then 
-				{
-					nul = [] execVM "cTab\bft\cTab_android_gui_start.sqf";
-					
-				}else
-				{
-					closeDialog 0;
-
-				};
-			_handled = true;
-		};		
-		
+	if (cTabUavViewActive) exitWith {
+		objNull remoteControl ((crew cTabActUav) select 1);
+		player switchCamera 'internal';
+		cTabUavViewActive = false;
+		true
 	};
 	
-	// TAD key handlers, process only if TAD is open
-	if (cTabTADopen) then
-	{
-		if ((_dikCode in (actionKeys "ZoomIn")) && _shift && _ctrlKey && !_alt) exitWith
-		{
-			cTabTADmapScale = cTabTADmapScale / 2;
-			if (cTabTADmapScale < cTabTADmapScaleMin) then {cTabTADmapScale = cTabTADmapScaleMin};
-			_handled = true;
+	if (cTabHCamViewActive) exitWith {
+		objNull remoteControl cTabActHcam;
+		player switchCamera 'internal';
+		cTabHCamViewActive = false;
+		true
+	};
+	
+	// -- todo - update to CBA_fnc_find to increase performance in EH.
+	if (("ItemcTab" in _chk_all_items)) exitWith {
+		if (isNull (findDisplay 1775154)) then {
+			nul = [] execVM "cTab\cTab_gui_start.sqf";
+		} else {
+			closeDialog 0;
 		};
-		if ((_dikCode in (actionKeys "ZoomOut")) && _shift && _ctrlKey && !_alt) exitWith
-		{
-			cTabTADmapScale = cTabTADmapScale * 2 ;
-			if (cTabTADmapScale > cTabTADmapScaleMax) then {cTabTADmapScale = cTabTADmapScaleMax};
-			_handled = true;
+		true
+	};
+	
+	_vehicle = vehicle player;
+	
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0) exitWith {
+		if (isNull (findDisplay 1775144)) then {
+			nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+		} else {
+			closeDialog 0;
 		};
-		if ((_dikCode in (actionKeys "User12")) && !_shift && _ctrlKey && !_alt) exitWith
-		{
-			if (isNull (findDisplay 1775144)) then 
-			{
-				nul = [] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
-			}else
-			{
+		true
+	};
+	
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0) exitWith {
+		// findDisplay to check for rsc layer? Could not get it to work
+		if (!cTabTADopen) then {
+			if (player in [driver _vehicle,_vehicle turretUnit[0]]) then {
+				cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+				nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
+				cTabTADopen = true;
+				// Register Event Handler to be notified when the player exits the current vehicle
+				cTabVehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
+			};
+		} else {
+			if (isNull (findDisplay 1775144)) then {
+				[_vehicle] call cTab_close;
+			} else {
 				closeDialog 0;
 			};
-			_handled = true;
 		};
+		true
 	};
 	
-	_handled;  
+	// -- todo - update to CBA_fnc_find to increase performance in EH.
+	if ("ItemAndroid" in _chk_all_items) exitWith {
+		if (isNull (findDisplay 177382)) then {
+			nul = [] execVM "cTab\bft\cTab_android_gui_start.sqf";
+		} else {
+			closeDialog 0;
+		};
+		true
+	};
+	false
+};
+
+// fnc handling IF_Secondary keydown event
+cTab_fnc_onIfSecondaryPressed = {
+	if (cTabTADopen) exitWith {
+		if (isNull (findDisplay 1775144)) then {
+			nul = [] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+		} else {
+			closeDialog 0;
+		};
+		true
+	};
+	false
+};
+
+// fnc handling Zoom_In keydown event
+cTab_fnc_onZoomInPressed = {
+	if (cTabTADopen) exitWith {
+		cTabTADmapScale = cTabTADmapScale / 2;
+		if (cTabTADmapScale < cTabTADmapScaleMin) then {cTabTADmapScale = cTabTADmapScaleMin};
+		true
+	};
+	false
+};
+
+// fnc handling Zoom_Out keydown event
+cTab_fnc_onZoomOutPressed = {
+	if (cTabTADopen) exitWith {
+		cTabTADmapScale = cTabTADmapScale * 2 ;
+		if (cTabTADmapScale > cTabTADmapScaleMax) then {cTabTADmapScale = cTabTADmapScaleMax};
+		true
+	};
+	false
 };
 
 // fnc to close cTab
@@ -576,49 +552,15 @@ _return;
 	waitUntil {sleep 0.1;!(IsNull (findDisplay 46))};
 	
 	if (cTab_key_if_main_scancode != 0) then {
- 		// [cTab_key_if_main_scancode, cTab_key_if_main_modifiers, {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
-		// [cTab_key_if_secondary_scancode, cTab_key_if_secondary_modifiers, {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
-		// [cTab_key_zoom_in_scancode, cTab_key_zoom_in_modifiers, {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
-		// [cTab_key_zoom_out_scancode, cTab_key_zoom_out_modifiers, {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
-		
-		[cTab_key_if_main_scancode,cTab_key_if_main_modifiers,{[
-			"",
-			cTab_key_if_main_scancode,
-			cTab_key_if_main_modifiers select 0,
-			cTab_key_if_main_modifiers select 1,
-			cTab_key_if_main_modifiers select 2
-		] call cTab_keyDown},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
-		[cTab_key_if_secondary_scancode, cTab_key_if_secondary_modifiers, {[
-			"",
-			cTab_key_if_secondary_scancode,
-			cTab_key_if_secondary_modifiers select 0,
-			cTab_key_if_secondary_modifiers select 1,
-			cTab_key_if_secondary_modifiers select 2
-		] call cTab_keyDown},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
-		[cTab_key_zoom_in_scancode, cTab_key_zoom_in_modifiers, {[
-			"",
-			cTab_key_zoom_in_scancode,
-			cTab_key_zoom_in_modifiers select 0,
-			cTab_key_zoom_in_modifiers select 1,
-			cTab_key_zoom_in_modifiers select 2
-		] call cTab_keyDown},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
-		[cTab_key_zoom_out_scancode, cTab_key_zoom_out_modifiers, {[
-			"",
-			cTab_key_zoom_out_scancode,
-			cTab_key_zoom_out_modifiers select 0,
-			cTab_key_zoom_out_modifiers select 1,
-			cTab_key_zoom_out_modifiers select 2
-		] call cTab_keyDown},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+ 		[cTab_key_if_main_scancode, cTab_key_if_main_modifiers, {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		[cTab_key_if_secondary_scancode, cTab_key_if_secondary_modifiers, {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		[cTab_key_zoom_in_scancode, cTab_key_zoom_in_modifiers, {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[cTab_key_zoom_out_scancode, cTab_key_zoom_out_modifiers, {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
 	} else {
-		// [actionKeys "User12" select 0, [false,false,false], {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
-		// [actionKeys "User12" select 0, [false,true,false], {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
-		// [actionKeys "ZoomIn" select 0, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
-		// [actionKeys "ZoomOut" select 0, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
-		
-		[actionKeys "User12" select 0, [false,false,false], {["",actionKeys "User12" select 0,false,false,false] call cTab_keyDown},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
-		[actionKeys "User12" select 0, [false,true,false], {["",actionKeys "User12" select 0,false,true,false] call cTab_keyDown},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
-		[actionKeys "ZoomIn" select 0, [true,true,false], {["",actionKeys "ZoomIn" select 0,true,true,false] call cTab_keyDown},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
-		[actionKeys "ZoomOut" select 0, [true,true,false], {["",actionKeys "ZoomOut" select 0,true,true,false]call cTab_keyDown},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+		[actionKeys "User12" select 0, [false,false,false], {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
+		[actionKeys "User12" select 0, [false,true,false], {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
+		[actionKeys "ZoomIn" select 0, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[actionKeys "ZoomOut" select 0, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
 	};
 };
 
