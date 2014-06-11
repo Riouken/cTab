@@ -153,7 +153,7 @@ cTab_fnc_onIfMainPressed = {
 				cTabVehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
 			};
 		} else {
-			if (isNull (findDisplay 1775144)) then {
+			if (isNull (findDisplay 1755424)) then {
 				[_vehicle] call cTab_close;
 			} else {
 				closeDialog 0;
@@ -177,7 +177,7 @@ cTab_fnc_onIfMainPressed = {
 // fnc handling IF_Secondary keydown event
 cTab_fnc_onIfSecondaryPressed = {
 	if (cTabTADopen) exitWith {
-		if (isNull (findDisplay 1775144)) then {
+		if (isNull (findDisplay 1755424)) then {
 			nul = [] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		} else {
 			closeDialog 0;
