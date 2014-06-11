@@ -122,16 +122,14 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0) exitWith {
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
 		// findDisplay to check for rsc layer? Could not get it to work
 		if (!cTabTADopen) then {
-			if (player in [driver _vehicle,_vehicle turretUnit[0]]) then {
-				cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-				nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
-				cTabTADopen = true;
-				// Register Event Handler to be notified when the player exits the current vehicle
-				cTabVehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
-			};
+			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+			nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
+			cTabTADopen = true;
+			// Register Event Handler to be notified when the player exits the current vehicle
+			cTabVehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
 		} else {
 			if (isNull (findDisplay 1755424)) then {
 				[_vehicle] call cTab_close;
