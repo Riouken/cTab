@@ -535,24 +535,15 @@ _return;
 // This is drawn every frame on the tablet helmet cam screen. fnc
 cTabOnDrawHCam = {
 	if (isNil 'cTabActHcam') exitWith {};
+	if (cTabActHcam == player) exitWith {};
 	
 	_display = (uiNamespace getVariable "cTab_hCam_dlg");
 	_cntrlScreen = _display displayCtrl 1774;
+	_pos = getPosASL cTabActHcam;
 	
-	_obj = cTabActHcam;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_inf.paa",cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, "", 0, 0.035,"TahomaB"];
 	
-	if (_obj == player) exitWith {};
-	
-	_texture = "\A3\ui_f\data\map\markers\nato\b_inf.paa";
-	_text = "";
-	_pos = getPosASL _obj;
-	
-	//if (cTabBFTtxt) then {_text = _x select 2;};
-	
-	_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
-	
-	ctrlMapAnimClear _cntrlScreen;
-	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosASL _obj];
+	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
 };
 
