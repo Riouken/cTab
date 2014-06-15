@@ -21,7 +21,7 @@ class cTab_hCam_dlg {
 	idd = 1772;
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_hCam_dlg', (_this select 0)];nul = [] execVM '\cTab\hcam\ctab_gui_hcam_onload.sqf';";
-	onUnload = "_nop = [] call cTabUavDelCam;";
+	onUnload = "_nop = [] call cTabHcamDelCam;";
 	onKeyDown = "call cTab_keyDownShortcut";
 	objects[] = {};
 	class controlsBackground {
