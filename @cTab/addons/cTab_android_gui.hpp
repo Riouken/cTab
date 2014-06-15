@@ -20,7 +20,7 @@ class cTab_Android_dlg {
 	idd = 177382;
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];nul = [] execVM '\cTab\bft\ctab_gui_Android_onload.sqf';";
-	onUnload = "";
+	onUnload = "uiNamespace setVariable ['cTab_Android_dlg', displayNull];call cTab_fnc_close;";
 	objects[] = {};
 	class controlsBackground {
 

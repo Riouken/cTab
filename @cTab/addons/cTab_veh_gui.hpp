@@ -10,6 +10,7 @@ class cTab_Veh_dlg {
 	idd = 1775144;
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_Veh_dlg', (_this select 0)];nul = [] execVM '\cTab\bft\veh\onload.sqf';";
+	onUnload = "uiNamespace setVariable ['cTab_Veh_dlg', displayNull];call cTab_fnc_close;";
 	objects[] = {};
 	class controlsBackground {
 

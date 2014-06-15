@@ -21,6 +21,7 @@ class cTab_TAD_dialog
 	idd = 1755424;
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_TAD_dialog', (_this select 0)];";
+	onUnload = "uiNamespace setVariable ['cTab_TAD_dialog', displayNull];call cTab_fnc_close;";
 	class controlsBackground
 	{
 		class background: cTab_RscPicture

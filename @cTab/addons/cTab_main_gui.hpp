@@ -21,6 +21,7 @@ class cTab_main_dlg {
 	idd = 1775154;
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_main_dlg', (_this select 0)];nul = [] execVM '\cTab\main\onload.sqf';";
+	onUnload = "uiNamespace setVariable ['cTab_main_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "call cTab_keyDownShortcut";
 	objects[] = {};
 	class controlsBackground {

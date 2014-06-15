@@ -6,11 +6,8 @@
 // Edited by Gundy to add TAD functionality
 
 closeDialog 0;
+waitUntil {!dialog};
 
-ShowDialog = {
-	sleep 0.01;
-	_ok = createDialog "cTab_TAD_dialog";
-	waitUntil { !dialog };
-};
- 
-_void = [] call ShowDialog;
+createDialog "cTab_TAD_dialog";
+waitUntil {dialog};
+_this + [1755424,nil] call cTab_fnc_onIfOpen;

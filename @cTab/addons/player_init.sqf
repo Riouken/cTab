@@ -25,8 +25,6 @@ TAD setup
 */
 // Get a rsc layer for TAD monitor
 cTabTADrscLayer = ["cTab_TAD"] call BIS_fnc_rscLayer;
-// initialize TAD as not open
-cTabTADopen = false;
 // set initial TAD map scale in km
 cTabTADmapScale = 2;
 // define min and max TAD map scales in km
@@ -103,69 +101,65 @@ cTabHCamViewActive = false;
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
 
+// fnc handling post dialog / display load handling (register event handlers)
+cTab_fnc_onIfOpen = {
+	_player = _this select 1;
+	_vehicle = _this select 2;
+	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
+	if (_vehicle != _player) exitWith {
+		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{call cTab_fnc_close}];
+		cTabIfOpen = [_this select 0,_this select 3,_this select 4,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
+	};
+	cTabIfOpen = [_this select 0,_this select 3,_this select 4,_player,_playerKilledEhId,_vehicle,nil];
+};
+
 // fnc handling IF_Main keydown event
 cTab_fnc_onIfMainPressed = {
-	_chk_all_items = (items player) + (assignedItems player);
-	_vehicle = vehicle player;
-	
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
 		cTabUavViewActive = false;
 		true
 	};
-	
 	if (cTabHCamViewActive) exitWith {
 		objNull remoteControl cTabActHcam;
 		player switchCamera 'internal';
 		cTabHCamViewActive = false;
 		true
 	};
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) exitWith {
+		// close Main
+		call cTab_fnc_close;
+		true
+	};
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) then {
+		// close Secondary
+		call cTab_fnc_close;
+	};
+	_player = player;
+	_vehicle = vehicle _player;
+	_chk_all_items = (items _player) + (assignedItems _player);
 	
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
-		// findDisplay to check for rsc layer? Could not get it to work
-		if (!cTabTADopen) then {
-			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			nul = [] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
-			cTabTADopen = true;
-			// Register Event Handler to be notified when the player exits the current vehicle
-			cTabVehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{_this call cTab_Close}];
-		} else {
-			if (isNull (findDisplay 1755424)) then {
-				[_vehicle] call cTab_close;
-			} else {
-				closeDialog 0;
-			};
-		};
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {_player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
+		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+		nul = [0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
 		true
 	};
 	
 	// -- todo - update to CBA_fnc_find to increase performance in EH.
 	if (("ItemcTab" in _chk_all_items)) exitWith {
-		if (isNull (findDisplay 1775154)) then {
-			nul = [] execVM "cTab\cTab_gui_start.sqf";
-		} else {
-			closeDialog 0;
-		};
+		nul = [0,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		true
 	};
 	
 	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0) exitWith {
-		if (isNull (findDisplay 1775144)) then {
-			nul = [] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
-		} else {
-			closeDialog 0;
-		};
+		nul = [0,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 		true
 	};
 	
 	// -- todo - update to CBA_fnc_find to increase performance in EH.
 	if ("ItemAndroid" in _chk_all_items) exitWith {
-		if (isNull (findDisplay 177382)) then {
-			nul = [] execVM "cTab\bft\cTab_android_gui_start.sqf";
-		} else {
-			closeDialog 0;
-		};
+		nul = [0,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
 		true
 	};
 	false
@@ -173,11 +167,23 @@ cTab_fnc_onIfMainPressed = {
 
 // fnc handling IF_Secondary keydown event
 cTab_fnc_onIfSecondaryPressed = {
-	if (cTabTADopen) exitWith {
-		if (isNull (findDisplay 1755424)) then {
-			nul = [] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) exitWith {
+		// close Secondary
+		call cTab_fnc_close;
+		true
+	};
+	_player = player;
+	_vehicle = vehicle _player;
+	_chk_all_items = (items _player) + (assignedItems _player);
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {_player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
+		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
+			// close Main
+			call cTab_fnc_close;
+		};
+		if (("ItemcTab" in _chk_all_items)) then {
+			[1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		} else {
-			closeDialog 0;
+			[1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		};
 		true
 	};
@@ -186,7 +192,7 @@ cTab_fnc_onIfSecondaryPressed = {
 
 // fnc handling Zoom_In keydown event
 cTab_fnc_onZoomInPressed = {
-	if (cTabTADopen) exitWith {
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
 		cTabTADmapScale = cTabTADmapScale / 2;
 		if (cTabTADmapScale < cTabTADmapScaleMin) then {cTabTADmapScale = cTabTADmapScaleMin};
 		true
@@ -196,7 +202,7 @@ cTab_fnc_onZoomInPressed = {
 
 // fnc handling Zoom_Out keydown event
 cTab_fnc_onZoomOutPressed = {
-	if (cTabTADopen) exitWith {
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
 		cTabTADmapScale = cTabTADmapScale * 2 ;
 		if (cTabTADmapScale > cTabTADmapScaleMax) then {cTabTADmapScale = cTabTADmapScaleMax};
 		true
@@ -205,17 +211,26 @@ cTab_fnc_onZoomOutPressed = {
 };
 
 // fnc to close cTab
-cTab_Close =
-{
-	_vehicle = _this select 0;
-	if (cTabTADopen) then
-	{
-		// not sure which one is better, they both work
-		// cTabTADrscLayer cutText ["", "PLAIN"];
-		(uiNamespace getVariable "cTab_TAD_dsp") closeDisplay 0;
-		cTabTADopen = false;
+cTab_fnc_close = {
+	if (!isNil "cTabIfOpen") then {
+		// [_ifType,_dialogId,_displayCtrl,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
+		_ifType = cTabIfOpen select 0;
+		_dialogId = cTabIfOpen select 1;
+		_displayCtrl = cTabIfOpen select 2;
+		_player = cTabIfOpen select 3;
+		_playerKilledEhId = cTabIfOpen select 4;
+		_vehicle = cTabIfOpen select 5;
+		_vehicleGetOutEhId = cTabIfOpen select 6;
+		
+		if (!isNil "_dialogId" && {!isNull (findDisplay _dialogId)}) then {closeDialog 0;};
+		if (!isNil "_displayCtrl") then {
+			(uiNamespace getVariable _displayCtrl) closeDisplay 0;
+			uiNamespace setVariable [_displayCtrl, displayNull];
+		};
+		if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
+		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
+		cTabIfOpen = nil;
 	};
-	_vehicle removeEventHandler ["GetOut",cTabVehicleGetOutEhId];
 };
 
 // This is drawn every frame on the tablet. fnc
