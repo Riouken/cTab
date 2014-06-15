@@ -680,14 +680,12 @@ _return;
 
 // fnc to delete cameras after helmet cam interface is closed.
 cTabHcamDelCam = {
-	
-	_return = true;
 	player cameraEffect ["terminate","back"];
 	_camArray = player getVariable "cTabHcams";
-	_targets = _camArray select 2;
 	camDestroy (_camArray select 0);
-	deleteVehicle (_camArray select 1);	
-_return;
+	deleteVehicle (_camArray select 1);
+	cTabActHcam = nil;
+	true
 };
 
 cTabUavTakeControl = {
