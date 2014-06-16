@@ -647,6 +647,7 @@ cTabUavDelCam = {
 	camDestroy (_camArray select 0);
 	camDestroy (_camArray select 1);
 	{deleteVehicle _x;} forEach _targets;
+	player setVariable ["cTabUAVcams",nil];
 	cTabActUav = nil;
 	true
 };
@@ -657,6 +658,7 @@ cTabHcamDelCam = {
 	_camArray = player getVariable "cTabHcams";
 	camDestroy (_camArray select 0);
 	deleteVehicle (_camArray select 1);
+	player setVariable ["cTabHcams",nil];
 	cTabActHcam = nil;
 	true
 };
