@@ -505,31 +505,17 @@ _return;
 
 // This is drawn every frame on the tablet uav screen. fnc
 cTabOnDrawUAV = {
-
-	_return = true;
+	if (isNil 'cTabActUav') exitWith {};
+	if (cTabActUav == player) exitWith {};
+	
 	_display = (uiNamespace getVariable "cTab_UAV_dlg");
 	_cntrlScreen = _display displayCtrl 1774;
+	_pos = getPosASL cTabActUav;
 	
-	if ((count allUnitsUav) == 0) exitWith {};
-
-	{
-		_obj = _x ;
-		_texture = "\A3\ui_f\data\map\markers\nato\b_uav.paa";
-		_text = "";
-		_pos = getPosASL _obj;
-		
-		//if (cTabBFTtxt) then {_text = _x select 2;};
-		
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
-
-
-	} forEach allUnitsUav;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_uav.paa",cTabColorBlue,_pos,cTabTxtFctr * 2,cTabTxtFctr * 2,0,"",0,0.035,"TahomaB"];
 	
-	if (cTabActUav == player) exitWith {};
-	ctrlMapAnimClear _cntrlScreen;
-	_cntrlScreen ctrlMapAnimAdd [0, 0.1, getPosASL cTabActUav];
+	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
-_return;
 };
 
 // This is drawn every frame on the tablet helmet cam screen. fnc
