@@ -26,9 +26,11 @@ _loadingTxt ctrlShow False;
 _cntrlBFTicon = _display displayCtrl IDC_CTAB_ACTBFTTXT;
 _cntrlUAVicon = _display displayCtrl IDC_CTAB_ACTUAVTXT;
 _cntrlHcamicon = _display displayCtrl IDC_CTAB_ACTVIDTXT;
+_cntrlMSGicon = _display displayCtrl IDC_CTAB_ACTMSGTXT;
 _cntrlBFTicon ctrlShow True;
 _cntrlUAVicon ctrlShow True;
 _cntrlHcamicon ctrlShow True;
+_cntrlMSGicon ctrlShow True;
 
 
 cTabUserOptions = [];
