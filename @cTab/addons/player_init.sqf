@@ -644,15 +644,14 @@ cTabUserIconPush = {
 
 // fnc to delete cameras after UAV interface is closed.
 cTabUavDelCam = {
-	
-	_return = true;
 	player cameraEffect ["terminate","back"];
 	_camArray = player getVariable "cTabUAVcams";
 	_targets = _camArray select 2;
 	camDestroy (_camArray select 0);
 	camDestroy (_camArray select 1);
-	{deleteVehicle _x;} forEach _targets;	
-_return;
+	{deleteVehicle _x;} forEach _targets;
+	cTabActUav = nil;
+	true
 };
 
 // fnc to delete cameras after helmet cam interface is closed.
