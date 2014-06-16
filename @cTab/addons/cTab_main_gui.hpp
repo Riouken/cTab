@@ -230,7 +230,7 @@ class cTab_main_dlg {
 				y = 9 * GUI_GRID_H + GUI_GRID_Y;
 				w = 1.5 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
-				action = "_ok = [] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
 				toolTip = "UAV Video Feeds";
 			};
 			class actVIDtxt: cTab_ActiveText
@@ -242,7 +242,7 @@ class cTab_main_dlg {
 				y = 10.5 * GUI_GRID_H + GUI_GRID_Y;
 				w = 1.5 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
-				action = "_ok = [] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
 				toolTip = "Live Helmet Cam Video Feeds";
 			};
 			class actMSGtxt: cTab_ActiveText
@@ -254,7 +254,7 @@ class cTab_main_dlg {
 				y = 12.0 * GUI_GRID_H + GUI_GRID_Y;
 				w = 1.5 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
-				action = "_ok = [] spawn cTab_spawn_msg_dlg;";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_spawn_msg_dlg;";
 				toolTip = "Text Messaging System";
 			};		
 
