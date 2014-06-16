@@ -785,18 +785,13 @@ cTab_fnc_update_lists = {
 	cTabHcamlist = [] + _cTabHcamlist;
 };
 
-cTab_spawn_msg_dlg = 
-{
+cTab_spawn_msg_dlg = {
 	closeDialog 0;
-
-	ShowDialog = {
-		sleep 0.01;
-		_ok = createDialog "cTab_msg_main_dlg";
-		waitUntil { !dialog };
-	};
- 
-	_void = [] call ShowDialog;
-
+	waitUntil {!dialog};
+	
+	createDialog "cTab_msg_main_dlg";
+	waitUntil {dialog};
+	_this + [19457,nil] call cTab_fnc_onIfOpen;
 };
 
 cTab_msg_gui_load = 
@@ -944,20 +939,14 @@ cTab_msg_delete_all =
 	player setVariable ["ctab_messages",[]];
 };	
 	
-cTab_load_BFT = 
-{
+cTab_load_BFT = {
 	closeDialog 0;
-
-	ShowDialog = {
-		sleep 0.01;
-		_ok = createDialog "cTab_main_dlg";
-		sleep .5;
-	    _nop = [] execVM '\cTab\main\loadBFT.sqf';
-		waitUntil { !dialog };
-	};
- 
-	_void = [] call ShowDialog;
-
+	waitUntil {!dialog};
+	
+	createDialog "cTab_main_dlg";
+	waitUntil {dialog};
+	_this + [1775154,nil] call cTab_fnc_onIfOpen;
+	_nop = [] execVM '\cTab\main\loadBFT.sqf';
 };
 
 cTab_keyDownShortcut = 
@@ -977,25 +966,25 @@ cTab_keyDownShortcut =
 		{
 			case 59:
 			{
-				_nop = [] spawn cTab_load_BFT;
+				_nop = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_load_BFT;
 				_handled = true;
 			};
 
 			case 60:
 			{
-				_ok = [] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
+				_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
 				_handled = true;
 			};
 			
 			case 61:
 			{
-				_ok = [] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
+				_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
 				_handled = true;
 			};
 			
 			case 62:
 			{
-				_ok = [] spawn cTab_spawn_msg_dlg;
+				_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_spawn_msg_dlg;
 				_handled = true;
 			};
 			

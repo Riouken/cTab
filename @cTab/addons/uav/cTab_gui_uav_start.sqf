@@ -5,11 +5,8 @@
 // You may re-use any of this work as long as you provide credit back to me.
 
 closeDialog 0;
+waitUntil {!dialog};
 
-ShowDialog = {
-	sleep 0.01;
-	_ok = createDialog "cTab_uav_dlg";
-	waitUntil { !dialog };
-};
- 
-_void = [] call ShowDialog;
+createDialog "cTab_uav_dlg";
+waitUntil {dialog};
+_this + [1773,nil] call cTab_fnc_onIfOpen;

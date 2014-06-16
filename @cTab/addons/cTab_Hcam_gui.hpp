@@ -21,7 +21,7 @@ class cTab_hCam_dlg {
 	idd = 1772;
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_hCam_dlg', (_this select 0)];nul = [] execVM '\cTab\hcam\ctab_gui_hcam_onload.sqf';";
-	onUnload = "_nop = [] call cTabHcamDelCam;";
+	onUnload = "_nop = [] call cTabHcamDelCam;uiNamespace setVariable ['cTab_main_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "call cTab_keyDownShortcut";
 	objects[] = {};
 	class controlsBackground {
@@ -151,7 +151,7 @@ class cTab_hCam_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Blue Force Tracker - Quick Key";
-				action = "_nop = [] spawn cTab_load_BFT;";
+				action = "_nop = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_load_BFT;";
 			};
 			class btnF2: cTab_RscButtonInv
 			{
@@ -161,7 +161,7 @@ class cTab_hCam_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "UAV Intel Live Feed - Quick Key";
-				action = "_ok = [] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
 			};
 			class btnF3: cTab_RscButtonInv
 			{
@@ -171,7 +171,7 @@ class cTab_hCam_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Helmet Cam Live Feed - Quick Key";
-				action = "_ok = [] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
 			};
 			class btnF4: cTab_RscButtonInv
 			{
@@ -181,7 +181,7 @@ class cTab_hCam_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Text Message Application - Quick Key";
-				action = "_ok = [] spawn cTab_spawn_msg_dlg;";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_spawn_msg_dlg;";
 			};
 			class btnF5: cTab_RscButtonInv
 			{
@@ -209,7 +209,7 @@ class cTab_hCam_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Main Menu";
-				action = "_ok = _this execVM 'cTab\cTab_gui_start.sqf';_ok = _this execVM 'cTab\main\onload.sqf';";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\cTab_gui_start.sqf';";
 			};
 			class btnFN: cTab_RscButtonInv
 			{

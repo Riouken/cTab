@@ -100,7 +100,7 @@ class cTab_main_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "UAV Intel Live Feed - Quick Key";
-				action = "_ok = [] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
 			};
 			class btnF3: cTab_RscButtonInv
 			{
@@ -110,7 +110,7 @@ class cTab_main_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Helmet Cam Live Feed - Quick Key";
-				action = "_ok = [] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
 			};
 			class btnF4: cTab_RscButtonInv
 			{
@@ -120,7 +120,7 @@ class cTab_main_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Text Message Application - Quick Key";
-				action = "_ok = [] spawn cTab_spawn_msg_dlg;";
+				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_spawn_msg_dlg;";
 			};
 			class btnF5: cTab_RscButtonInv
 			{
