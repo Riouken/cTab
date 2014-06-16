@@ -248,7 +248,7 @@ class cTab_main_dlg {
 			class actMSGtxt: cTab_ActiveText
 			{
 				style = ST_PICTURE;
-				idc = 475314;
+				idc = IDC_CTAB_ACTMSGTXT;
 				text = "\cTab\img\Mail_Main_Icon_ico.paa" ;
 				x = 11.5 * GUI_GRID_W + GUI_GRID_X;
 				y = 12.0 * GUI_GRID_H + GUI_GRID_Y;

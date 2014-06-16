@@ -22,11 +22,11 @@ _loadingTxt = _display displayCtrl IDC_CTAB_LOADINGTXT;
 _cntrlBFTicon = _display displayCtrl IDC_CTAB_ACTBFTTXT;
 _cntrlUAVicon = _display displayCtrl IDC_CTAB_ACTUAVTXT;
 _cntrlHcamicon = _display displayCtrl IDC_CTAB_ACTVIDTXT;
-_cntrlMsgicon = _display displayCtrl 475314;
+_cntrlMSGicon = _display displayCtrl IDC_CTAB_ACTMSGTXT;
 _cntrlBFTicon ctrlShow False;
 _cntrlUAVicon ctrlShow False;
 _cntrlHcamicon ctrlShow False;
-_cntrlMsgicon ctrlShow False;
+_cntrlMSGicon ctrlShow False;
 
 
 _cntrlBFTMap = _display displayCtrl IDC_CTAB_SCREEN;
