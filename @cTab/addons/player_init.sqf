@@ -664,7 +664,7 @@ cTabHcamDelCam = {
 };
 
 cTabUavTakeControl = {
-	
+	if (isNil 'cTabActUav') exitWith {false};
 	_controlArray = uavControl cTabActUav;
 	_canControl = true;
 	_return = true;
@@ -1000,9 +1000,8 @@ cTab_keyDownShortcut =
 };	
 
 
-cTab_hCam_Full_View = 
-{
-
+cTab_hCam_Full_View = {
+	if (isNil 'cTabActHcam') exitWith {false};
 	if (vehicle cTabActHcam isKindOf "CAManBase") then 
 	{
 		player switchCamera 'Internal';
@@ -1017,5 +1016,4 @@ cTab_hCam_Full_View =
 		closeDialog 0;
 		cTabHCamViewActive = true;		
 	};
-	
 };	
