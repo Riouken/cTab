@@ -82,9 +82,6 @@ if (isNil "cTab_vehicleClass_has_TAD") then {
 	};
 };
 
-// temp assignmet gets set later when user selects a uav.
-cTabActUav = player;
-
 // Begining text and icon size
 cTabTxtFctr = 12;
 cTabBFTtxt = true;
