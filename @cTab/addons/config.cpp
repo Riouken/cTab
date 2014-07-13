@@ -21,7 +21,7 @@ class CfgPatches
 {
 	class PREFIX  // cTab
 		{
-			units[] = {};
+			units[] = {Box_cTab_items};
 			weapons[] = {};
 			requiredVersion = REQUIRED_VERSION;
 			requiredAddons[] = {"CBA_MAIN"};
