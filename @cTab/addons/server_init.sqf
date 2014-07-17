@@ -18,7 +18,7 @@ if (isArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_TAD")) then
 } else {
 	cTab_vehicleClass_has_TAD_server = ["Helicopter","Plane"];
 };
-publicVariable "cTab_vehicleClass_has_FBCB2_server";
+publicVariable "cTab_vehicleClass_has_TAD_server";
 
 [] spawn {
 	waituntil {time > 0};
