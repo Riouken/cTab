@@ -47,6 +47,7 @@ if (_mapSize == 0) then {
 		case "Bootcamp_ACR": {_mapSize = 3840}; //Bukovina
 		case "Chernarus": {_mapSize = 15360};
 		case "Desert_E": {_mapSize = 2048}; //Desert
+		case "fallujah": {_mapSize = 10240}; //Fallujah
 		case "fata": {_mapSize = 10240}; //PR FATA
 		case "j198_ftb": {_mapSize = 7168}; //Ft. Benning - US Army Infantry School
 		case "mbg_celle2": {_mapSize = 12288}; //Celle 2
