@@ -37,9 +37,32 @@ cTabTADmapScaleMax = 32;
  8192 / 3.125 = 2621.44
  Divide the actual mapSize by this factor to obtain the scaling factor
  It seems to work fine
+ Unfortunately the map size is not configured properly for some custom maps,
+ so these have to be hard-coded until that changes.
 */
 _mapSize = (getNumber (configFile>>"CfgWorlds">>worldName>>"mapSize"));
+if (_mapSize == 0) then {
+	switch (worldName) do {
+		case "Altis": {_mapSize = 30720};
+		case "Bootcamp_ACR": {_mapSize = 3840}; //Bukovina
+		case "Chernarus": {_mapSize = 15360};
+		case "Desert_E": {_mapSize = 2048}; //Desert
+		case "fata": {_mapSize = 10240}; //PR FATA
+		case "j198_ftb": {_mapSize = 7168}; //Ft. Benning - US Army Infantry School
+		case "mbg_celle2": {_mapSize = 12288}; //Celle 2
+		case "ProvingGrounds_PMC": {_mapSize = 2048}; //ProvingGrounds_PMC
+		case "Shapur_BAF": {_mapSize = 2048}; //Shapur
+		case "Stratis": {_mapSize = 8192};
+		case "Takistan": {_mapSize = 12800};
+		case "utes": {_mapSize = 5120}; //Utes
+		case "VR": {_mapSize = 8192}; //Virtual Reality
+		case "Woodland_ACR": {_mapSize = 7680}; //Bystrica
+		case "Zargabad": {_mapSize = 8192};
+		default {_mapSize = 8192};
+	};
+};
 cTabMapScaleFactor = _mapSize / 2621.44;
+
 // set TAD font colour to neon green
 cTabTADfontColour = [57/255, 255/255, 20/255, 1];
 // set TAD highlight colour to neon yellow
