@@ -9,8 +9,9 @@
 #define GUI_MARGIN_Y	(0.2)
 #define GUI_MAP_W	(0.55)
 #define GUI_MAP_H	(0.55)
-#define GUI_TAD_W	(0.72)
-#define GUI_TAD_H	(0.72)
+#define GUI_SCREEN_Y_OFFSET	(0.007)
+#define GUI_TAD_W	(0.82)
+#define GUI_TAD_H	(0.82)
 
 class cTab_TAD_dsp
 {
@@ -22,21 +23,12 @@ class cTab_TAD_dsp
 	onLoad = "uiNamespace setVariable ['cTab_TAD_dsp', (_this select 0)];";
 	class controlsBackground
 	{
-		class background: cTab_RscPicture
-		{
-			idc = 1200;
-			text = "\cTab\img\TAD_background_co.paa";
-			x = safeZoneX + GUI_MARGIN_X * 3/4;
-			y = safeZoneY + safeZoneH - GUI_TAD_H - GUI_MARGIN_Y;
-			w = GUI_TAD_W * 3/4;
-			h = GUI_TAD_H;
-		};
 		class screen: cTab_RscMapControl
 		{
 			idc = 1201;
 			text = "#(argb,8,8,3)color(1,1,1,1)";
 			x = safeZoneX + (GUI_MARGIN_X + ((GUI_TAD_W - GUI_MAP_W) / 2)) * 3/4;
-			y = safeZoneY + safeZoneH - GUI_MARGIN_Y - ((GUI_TAD_H - GUI_MAP_H) / 2) - GUI_MAP_H;
+			y = safeZoneY + safeZoneH - GUI_MARGIN_Y - ((GUI_TAD_H - GUI_MAP_H) / 2) - GUI_MAP_H + GUI_SCREEN_Y_OFFSET;
 			w = GUI_MAP_W * 3/4;
 			h = GUI_MAP_H;
 			// set initial map scale
@@ -107,6 +99,15 @@ class cTab_TAD_dsp
 	};
 	class controls
 	{
+		class background: cTab_RscPicture
+		{
+			idc = 1200;
+			text = "\cTab\img\TAD_background_ca.paa";
+			x = safeZoneX + GUI_MARGIN_X * 3/4;
+			y = safeZoneY + safeZoneH - GUI_TAD_H - GUI_MARGIN_Y;
+			w = GUI_TAD_W * 3/4;
+			h = GUI_TAD_H;
+		};
 		/*
 		// showing TAD as SOI (sensor of interest)
 		class box: cTab_RscPicture {
@@ -122,8 +123,8 @@ class cTab_TAD_dsp
 		class time: cTab_RscText {
 			idc = 1202;
 			style = "0x01"; // align right
-			x = safeZoneX + (GUI_MARGIN_X + GUI_MAP_W - 0.08 - 0.01 + ((GUI_TAD_W - GUI_MAP_W) / 2)) * 3/4;
-			y = safeZoneY + safeZoneH - GUI_MARGIN_Y - ((GUI_TAD_H - GUI_MAP_H) / 2) - 0.03 - 0.01;
+			x = safeZoneX + (GUI_MARGIN_X + GUI_MAP_W - 0.08 - 0.015 + ((GUI_TAD_W - GUI_MAP_W) / 2)) * 3/4;
+			y = safeZoneY + safeZoneH - GUI_MARGIN_Y - ((GUI_TAD_H - GUI_MAP_H) / 2) - 0.03 - 0.015 + GUI_SCREEN_Y_OFFSET;
 			w = 0.08 * 3/4;
 			h = 0.03;
 			colorText[] = {57/255, 1, 20/255, 1};
@@ -135,7 +136,7 @@ class cTab_TAD_dsp
 			idc = 1203;
 			style = "0x02"; // align centre
 			x = safeZoneX + (GUI_MARGIN_X + (GUI_MAP_W / 2) - 0.05 + ((GUI_TAD_W - GUI_MAP_W) / 2)) * 3/4;
-			y = safeZoneY + safeZoneH - GUI_MARGIN_Y - ((GUI_TAD_H - GUI_MAP_H) / 2) - 0.03 - 0.01;
+			y = safeZoneY + safeZoneH - GUI_MARGIN_Y - ((GUI_TAD_H - GUI_MAP_H) / 2) - 0.03 - 0.015 + GUI_SCREEN_Y_OFFSET;
 			w = 0.1 * 3/4;
 			h = 0.03;
 			colorText[] = {57/255, 1, 20/255, 1};
@@ -146,8 +147,8 @@ class cTab_TAD_dsp
 		class scale: cTab_RscText {
 			idc = 1204;
 			style = "0x01"; // align right
-			x = safeZoneX + (GUI_MARGIN_X + GUI_MAP_W - 0.06 - 0.01 + ((GUI_TAD_W - GUI_MAP_W) / 2)) * 3/4;
-			y = safeZoneY + safeZoneH - GUI_MAP_H - ((GUI_TAD_H - GUI_MAP_H) / 2) - GUI_MARGIN_Y + 0.01;
+			x = safeZoneX + (GUI_MARGIN_X + GUI_MAP_W - 0.06 - 0.015 + ((GUI_TAD_W - GUI_MAP_W) / 2)) * 3/4;
+			y = safeZoneY + safeZoneH - GUI_MAP_H - ((GUI_TAD_H - GUI_MAP_H) / 2) - GUI_MARGIN_Y + 0.015 + GUI_SCREEN_Y_OFFSET;
 			w = 0.06 * 3/4;
 			h = 0.04;
 			colorText[] = {57/255, 1, 20/255, 1};
