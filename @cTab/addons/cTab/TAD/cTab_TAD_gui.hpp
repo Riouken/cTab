@@ -37,7 +37,7 @@ class cTab_TAD_dsp
 			scaleMax = 1000;
 			// turn on satellite map information (defines the map scale of when to switch to topographical)
 			maxSatelliteAlpha = 10000;
-			alphaFadeStartScale = 0.1;
+			alphaFadeStartScale = 10;
 			alphaFadeEndScale = 10;
 			colorBackground[] = {0.969,0.957,0.949,1.0};
 			colorSea[] = {0.467,0.631,0.851,0.5};
