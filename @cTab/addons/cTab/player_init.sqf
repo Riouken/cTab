@@ -27,9 +27,6 @@ TAD setup
 cTabTADrscLayer = ["cTab_TAD"] call BIS_fnc_rscLayer;
 // set initial TAD map scale in km
 cTabTADmapScale = 2;
-// define min and max TAD map scales in km
-cTabTADmapScaleMin = 2;
-cTabTADmapScaleMax = 32;
 /*
  figure out the scaling factor based on the map being played
  on Stratis we have a map scaling factor of 3.125 km per ctrlMapScale
@@ -63,6 +60,9 @@ if (_mapSize == 0) then {
 	};
 };
 cTabMapScaleFactor = _mapSize / 2621.44;
+// define min and max TAD map scales in km
+cTabTADmapScaleMin = 2;
+cTabTADmapScaleMax = 2 ^ round(sqrt(_mapSize / 1024));
 
 // set TAD font colour to neon green
 cTabTADfontColour = [57/255, 255/255, 20/255, 1];
