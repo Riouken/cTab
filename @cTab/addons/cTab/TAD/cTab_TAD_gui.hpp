@@ -64,22 +64,20 @@ class cTab_TAD_dsp
 			// hide grid lines
 			colorGrid[] = {0.1,0.1,0.1,0};
 			colorGridMap[] = {0.1,0.1,0.1,0};
-			
-			//@{ coefficients which determine rendering density / threshold
-			ptsPerSquareSea = 0.1; // seas
-			ptsPerSquareTxt = 8;   // textures
-			ptsPerSquareCLn = 8;   // count-lines
-			ptsPerSquareExp = 8;   // exposure
-			ptsPerSquareCost = 8;  // cost
-			//@}
-			
-			//@{ coefficients which determine when rendering of given type is done
-			ptsPerSquareFor = 1;           // forests
-			ptsPerSquareForEdge = "5.0f"; // forest edges
-			ptsPerSquareRoad = "0.5f";     // roads
-			ptsPerSquareObj = 5;           // other objects
-			//@}
-			
+
+			// Rendering density coefficients
+			ptsPerSquareSea = 8;		// seas
+			ptsPerSquareTxt = 8;		// textures
+			ptsPerSquareCLn = 8;		// count-lines
+			ptsPerSquareExp = 8;		// exposure
+			ptsPerSquareCost = 8;		// cost
+
+			// Rendering thresholds
+			ptsPerSquareFor = 1;		// forests
+			ptsPerSquareForEdge = 4.0;	// forest edges
+			ptsPerSquareRoad = 0.5;		// roads
+			ptsPerSquareObj = 4;		// other objects
+
 			// Continuously call cTabOnDrawbftTAD to draw cTab's icons on map
 			onDraw = "nop = [] call cTabOnDrawbftTAD;";
 			/*
