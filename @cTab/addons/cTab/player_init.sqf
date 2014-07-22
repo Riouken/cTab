@@ -66,6 +66,8 @@ cTabMapScaleFactor = _mapSize / 2621.44;
 
 // set TAD font colour to neon green
 cTabTADfontColour = [57/255, 255/255, 20/255, 1];
+// set TAD group colour to purple
+cTabTADgroupColour = [25/255, 25/255, 112/255, 1];
 // set TAD highlight colour to neon yellow
 cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 
@@ -405,9 +407,15 @@ cTabOnDrawbftTAD = {
 			// check if object is an air vehicle
 			if (_obj isKindOf "Air") then
 			{
+				_symbolColour = cTabTADfontColour;
+				// check if air contact and player are in the same group group, if so, change _symbolColour
+				if (player in units _obj) then {
+					_symbolColour = cTabTADgroupColour;
+				};
 				// draw air contact icon and dummy icon for the text to have a better alignment
-				_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,32,32,direction _obj,"",0,0.035,"TahomaB"];
-				_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,20,20,0,_text,0,0.035,"TahomaB"];
+				_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",_symbolColour,_pos,32,32,direction _obj,"",0,0.035,"TahomaB"];
+				//_cntrlScreen drawRectangle [[(_pos select 0) + 160 + 80,_pos select 1],160,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
+				_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",_symbolColour,_pos,20,20,0,_text,0,0.035,"TahomaB"];
 			}
 			else
 			{
