@@ -779,7 +779,8 @@ cTab_fnc_update_lists = {
 			if ([_x] call cTabCheckGear) then
 			{
 				_name = groupID (group _x);
-				_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name];
+				_groupIndex = str([_obj] call CBA_fnc_getGroupIndex);
+				_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name,_groupIndex];
 				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 			};
 			
@@ -796,6 +797,7 @@ cTab_fnc_update_lists = {
 		{
 			_name = groupID (group _x);
 			_txture = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
+			_groupIndex = str([_x] call CBA_fnc_getGroupIndex);
 			
 			call {
 				if (_x isKindOf "Car_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
@@ -806,7 +808,7 @@ cTab_fnc_update_lists = {
 				if (_x isKindOf "Tank") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
 			};
 			
-			_tmpArray = [_x,_txture,_name];
+			_tmpArray = [_x,_txture,_name,_groupIndex];
 			_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 		};
 		
