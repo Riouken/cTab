@@ -204,9 +204,10 @@ cTab_fnc_onIfSecondaryPressed = {
 			call cTab_fnc_close;
 		};
 		if (("ItemcTab" in _chk_all_items)) then {
-			[1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
+			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		} else {
-			[1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+			nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		};
 		true
 	};
