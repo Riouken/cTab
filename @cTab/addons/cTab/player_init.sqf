@@ -391,7 +391,7 @@ cTabOnDrawbftTAD = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTxtFctr/12 * 18,cTabTxtFctr/12 * 18,_heading,"", 1,0.035,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
 	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,0.035,"TahomaB"];
@@ -411,14 +411,14 @@ cTabOnDrawbftTAD = {
 				// check if air contact and player are in the same group group, if so, change _symbolColour
 				if (player in units _obj) then {
 					_groupIndex = _x select 3;
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,32,32,direction _obj,"",0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabTxtFctr/12 * 32,cTabTxtFctr/12 * 32,direction _obj,"",0,0.035,"TahomaB"];
 					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,-4,0,0,_groupIndex,0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,cTabTxtFctr/12 * -4,0,0,_groupIndex,0,0.035,"TahomaB"];
 				} else {
 					// draw air contact icon and dummy icon for the text to have a better alignment
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,32,32,direction _obj,"",0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabTxtFctr/12 * 32,cTabTxtFctr/12 * 32,direction _obj,"",0,0.035,"TahomaB"];
 					//_cntrlScreen drawRectangle [[(_pos select 0) + 160 + 80,_pos select 1],160,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,20,20,0,_text,0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabTxtFctr/12 * 20,cTabTxtFctr/12 * 20,0,_text,0,0.035,"TahomaB"];
 				};
 			}
 			else
