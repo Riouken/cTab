@@ -83,7 +83,7 @@
 
 #define SL_TEXTURES       0x10
 
-// progress bar 
+// progress bar
 #define ST_VERTICAL       0x01
 #define ST_HORIZONTAL     0
 
@@ -109,14 +109,14 @@ class cTab_RscText
 	access = 0;
 	type = 0;
 	idc = -1;
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		0,
 		0
 	};
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
@@ -131,7 +131,7 @@ class cTab_RscText
 	w = 0.3;
 	style = 0;
 	shadow = 1;
-	colorShadow[] = 
+	colorShadow[] =
 	{
 		0,
 		0,
@@ -148,7 +148,7 @@ class cTab_RscStructuredText
 	type = 13;
 	idc = -1;
 	style = 0;
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
@@ -176,14 +176,14 @@ class cTab_RscPicture
 	type = 0;
 	idc = -1;
 	style = 48;
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		0,
 		0
 	};
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
@@ -209,28 +209,28 @@ class cTab_RscEdit
 	y = 0;
 	h = 0.04;
 	w = 0.2;
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorText[] = 
+	colorText[] =
 	{
 		0.95,
 		0.95,
 		0.95,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		1,
 		1,
 		1,
 		0.25
 	};
-	colorSelection[] = 
+	colorSelection[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
@@ -250,47 +250,47 @@ class cTab_RscCombo
 {
 	access = 0;
 	type = 4;
-	colorSelect[] = 
+	colorSelect[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorScrollbar[] = 
+	colorScrollbar[] =
 	{
 		1,
 		0,
 		0,
 		1
 	};
-	soundSelect[] = 
+	soundSelect[] =
 	{
 		"\A3\ui_f\data\sound\RscCombo\soundSelect",
 		0.1,
 		1
 	};
-	soundExpand[] = 
+	soundExpand[] =
 	{
 		"\A3\ui_f\data\sound\RscCombo\soundExpand",
 		0.1,
 		1
 	};
-	soundCollapse[] = 
+	soundCollapse[] =
 	{
 		"\A3\ui_f\data\sound\RscCombo\soundCollapse",
 		0.1,
@@ -299,21 +299,21 @@ class cTab_RscCombo
 	maxHistoryDelay = 1;
 	class ScrollBar
 	{
-		color[] = 
+		color[] =
 		{
 			1,
 			1,
 			1,
 			0.6
 		};
-		colorActive[] = 
+		colorActive[] =
 		{
 			1,
 			1,
 			1,
 			1
 		};
-		colorDisabled[] = 
+		colorDisabled[] =
 		{
 			1,
 			1,
@@ -332,7 +332,7 @@ class cTab_RscCombo
 	w = 0.12;
 	h = 0.035;
 	shadow = 0;
-	colorSelectBackground[] = 
+	colorSelectBackground[] =
 	{
 		1,
 		1,
@@ -342,21 +342,21 @@ class cTab_RscCombo
 	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
 	arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
 	wholeHeight = 0.45;
-	color[] = 
+	color[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorActive[] = 
+	colorActive[] =
 	{
 		1,
 		0,
 		0,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		1,
 		1,
@@ -373,63 +373,63 @@ class cTab_RscListBox
 	w = 0.4;
 	h = 0.4;
 	rowHeight = 0;
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		1,
 		1,
 		1,
 		0.25
 	};
-	colorScrollbar[] = 
+	colorScrollbar[] =
 	{
 		1,
 		0,
 		0,
 		0
 	};
-	colorSelect[] = 
+	colorSelect[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorSelect2[] = 
+	colorSelect2[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorSelectBackground[] = 
+	colorSelectBackground[] =
 	{
 		0.95,
 		0.95,
 		0.95,
 		1
 	};
-	colorSelectBackground2[] = 
+	colorSelectBackground2[] =
 	{
 		1,
 		1,
 		1,
 		0.5
 	};
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		0,
 		0.3
 	};
-	soundSelect[] = 
+	soundSelect[] =
 	{
 		"\A3\ui_f\data\sound\RscListbox\soundSelect",
 		0.09,
@@ -439,21 +439,21 @@ class cTab_RscListBox
 	arrowFull = "#(argb,8,8,3)color(1,1,1,1)";
 	class ScrollBar
 	{
-		color[] = 
+		color[] =
 		{
 			1,
 			1,
 			1,
 			0.6
 		};
-		colorActive[] = 
+		colorActive[] =
 		{
 			1,
 			1,
 			1,
 			1
 		};
-		colorDisabled[] = 
+		colorDisabled[] =
 		{
 			1,
 			1,
@@ -470,14 +470,14 @@ class cTab_RscListBox
 	font = "PuristaMedium";
 	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 	shadow = 0;
-	colorShadow[] = 
+	colorShadow[] =
 	{
 		0,
 		0,
 		0,
 		0.5
 	};
-	color[] = 
+	color[] =
 	{
 		1,
 		1,
@@ -491,21 +491,21 @@ class cTab_RscListBox
 	autoScrollRewind = 0;
 	class listScrollBar
 	{
-		color[] = 
+		color[] =
 		{
 			1,
 			1,
 			1,
 			0.6
 		};
-		colorActive[] = 
+		colorActive[] =
 		{
 			1,
 			1,
 			1,
 			1
 		};
-		colorDisabled[] = 
+		colorDisabled[] =
 		{
 			1,
 			1,
@@ -524,14 +524,14 @@ class cTab_RscButton
 	access = 0;
 	type = 1;
 	text = "";
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		0.4,
 		0.4,
@@ -539,7 +539,7 @@ class cTab_RscButton
 		1
 	};
 	colorBackground[] = {0.118, 0.118, 0.118,.7};
-	colorBackgroundDisabled[] = 
+	colorBackgroundDisabled[] =
 	{
 		0.95,
 		0.95,
@@ -548,39 +548,39 @@ class cTab_RscButton
 	};
 	colorBackgroundActive[] = {0.118, 0.118, 0.118,1};
 	colorFocused[] = {0.118, 0.118, 0.118,1};
-	colorShadow[] = 
+	colorShadow[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorBorder[] = 
+	colorBorder[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	soundEnter[] = 
+	soundEnter[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEnter",
 		0.09,
 		1
 	};
-	soundPush[] = 
+	soundPush[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundPush",
 		0.09,
 		1
 	};
-	soundClick[] = 
+	soundClick[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundClick",
 		0.09,
 		1
 	};
-	soundEscape[] = 
+	soundEscape[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEscape",
 		0.09,
@@ -609,81 +609,81 @@ class cTab_ActiveText
 	text = "";
 	color[] = { 1, 1, 1, 1 };
 	colorActive[] = { 1, 1, 1, 1 };
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		0.4,
 		0.4,
 		0.4,
 		1
 	};
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		0.7
 	};
-	colorBackgroundDisabled[] = 
+	colorBackgroundDisabled[] =
 	{
 		0.95,
 		0.95,
 		0.95,
 		1
 	};
-	colorBackgroundActive[] = 
+	colorBackgroundActive[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		1
 	};
-	colorFocused[] = 
+	colorFocused[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		1
 	};
-	colorShadow[] = 
+	colorShadow[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorBorder[] = 
+	colorBorder[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	soundEnter[] = 
+	soundEnter[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEnter",
 		0.09,
 		1
 	};
-	soundPush[] = 
+	soundPush[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundPush",
 		0.09,
 		1
 	};
-	soundClick[] = 
+	soundClick[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundClick",
 		0.09,
 		1
 	};
-	soundEscape[] = 
+	soundEscape[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEscape",
 		0.09,
@@ -712,81 +712,81 @@ class cTab_RscButtonInv
 	access = 0;
 	type = 1;
 	text = "";
-	colorText[] = 
+	colorText[] =
 	{
 		0,
 		0,
 		0,
 		0
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		0.4,
 		0.4,
 		0.4,
 		0
 	};
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		0
 	};
-	colorBackgroundDisabled[] = 
+	colorBackgroundDisabled[] =
 	{
 		0.95,
 		0.95,
 		0.95,
 		0
 	};
-	colorBackgroundActive[] = 
+	colorBackgroundActive[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		0
 	};
-	colorFocused[] = 
+	colorFocused[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		0
 	};
-	colorShadow[] = 
+	colorShadow[] =
 	{
 		0,
 		0,
 		0,
 		0
 	};
-	colorBorder[] = 
+	colorBorder[] =
 	{
 		0,
 		0,
 		0,
 		0
 	};
-	soundEnter[] = 
+	soundEnter[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEnter",
 		0.09,
 		1
 	};
-	soundPush[] = 
+	soundPush[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundPush",
 		0.09,
 		1
 	};
-	soundClick[] = 
+	soundClick[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundClick",
 		0.09,
 		1
 	};
-	soundEscape[] = 
+	soundEscape[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEscape",
 		0.09,
@@ -836,64 +836,64 @@ class cTab_RscShortcutButton
 		right = 0.005;
 		bottom = 0;
 	};
-	shortcuts[] = 
+	shortcuts[] =
 	{
 	};
 	textureNoShortcut = "#(argb,8,8,3)color(0,0,0,0)";
-	color[] = 
+	color[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	color2[] = 
+	color2[] =
 	{
 		0.95,
 		0.95,
 		0.95,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		1,
 		1,
 		1,
 		0.25
 	};
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		1
 	};
-	colorBackground2[] = 
+	colorBackground2[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	soundEnter[] = 
+	soundEnter[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEnter",
 		0.09,
 		1
 	};
-	soundPush[] = 
+	soundPush[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundPush",
 		0.09,
 		1
 	};
-	soundClick[] = 
+	soundClick[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundClick",
 		0.09,
 		1
 	};
-	soundEscape[] = 
+	soundEscape[] =
 	{
 		"\A3\ui_f\data\sound\RscButton\soundEscape",
 		0.09,
@@ -940,14 +940,14 @@ class cTab_RscShortcutButtonMain
 	default = 0;
 	w = 0.313726;
 	h = 0.104575;
-	color[] = 
+	color[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		1,
 		1,
@@ -1007,14 +1007,14 @@ class cTab_RscFrame
 	idc = -1;
 	style = 64;
 	shadow = 2;
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		0,
 		0
 	};
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
@@ -1031,14 +1031,14 @@ class cTab_RscSlider
 	type = 3;
 	style = 1024;
 	w = 0.3;
-	color[] = 
+	color[] =
 	{
 		1,
 		1,
 		1,
 		0.8
 	};
-	colorActive[] = 
+	colorActive[] =
 	{
 		1,
 		1,
@@ -1054,7 +1054,7 @@ class cTab_IGUIBack
 	idc = 124;
 	style = 128;
 	text = "";
-	colorText[] = 
+	colorText[] =
 	{
 		0,
 		0,
@@ -1068,7 +1068,7 @@ class cTab_IGUIBack
 	y = 0.1;
 	w = 0.1;
 	h = 0.1;
-	colorbackground[] = 
+	colorbackground[] =
 	{
 		"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])",
 		"(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])",
@@ -1085,56 +1085,56 @@ class cTab_RscCheckbox
 	y = "LINE_Y";
 	w = "LINE_W(WVAL)";
 	h = 0.029412;
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		0,
 		0,
 		1
 	};
-	color[] = 
+	color[] =
 	{
 		0,
 		0,
 		0,
 		0
 	};
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		1,
 		1
 	};
-	colorTextSelect[] = 
+	colorTextSelect[] =
 	{
 		0,
 		0.8,
 		0,
 		1
 	};
-	colorSelectedBg[] = 
+	colorSelectedBg[] =
 	{
 		"(profilenamespace getvariable ['GUI_BCG_RGB_R',0.69])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_G',0.75])",
 		"(profilenamespace getvariable ['GUI_BCG_RGB_B',0.5])",
 		1
 	};
-	colorSelect[] = 
+	colorSelect[] =
 	{
 		0,
 		0,
 		0,
 		1
 	};
-	colorTextDisable[] = 
+	colorTextDisable[] =
 	{
 		0.4,
 		0.4,
 		0.4,
 		1
 	};
-	colorDisable[] = 
+	colorDisable[] =
 	{
 		0.4,
 		0.4,
@@ -1145,11 +1145,11 @@ class cTab_RscCheckbox
 	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
 	rows = 1;
 	columns = 1;
-	strings[] = 
+	strings[] =
 	{
 		"UNCHECKED"
 	};
-	checked_strings[] = 
+	checked_strings[] =
 	{
 		"CHECKED"
 	};
@@ -1172,49 +1172,49 @@ class cTab_RscButtonMenu
 	animTexturePressed = "#(argb,8,8,3)color(1,1,1,1)";
 	animTextureDefault = "#(argb,8,8,3)color(1,1,1,1)";
 	textureNoShortcut = "#(argb,8,8,3)color(0,0,0,0)";
-	colorBackground[] = 
+	colorBackground[] =
 	{
 		0,
 		0,
 		0,
 		0.8
 	};
-	colorBackground2[] = 
+	colorBackground2[] =
 	{
 		1,
 		1,
 		1,
 		0.5
 	};
-	color[] = 
+	color[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	color2[] = 
+	color2[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorText[] = 
+	colorText[] =
 	{
 		1,
 		1,
 		1,
 		1
 	};
-	colorDisabled[] = 
+	colorDisabled[] =
 	{
 		1,
 		1,
 		1,
 		0.25
 	};
-	
+
 	class HitZone
 	{
 		left = 0.004;
@@ -1222,7 +1222,7 @@ class cTab_RscButtonMenu
 		right = 0.004;
 		bottom = 0.029;
 	};
-	
+
 	period = 1.2;
 	periodFocus = 1.2;
 	periodOver = 1.2;
@@ -1249,25 +1249,25 @@ class cTab_RscButtonMenu
 		w = 0.0225;
 		h = 0.03;
 	};
-	soundEnter[] = 
+	soundEnter[] =
 	{
 		"\A3\ui_f\data\sound\RscButtonMenu\soundEnter",
 		0.09,
 		1
 	};
-	soundPush[] = 
+	soundPush[] =
 	{
 		"\A3\ui_f\data\sound\RscButtonMenu\soundPush",
 		0.09,
 		1
 	};
-	soundClick[] = 
+	soundClick[] =
 	{
 		"\A3\ui_f\data\sound\RscButtonMenu\soundClick",
 		0.09,
 		1
 	};
-	soundEscape[] = 
+	soundEscape[] =
 	{
 		"\A3\ui_f\data\sound\RscButtonMenu\soundEscape",
 		0.09,
@@ -1277,7 +1277,7 @@ class cTab_RscButtonMenu
 class cTab_RscButtonMenuOK
 {
 	idc = 1;
-	shortcuts[] = 
+	shortcuts[] =
 	{
 		"0x00050000 + 0",
 		28,
@@ -1286,7 +1286,7 @@ class cTab_RscButtonMenuOK
 	};
 	default = 1;
 	text = "OK";
-	soundPush[] = 
+	soundPush[] =
 	{
 		"\A3\ui_f\data\sound\RscButtonMenuOK\soundPush",
 		0.09,
@@ -1296,7 +1296,7 @@ class cTab_RscButtonMenuOK
 class cTab_RscButtonMenuCancel
 {
 	idc = 2;
-	shortcuts[] = 
+	shortcuts[] =
 	{
 		"0x00050000 + 1"
 	};
@@ -1306,7 +1306,7 @@ class cTab_RscControlsGroup
 {
 	class VScrollbar
 	{
-		color[] = 
+		color[] =
 		{
 			1,
 			1,
@@ -1321,7 +1321,7 @@ class cTab_RscControlsGroup
 	};
 	class HScrollbar
 	{
-		color[] = 
+		color[] =
 		{
 			1,
 			1,
@@ -1333,21 +1333,21 @@ class cTab_RscControlsGroup
 	};
 	class ScrollBar
 	{
-		color[] = 
+		color[] =
 		{
 			1,
 			1,
 			1,
 			0.6
 		};
-		colorActive[] = 
+		colorActive[] =
 		{
 			1,
 			1,
 			1,
 			1
 		};
-		colorDisabled[] = 
+		colorDisabled[] =
 		{
 			1,
 			1,
@@ -1411,7 +1411,7 @@ class cTab_RscMapControl
   y = 0.10;
   w = 0.80;
   h = 0.60;
-  
+
     moveOnEdges = 1;
 	shadow = 0;
 	ptsPerSquareSea = 5;
@@ -1466,13 +1466,13 @@ class cTab_RscMapControl
 	sizeExInfo = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8)";
 	fontLevel = "TahomaB";
 	sizeExLevel = 0.02;
-	
+
 	colorText[] = {1,1,1,1.0};
 	font = "PuristaMedium";
 	text = "#(argb,8,8,3)color(1,1,1,1)";
 	SizeEx = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
 	//size = "(			(			(			((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
-	
+
 	class Legend
 	{
 		x = "SafeZoneX + 					(			((safezoneW / safezoneH) min 1.2) / 40)";
@@ -1770,7 +1770,7 @@ class cTab_RscMapControl
 		coefMin = 0.5;
 		coefMax = 4;
 		color[] = {0,0,0,1};
-	};  
+	};
 
 	class ActiveMarker
 	{
