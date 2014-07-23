@@ -1780,10 +1780,70 @@ class cTab_RscMapControl
 		coefMin = 1;
 		coefMax = 1;
 		color[] = {0,0,0,1};
-	};	
-	
-	
-	
+	};
+
+
+
 };
 
+class cTab_TAD_RscMapControl: cTab_RscMapControl
+{
+	// allow to zoom out further (defines the maximum map scale, usually 1)
+	scaleMax = 1000;
+	// turn on satellite map information (defines the map scale of when to switch to topographical)
+	maxSatelliteAlpha = 10000;
+	alphaFadeStartScale = 10;
+	alphaFadeEndScale = 10;
+	colorBackground[] = {0.969,0.957,0.949,1.0};
+	colorSea[] = {0.467,0.631,0.851,0.5};
+	colorForest[] = {0.4,1,0.4,0.5};
+	colorForestBorder[] = {0.2,1,0.2,1};
+	colorRocks[] = {0.0,0.0,0.0,0.3};
+	colorRocksBorder[] = {0.0,0.0,0.0,0.0};
+	colorLevels[] = {0,0,0,1};
+	colorMainCountlines[] = {0.78,0.44,0.22,1};
+	colorCountlines[] = {0.9,0,0,1};
+	colorMainCountlinesWater[] = {0.491,0.577,0.702,0.0};
+	colorCountlinesWater[] = {0.491,0.577,0.702,0.0};
+	colorPowerLines[] = {0.1,0.1,0.1,1.0};
+	colorRailWay[] = {0.8,0.2,0.0,1.0};
+	colorNames[] = {0,0,0,1};
+	colorInactive[] = {1.0,1.0,1.0,0.5};
+	colorOutside[] = {0.0,0.0,0.0,1.0};
+	colorTracks[] = {0.84,0.76,0.65,1.0};
+	colorTracksFill[] = {0.84,0.76,0.65,1.0};
+	colorRoads[] = {1.0,0.8,0.0,1.0};
+	colorRoadsFill[] = {1.0,0.8,0.0,1.0};
+	colorMainRoads[] = {1.0,0.6,0.4,1.0};
+	colorMainRoadsFill[] = {1.0,0.6,0.4,1.0};
+	// hide grid lines
+	colorGrid[] = {0.1,0.1,0.1,0};
+	colorGridMap[] = {0.1,0.1,0.1,0};
 
+	// Rendering density coefficients
+	ptsPerSquareSea = 8;		// seas
+	ptsPerSquareTxt = 8;		// textures
+	ptsPerSquareCLn = 8;		// count-lines
+	ptsPerSquareExp = 8;		// exposure
+	ptsPerSquareCost = 8;		// cost
+
+	// Rendering thresholds
+	ptsPerSquareFor = 1;		// forests
+	ptsPerSquareForEdge = 4.0;	// forest edges
+	ptsPerSquareRoad = 0.5;		// roads
+	ptsPerSquareObj = 4;		// other objects
+
+	/*
+	// replace CustomMark with wedding cake icon
+	class CustomMark
+	{
+		icon = "\cTab\img\icon_wedding_cake_ca.paa";
+		size = 18;
+		importance = 1;
+		coefMin = 1;
+		coefMax = 1;
+		color[] = {1,1,1,1};
+		shadow = 1;
+	};
+	*/
+};
