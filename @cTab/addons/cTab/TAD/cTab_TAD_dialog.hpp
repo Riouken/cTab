@@ -1,395 +1,590 @@
+#include <cTab_TAD_dialog_controls.hpp>
 
-#define GUI_MARGIN_X	(0.05)
-#define GUI_MARGIN_Y	(0.2)
-#define GUI_MAP_W	(0.55)
-#define GUI_MAP_H	(0.55)
-#define GUI_TAD_W	(0.72)
-#define GUI_TAD_H	(0.72)
-
-
-
-#define GUI_GRID_X	(0)
-#define GUI_GRID_Y	(0)
-#define GUI_GRID_W	(0.025)
-#define GUI_GRID_H	(0.04)
-#define GUI_GRID_WAbs	(1)
-#define GUI_GRID_HAbs	(1)
-
+#define MENU_GRID_X	(0)
+#define MENU_GRID_Y	(0)
+#define MENU_GRID_W	(0.025)
+#define MENU_GRID_H	(0.04)
 
 class cTab_TAD_dialog
 {
 	idd = 1755424;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_TAD_dialog', (_this select 0)];";
+	onLoad = "uiNamespace setVariable ['cTab_TAD_dialog', (_this select 0)];nul = [] execVM '\cTab\TAD\cTab_TAD_dialog_onload.sqf';";
 	onUnload = "uiNamespace setVariable ['cTab_TAD_dialog', displayNull];call cTab_fnc_close;";
+	objects[] = {};
 	class controlsBackground
 	{
-		class background: cTab_RscPicture
-		{
-			idc = 1200;
-			text = "\cTab\img\TAD_background_co.paa";
-			x = 4.14 * GUI_GRID_W + GUI_GRID_X;
-			y = 0.53 * GUI_GRID_H + GUI_GRID_Y;
-			w = 32 * GUI_GRID_W;
-			h = 24 * GUI_GRID_H;
-		};
-		class screen: cTab_RscMapControl
-		{
-			idc = 1201;
-			text = "#(argb,8,8,3)color(1,1,1,1)";
-			x = 8.03 * GUI_GRID_W + GUI_GRID_X;
-			y = 3.41 * GUI_GRID_H + GUI_GRID_Y;
-			w = 24.254 * GUI_GRID_W;
-			h = 18.1944 * GUI_GRID_H;
-			// allow to zoom out further (defines the maximum map scale, usually 1)
-			scaleMax = 1000;
-			// turn on satellite map information (defines the map scale of when to switch to topographical)
-			maxSatelliteAlpha = 10000;
-			alphaFadeStartScale = 0.1;
-			alphaFadeEndScale = 10;
-			colorBackground[] = {0.969,0.957,0.949,1.0};
-			colorSea[] = {0.467,0.631,0.851,0.5};
-			colorForest[] = {0.4,1,0.4,0.5};
-			colorForestBorder[] = {0.2,1,0.2,1};
-			colorRocks[] = {0.0,0.0,0.0,0.3};
-			colorRocksBorder[] = {0.0,0.0,0.0,0.0};
-			colorLevels[] = {0,0,0,1};
-			colorMainCountlines[] = {0.78,0.44,0.22,1};
-			colorCountlines[] = {0.9,0,0,1};
-			colorMainCountlinesWater[] = {0.491,0.577,0.702,0.0};
-			colorCountlinesWater[] = {0.491,0.577,0.702,0.0};
-			colorPowerLines[] = {0.1,0.1,0.1,1.0};
-			colorRailWay[] = {0.8,0.2,0.0,1.0};
-			colorNames[] = {0,0,0,1};
-			colorInactive[] = {1.0,1.0,1.0,0.5};
-			colorOutside[] = {0.0,0.0,0.0,1.0};
-			colorTracks[] = {0.84,0.76,0.65,1.0};
-			colorTracksFill[] = {0.84,0.76,0.65,1.0};
-			colorRoads[] = {1.0,0.8,0.0,1.0};
-			colorRoadsFill[] = {1.0,0.8,0.0,1.0};
-			colorMainRoads[] = {1.0,0.6,0.4,1.0};
-			colorMainRoadsFill[] = {1.0,0.6,0.4,1.0};
-			// hide grid lines
-			colorGrid[] = {0.1,0.1,0.1,0};
-			colorGridMap[] = {0.1,0.1,0.1,0};
-			
-			//@{ coefficients which determine rendering density / threshold
-			ptsPerSquareSea = 0.1; // seas
-			ptsPerSquareTxt = 8;   // textures
-			ptsPerSquareCLn = 8;   // count-lines
-			ptsPerSquareExp = 8;   // exposure
-			ptsPerSquareCost = 8;  // cost
-			//@}
-			
-			//@{ coefficients which determine when rendering of given type is done
-			ptsPerSquareFor = 1;           // forests
-			ptsPerSquareForEdge = "5.0f"; // forest edges
-			ptsPerSquareRoad = "0.5f";     // roads
-			ptsPerSquareObj = 5;           // other objects
-			//@}
-			
-			// Continuously call cTabOnDrawbftTAD to draw cTab's icons on map
-			onDraw = "nop = [] call cTabOnDrawbftTAD;";
-			/*
-			// replace CustomMark with wedding cake icon
-			class CustomMark
+			class screen: cTab_TAD_RscMapControl
 			{
-				icon = "\cTab\img\icon_wedding_cake_ca.paa";
-				size = 18;
-				importance = 1;
-				coefMin = 1;
-				coefMax = 1;
-				color[] = {1,1,1,1};
-				shadow = 1;
+				idc = 1201;
+				text = "#(argb,8,8,3)color(1,1,1,1)";
+				x = 371 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = 378 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = 1306 / GUI_GRID_PX_H * GUI_GRID_W;
+				h = 1328 / GUI_GRID_PX_H * GUI_GRID_H;
+				onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
+				onMouseButtonDblClick = "_ok = ['cTab_TAD_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
+				// set initial map scale
+				scaleDefault = "(missionNamespace getVariable 'cTabTADmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor')";
 			};
-			*/
-		};
 	};
+
 	class controls
 	{
-
-			class btnF1: cTab_RscButton
+			class background: cTab_RscPicture
+			{
+				idc = 1200;
+				text = "\cTab\img\TAD_background_ca.paa";
+				x = GUI_GRID_X;
+				y = GUI_GRID_Y;
+				w = GUI_GRID_W;
+				h = GUI_GRID_H;
+			};
+			class pwrbtn: cTab_RscButton_TAD_DNO
 			{
 				idc = 1600;
-				x = 4.8 * GUI_GRID_W + GUI_GRID_X;
-				y = 6.55 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				action = "closeDialog 0;";
+				tooltip = "Close Interface";
 			};
-			class btnF2: cTab_RscButton
+			class btnbrtpls: cTab_RscButton_TAD_SYM_INC
 			{
 				idc = 1601;
-				x = 4.8 * GUI_GRID_W + GUI_GRID_X;
-				y = 9.1 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				action = "cTabTxtFctr = cTabTxtFctr + 1;";
+				tooltip = "Increase Font";
 			};
-			class btnF3: cTab_RscButton
+			class btnbrtmns: cTab_RscButton_TAD_SYM_DEC
 			{
 				idc = 1602;
-				x = 4.81 * GUI_GRID_W + GUI_GRID_X;
-				y = 11.74 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				action = "cTabTxtFctr = cTabTxtFctr - 1;";
+				tooltip = "Decrease Font";
 			};
-			class btnF4: cTab_RscButton
-			{
-				idc = 1603;
-				x = 4.84 * GUI_GRID_W + GUI_GRID_X;
-				y = 14.39 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF5: cTab_RscButton
+			class btnesc: cTab_RscButton_TAD_OSB09
 			{
 				idc = 1604;
-				x = 4.81 * GUI_GRID_W + GUI_GRID_X;
-				y = 16.9 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				action = "if (count cTabUserIconList > 0) then { _nop = cTabUserIconList call BIS_fnc_arrayPop;};";
+				tooltip = "Delete last user placed icon";
 			};
-			class btnF6: cTab_RscButton
-			{
-				idc = 1605;
-				x = 11.5 * GUI_GRID_W + GUI_GRID_X;
-				y = 22.46 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF7: cTab_RscButton
-			{
-				idc = 1606;
-				x = 15.4 * GUI_GRID_W + GUI_GRID_X;
-				y = 22.46 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF8: cTab_RscButton
-			{
-				idc = 1607;
-				x = 19.21 * GUI_GRID_W + GUI_GRID_X;
-				y = 22.49 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF9: cTab_RscButton
-			{
-				idc = 1608;
-				x = 23.01 * GUI_GRID_W + GUI_GRID_X;
-				y = 22.49 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF10: cTab_RscButton
+			class btnfunction: cTab_RscButton_TAD_OSB10
 			{
 				idc = 1609;
-				x = 26.79 * GUI_GRID_W + GUI_GRID_X;
-				y = 22.48 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
+				tooltip = "Toggle Text on/off";
 			};
-			class btnF11: cTab_RscButton
+
+
+			//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
+
+			class MainSubmenu: cTab_RscControlsGroup
 			{
-				idc = 1610;
-				x = 33.25 * GUI_GRID_W + GUI_GRID_X;
-				y = 16.97 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				idc = 3300;
+				x = 12.5 * MENU_GRID_W + MENU_GRID_X;
+				y = 7.5 * MENU_GRID_H + MENU_GRID_Y;
+				w = 5 * MENU_GRID_W;
+				h = 5 * MENU_GRID_H;
+				class controls
+				{
+					class mainbg: cTab_IGUIBack
+					{
+						idc = IDC_USRMN_MAINBG;
+						x = 0;
+						y = 0;
+						w = 3 * MENU_GRID_W;
+						h = 2 * MENU_GRID_H;
+					};
+
+					class op4btn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_OP4BTN;
+						text = "Enemy SALUTE"; //--- ToDo: Localize;
+						x = 0;
+						y = 0;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [4,cTabColorRed];Nop = [11,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+					class medbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_MEDBTN;
+						text = "Medical"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 1;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [4,cTabColorGreen];Nop = [21,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+					class genbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_GENBTN;
+						text = "General"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 2;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [4,cTabColorBlue];Nop = [31,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+
+				};
 			};
-			class btnF12: cTab_RscButton
+
+			class EnemySub1: cTab_RscControlsGroup
 			{
-				idc = 1611;
-				x = 33.25 * GUI_GRID_W + GUI_GRID_X;
-				y = 14.38 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				idc = 3301;
+				x = 12.5 * MENU_GRID_W + MENU_GRID_X;
+				y = 7.5 * MENU_GRID_H + MENU_GRID_Y;
+				w = 5 * MENU_GRID_W;
+				h = 5 * MENU_GRID_H;
+				class controls
+				{
+					class IGUIBack_2201: cTab_IGUIBack
+					{
+						idc = IDC_USRMN_IGUIBACK_2202;
+						x = 0;
+						y = 0;
+						w = 3.5 * MENU_GRID_W;
+						h = 4.01389 * MENU_GRID_H;
+					};
+
+					class infbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_INFBTN;
+						text = "Infantry"; //--- ToDo: Localize;
+						x = 0;
+						y = 0;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_inf.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+
+					};
+					class mecinfbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_MECINFBTN;
+						text = "Mec Inf"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 1;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_mech_inf.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+					class motrinfbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_MOTRINFBTN;
+						text = "Motr Inf"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 2;
+						w = 2.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_motor_inf.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class amrbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_AMRBTN;
+						text = "Armor"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 3;
+						w = 2.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_armor.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class helibtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_HELIBTN;
+						text = "Helicopter"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 4;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_air.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class plnbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_PLNBTN;
+						text = "Plane"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 5;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_plane.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class uknbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_UKNBTN;
+						text = "Unknown"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 6;
+						w = 3.45833 * MENU_GRID_W;
+						h = 0.430556 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_unknown.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+
+				};
 			};
-			class btnF13: cTab_RscButton
+
+
+			class EnemySub2: cTab_RscControlsGroup
 			{
-				idc = 1612;
-				x = 33.25 * GUI_GRID_W + GUI_GRID_X;
-				y = 11.71 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				idc = 3303;
+				x = 12.5 * MENU_GRID_W + MENU_GRID_X;
+				y = 7.5 * MENU_GRID_H + MENU_GRID_Y;
+				w = 5 * MENU_GRID_W;
+				h = 5 * MENU_GRID_H;
+				class controls
+				{
+
+					class IGUIBack_2202: cTab_IGUIBack
+					{
+						idc = IDC_USRMN_IGUIBACK_2202;
+						x = 0;
+						y = 0;
+						w = 2.9375 * MENU_GRID_W;
+						h = 4.01389 * MENU_GRID_H;
+					};
+					class ftbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_FTBTN;
+						text = "Fire Team"; //--- ToDo: Localize;
+						x = 0;
+						y = 0;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class patbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_PATBTN;
+						text = "Patrol"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 1;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class sqdbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_SQDBTN;
+						text = "Squad"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 2;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_1.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class sctbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_SCTBTN;
+						text = "Section"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 3;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_2.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class pltnbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_PLTNBTN;
+						text = "Platoon"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 4;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_3.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class cpnybtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_CPNYBTN;
+						text = "Company"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 5;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_4.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+				};
 			};
-			class btnF14: cTab_RscButton
+
+
+			class EnemySub3: cTab_RscControlsGroup
 			{
-				idc = 1613;
-				x = 33.26 * GUI_GRID_W + GUI_GRID_X;
-				y = 9.09 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF15: cTab_RscButton
-			{
-				idc = 1614;
-				x = 33.25 * GUI_GRID_W + GUI_GRID_X;
-				y = 6.52 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF16: cTab_RscButton
-			{
-				idc = 1615;
-				x = 26.82 * GUI_GRID_W + GUI_GRID_X;
-				y = 1.09 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF17: cTab_RscButton
-			{
-				idc = 1616;
-				x = 22.98 * GUI_GRID_W + GUI_GRID_X;
-				y = 1.12 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF18: cTab_RscButton
-			{
-				idc = 1617;
-				x = 19.24 * GUI_GRID_W + GUI_GRID_X;
-				y = 1.09 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF19: cTab_RscButton
-			{
-				idc = 1618;
-				x = 15.44 * GUI_GRID_W + GUI_GRID_X;
-				y = 1.09 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class btnF20: cTab_RscButton
-			{
-				idc = 1619;
-				x = 11.51 * GUI_GRID_W + GUI_GRID_X;
-				y = 1.09 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class adjbtnPlus: cTab_RscButton
-			{
-				idc = 1620;
-				x = 4.5 * GUI_GRID_W + GUI_GRID_X;
-				y = 2.83 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class adjbtnmin: cTab_RscButton
-			{
-				idc = 1621;
-				x = 4.49 * GUI_GRID_W + GUI_GRID_X;
-				y = 4.63 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class conbtnplus: cTab_RscButton
-			{
-				idc = 1622;
-				x = 4.56 * GUI_GRID_W + GUI_GRID_X;
-				y = 19.08 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class conbtnmin: cTab_RscButton
-			{
-				idc = 1623;
-				x = 4.57 * GUI_GRID_W + GUI_GRID_X;
-				y = 20.93 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class brtbtnmin: cTab_RscButton
-			{
-				idc = 1624;
-				x = 32.86 * GUI_GRID_W + GUI_GRID_X;
-				y = 20.83 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class brtbtnplus: cTab_RscButton
-			{
-				idc = 1625;
-				x = 32.86 * GUI_GRID_W + GUI_GRID_X;
-				y = 19.12 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class dspbtnmin: cTab_RscButton
-			{
-				idc = 1626;
-				x = 32.98 * GUI_GRID_W + GUI_GRID_X;
-				y = 4.63 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class dspbtnplus: cTab_RscButton
-			{
-				idc = 1627;
-				x = 32.94 * GUI_GRID_W + GUI_GRID_X;
-				y = 2.88 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2.63492 * GUI_GRID_W;
-				h = 1.16534 * GUI_GRID_H;
-			};
-			class daynteknob: cTab_RscButton
-			{
-				idc = 1628;
-				x = 7.14 * GUI_GRID_W + GUI_GRID_X;
-				y = 22.22 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class symbtnmin: cTab_RscButton
-			{
-				idc = 1629;
-				x = 29.66 * GUI_GRID_W + GUI_GRID_X;
-				y = 22 * GUI_GRID_H + GUI_GRID_Y;
-				w = 1.52381 * GUI_GRID_W;
-				h = 2.32672 * GUI_GRID_H;
-			};
-			class simbtnplus: cTab_RscButton
-			{
-				idc = 1630;
-				x = 32.23 * GUI_GRID_W + GUI_GRID_X;
-				y = 22.06 * GUI_GRID_H + GUI_GRID_Y;
-				w = 1.52381 * GUI_GRID_W;
-				h = 2.32672 * GUI_GRID_H;
+				idc = 3304;
+				x = 12.5 * MENU_GRID_W + MENU_GRID_X;
+				y = 7.5 * MENU_GRID_H + MENU_GRID_Y;
+				w = 5 * MENU_GRID_W;
+				h = 7 * MENU_GRID_H;
+				class controls
+				{
+
+					class IGUIBack_2203: cTab_IGUIBack
+					{
+						idc = IDC_USRMN_IGUIBACK_2203;
+						x = 0;
+						y = 0;
+						w = 2.10417 * MENU_GRID_W;
+						h = 6.72685 * MENU_GRID_H;
+					};
+
+					class nthbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_NTHBTN;
+						text = "N"; //--- ToDo: Localize;
+						x = 0;
+						y = 0;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,0];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class nebtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_NEBTN;
+						text = "NE"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 1;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,45];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class ebtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_EBTN;
+						text = "E"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 2;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,90];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class sebtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_SEBTN;
+						text = "SE"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 3;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,135];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class sbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_SBTN;
+						text = "S"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 4;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,180];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class swbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_SWBTN;
+						text = "SW"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 5;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,225];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class wbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_WBTN;
+						text = "W"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 6;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,270];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class RscText_1022: cTab_ActiveText
+					{
+						idc = IDC_USRMN_RSCTEXT_1022;
+						text = "NW"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 7;
+						w = 1.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,315];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class RscText_1023: cTab_ActiveText
+					{
+						idc = IDC_USRMN_RSCTEXT_1023;
+						text = "Unknown"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 8;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,500];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+					class stnbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_STNBTN;
+						text = "Stationary"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 9;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [3,700];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+
+				};
 			};
 
 
 
 
-			class RscText_1000: cTab_RscText
+			class CasulSub1: cTab_RscControlsGroup
 			{
-				idc = 1000;
-				text = "1247859"; //--- ToDo: Localize;
-				x = 18.1 * GUI_GRID_W + GUI_GRID_X;
-				y = 19.84 * GUI_GRID_H + GUI_GRID_Y;
-				w = 5 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				idc = 3305;
+				x = 12.5 * MENU_GRID_W + MENU_GRID_X;
+				y = 7.5 * MENU_GRID_H + MENU_GRID_Y;
+				w = 5 * MENU_GRID_W;
+				h = 5 * MENU_GRID_H;
+				class controls
+				{
+
+					class IGUIBack_2204: cTab_IGUIBack
+					{
+						idc = IDC_USRMN_IGUIBACK_2204;
+						x = 0;
+						y = 0;
+						w = 2.77083 * MENU_GRID_W;
+						h = 2.70833 * MENU_GRID_H;
+					};
+					class casltybtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_CASLTYBTN;
+						text = "Casualty"; //--- ToDo: Localize;
+						x = 0;
+						y = 0;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\join_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class ccpbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_CCPBTN;
+						text = "CCP"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 1;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\circle_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class basbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_BASBTN;
+						text = "BAS"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 2;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\mapcontrol\Hospital_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+					class mcibtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_MCIBTN;
+						text = "MCI"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 3;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\warning_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+
+				};
 			};
-			class RscText_1001: cTab_RscText
+
+
+
+
+
+			class GenSub1: cTab_RscControlsGroup
 			{
-				idc = 1001;
-				text = "12:00"; //--- ToDo: Localize;
-				x = 28.77 * GUI_GRID_W + GUI_GRID_X;
-				y = 19.45 * GUI_GRID_H + GUI_GRID_Y;
-				w = 3 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-			};
-			class RscText_1002: cTab_rscText
-			{
-				idc = 1002;
-				text = "12"; //--- ToDo: Localize;
-				x = 29.5 * GUI_GRID_W + GUI_GRID_X;
-				y = 4 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
+				idc = 3306;
+				x = 12.5 * MENU_GRID_W + MENU_GRID_X;
+				y = 7.5 * MENU_GRID_H + MENU_GRID_Y;
+				w = 5 * MENU_GRID_W;
+				h = 5 * MENU_GRID_H;
+				class controls
+				{
+
+					class IGUIBack_2205: cTab_IGUIBack
+					{
+						idc = IDC_USRMN_IGUIBACK_2205;
+						x = 0;
+						y = 0;
+						w = 2.5 * MENU_GRID_W;
+						h = 1.5 * MENU_GRID_H;
+					};
+
+
+					class hqbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_HQBTN;
+						text = "Headquarters"; //--- ToDo: Localize;
+						x = 0;
+						y = 0;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\b_hq.paa'];nop = [] call cTabUserIconPush;Nop = [30,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+					class lzbtn: cTab_ActiveText
+					{
+						idc = IDC_USRMN_LZBTN;
+						text = "LZ"; //--- ToDo: Localize;
+						x = 0;
+						y = (0.5 * MENU_GRID_H) * 1;
+						w = 3.5 * MENU_GRID_W;
+						h = 0.5 * MENU_GRID_H;
+						sizeEx = .5 * MENU_GRID_H;
+						action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\end_CA.paa'];nop = [] call cTabUserIconPush;Nop = [30,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					};
+
+
+
+				};
 			};
 
 
 
 
 	};
+
 };
