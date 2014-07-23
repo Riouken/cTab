@@ -477,6 +477,108 @@ cTabOnDrawbftTAD = {
 	_return;
 };
 
+// This is drawn every frame on the TAD dialog. fnc
+cTabOnDrawbftTADdialog = {
+	// is disableSerialization really required? If so, not sure this is the right place to call it
+	disableSerialization;
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_TAD_dialog");
+	_cntrlScreen = _display displayCtrl 1201;
+	
+	// current position
+	_mapCentrePos = getPosASL player;
+	_heading = direction player;
+	// change scale of map and centre to player position
+	//_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScale / cTabMapScaleFactor, _mapCentrePos];
+	//ctrlMapAnimCommit _cntrlScreen;
+	
+	// draw vehicle icon at own location
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTxtFctr/12 * 18,cTabTxtFctr/12 * 18,_heading,"", 1,0.035,"TahomaB"];
+	
+	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
+	//_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,0.035,"TahomaB"];
+	
+	{
+		_obj = _x select 0;
+		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
+		if (!(player in _obj)) then
+		{
+			_texture = _x select 1;
+			_text = "";
+			_pos = getPosASL _obj;
+			if (cTabBFTtxt) then {_text = _x select 2;};
+			// check if object is an air vehicle
+			if (_obj isKindOf "Air") then
+			{
+				// check if air contact and player are in the same group group, if so, change _symbolColour
+				if (player in units _obj) then {
+					_groupIndex = _x select 3;
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabTxtFctr/12 * 32,cTabTxtFctr/12 * 32,direction _obj,"",0,0.035,"TahomaB"];
+					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,cTabTxtFctr/12 * -4,0,0,_groupIndex,0,0.035,"TahomaB"];
+				} else {
+					// draw air contact icon and dummy icon for the text to have a better alignment
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabTxtFctr/12 * 32,cTabTxtFctr/12 * 32,direction _obj,"",0,0.035,"TahomaB"];
+					//_cntrlScreen drawRectangle [[(_pos select 0) + 160 + 80,_pos select 1],160,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabTxtFctr/12 * 20,cTabTxtFctr/12 * 20,0,_text,0,0.035,"TahomaB"];
+				};
+			}
+			else
+			{
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabTxtFctr * 2,cTabTxtFctr * 2,0,_text,0,0.035,"TahomaB"];
+			};
+		};
+	} forEach cTabBFTlist;
+	
+	if ((count cTabUserIconList) != 0) then 
+	{
+		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+		{
+			_pos = _x select 0;
+			//_WorldCoordtmp = screenToWorld _pos;
+			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
+			_texture1 = _x select 1;
+			_texture2 = _x select 2;
+			_dir = _x select 3;
+			_color = _x select 4;
+			_text = "";
+			if (cTabBFTtxt) then {_text = _x select 5;};
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, _text, 0, 0.035,"TahomaB"];
+			if (_texture2 != "") then 
+			{
+				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtFctr * 2, cTabTxtFctr * 2, 0, "", 0, 0.035,"TahomaB"];
+			};
+			if (_dir < 360) then
+			{
+				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
+				_cntrlScreen drawArrow [_pos, _secondPos, _color];
+			};
+		} forEach cTabUserIconList;
+	};
+	/*
+	// update time on TAD
+	_hour = date select 3;
+	if (_hour < 10) then {
+		_hour = format ["0%1", _hour];
+	};
+	_min = date select 4;
+	if (_min < 10) then {
+		_min = format ["0%1", _min];
+	};
+
+	(_display displayCtrl 1202) ctrlSetText format ["%1:%2", _hour, _min];
+	
+	// update grid position on TAD
+	(_display displayCtrl 1203) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
+	
+	// update current map scale on TAD
+	// divide by 2 because we want to display the radius, not the diameter
+	(_display displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
+	*/
+	_return;
+};
+
 // This is drawn every frame on the android. fnc
 cTabOnDrawbftAndroid = {
 
