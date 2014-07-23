@@ -782,7 +782,7 @@ cTab_fnc_update_lists = {
 			if ([_x] call cTabCheckGear) then
 			{
 				_name = groupID (group _x);
-				_groupIndex = str([_obj] call CBA_fnc_getGroupIndex);
+				_groupIndex = str([_x] call CBA_fnc_getGroupIndex);
 				_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name,_groupIndex];
 				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 			};
