@@ -153,3 +153,36 @@ class cTab_RscButton_TAD_DNO: cTab_RscButtonInv
 	w = 142 / GUI_GRID_PX_H * GUI_GRID_W;
 	h = 142 / GUI_GRID_PX_H * GUI_GRID_H;
 };
+
+class cTab_RscText_TAD: cTab_RscText
+{
+	style = ST_CENTER;
+	w = 134 / GUI_GRID_PX_H * GUI_GRID_W;
+	h = 67 / GUI_GRID_PX_H * GUI_GRID_H;
+	font = GUI_FONT_THIN;
+	colorText[] = COLOR_NEON_GREEN;
+	sizeEx = 67 / GUI_GRID_PX_H * GUI_GRID_H;
+	colorBackground[] = COLOR_BLACK;
+	shadow = 0;
+};
+class cTab_RscText_TAD_large: cTab_RscText_TAD
+{
+	h = 67 * 2 / GUI_GRID_PX_H * GUI_GRID_H;
+	sizeEx = 67 / GUI_GRID_PX_H * GUI_GRID_H;
+};
+class cTab_RscHTML_TAD_upDownArrow: cTab_HTML
+{
+	style = ST_CENTER;
+	w = 32 / GUI_GRID_PX_H * GUI_GRID_W;
+	h = 67 / GUI_GRID_PX_H * GUI_GRID_H;
+	class P // Paragraph style
+	{
+		font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
+		fontBold = GUI_FONT_BOLD; // Vold font from CfgFontFamilies
+		sizeEx = sizeEx = 67 / GUI_GRID_PX_H * GUI_GRID_H; // Text size
+		align = "left"; // Text align (can be "left", "center" or "right")
+	};
+	colorText[] = COLOR_NEON_GREEN;
+	colorBackground[] = COLOR_BLACK;
+	filename = "\cTab\TAD\cTab_TAD_upDownArrow.html";
+};
