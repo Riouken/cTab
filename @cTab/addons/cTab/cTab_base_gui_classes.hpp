@@ -1885,9 +1885,6 @@ class cTab_TAD_RscMapControl: cTab_RscMapControl
 	colorRoadsFill[] = {1.0,0.8,0.0,1.0};
 	colorMainRoads[] = {1.0,0.6,0.4,1.0};
 	colorMainRoadsFill[] = {1.0,0.6,0.4,1.0};
-	// hide grid lines
-	colorGrid[] = {0.1,0.1,0.1,0};
-	colorGridMap[] = {0.1,0.1,0.1,0};
 
 	// Rendering density coefficients
 	ptsPerSquareSea = 8;		// seas
