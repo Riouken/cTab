@@ -7,6 +7,10 @@
 #define GUI_GRID_PX_W 2048 // width in pixels
 #define GUI_GRID_PX_H 2048 // hight in pixels
 
+#define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
+#define COLOR_BLACK {0,0,0,1}
+#define COLOR_WHITE {1,1,1,1}
+
 class cTab_RscButton_TAD_OSB: cTab_RscButtonInv
 {
 	w = 134 / GUI_GRID_PX_H * GUI_GRID_W;
