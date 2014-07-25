@@ -40,6 +40,14 @@ class cTab_TAD_dialog
 				w = GUI_GRID_W;
 				h = GUI_GRID_H;
 			};
+			class on_screen_mode: cTab_RscText_TAD_large
+			{
+				idc = 2609;
+				x = (1648 - 94 * 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = 407 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = 94 * 2 / GUI_GRID_PX_H * GUI_GRID_W;
+				text = "EXT1";
+			};
 			class pwrbtn: cTab_RscButton_TAD_DNO
 			{
 				idc = 1600;
@@ -64,11 +72,41 @@ class cTab_TAD_dialog
 				action = "if (count cTabUserIconList > 0) then { _nop = cTabUserIconList call BIS_fnc_arrayPop;};";
 				tooltip = "Delete last user placed icon";
 			};
+			class on_screen_delete: cTab_RscText_TAD
+			{
+				idc = 2604;
+				x = (1648 - 94) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (1209 - 33.5) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = 94 / GUI_GRID_PX_H * GUI_GRID_W;
+				text = "DEL";
+			};
 			class btnfunction: cTab_RscButton_TAD_OSB10
 			{
 				idc = 1609;
 				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
 				tooltip = "Toggle Text on/off";
+			};
+			class on_screen_toggleText0: cTab_RscHTML_TAD_upDownArrow
+			{
+				idc = 2608;
+				x = (1648 - 32) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (1398 - 67 / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+			};
+			class on_screen_toggleText1: cTab_RscText_TAD
+			{
+				idc = 2609;
+				x = (1648 - 94 - 32) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (1398 - 67) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = 94 / GUI_GRID_PX_H * GUI_GRID_W;
+				text = "TXT";
+			};
+			class on_screen_toggleText2: cTab_RscText_TAD
+			{
+				idc = 2610;
+				x = (1648 - 94 - 32) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (1398 + 0) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = 94 / GUI_GRID_PX_H * GUI_GRID_W;
+				text = "ON";
 			};
 
 
