@@ -711,7 +711,68 @@ class cTab_ActiveText
 	borderSize = 0;
 };
 
+class cTab_HTML
+{
+	access = 0; // Control access (0 - ReadAndWrite, 1 - ReadAndCreate, 2 - ReadOnly, 3 - ReadOnlyVerified)
+	style = ST_LEFT; // Style
+	default = 0; // Control selected by default (only one within a display can be used)
+	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
+	colorBackground[] = {0.2,0.2,0.2,1}; // Fill color
+
+	colorText[] = {1,1,1,1}; // Text color
+	colorBold[] = {1,1,1,1}; // <b> text color
+	colorLink[] = {1,1,1,1}; // <a> text color
+	colorLinkActive[] = {1,0.5,0,1}; // Active <a> text color
+	colorPicture[] = {1,1,1,1}; // Picture color
+	colorPictureBorder[] = {0,0,0,0}; // Picture border color
+	colorPictureLink[] = {1,1,1,1}; // <a> picture color
+	colorPictureSelected[] = {1,1,1,1}; // Active <a> picture color
+
+	prevPage = "\A3\ui_f\data\gui\rsccommon\rschtml\arrow_left_ca.paa"; // Pagination arrow for previous page
+	nextPage = "\A3\ui_f\data\gui\rsccommon\rschtml\arrow_right_ca.paa"; // Pagination arrow for next page
+	/*
+	tooltip = "CT_HTML"; // Tooltip text
+	tooltipColorShade[] = {0,0,0,1}; // Tooltip background color
+	tooltipColorText[] = {1,1,1,1}; // Tooltip text color
+	tooltipColorBox[] = {1,1,1,1}; // Tooltip frame color
+	*/
+	//filename = "a3\ui_f\data\html\RscFeedback.html";
+	/*
+	class P // Paragraph style
+	{
+		font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
+		fontBold = GUI_FONT_BOLD; // Vold font from CfgFontFamilies
+		sizeEx = GUI_GRID_CENTER_H; // Text size
+		align = "left"; // Text align (can be "left", "center" or "right")
+	};
+	class H1:P{}; // Header 1 style (uses same attributes as P)
+	class H2:P{}; // Header 2 style (uses same attributes as P)
+	class H3:P{}; // Header 3 style (uses same attributes as P)
+	class H4:P{}; // Header 4 style (uses same attributes as P)
+	class H5:P{}; // Header 5 style (uses same attributes as P)
+	class H6:P{}; // Header 6 style (uses same attributes as P)
+	*/
+	/*
+	onCanDestroy = "systemChat str ['onCanDestroy',_this]; true";
+	onDestroy = "systemChat str ['onDestroy',_this]; false";
+	onMouseEnter = "systemChat str ['onMouseEnter',_this]; false";
+	onMouseExit = "systemChat str ['onMouseExit',_this]; false";
+	onSetFocus = "systemChat str ['onSetFocus',_this]; false";
+	onKillFocus = "systemChat str ['onKillFocus',_this]; false";
+	onKeyDown = "systemChat str ['onKeyDown',_this]; false";
+	onKeyUp = "systemChat str ['onKeyUp',_this]; false";
+	onMouseButtonDown = "systemChat str ['onMouseButtonDown',_this]; false";
+	onMouseButtonUp = "systemChat str ['onMouseButtonUp',_this]; false";
+	onMouseButtonClick = "systemChat str ['onMouseButtonClick',_this]; false";
+	onMouseButtonDblClick = "systemChat str ['onMouseButtonDblClick',_this]; false";
+	onMouseZChanged = "systemChat str ['onMouseZChanged',_this]; false";
+	onMouseMoving = "";
+	onMouseHolding = "";
+
+	onHTMLLink = "systemChat str ['onHTMLLink',_this]; false";
+	*/
+};
 
 // Invisable button
 
