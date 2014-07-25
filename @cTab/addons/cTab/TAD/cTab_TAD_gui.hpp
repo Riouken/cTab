@@ -35,6 +35,10 @@ class cTab_TAD_dsp
 			scaleDefault = "(missionNamespace getVariable 'cTabTADmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor')";
 			// Continuously call cTabOnDrawbftTAD to draw cTab's icons on map
 			onDraw = "nop = [] call cTabOnDrawbftTAD;";
+
+			// hide grid lines
+			colorGrid[] = {0.1,0.1,0.1,0};
+			colorGridMap[] = {0.1,0.1,0.1,0};
 		};
 	};
 	class controls
