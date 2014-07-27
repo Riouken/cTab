@@ -16,7 +16,7 @@ class cTab_TAD_dialog
 	{
 			class screen: cTab_TAD_RscMapControl
 			{
-				idc = 1201;
+				idc = IDC_CTAB_SCREEN;
 				text = "#(argb,8,8,3)color(1,1,1,1)";
 				x = cTab_GUI_TAD_MAP_X / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 				y = cTab_GUI_TAD_MAP_Y / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
@@ -33,7 +33,7 @@ class cTab_TAD_dialog
 	{
 			class background: cTab_RscPicture
 			{
-				idc = 1200;
+				idc = IDC_CTAB_BACKGROUND;
 				text = "\cTab\img\TAD_background_ca.paa";
 				x = GUI_GRID_X;
 				y = GUI_GRID_Y;
@@ -75,31 +75,31 @@ class cTab_TAD_dialog
 			};
 			class pwrbtn: cTab_RscButton_TAD_DNO
 			{
-				idc = 1600;
+				idc = IDC_CTAB_BTNMAIN;
 				action = "closeDialog 0;";
 				tooltip = "Close Interface";
 			};
 			class btnbrtpls: cTab_RscButton_TAD_SYM_INC
 			{
-				idc = 1601;
+				idc = IDC_CTAB_BTNUP;
 				action = "cTabTxtFctr = cTabTxtFctr + 1;";
 				tooltip = "Increase Font";
 			};
 			class btnbrtmns: cTab_RscButton_TAD_SYM_DEC
 			{
-				idc = 1602;
+				idc = IDC_CTAB_BTNDWN;
 				action = "cTabTxtFctr = cTabTxtFctr - 1;";
 				tooltip = "Decrease Font";
 			};
 			class btnesc: cTab_RscButton_TAD_OSB09
 			{
-				idc = 1604;
+				idc = IDC_CTAB_BTNACT;
 				action = "if (count cTabUserIconList > 0) then { _nop = cTabUserIconList call BIS_fnc_arrayPop;};";
 				tooltip = "Delete last user placed icon";
 			};
 			class on_screen_delete: cTab_RscText_TAD
 			{
-				idc = 2604;
+				idc = -1;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 				y = (cTab_GUI_TAD_OSD_OSB09_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
 				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
@@ -107,8 +107,8 @@ class cTab_TAD_dialog
 			};
 			class btnfunction: cTab_RscButton_TAD_OSB10
 			{
-				idc = 1609;
 				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
+				idc = IDC_CTAB_BTNFN;
 				tooltip = "Toggle Text on/off";
 			};
 			class on_screen_toggleIconBackground: cTab_RscText_TAD
@@ -125,7 +125,7 @@ class cTab_TAD_dialog
 			};
 			class on_screen_toggleText1: cTab_RscText_TAD
 			{
-				idc = 2609;
+				idc = -1;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
 				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
@@ -133,8 +133,8 @@ class cTab_TAD_dialog
 			};
 			class on_screen_toggleText2: cTab_RscText_TAD
 			{
-				idc = 2610;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				idc = IDC_CTAB_OSD_TXT_TGGL;
 				y = (cTab_GUI_TAD_OSD_OSB10_Y) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
 				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 2 / GUI_GRID_PX_H * GUI_GRID_W;
 				text = "ON";
