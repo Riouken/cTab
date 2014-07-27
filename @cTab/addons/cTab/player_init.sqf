@@ -400,7 +400,7 @@ cTabOnDrawbftTAD = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTxtFctr/12 * 18,cTabTxtFctr/12 * 18,_heading,"", 1,0.035,"TahomaB"];
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
 	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,0.035,"TahomaB"];
@@ -502,7 +502,7 @@ cTabOnDrawbftTADdialog = {
 	//ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTxtFctr/12 * 18,cTabTxtFctr/12 * 18,_heading,"", 1,0.035,"TahomaB"];
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
 	//_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,0.035,"TahomaB"];
