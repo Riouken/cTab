@@ -266,6 +266,12 @@ cTab_fnc_close = {
 	};
 };
 
+// fnc to toggle text next to icons
+cTab_fnc_txt_tggl = {
+	if (cTabBFTtxt) then {cTabBFTtxt = false} else {cTabBFTtxt = true};
+	call cTab_fnc_OSD_update;
+};
+
 // fnc to updated OSD elements
 cTab_fnc_OSD_update = {
 	disableSerialization;
