@@ -138,11 +138,13 @@ cTab_fnc_onIfOpen = {
 	_player = _this select 1;
 	_vehicle = _this select 2;
 	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
-	if (_vehicle != _player) exitWith {
+	if (_vehicle != _player) then {
 		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{call cTab_fnc_close}];
 		cTabIfOpen = [_this select 0,_this select 3,_this select 4,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
+	} else {
+		cTabIfOpen = [_this select 0,_this select 3,_this select 4,_player,_playerKilledEhId,_vehicle,nil];
 	};
-	cTabIfOpen = [_this select 0,_this select 3,_this select 4,_player,_playerKilledEhId,_vehicle,nil];
+	call cTab_fnc_OSD_update;
 };
 
 // fnc handling IF_Main keydown event
@@ -228,6 +230,7 @@ cTab_fnc_onZoomInPressed = {
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
 		cTabTADmapScale = cTabTADmapScale / 2;
 		if (cTabTADmapScale < cTabTADmapScaleMin) then {cTabTADmapScale = cTabTADmapScaleMin};
+		call cTab_fnc_OSD_update;
 		true
 	};
 	false
@@ -238,6 +241,7 @@ cTab_fnc_onZoomOutPressed = {
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
 		cTabTADmapScale = cTabTADmapScale * 2 ;
 		if (cTabTADmapScale > cTabTADmapScaleMax) then {cTabTADmapScale = cTabTADmapScaleMax};
+		call cTab_fnc_OSD_update;
 		true
 	};
 	false
