@@ -513,10 +513,6 @@ cTabOnDrawbftTAD = {
 	// update grid position on TAD
 	(_display displayCtrl 1203) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
 	
-	// update current map scale on TAD
-	// divide by 2 because we want to display the radius, not the diameter
-	(_display displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
-	
 	_return;
 };
 
