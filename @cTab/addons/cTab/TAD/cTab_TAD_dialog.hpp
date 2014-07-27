@@ -82,13 +82,13 @@ class cTab_TAD_dialog
 			class btnbrtpls: cTab_RscButton_TAD_SYM_INC
 			{
 				idc = IDC_CTAB_BTNUP;
-				action = "cTabTxtFctr = cTabTxtFctr + 1;";
+				action = "call cTab_fnc_txt_size_inc;";
 				tooltip = "Increase Font";
 			};
 			class btnbrtmns: cTab_RscButton_TAD_SYM_DEC
 			{
 				idc = IDC_CTAB_BTNDWN;
-				action = "cTabTxtFctr = cTabTxtFctr - 1;";
+				action = "call cTab_fnc_txt_size_dec;";
 				tooltip = "Decrease Font";
 			};
 			class btnesc: cTab_RscButton_TAD_OSB09

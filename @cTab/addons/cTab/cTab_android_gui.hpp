@@ -160,7 +160,7 @@ class cTab_Android_dlg {
 						w = 3 * GUI_GRID_W;
 						h = 1 * GUI_GRID_H;
 						sizeEx = .5 * GUI_GRID_H;
-						action = "cTabTxtFctr = cTabTxtFctr + 1;";
+						action = "call cTab_fnc_txt_size_inc;";
 					};
 					class BtnTxtDwn: cTab_ActiveText
 					{
@@ -171,7 +171,7 @@ class cTab_Android_dlg {
 						w = 3 * GUI_GRID_W;
 						h = 1 * GUI_GRID_H;
 						sizeEx = .5 * GUI_GRID_H;
-						action = "cTabTxtFctr = cTabTxtFctr - 1;";
+						action = "call cTab_fnc_txt_size_dec;";
 					};
 					class BtnTxtExit: cTab_ActiveText
 					{

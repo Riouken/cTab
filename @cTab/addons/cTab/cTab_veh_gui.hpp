@@ -61,7 +61,7 @@ class cTab_Veh_dlg {
 				y = 1.79 * GUI_GRID_H + GUI_GRID_Y;
 				w = 2 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
-				action = "cTabTxtFctr = cTabTxtFctr + 1;";
+				action = "call cTab_fnc_txt_size_inc;";
 				tooltip = "Increase Font";			
 			};
 			class btnbrtmns: cTab_RscButtonInv
@@ -71,7 +71,7 @@ class cTab_Veh_dlg {
 				y = 4.36 * GUI_GRID_H + GUI_GRID_Y;
 				w = 2 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
-				action = "cTabTxtFctr = cTabTxtFctr - 1;";
+				action = "call cTab_fnc_txt_size_dec;";
 				tooltip = "Decrease Font";					
 			};
 			class btnblkout: cTab_RscButtonInv

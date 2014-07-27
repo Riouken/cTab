@@ -177,7 +177,7 @@ class cTab_main_dlg {
 				y = 19.51 * GUI_GRID_H + GUI_GRID_Y;
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
-				action = "cTabTxtFctr = cTabTxtFctr - 1;";
+				action = "call cTab_fnc_txt_size_dec;";
 				tooltip = "Decrease Font";
 			};
 			class btnDWN: cTab_RscButtonInv
@@ -187,7 +187,7 @@ class cTab_main_dlg {
 				y = 19.53 * GUI_GRID_H + GUI_GRID_Y;
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
-				action = "cTabTxtFctr = cTabTxtFctr + 1;";
+				action = "call cTab_fnc_txt_size_inc;";
 				tooltip = "Increase Font";
 			};
 			class btnACT: cTab_RscButtonInv
