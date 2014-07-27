@@ -18,10 +18,10 @@ class cTab_TAD_dialog
 			{
 				idc = 1201;
 				text = "#(argb,8,8,3)color(1,1,1,1)";
-				x = 371 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = 378 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = 1306 / GUI_GRID_PX_H * GUI_GRID_W;
-				h = 1328 / GUI_GRID_PX_H * GUI_GRID_H;
+				x = cTab_GUI_TAD_MAP_X / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = cTab_GUI_TAD_MAP_Y / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_MAP_W / GUI_GRID_PX_W * GUI_GRID_W;
+				h = cTab_GUI_TAD_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
 				onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
 				onMouseButtonDblClick = "_ok = ['cTab_TAD_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
 				// set initial map scale
@@ -40,13 +40,38 @@ class cTab_TAD_dialog
 				w = GUI_GRID_W;
 				h = GUI_GRID_H;
 			};
-			class on_screen_mode: cTab_RscText_TAD_large
+			class cursor: cTab_RscPicture
+			{
+				idc = -1;
+				text = "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
+					// "\a3\ui_f\data\map\Markers\Military\destroy_ca.paa";
+					// "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
+					// "\a3\ui_f\data\map\MarkerBrushes\cross_ca.paa"
+				x = (cTab_GUI_TAD_MAP_X + cTab_GUI_TAD_MAP_W / 2 - 128 / 33 * cTab_GUI_TAD_CURSOR / 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_MAP_Y + cTab_GUI_TAD_MAP_H / 2 - 128 / 33 * cTab_GUI_TAD_CURSOR / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+				w = 128 / 33 * cTab_GUI_TAD_CURSOR / GUI_GRID_PX_W * GUI_GRID_W;
+				h = 128 / 33 * cTab_GUI_TAD_CURSOR / GUI_GRID_PX_H * GUI_GRID_H;
+				colorText[] = COLOR_NEON_GREEN;
+			}
+			class on_screen_mode: cTab_RscText_TAD
 			{
 				idc = 2609;
-				x = (1648 - 94 * 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = 407 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = 94 * 2 / GUI_GRID_PX_H * GUI_GRID_W;
+				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 4) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_OSD_EDGE_T) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 4 / GUI_GRID_PX_H * GUI_GRID_W;
+				h = cTab_GUI_TAD_OSD_ELEMENT_MODE_H / GUI_GRID_PX_H * GUI_GRID_H;
+				sizeEx = cTab_GUI_TAD_OSD_TEXT_MODE_SIZE / GUI_GRID_PX_H * GUI_GRID_H;
 				text = "EXT1";
+			};
+			class mode_TAD: cTab_RscText_TAD
+			{
+				idc = -1;
+				x = (cTab_GUI_TAD_OSD_OSB15_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_OSD_EDGE_B - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
+				colorText[] = COLOR_BLACK;
+				colorBackground[] = COLOR_NEON_GREEN;
+				text = "TAD";
 			};
 			class pwrbtn: cTab_RscButton_TAD_DNO
 			{
@@ -75,9 +100,9 @@ class cTab_TAD_dialog
 			class on_screen_delete: cTab_RscText_TAD
 			{
 				idc = 2604;
-				x = (1648 - 94) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (1209 - 33.5) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = 94 / GUI_GRID_PX_H * GUI_GRID_W;
+				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_OSD_OSB09_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
 				text = "DEL";
 			};
 			class btnfunction: cTab_RscButton_TAD_OSB10
@@ -86,26 +111,32 @@ class cTab_TAD_dialog
 				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
 				tooltip = "Toggle Text on/off";
 			};
-			class on_screen_toggleText0: cTab_RscHTML_TAD_upDownArrow
+			class on_screen_toggleIconBackground: cTab_RscText_TAD
 			{
-				idc = 2608;
-				x = (1648 - 32) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (1398 - 67 / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				idc = -1;
+				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+			};
+			class on_screen_toggleIcon: cTab_RscHTML_TAD_upDownArrow
+			{
+				idc = -1;
+				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ICON_H / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
 			};
 			class on_screen_toggleText1: cTab_RscText_TAD
 			{
 				idc = 2609;
-				x = (1648 - 94 - 32) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (1398 - 67) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = 94 / GUI_GRID_PX_H * GUI_GRID_W;
+				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
 				text = "TXT";
 			};
 			class on_screen_toggleText2: cTab_RscText_TAD
 			{
 				idc = 2610;
-				x = (1648 - 94 - 32) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (1398 + 0) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = 94 / GUI_GRID_PX_H * GUI_GRID_W;
+				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+				y = (cTab_GUI_TAD_OSD_OSB10_Y) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 2 / GUI_GRID_PX_H * GUI_GRID_W;
 				text = "ON";
 			};
 
