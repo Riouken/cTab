@@ -108,8 +108,16 @@ if (isNil "cTab_vehicleClass_has_TAD") then {
 	};
 };
 
-// Begining text and icon size
+// fnc to set various text and icon sizes
+cTab_fnc_update_txt_size = {
+	cTabTxtSize = cTabTxtFctr * 2;
+	cTabAirContactSize = cTabTxtFctr / 12 * 32;
+	cTabAirContactDummySize = cTabTxtFctr / 12 * 20;
+	cTabAirGroupDummySize = cTabTxtFctr / 12 * -4;
+};
+// Beginning text and icon size
 cTabTxtFctr = 12;
+call cTab_fnc_update_txt_size;
 cTabBFTtxt = true;
 
 //set up array for user stored icons, data waits here until it is sent out to other clients.
@@ -274,6 +282,19 @@ cTab_fnc_close = {
 cTab_fnc_txt_tggl = {
 	if (cTabBFTtxt) then {cTabBFTtxt = false} else {cTabBFTtxt = true};
 	call cTab_fnc_OSD_update;
+};
+
+// fnc to increase icon and text size
+cTab_fnc_txt_size_inc = {
+	cTabTxtFctr = cTabTxtFctr + 1;
+	call cTab_fnc_update_txt_size;
+};
+
+// fnc to decrease icon and text size
+cTab_fnc_txt_size_dec = {
+	cTabTxtFctr = cTabTxtFctr - 1;
+	if (cTabTxtFctr < 1) then {cTabTxtFctr = 1};
+	call cTab_fnc_update_txt_size;
 };
 
 // fnc to updated OSD elements
