@@ -266,6 +266,30 @@ cTab_fnc_close = {
 	};
 };
 
+// fnc to updated OSD elements
+cTab_fnc_OSD_update = {
+	disableSerialization;
+	_dialogId = cTabIfOpen select 1;
+	_displayCtrl = cTabIfOpen select 2;
+	if (!isNil "_dialogId") then {
+		if (_dialogId == 1755424) exitWith {
+			_display = uiNamespace getVariable "cTab_TAD_dialog";
+			_cntrlScreen = _display displayCtrl 2610;
+			if (cTabBFTtxt) then {
+				_cntrlScreen ctrlSetText "ON";
+			} else {
+				_cntrlScreen ctrlSetText "OFF";
+			};
+		};
+	} else {
+		if (_displayCtrl == "cTab_TAD_dsp") exitWith {
+			// update current map scale on TAD
+			// divide by 2 because we want to display the radius, not the diameter
+			((uiNamespace getVariable "cTab_TAD_dsp") displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
+		};
+	};
+};
+
 // This is drawn every frame on the tablet. fnc
 cTabOnDrawbft = {
 
