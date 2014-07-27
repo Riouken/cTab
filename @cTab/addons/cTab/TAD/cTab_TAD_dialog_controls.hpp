@@ -20,9 +20,9 @@
 #define cTab_GUI_TAD_OSD_EDGE_B (-cTab_GUI_TAD_OSD_MARGIN + cTab_GUI_TAD_MAP_Y + cTab_GUI_TAD_MAP_H)
 
 // On-screen element base width and height
-#define cTab_GUI_TAD_OSD_ELEMENT_STD_W (26)
+#define cTab_GUI_TAD_OSD_ELEMENT_STD_W (25)
 #define cTab_GUI_TAD_OSD_ELEMENT_STD_H (53)
-#define cTab_GUI_TAD_OSD_ELEMENT_MODE_W (40)
+#define cTab_GUI_TAD_OSD_ELEMENT_MODE_W (38)
 #define cTab_GUI_TAD_OSD_ELEMENT_MODE_H (82)
 #define cTab_GUI_TAD_OSD_ELEMENT_ROLL_W (146)
 #define cTab_GUI_TAD_OSD_ELEMENT_ROLL_H (146)
