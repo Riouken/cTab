@@ -107,8 +107,8 @@ class cTab_TAD_dialog
 			};
 			class btnfunction: cTab_RscButton_TAD_OSB10
 			{
-				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
 				idc = IDC_CTAB_BTNFN;
+				action = "call cTab_fnc_txt_tggl;";
 				tooltip = "Toggle Text on/off";
 			};
 			class on_screen_toggleIconBackground: cTab_RscText_TAD
