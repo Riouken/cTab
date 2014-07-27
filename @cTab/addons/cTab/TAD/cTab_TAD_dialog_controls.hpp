@@ -1,12 +1,73 @@
+// Background definition
 #define GUI_GRID_X	(safezoneX + (safezoneW - safezoneH * 0.8 * 3/4) / 2)
 #define GUI_GRID_Y	(safezoneY + 0.1 * safezoneH)
 #define GUI_GRID_W	(safezoneH * 0.8 * 3/4)
 #define GUI_GRID_H	(safezoneH * 0.8)
-#define GUI_GRID_WAbs	(GUI_GRID_W)
-#define GUI_GRID_HAbs	(GUI_GRID_H)
 #define GUI_GRID_PX_W 2048 // width in pixels
 #define GUI_GRID_PX_H 2048 // hight in pixels
 
+// Map position within background, pixel based
+#define cTab_GUI_TAD_MAP_X (371)
+#define cTab_GUI_TAD_MAP_Y (378)
+#define cTab_GUI_TAD_MAP_W (1306)
+#define cTab_GUI_TAD_MAP_H (1328)
+
+// On-screen edge positions (left, right, top, bottom)
+#define cTab_GUI_TAD_OSD_MARGIN (24)
+#define cTab_GUI_TAD_OSD_EDGE_L (cTab_GUI_TAD_OSD_MARGIN + cTab_GUI_TAD_MAP_X)
+#define cTab_GUI_TAD_OSD_EDGE_R (-cTab_GUI_TAD_OSD_MARGIN + cTab_GUI_TAD_MAP_X + cTab_GUI_TAD_MAP_W)
+#define cTab_GUI_TAD_OSD_EDGE_T (cTab_GUI_TAD_OSD_MARGIN + cTab_GUI_TAD_MAP_Y)
+#define cTab_GUI_TAD_OSD_EDGE_B (-cTab_GUI_TAD_OSD_MARGIN + cTab_GUI_TAD_MAP_Y + cTab_GUI_TAD_MAP_H)
+
+// On-screen element base width and height
+#define cTab_GUI_TAD_OSD_ELEMENT_STD_W (26)
+#define cTab_GUI_TAD_OSD_ELEMENT_STD_H (53)
+#define cTab_GUI_TAD_OSD_ELEMENT_MODE_W (40)
+#define cTab_GUI_TAD_OSD_ELEMENT_MODE_H (82)
+#define cTab_GUI_TAD_OSD_ELEMENT_ROLL_W (146)
+#define cTab_GUI_TAD_OSD_ELEMENT_ROLL_H (146)
+
+// On-screen OSB element offsets horizontally from the edge
+#define cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET (36)
+
+// On-screen text sizes, hight in pixels
+// Standard text elements
+#define cTab_GUI_TAD_OSD_TEXT_STD_SIZE (42)
+// Mode / scale element (top right corner)
+#define cTab_GUI_TAD_OSD_TEXT_MODE_SIZE (66)
+// Icon height
+#define cTab_GUI_TAD_OSD_ICON_H (32)
+
+// On-screen map centre cursor
+#define cTab_GUI_TAD_CURSOR (48)
+
+// On-screen OSB positions (where the line meets the screen), all values absolute pixels values
+// OSB01 to OSB05 along the top, values along the x-axis
+#define cTab_GUI_TAD_OSD_OSB01_X (661)
+#define cTab_GUI_TAD_OSD_OSB02_X (844)
+#define cTab_GUI_TAD_OSD_OSB03_X (1023)
+#define cTab_GUI_TAD_OSD_OSB04_X (1202)
+#define cTab_GUI_TAD_OSD_OSB05_X (1384)
+// OSB06 to OSB10 along the right side, values along the y-axis
+#define cTab_GUI_TAD_OSD_OSB06_Y (647)
+#define cTab_GUI_TAD_OSD_OSB07_Y (836)
+#define cTab_GUI_TAD_OSD_OSB08_Y (1023)
+#define cTab_GUI_TAD_OSD_OSB09_Y (1209)
+#define cTab_GUI_TAD_OSD_OSB10_Y (1398)
+// OSB11 to OSB15 along the bottom, values along the x-axis
+#define cTab_GUI_TAD_OSD_OSB11_X (cTab_GUI_TAD_OSD_OSB05_X)
+#define cTab_GUI_TAD_OSD_OSB12_X (cTab_GUI_TAD_OSD_OSB04_X)
+#define cTab_GUI_TAD_OSD_OSB13_X (cTab_GUI_TAD_OSD_OSB03_X)
+#define cTab_GUI_TAD_OSD_OSB14_X (cTab_GUI_TAD_OSD_OSB02_X)
+#define cTab_GUI_TAD_OSD_OSB15_X (cTab_GUI_TAD_OSD_OSB01_X)
+// OSB16 to OSB20 along the left, values along the y-axis
+#define cTab_GUI_TAD_OSD_OSB16_Y (cTab_GUI_TAD_OSD_OSB10_Y)
+#define cTab_GUI_TAD_OSD_OSB17_Y (cTab_GUI_TAD_OSD_OSB09_Y)
+#define cTab_GUI_TAD_OSD_OSB18_Y (cTab_GUI_TAD_OSD_OSB08_Y)
+#define cTab_GUI_TAD_OSD_OSB19_Y (cTab_GUI_TAD_OSD_OSB07_Y)
+#define cTab_GUI_TAD_OSD_OSB20_Y (cTab_GUI_TAD_OSD_OSB06_Y)
+
+// define colours
 #define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
 #define COLOR_BLACK {0,0,0,1}
 #define COLOR_WHITE {1,1,1,1}
@@ -157,32 +218,19 @@ class cTab_RscButton_TAD_DNO: cTab_RscButtonInv
 class cTab_RscText_TAD: cTab_RscText
 {
 	style = ST_CENTER;
-	w = 134 / GUI_GRID_PX_H * GUI_GRID_W;
-	h = 67 / GUI_GRID_PX_H * GUI_GRID_H;
-	font = GUI_FONT_THIN;
+	w = cTab_GUI_TAD_OSD_ELEMENT_STD_W / GUI_GRID_PX_H * GUI_GRID_W;
+	h = cTab_GUI_TAD_OSD_ELEMENT_STD_H / GUI_GRID_PX_H * GUI_GRID_H;
+	font = GUI_FONT_MONO;
 	colorText[] = COLOR_NEON_GREEN;
-	sizeEx = 67 / GUI_GRID_PX_H * GUI_GRID_H;
+	sizeEx = cTab_GUI_TAD_OSD_TEXT_STD_SIZE / GUI_GRID_PX_H * GUI_GRID_H;
 	colorBackground[] = COLOR_BLACK;
 	shadow = 0;
 };
-class cTab_RscText_TAD_large: cTab_RscText_TAD
+class cTab_RscHTML_TAD_upDownArrow: cTab_RscPicture
 {
-	h = 67 * 2 / GUI_GRID_PX_H * GUI_GRID_H;
-	sizeEx = 67 / GUI_GRID_PX_H * GUI_GRID_H;
-};
-class cTab_RscHTML_TAD_upDownArrow: cTab_HTML
-{
-	style = ST_CENTER;
-	w = 32 / GUI_GRID_PX_H * GUI_GRID_W;
-	h = 67 / GUI_GRID_PX_H * GUI_GRID_H;
-	class P // Paragraph style
-	{
-		font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
-		fontBold = GUI_FONT_BOLD; // Vold font from CfgFontFamilies
-		sizeEx = sizeEx = 67 / GUI_GRID_PX_H * GUI_GRID_H; // Text size
-		align = "left"; // Text align (can be "left", "center" or "right")
-	};
+	w = cTab_GUI_TAD_OSD_ELEMENT_STD_W / GUI_GRID_PX_H * GUI_GRID_W;
+	h = cTab_GUI_TAD_OSD_ICON_H / GUI_GRID_PX_H * GUI_GRID_H;
 	colorText[] = COLOR_NEON_GREEN;
 	colorBackground[] = COLOR_BLACK;
-	filename = "\cTab\TAD\cTab_TAD_upDownArrow.html";
+	text = "\a3\ui_f\data\IGUI\Cfg\Actions\autohover_ca.paa"
 };
