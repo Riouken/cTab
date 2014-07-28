@@ -9,7 +9,8 @@ Thanks to
 + LCpl C. Johnston - Technical advisor
 + LCpl Schwanke - Technical advisor
 + Knobee - Documentation
-+ Everyone else in the 15th MEU SOC for help with support and testing.
++ Raspu - TAD screen model
++ Everyone else in the 15th MEU SOC and C-L-F for help with support and testing.
 
 + BI - for ArmA 3 and all the opportunities to mod for this game.
 
@@ -87,3 +88,25 @@ If you wish to use cTab on a different side than Bluefore, put this at the **TOP
 
 Change `east` to what ever side you wish to have cTab available on (i.e. `guer`).
 You can only have cTab available for one side. If you want cTab available on the west side or NATO then you do not need to include this.
+
+Changelog
+---------
+### 2.0.0 ###
+* Reduced network traffic by moving the list generation of tracked elements from the server to the clients
+  The server now sends an update pulse to all clients every 30 seconds (previous update interval was 20), instead of sending the whole list to every client. The clients then generate the list locally. This lessens the server load a little (shifting it to the clients), greatly reduces cTab related network traffic, while hopefully keeping the list content the same across clients since they update (almost) at the same time.
+* Addition of messaging system (currently on Tablet only)
+  Send text messages between team members equipped with tablets.
+* Addition of cTab equipment box to be used in editor
+  A simple box filled with your favourite cTab equipment. Includes 5 Tablets, 15 Android devices and 25 helmet cameras. The box is also available to Zeus.
+* Addition of TAD (Tactical Awareness Display) for use in air vehicles.
+  There are two variants, one is small and can be kept visible while operating your aircraft, similar to the GPS but populated with information from your cTab network. The map will be kept centred on your current position. In the upper right hand corner of the screen you can see the current scale represented by the radius of the outer circle. The inner circle is exactly half of that.
+  The other variant is a larger representation of the same TAD, but in an interactive mode and *you will lose your vehicle controls* while open.
+  Overall the TAD has been modelled to have a similar look to the TAD found in the DCS A-10C module.
+  All friendly aircraft icons are replaced with a little circle attached symbol that has a small line attached to it, representing the current orientation of that vehicle.
+  When in one of the pilot seats of an aircraft, press 'IF_Main' to open or close the small TAD. Use the new `Zoom_In` and `Zoom_Out` keys to zoom the small TAD. `IF_Secondary` opens the large TAD.
+* Addition of userconfig for key bindings
+  This frees up the previously used `UserAction12`.
+* Addition of vehicle arrays to userconfig (server side) to define vehicles equipped with on-board FBCB2 or TAD
+  The lists will be read by the server and distributed to all clients. It can also be overridden by mission makers.
+* cTab now closes when exiting a vehicle or when the player is killed
+* Performance improvements and bug fixes
