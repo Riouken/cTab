@@ -25,7 +25,7 @@ class cTab_TAD_dialog
 				onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
 				onMouseButtonDblClick = "_ok = ['cTab_TAD_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
 				// set initial map scale
-				scaleDefault = "(missionNamespace getVariable 'cTabTADmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor')";
+				scaleDefault = "(missionNamespace getVariable 'cTabTADmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor') * 0.86 / (safezoneH * 0.8 * 3/4)";
 			};
 	};
 
