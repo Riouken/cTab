@@ -57,8 +57,8 @@ class cTab_TAD_dialog
 			{
 				idc = 2609;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 4) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (cTab_GUI_TAD_OSD_EDGE_T) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 4 / GUI_GRID_PX_H * GUI_GRID_W;
+				y = (cTab_GUI_TAD_OSD_EDGE_T) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 4 / GUI_GRID_PX_W * GUI_GRID_W;
 				h = cTab_GUI_TAD_OSD_ELEMENT_MODE_H / GUI_GRID_PX_H * GUI_GRID_H;
 				sizeEx = cTab_GUI_TAD_OSD_TEXT_MODE_SIZE / GUI_GRID_PX_H * GUI_GRID_H;
 				text = "EXT1";
@@ -67,8 +67,8 @@ class cTab_TAD_dialog
 			{
 				idc = -1;
 				x = (cTab_GUI_TAD_OSD_OSB15_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (cTab_GUI_TAD_OSD_EDGE_B - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
+				y = (cTab_GUI_TAD_OSD_EDGE_B - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_W * GUI_GRID_W;
 				colorText[] = COLOR_BLACK;
 				colorBackground[] = COLOR_NEON_GREEN;
 				text = "TAD";
@@ -101,8 +101,8 @@ class cTab_TAD_dialog
 			{
 				idc = -1;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (cTab_GUI_TAD_OSD_OSB09_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
+				y = (cTab_GUI_TAD_OSD_OSB09_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_W * GUI_GRID_W;
 				text = "DEL";
 			};
 			class btnfunction: cTab_RscButton_TAD_OSB10
@@ -115,29 +115,28 @@ class cTab_TAD_dialog
 			{
 				idc = -1;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 			};
 			class on_screen_toggleIcon: cTab_RscHTML_TAD_upDownArrow
 			{
 				idc = -1;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ICON_H / 2) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ICON_H / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 			};
 			class on_screen_toggleText1: cTab_RscText_TAD
 			{
 				idc = -1;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
+				y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_W * GUI_GRID_W;
 				text = "TXT";
 			};
 			class on_screen_toggleText2: cTab_RscText_TAD
 			{
 				idc = IDC_CTAB_OSD_TXT_TGGL;
 				x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = (cTab_GUI_TAD_OSD_OSB10_Y) / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_H * GUI_GRID_W;
-				text = "";
+				y = (cTab_GUI_TAD_OSD_OSB10_Y) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+				w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_W * GUI_GRID_W;
 			};
 			class on_screen_time: cTab_RscText_TAD
 			{

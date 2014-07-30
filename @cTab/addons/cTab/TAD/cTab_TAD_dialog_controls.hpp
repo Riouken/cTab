@@ -77,13 +77,13 @@
 
 class cTab_RscButton_TAD_OSB: cTab_RscButtonInv
 {
-	w = 134 / GUI_GRID_PX_H * GUI_GRID_W;
+	w = 134 / GUI_GRID_PX_W * GUI_GRID_W;
 	h = 134 / GUI_GRID_PX_H * GUI_GRID_H;
 };
 class cTab_RscButton_TAD_OSB01: cTab_RscButton_TAD_OSB
 {
 	x = 577 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 146 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 146 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB02: cTab_RscButton_TAD_OSB01
 {
@@ -104,28 +104,28 @@ class cTab_RscButton_TAD_OSB05: cTab_RscButton_TAD_OSB01
 class cTab_RscButton_TAD_OSB06: cTab_RscButton_TAD_OSB
 {
 	x = 1782 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 563 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 563 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB07: cTab_RscButton_TAD_OSB06
 {
-	y = 760 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 760 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB08: cTab_RscButton_TAD_OSB06
 {
-	y = 957 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 957 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB09: cTab_RscButton_TAD_OSB06
 {
-	y = 1155 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1155 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB10: cTab_RscButton_TAD_OSB06
 {
-	y = 1352 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1352 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB11: cTab_RscButton_TAD_OSB
 {
 	x = 1337 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 1811 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1811 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB12: cTab_RscButton_TAD_OSB11
 {
@@ -146,34 +146,34 @@ class cTab_RscButton_TAD_OSB15: cTab_RscButton_TAD_OSB11
 class cTab_RscButton_TAD_OSB16: cTab_RscButton_TAD_OSB
 {
 	x = 132 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 1352 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1352 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB17: cTab_RscButton_TAD_OSB16
 {
-	y = 1155 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1155 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB18: cTab_RscButton_TAD_OSB16
 {
-	y = 957 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 957 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB19: cTab_RscButton_TAD_OSB16
 {
-	y = 760 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 760 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_OSB20: cTab_RscButton_TAD_OSB16
 {
-	y = 563 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 563 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_ADJ_INC: cTab_RscButtonInv
 {
 	x = 124 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 257 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-	w = 142 / GUI_GRID_PX_H * GUI_GRID_W;
+	y = 257 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+	w = 142 / GUI_GRID_PX_W * GUI_GRID_W;
 	h = 119 / GUI_GRID_PX_H * GUI_GRID_H;
 };
 class cTab_RscButton_TAD_ADJ_DEC: cTab_RscButton_TAD_ADJ_INC
 {
-	y = 376 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 376 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_DSP_INC: cTab_RscButton_TAD_ADJ_INC
 {
@@ -181,15 +181,15 @@ class cTab_RscButton_TAD_DSP_INC: cTab_RscButton_TAD_ADJ_INC
 };
 class cTab_RscButton_TAD_DSP_DEC: cTab_RscButton_TAD_DSP_INC
 {
-	y = 376 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 376 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_CON_INC: cTab_RscButton_TAD_ADJ_INC
 {
-	y = 1539 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1539 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_CON_DEC: cTab_RscButton_TAD_CON_INC
 {
-	y = 1658 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1658 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_BRT_INC: cTab_RscButton_TAD_CON_INC
 {
@@ -197,13 +197,13 @@ class cTab_RscButton_TAD_BRT_INC: cTab_RscButton_TAD_CON_INC
 };
 class cTab_RscButton_TAD_BRT_DEC: cTab_RscButton_TAD_BRT_INC
 {
-	y = 1658 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
+	y = 1658 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 };
 class cTab_RscButton_TAD_SYM_INC: cTab_RscButtonInv
 {
 	x = 1663 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 1811 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-	w = 119 / GUI_GRID_PX_H * GUI_GRID_W;
+	y = 1811 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+	w = 119 / GUI_GRID_PX_W * GUI_GRID_W;
 	h = 142 / GUI_GRID_PX_H * GUI_GRID_H;
 };
 class cTab_RscButton_TAD_SYM_DEC: cTab_RscButton_TAD_SYM_INC
@@ -213,15 +213,15 @@ class cTab_RscButton_TAD_SYM_DEC: cTab_RscButton_TAD_SYM_INC
 class cTab_RscButton_TAD_DNO: cTab_RscButtonInv
 {
 	x = 234 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 1894 / GUI_GRID_PX_W * GUI_GRID_H + GUI_GRID_Y;
-	w = 142 / GUI_GRID_PX_H * GUI_GRID_W;
+	y = 1894 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+	w = 142 / GUI_GRID_PX_W * GUI_GRID_W;
 	h = 142 / GUI_GRID_PX_H * GUI_GRID_H;
 };
 
 class cTab_RscText_TAD: cTab_RscText
 {
 	style = ST_CENTER;
-	w = cTab_GUI_TAD_OSD_ELEMENT_STD_W / GUI_GRID_PX_H * GUI_GRID_W;
+	w = cTab_GUI_TAD_OSD_ELEMENT_STD_W / GUI_GRID_PX_W * GUI_GRID_W;
 	h = cTab_GUI_TAD_OSD_ELEMENT_STD_H / GUI_GRID_PX_H * GUI_GRID_H;
 	font = GUI_FONT_MONO;
 	colorText[] = COLOR_NEON_GREEN;
@@ -231,7 +231,7 @@ class cTab_RscText_TAD: cTab_RscText
 };
 class cTab_RscHTML_TAD_upDownArrow: cTab_RscPicture
 {
-	w = cTab_GUI_TAD_OSD_ELEMENT_STD_W / GUI_GRID_PX_H * GUI_GRID_W;
+	w = cTab_GUI_TAD_OSD_ELEMENT_STD_W / GUI_GRID_PX_W * GUI_GRID_W;
 	h = cTab_GUI_TAD_OSD_ICON_H / GUI_GRID_PX_H * GUI_GRID_H;
 	colorText[] = COLOR_NEON_GREEN;
 	colorBackground[] = COLOR_BLACK;
