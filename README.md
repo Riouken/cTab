@@ -10,6 +10,7 @@ Thanks to
 + LCpl Schwanke - Technical advisor
 + Knobee - Documentation
 + Raspu - TAD screen model
++ Killzone_Kid - for his many excellent tutorials
 + Everyone else in the 15th MEU SOC and C-L-F for help with support and testing.
 
 + BI - for ArmA 3 and all the opportunities to mod for this game.
