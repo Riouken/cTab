@@ -41,6 +41,9 @@
 // On-screen map centre cursor
 #define cTab_GUI_TAD_CURSOR (48)
 
+// SOI selection box, defining the # of pixels between map edge and box
+#define cTab_GUI_TAD_SOI_MARGIN (66)
+
 // On-screen OSB positions (where the line meets the screen), all values absolute pixels values
 // OSB01 to OSB05 along the top, values along the x-axis
 #define cTab_GUI_TAD_OSD_OSB01_X (661)
