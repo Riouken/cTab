@@ -616,7 +616,7 @@ cTabOnDrawbftTADdialog = {
 			};
 		} forEach cTabUserIconList;
 	};
-	/*
+	
 	// update time on TAD
 	_hour = date select 3;
 	if (_hour < 10) then {
@@ -629,9 +629,9 @@ cTabOnDrawbftTADdialog = {
 
 	(_display displayCtrl 1202) ctrlSetText format ["%1:%2", _hour, _min];
 	
-	// update grid position on TAD
-	(_display displayCtrl 1203) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
-	
+	// update grid position of the current map centre [0.5,0.5] on TAD
+	(_display displayCtrl 1203) ctrlSetText format ["%1", mapGridPosition (_cntrlScreen ctrlMapScreenToWorld [0.5,0.5])];
+	/*
 	// update current map scale on TAD
 	// divide by 2 because we want to display the radius, not the diameter
 	(_display displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
