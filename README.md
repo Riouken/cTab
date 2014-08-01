@@ -129,7 +129,7 @@ Changelog
   The lists will be read by the server and distributed to all clients. It can also be overridden by mission makers.
 * cTab now closes when exiting a vehicle or when the player is killed
 * Players sitting in the cargo area of an FBCB2 enabled vehicle will no longer have access to the vehicle based FBCB2.
-* Fixed helmet error when selected on tablet for the first time
+* Fixed error appearing when helmet cam screen was selected on the tablet for the first time
 * Added artillery and mortar symbols
 * The increase / decrease font function now actually resizes the fonts (in addition to the symbols as before)
 * General performance improvements and bug fixes
