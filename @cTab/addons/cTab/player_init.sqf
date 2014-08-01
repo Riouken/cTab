@@ -296,8 +296,7 @@ cTab_fnc_txt_size_inc = {
 
 // fnc to decrease icon and text size
 cTab_fnc_txt_size_dec = {
-	cTabTxtFctr = cTabTxtFctr - 1;
-	if (cTabTxtFctr < 1) then {cTabTxtFctr = 1};
+	if (cTabTxtFctr > 1) then {cTabTxtFctr = cTabTxtFctr - 1};
 	call cTab_fnc_update_txt_size;
 };
 
