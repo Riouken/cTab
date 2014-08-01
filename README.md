@@ -48,21 +48,30 @@ Media
 
 Install
 -------
-Place the `@cTab` folder in your ArmA 3 folder.
-
-Place the folder `cTab_Testing.Stratis` in your ArmA 3 profile's mission folder:
-
-    Documents\Arma 3 Other Profiles\*Your User Name*\missions\
-
-This will make the test mission available in the editor.
+Place the `@cTab` and `userconfig` folders in your ArmA 3 folder (both on the server and the clients). Then start the game with `@CBA_A3`and `@cTab`. It can be done either by enabling the necessary mods in the game settings (Settings -> Expansions), or by adding the mod names to the game shortcut after the EXE file, i.e. `…\arma3.exe -mod=@CBA_A3;@cTab`.
 
 The keys folder is for the server key.
 
 How to configure
 ----------------
-You will need to assign user action 12 in your custom controls. This will be the key that opens up cTab in game. This key is used to open and close whatever cTab device you is available to you.
+### Key Bindings ###
+You can reconfigure the keys in the configuration file, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. The file can be edited in Notepad or any other text editor. These are the default key binding:
 
-*This is also the key you will need to use to exit from the full screen UAV and Helmet Cam views.*
+| Keys | Action |
+| --- | --- |
+| `H` | This key is used to open and close whatever cTab device is available to you. It can also be used to close UAV and Helmet Cam views. |
+| `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft. |
+| `CTRL` + `SHIFT` `NUM_+` | Zoom in on the "small" TAD. |
+| `CTRL` + `SHIFT` `NUM_-` | Zoom out on th "small" TAD. |
+| `ESC` | Closes all interactive cTab devices (i.e. all but the "small" TAD) as well as the UAV and Helmet Cam views. |
+
+### Define vehicle types that have FBCB2 or TAD available ###
+To configure the list of vehicle types that have FBCB2 or TAD available, edit the `cTab_vehicleClass_has_FBCB2` and `cTab_vehicleClass_has_TAD` arrays in the configuration file on the server, wich can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`.
+
+    class cTab_settings {
+        cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"};
+        cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
+    };
 
 For mission Makers
 ------------------
@@ -90,6 +99,15 @@ If you wish to use cTab on a different side than Bluefore, put this at the **TOP
 Change `east` to what ever side you wish to have cTab available on (i.e. `guer`).
 You can only have cTab available for one side. If you want cTab available on the west side or NATO then you do not need to include this.
 
+### Overried vehicle types that have FBCB2 or TAD available ###
+If you wish to override the list of vehicles that have FBCB2 or TAD available, put this at the **TOP** of your `init.sqf`:
+
+    // only make FBCB2 available to MRAPs, APCs and tanks
+    cTab_vehicleClass_has_FBCB2 = ["MRAP_01_base_F","Wheeled_APC_F"];
+    
+    // make TAD available to all helicopters and planes with the exception of the MH-9 Hummingbird and AH-9 Pawnee
+    cTab_vehicleClass_has_TAD = ["Heli_Attack_01_base_F","Heli_Attack_02_base_F","Heli_Light_02_base_F","Heli_Transport_01_base_F","Heli_Transport_02_base_F","I_Heli_light_03_base_F","Plane"];
+
 Changelog
 ---------
 ### 2.0.0 ###
@@ -104,10 +122,13 @@ Changelog
   The other variant is a larger representation of the same TAD, but in an interactive mode and *you will lose your vehicle controls* while open.
   Overall the TAD has been modelled to have a similar look to the TAD found in the DCS A-10C module.
   All friendly aircraft icons are replaced with a little circle attached symbol that has a small line attached to it, representing the current orientation of that vehicle.
-  When in one of the pilot seats of an aircraft, press 'IF_Main' to open or close the small TAD. Use the new `Zoom_In` and `Zoom_Out` keys to zoom the small TAD. `IF_Secondary` opens the large TAD.
+  When in one of the pilot seats of an aircraft, press `IF_Main` to open or close the small TAD. Use the new `Zoom_In` and `Zoom_Out` keys to zoom the small TAD. `IF_Secondary` opens the large TAD.
 * Addition of userconfig for key bindings
   This frees up the previously used `UserAction12`.
 * Addition of vehicle arrays to userconfig (server side) to define vehicles equipped with on-board FBCB2 or TAD
   The lists will be read by the server and distributed to all clients. It can also be overridden by mission makers.
 * cTab now closes when exiting a vehicle or when the player is killed
-* Performance improvements and bug fixes
+* Fixed helmet error when selected on tablet for the first time
+* Added artillery and mortar symbols
+* The increase / decrease font function now actually resizes the fonts (in addition to the symbols as before)
+* General performance improvements and bug fixes
