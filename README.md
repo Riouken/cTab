@@ -128,6 +128,7 @@ Changelog
 * Addition of vehicle arrays to userconfig (server side) to define vehicles equipped with on-board FBCB2 or TAD
   The lists will be read by the server and distributed to all clients. It can also be overridden by mission makers.
 * cTab now closes when exiting a vehicle or when the player is killed
+* Players sitting in the cargo area of an FBCB2 enabled vehicle will no longer have access to the vehicle based FBCB2.
 * Fixed helmet error when selected on tablet for the first time
 * Added artillery and mortar symbols
 * The increase / decrease font function now actually resizes the fonts (in addition to the symbols as before)
