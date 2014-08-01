@@ -318,9 +318,17 @@ cTab_fnc_OSD_update = {
 		};
 	} else {
 		if (_displayCtrl == "cTab_TAD_dsp") exitWith {
+			_display = uiNamespace getVariable _displayCtrl;
 			// update current map scale on TAD
 			// divide by 2 because we want to display the radius, not the diameter
-			((uiNamespace getVariable "cTab_TAD_dsp") displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
+			(_display displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
+			
+			_cntrlScreen = _display displayCtrl 2610;
+			if (cTabBFTtxt) then {
+				_cntrlScreen ctrlSetText "ON";
+			} else {
+				_cntrlScreen ctrlSetText "OFF";
+			};
 		};
 	};
 };
