@@ -333,6 +333,53 @@ cTab_fnc_OSD_update = {
 	};
 };
 
+/*
+cTab_fnc_draw_markers = {
+	_cntrlScreen = _this select 0;
+	{
+		private ["_marker","_pos","_type","_size","_icon","_colorType","_color","_brush","_brushType","_shape","_alpha","_dir","_text"];
+		_marker = _x;
+		
+		_pos = getMarkerPos _marker;
+		_type = getMarkerType _marker;
+		_size = getMarkerSize _marker;
+		_icon = getText(configFile/"CfgMarkers"/_type/"Icon");
+		_colorType = getMarkerColor _marker;  
+		if (_icon != "" && {_colorType == "Default"}) then {
+			_color = getArray(configFile/"CfgMarkers"/_type/"color");
+		} else {
+			_color = getArray(configFile/"CfgMarkerColors"/_colorType/"color");
+		};
+		if (typeName (_color select 0) == "STRING") then {
+			_color = [
+				call compile (_color select 0),
+				call compile (_color select 1),
+				call compile (_color select 2),
+				call compile (_color select 3)
+			];
+		};
+		_brushType = markerBrush _marker;
+		_brush = getText(configFile/"CfgMarkerBrushes"/_brushType/"texture");
+		_shape = markerShape _marker;
+		_alpha = markerAlpha _marker;
+		_dir = markerDir _marker;
+		_text = markerText _marker;
+		
+		switch (_shape) do {
+		    case "ICON": {
+		    	_cntrlScreen drawIcon [_icon,_color,_pos,(_size select 0) * cTabIconSize,(_size select 1) * cTabIconSize,_dir,_text,0,cTabTxtSize,"TahomaB"];
+		    };
+		    case "RECTANGLE": {
+		    	_cntrlScreen drawRectangle [_pos,_size select 0,_size select 1,_dir,_color,_brush];
+			};
+			case "ELLIPSE": {
+		    	_cntrlScreen drawEllipse [_pos,_size select 0,_size select 1,_dir,_color,_brush];
+			};
+		};
+	} forEach allMapMarkers;
+};
+*/
+
 // This is drawn every frame on the tablet. fnc
 cTabOnDrawbft = {
 
@@ -455,9 +502,12 @@ _return;
 cTabOnDrawbftTAD = {
 	// is disableSerialization really required? If so, not sure this is the right place to call it
 	disableSerialization;
+	
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_TAD_dsp");
 	_cntrlScreen = _display displayCtrl 1201;
+	
+	//[_cntrlScreen] call cTab_fnc_draw_markers;
 	
 	// current position
 	_mapCentrePos = getPosASL player;
@@ -556,6 +606,8 @@ cTabOnDrawbftTADdialog = {
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_TAD_dialog");
 	_cntrlScreen = _display displayCtrl 1201;
+	
+	//[_cntrlScreen] call cTab_fnc_draw_markers;
 	
 	// current position
 	_mapCentrePos = getPosASL player;

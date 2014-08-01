@@ -11,6 +11,14 @@ disableSerialization;
 cTabUserPos = [];
 
 _display = (uiNamespace getVariable "cTab_TAD_dialog");
+
+/*
+// change map centre to player position
+_cntrlScreen = _display displayCtrl 1201;
+_cntrlScreen ctrlMapAnimAdd [0,ctrlMapScale _cntrlScreen,getPosASL player];
+ctrlMapAnimCommit _cntrlScreen;
+*/
+
 _popup = [3300,3301,3302,3303,3304,3305,3306];
 
 {
