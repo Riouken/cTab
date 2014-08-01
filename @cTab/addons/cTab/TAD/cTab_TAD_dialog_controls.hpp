@@ -1,8 +1,4 @@
 // Background definition
-#define GUI_GRID_X	(safezoneX + (safezoneW - safezoneH * 0.8 * 3/4) / 2)
-#define GUI_GRID_Y	(safezoneY + 0.1 * safezoneH)
-#define GUI_GRID_W	(safezoneH * 0.8 * 3/4)
-#define GUI_GRID_H	(safezoneH * 0.8)
 #define GUI_GRID_PX_W 2048 // width in pixels
 #define GUI_GRID_PX_H 2048 // hight in pixels
 

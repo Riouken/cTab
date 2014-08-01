@@ -1,3 +1,8 @@
+#define GUI_GRID_X	(safezoneX + (safezoneW - safezoneH * 0.8 * 3/4) / 2)
+#define GUI_GRID_Y	(safezoneY + 0.1 * safezoneH)
+#define GUI_GRID_W	(safezoneH * 0.8 * 3/4)
+#define GUI_GRID_H	(safezoneH * 0.8)
+
 #include <cTab_TAD_dialog_controls.hpp>
 
 #define MENU_GRID_X	(0)
