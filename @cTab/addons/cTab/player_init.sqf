@@ -1039,6 +1039,7 @@ cTab_fnc_update_lists = {
 				if (_x isKindOf "MBT_01_mlrs_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
 				if (_x isKindOf "MBT_02_arty_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
 				if (_x isKindOf "Tank") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				if (_x isKindOf "StaticMortar") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_mortar.paa";};
 			};
 			
 			_tmpArray = [_x,_txture,_name,_groupIndex];
