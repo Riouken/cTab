@@ -114,10 +114,10 @@ if (isNil "cTab_vehicleClass_has_TAD") then {
 
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
-	cTabTxtSize = cTabTxtFctr * 2;
+	cTabIconSize = cTabTxtFctr * 2;
+	cTabTxtSize = cTabTxtFctr / 12 * 0.035;
 	cTabAirContactSize = cTabTxtFctr / 12 * 32;
 	cTabAirContactDummySize = cTabTxtFctr / 12 * 20;
-	cTabAirGroupDummySize = cTabTxtFctr / 12 * -4;
 };
 // Beginning text and icon size
 cTabTxtFctr = 12;
@@ -395,7 +395,7 @@ cTabOnDrawbft = {
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 
 
 	} forEach cTabBFTlist;
@@ -416,12 +416,12 @@ cTabOnDrawbft = {
 			if (cTabBFTtxt) then {_text = _x select 5;};
 			//hint str _x;
 		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 
 			if (_texture2 != "") then 
 			{
 				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtSize, cTabTxtSize, 0, "", 0, 0.035,"TahomaB"];
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 			};
 	
 			if (_dir < 360) then
@@ -454,7 +454,7 @@ cTabOnDrawbftVeh = {
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 
 
 	} forEach cTabBFTlist;
@@ -475,12 +475,12 @@ cTabOnDrawbftVeh = {
 			if (cTabBFTtxt) then {_text = _x select 5;};
 			//hint str _x;
 		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 
 			if (_texture2 != "") then 
 			{
 				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtSize, cTabTxtSize, 0, "", 0, 0.035,"TahomaB"];
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 			};
 	
 			if (_dir < 360) then
@@ -520,7 +520,7 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
-	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,0.035,"TahomaB"];
+	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
 	
 	{
 		_obj = _x select 0;
@@ -537,19 +537,19 @@ cTabOnDrawbftTAD = {
 				// check if air contact and player are in the same group group, if so, change _symbolColour
 				if (player in units _obj) then {
 					_groupIndex = _x select 3;
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
 					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,cTabAirGroupDummySize,0,0,_groupIndex,0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabTxtSize,"TahomaB","center"];
 				} else {
 					// draw air contact icon and dummy icon for the text to have a better alignment
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
 					//_cntrlScreen drawRectangle [[(_pos select 0) + 160 + 80,_pos select 1],160,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB"];
 				};
 			}
 			else
 			{
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabTxtSize,cTabTxtSize,0,_text,0,0.035,"TahomaB"];
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
 			};
 		};
 	} forEach cTabBFTlist;
@@ -567,11 +567,11 @@ cTabOnDrawbftTAD = {
 			_color = _x select 4;
 			_text = "";
 			if (cTabBFTtxt) then {_text = _x select 5;};
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 			if (_texture2 != "") then 
 			{
 				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtSize, cTabTxtSize, 0, "", 0, 0.035,"TahomaB"];
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 			};
 			if (_dir < 360) then
 			{
@@ -617,10 +617,10 @@ cTabOnDrawbftTADdialog = {
 	//ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,18,18,_heading,"", 1,0.035,"TahomaB"];
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
-	//_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,0.035,"TahomaB"];
+	//_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
 	
 	{
 		_obj = _x select 0;
@@ -637,19 +637,19 @@ cTabOnDrawbftTADdialog = {
 				// check if air contact and player are in the same group group, if so, change _symbolColour
 				if (player in units _obj) then {
 					_groupIndex = _x select 3;
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
 					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,cTabAirGroupDummySize,0,0,_groupIndex,0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabTxtSize,"TahomaB","center"];
 				} else {
 					// draw air contact icon and dummy icon for the text to have a better alignment
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
 					//_cntrlScreen drawRectangle [[(_pos select 0) + 160 + 80,_pos select 1],160,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,0.035,"TahomaB"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB"];
 				};
 			}
 			else
 			{
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabTxtSize,cTabTxtSize,0,_text,0,0.035,"TahomaB"];
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
 			};
 		};
 	} forEach cTabBFTlist;
@@ -667,11 +667,11 @@ cTabOnDrawbftTADdialog = {
 			_color = _x select 4;
 			_text = "";
 			if (cTabBFTtxt) then {_text = _x select 5;};
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 			if (_texture2 != "") then 
 			{
 				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtSize, cTabTxtSize, 0, "", 0, 0.035,"TahomaB"];
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 			};
 			if (_dir < 360) then
 			{
@@ -718,7 +718,7 @@ cTabOnDrawbftAndroid = {
 		
 		if (cTabBFTtxt) then {_text = _x select 2;};
 		
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 
 
 	} forEach cTabBFTlist;
@@ -739,12 +739,12 @@ cTabOnDrawbftAndroid = {
 			if (cTabBFTtxt) then {_text = _x select 5;};
 			//hint str _x;
 		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabTxtSize, cTabTxtSize, 0, _text, 0, 0.035,"TahomaB"];
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
 
 			if (_texture2 != "") then 
 			{
 				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabTxtSize, cTabTxtSize, 0, "", 0, 0.035,"TahomaB"];
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 			};
 	
 			if (_dir < 360) then
@@ -771,7 +771,7 @@ cTabOnDrawUAV = {
 	_cntrlScreen = _display displayCtrl 1774;
 	_pos = getPosASL cTabActUav;
 	
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_uav.paa",cTabColorBlue,_pos,cTabTxtSize,cTabTxtSize,0,"",0,0.035,"TahomaB"];
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_uav.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,"",0,cTabTxtSize,"TahomaB"];
 	
 	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
@@ -786,7 +786,7 @@ cTabOnDrawHCam = {
 	_cntrlScreen = _display displayCtrl 1774;
 	_pos = getPosASL cTabActHcam;
 	
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_inf.paa",cTabColorBlue,_pos, cTabTxtSize, cTabTxtSize, 0, "", 0, 0.035,"TahomaB"];
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_inf.paa",cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 	
 	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
@@ -1033,8 +1033,12 @@ cTab_fnc_update_lists = {
 				if (_x isKindOf "Car_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
 				if (_x isKindOf "Wheeled_APC_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
 				if (_x isKindOf "Truck_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
+				if (_x isKindOf "UAV") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
 				if (_x isKindOf "Helicopter") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
 				if (_x isKindOf "Plane") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
+				if (_x isKindOf "MBT_01_arty_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
+				if (_x isKindOf "MBT_01_mlrs_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
+				if (_x isKindOf "MBT_02_arty_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
 				if (_x isKindOf "Tank") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
 			};
 			
