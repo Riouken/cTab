@@ -1284,4 +1284,92 @@ cTab_hCam_Full_View = {
 		closeDialog 0;
 		cTabHCamViewActive = true;		
 	};
+};
+
+// Function to find the closest marker to the places cursor.
+cTabFindCloseUsrMkr = {
+	
+	private["_posToCheck","_i"];
+	_posToCheck = _this select 0;
+	_closestUsrMkr = 0;
+	_closestDistanceToMkr = 20000;
+	_setFirstAsClose = true;
+	_return = (count cTabUserIconList) - 1;
+	_distanceCheck = 0;
+	_arrayToBeCheckedPos = [];
+			
+	// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+	{
+		_arrayToBeCheckedPos = _x select 0;
+		
+		_distanceCheck = _arrayToBeCheckedPos distance _posToCheck;
+		
+		if (_setFirstAsClose) then {
+			
+			_closestUsrMkr = _forEachIndex;
+			_closestDistanceToMkr = _distanceCheck;	
+			_setFirstAsClose = false;	
+		} else
+		{
+			if (_distanceCheck < _closestDistanceToMkr) then
+			{
+				_closestUsrMkr = _forEachIndex;
+				_closestDistanceToMkr = _distanceCheck;
+			};
+			
+		};		
+	
+		_return = _closestUsrMkr;
+		
+	} forEach cTabUserIconList;
+	
+
+_return;	
+};
+
+
+
+// Key handler to call for deleteing of user placed markers based on user cursor.
+cTabDeleteUsrMkr = {
+	
+	private["_keyData", "_mapCtrl", "_mKey", "_mXPos", "_mYPos", "_mCtrlBool"];
+	
+	_keyData = _this select 3;
+	
+	_mKey = _keyData select 1;
+	_mXPos = _keyData select 2;
+	_mYPos = _keyData select 3;
+	_mCtrlBool = _keyData select 5;
+	
+	disableSerialization;
+	_dsp = _this select 0;
+	_mainPop = _this select 1;
+	_cntrlScreen = _this select 2;
+	_sendingCtrlArry = _this select 3;
+	_display = (uiNamespace getVariable _dsp);
+	_mainPopup = _display displayCtrl _mainPop; // 3300
+	_cntrlScreen = _display displayCtrl _cntrlScreen;  // 1201
+	
+	// Check if right mouse button is pressed (RMB)
+	if (_mKey == 1) then 
+	{		
+		if (_mCtrlBool) then 
+		{
+			if ((count cTabUserIconList) > 0) then
+			{
+				_tempPosToCheck = _cntrlScreen ctrlMapScreenToWorld [_mXPos,_mYPos];
+				_findCloseMarker = [_tempPosToCheck] call cTabFindCloseUsrMkr;
+			
+				// Thanks to KK for this great work around for delteing and resizing arrays of arrays: http://killzonekid.com/arma-scripting-tutorials-arrays-part-2/
+				cTabUserIconList set [_findCloseMarker,"deletethis"];
+				cTabUserIconList = cTabUserIconList - ["deletethis"];
+				publicVariable "cTabUserIconList";
+			};
+				
+		};
+		
+	
+	};
+	
+	
 };	

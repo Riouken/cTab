@@ -72,7 +72,7 @@ class cTab_main_dlg {
 				h = 13.4444 * GUI_GRID_H;
 				onDraw = "nop = [] call cTabOnDrawbft;";
 				onMouseButtonDblClick = "_ok = ['cTab_main_dlg',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
-				
+				onMouseButtonDown = "_ok = ['cTab_main_dlg',3300,1201,_this] spawn cTabDeleteUsrMkr;";
 			};
 				
 			

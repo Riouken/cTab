@@ -44,6 +44,7 @@ class cTab_Android_dlg {
 				h = 11 * GUI_GRID_H;
 				onDraw = "nop = [] call cTabOnDrawbftAndroid;";
 				onMouseButtonDblClick = "_ok = ['cTab_Android_dlg',3300,17354,_this] execVM 'cTab\bft\userload.sqf';";
+				onMouseButtonDown = "_ok = ['cTab_Android_dlg',3300,17354,_this] spawn cTabDeleteUsrMkr;";
 			};
 			
 	};

@@ -32,7 +32,8 @@ class cTab_Veh_dlg {
 				w = 36.5 * GUI_GRID_W;
 				h = 28 * GUI_GRID_H;
 				onDraw = "nop = [] call cTabOnDrawbftVeh;";
-				onMouseButtonDblClick = "_ok = ['cTab_Veh_dlg',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";				
+				onMouseButtonDblClick = "_ok = ['cTab_Veh_dlg',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
+				onMouseButtonDown = "_ok = ['cTab_Veh_dlg',3300,1201,_this] spawn cTabDeleteUsrMkr;";				
 			};
 			
 			

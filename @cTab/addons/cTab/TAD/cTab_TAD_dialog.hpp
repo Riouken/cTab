@@ -29,6 +29,7 @@ class cTab_TAD_dialog
 				h = cTab_GUI_TAD_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
 				onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
 				onMouseButtonDblClick = "_ok = ['cTab_TAD_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
+				onMouseButtonDown = "_ok = ['cTab_TAD_dialog',3300,1201,_this] spawn cTabDeleteUsrMkr;";
 				// set initial map scale
 				scaleDefault = "(missionNamespace getVariable 'cTabTADmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor') * 0.86 / (safezoneH * 0.8)";
 			};
