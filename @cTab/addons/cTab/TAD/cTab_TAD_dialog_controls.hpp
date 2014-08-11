@@ -225,13 +225,13 @@ class cTab_RscText_TAD: cTab_RscText
 	colorBackground[] = COLOR_BLACK;
 	shadow = 0;
 };
-class cTab_RscHTML_TAD_upDownArrow: cTab_RscPicture
+class cTab_TAD_upDownArrow: cTab_RscPicture
 {
 	w = cTab_GUI_TAD_OSD_ELEMENT_STD_W / GUI_GRID_PX_W * GUI_GRID_W;
 	h = cTab_GUI_TAD_OSD_ICON_H / GUI_GRID_PX_H * GUI_GRID_H;
 	colorText[] = COLOR_NEON_GREEN;
 	colorBackground[] = COLOR_BLACK;
-	text = "\a3\ui_f\data\IGUI\Cfg\Actions\autohover_ca.paa"
+	text = "\a3\ui_f\data\IGUI\Cfg\Actions\autohover_ca.paa";
 };
 class cTab_TAD_RscMapControl: cTab_RscMapControl
 {

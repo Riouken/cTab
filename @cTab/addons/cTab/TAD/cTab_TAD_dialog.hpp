@@ -48,7 +48,7 @@ class cTab_TAD_dialog
 		class cursor: cTab_RscPicture
 		{
 			idc = -1;
-			text = "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
+			text = "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa";
 				// "\a3\ui_f\data\map\Markers\Military\destroy_ca.paa";
 				// "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
 				// "\a3\ui_f\data\map\MarkerBrushes\cross_ca.paa"
@@ -57,7 +57,7 @@ class cTab_TAD_dialog
 			w = 128 / 33 * cTab_GUI_TAD_CURSOR / GUI_GRID_PX_W * GUI_GRID_W;
 			h = 128 / 33 * cTab_GUI_TAD_CURSOR / GUI_GRID_PX_H * GUI_GRID_H;
 			colorText[] = COLOR_NEON_GREEN;
-		}
+		};
 		class on_screen_mode: cTab_RscText_TAD
 		{
 			idc = 1204;
@@ -122,7 +122,7 @@ class cTab_TAD_dialog
 			x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 			y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 		};
-		class on_screen_toggleIcon: cTab_RscHTML_TAD_upDownArrow
+		class on_screen_toggleIcon: cTab_TAD_upDownArrow
 		{
 			idc = -1;
 			x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
