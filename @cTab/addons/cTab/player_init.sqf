@@ -198,7 +198,9 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0 && {!(_player in (assignedCargo _vehicle))}) exitWith {
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0 && {
+			!((_player in (assignedCargo _vehicle)) && {[typeOf _vehicle] call BIS_fnc_crewCount >= 3})
+		}) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 		true
 	};
