@@ -956,6 +956,11 @@ cTabUavTakeControl = {
 		 cTabActUav switchCamera "Gunner";
 		closeDialog 0;
 		cTabUavViewActive = true;
+		[cTabActUav] spawn {
+			_remote = _this select 0;
+			waitUntil {cameraOn != _remote};
+			cTabUavViewActive = false;
+		};
 	}else
 	{
 	
@@ -1270,5 +1275,10 @@ cTab_hCam_Full_View = {
 		(vehicle cTabActHcam) switchCamera "EXTERNAL";
 		closeDialog 0;
 		cTabHCamViewActive = true;		
+	};
+	[cTabActHcam] spawn {
+		_remote = _this select 0;
+		waitUntil {cameraOn != _remote};
+		cTabHCamViewActive = false;
 	};
 };	
