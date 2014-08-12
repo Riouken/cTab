@@ -6,6 +6,8 @@
 #define GUI_TAD_W	(0.86)
 #define GUI_TAD_H	(0.86)
 
+#define cTab_TAD_DLGtoDSP_fctr (1)
+
 #define GUI_GRID_X	(safeZoneX + GUI_MARGIN_X * 3/4)
 #define GUI_GRID_Y	(safeZoneY + safeZoneH - GUI_TAD_H - GUI_MARGIN_Y)
 #define GUI_GRID_W	(GUI_TAD_W * 3/4)

@@ -266,17 +266,17 @@ class cTab_TAD_RscMapControl: cTab_RscMapControl
 	colorMainRoadsFill[] = {1.0,0.6,0.4,1.0};
 
 	// Rendering density coefficients
-	ptsPerSquareSea = 8;		// seas
-	ptsPerSquareTxt = 8;		// textures
-	ptsPerSquareCLn = 8;		// count-lines
-	ptsPerSquareExp = 8;		// exposure
-	ptsPerSquareCost = 8;		// cost
+	ptsPerSquareSea = 8 / cTab_TAD_DLGtoDSP_fctr;		// seas
+	ptsPerSquareTxt = 8 / cTab_TAD_DLGtoDSP_fctr;		// textures
+	ptsPerSquareCLn = 8 / cTab_TAD_DLGtoDSP_fctr;		// count-lines
+	ptsPerSquareExp = 8 / cTab_TAD_DLGtoDSP_fctr;		// exposure
+	ptsPerSquareCost = 8 / cTab_TAD_DLGtoDSP_fctr;		// cost
 
 	// Rendering thresholds
-	ptsPerSquareFor = 1;		// forests
-	ptsPerSquareForEdge = 4.0;	// forest edges
-	ptsPerSquareRoad = 0.5;		// roads
-	ptsPerSquareObj = 4;		// other objects
+	ptsPerSquareFor = 2 / cTab_TAD_DLGtoDSP_fctr;		// forests
+	ptsPerSquareForEdge = 4 / cTab_TAD_DLGtoDSP_fctr;	// forest edges
+	ptsPerSquareRoad = 2 / cTab_TAD_DLGtoDSP_fctr;		// roads
+	ptsPerSquareObj = 4 / cTab_TAD_DLGtoDSP_fctr;		// other objects
 
 	/*
 	// replace CustomMark with wedding cake icon

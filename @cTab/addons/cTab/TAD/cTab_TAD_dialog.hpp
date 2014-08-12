@@ -3,6 +3,8 @@
 #define GUI_GRID_W	(safezoneH * 0.8 * 3/4)
 #define GUI_GRID_H	(safezoneH * 0.8)
 
+#define cTab_TAD_DLGtoDSP_fctr (0.86 / GUI_GRID_H)
+
 #include <cTab_TAD_dialog_controls.hpp>
 
 #define MENU_GRID_X	(0)
