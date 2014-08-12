@@ -61,8 +61,8 @@ You can reconfigure the keys in the configuration file, which can be found in th
 | --- | --- |
 | `H` | This key is used to open and close whatever cTab device is available to you. It can also be used to close UAV and Helmet Cam views. |
 | `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft. |
-| `CTRL` + `SHIFT` `NUM_+` | Zoom in on the "small" TAD. |
-| `CTRL` + `SHIFT` `NUM_-` | Zoom out on th "small" TAD. |
+| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD. |
+| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD. |
 | `ESC` | Closes all interactive cTab devices (i.e. all but the "small" TAD) as well as the UAV and Helmet Cam views. |
 
 ### Define vehicle types that have FBCB2 or TAD available ###

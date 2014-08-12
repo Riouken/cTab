@@ -805,8 +805,8 @@ cTabOnDrawHCam = {
 	} else {
 		[actionKeys "User12" select 0, [false,false,false], {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
 		[actionKeys "User12" select 0, [false,true,false], {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
-		[actionKeys "ZoomIn" select 0, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
-		[actionKeys "ZoomOut" select 0, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+		[201, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[209, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
 	};
 };
 

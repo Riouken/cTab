@@ -20,14 +20,14 @@ class cTab_keys {
 	};
 	
 	class zoom_in {
-		key = 78; // NUM_+
+		key = 201; // PAGE_UP
 		ctrl = 1;
 		shift = 1;
 		alt = 0;
 	};
 	
 	class zoom_out {
-		key = 74; // NUM_-
+		key = 209; // PAGE_DOWN
 		ctrl = 1;
 		shift = 1;
 		alt = 0;
