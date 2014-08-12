@@ -192,7 +192,7 @@ cTab_fnc_onIfMainPressed = {
 	};
 	
 	// -- todo - update to CBA_fnc_find to increase performance in EH.
-	if ([_player,"ItemcTab"] call cTab_fnc_checkGear) exitWith {
+	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		true
 	};
@@ -205,7 +205,7 @@ cTab_fnc_onIfMainPressed = {
 	};
 	
 	// -- todo - update to CBA_fnc_find to increase performance in EH.
-	if ([_player,"ItemAndroid"] call cTab_fnc_checkGear) exitWith {
+	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
 		true
 	};
@@ -226,7 +226,7 @@ cTab_fnc_onIfSecondaryPressed = {
 			// close Main
 			call cTab_fnc_close;
 		};
-		if ([_player,"ItemcTab"] call cTab_fnc_checkGear) then {
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {
 			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		} else {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
@@ -967,14 +967,13 @@ _return;
 
 /*
 fnc to check a units gear for certain items
-Param 0: Unit to check
-Param 1: Item (string) or array of items to search for
+Param 0: Unit object to check
+Param 1: Array of items to search for
 */
 cTab_fnc_checkGear = {
 	_return = false;
 	_unit = _this select 0;
-	_items = [];
-	if (typeName (_this select 1) != "ARRAY") then {_items = [_this select 1]} else {_items = _this select 1};
+	_items = _this select 1;
 	
 	_chk_all_items = (items _unit) + (assignedItems _unit);
 	
@@ -1001,7 +1000,7 @@ cTab_fnc_update_lists = {
 				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 			};
 			
-			if ([_x,"ItemcTabHCam"] call cTab_fnc_checkGear) then
+			if ([_x,["ItemcTabHCam"]] call cTab_fnc_checkGear) then
 			{
 				_cTabHcamlist set [count _cTabHcamlist,_x];
 			};
@@ -1089,7 +1088,7 @@ cTab_msg_gui_load =
 	
 	{
 		_index = _plrlistControl lbAdd name _x;
-		if (!([_x,"ItemcTab"] call cTab_fnc_checkGear)) then { _plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];};
+		if (!([_x,["ItemcTab"]] call cTab_fnc_checkGear)) then { _plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];};
 		
 	} forEach _plrList;
 	
@@ -1173,7 +1172,7 @@ cTab_msg_Send =
 	   
 	   player setVariable ["ctab_messages",_msgarry];
 	   
-	   if ([player,"ItemcTab"] call cTab_fnc_checkGear) then 
+	   if ([player,["ItemcTab"]] call cTab_fnc_checkGear) then 
 	   {
 			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
 	   
