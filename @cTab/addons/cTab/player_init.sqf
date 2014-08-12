@@ -1152,6 +1152,9 @@ cTab_msg_Send =
 	_plrList = (uiNamespace getVariable "cTab_msg_playerList");
 	
 	_indices = lbSelection _plrLBctrl;
+	
+	if (_indices isEqualTo []) exitWith {false};
+	
 	_hr = date select 3;
 	_min = date select 4;
 	_msgTitle = str _hr + ":"+ str _min + " - " + name player;
