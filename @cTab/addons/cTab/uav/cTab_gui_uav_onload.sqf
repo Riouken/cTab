@@ -14,8 +14,5 @@ _display = (uiNamespace getVariable "cTab_UAV_dlg");
 _uavListctrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
 
 {
-	_index = _uavListctrl lbAdd (str _x);
+	if (!(crew _x isEqualTo [])) then {_index = _uavListctrl lbAdd (str _x)};
 } forEach allUnitsUav;
-
-
-
