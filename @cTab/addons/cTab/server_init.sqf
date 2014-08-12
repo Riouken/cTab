@@ -8,7 +8,7 @@
 if (isArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_FBCB2")) then {
 	cTab_vehicleClass_has_FBCB2_server = getArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_FBCB2");
 } else {
-	cTab_vehicleClass_has_FBCB2_server = ["MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"];
+	cTab_vehicleClass_has_FBCB2_server = ["MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"];
 };
 publicVariable "cTab_vehicleClass_has_FBCB2_server";
 

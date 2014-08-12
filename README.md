@@ -69,7 +69,7 @@ You can reconfigure the keys in the configuration file, which can be found in th
 To configure the list of vehicle types that have FBCB2 or TAD available, edit the `cTab_vehicleClass_has_FBCB2` and `cTab_vehicleClass_has_TAD` arrays in the configuration file on the server, wich can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`.
 
     class cTab_settings {
-        cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","Wheeled_APC_F","Tank","Truck_01_base_F"};
+        cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"};
         cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
     };
 
@@ -103,7 +103,7 @@ You can only have cTab available for one side. If you want cTab available on the
 If you wish to override the list of vehicles that have FBCB2 or TAD available, put this at the **TOP** of your `init.sqf`:
 
     // only make FBCB2 available to MRAPs, APCs and tanks
-    cTab_vehicleClass_has_FBCB2 = ["MRAP_01_base_F","Wheeled_APC_F"];
+    cTab_vehicleClass_has_FBCB2 = ["MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank"];
     
     // make TAD available to all helicopters and planes with the exception of the MH-9 Hummingbird and AH-9 Pawnee
     cTab_vehicleClass_has_TAD = ["Heli_Attack_01_base_F","Heli_Attack_02_base_F","Heli_Light_02_base_F","Heli_Transport_01_base_F","Heli_Transport_02_base_F","I_Heli_light_03_base_F","Plane"];
