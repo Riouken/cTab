@@ -23,7 +23,7 @@ class CfgPatches
 	class PREFIX  // cTab
 		{
 			units[] = {Box_cTab_items};
-			weapons[] = {};
+			weapons[] = {ItemcTab,ItemAndroid,ItemcTabHCam};
 			requiredVersion = REQUIRED_VERSION;
 			requiredAddons[] = {"CBA_MAIN"};
 			versionDesc = "cTab";
