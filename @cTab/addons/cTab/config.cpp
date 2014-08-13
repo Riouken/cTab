@@ -10,11 +10,12 @@
 #define MAJOR 2
 #define MINOR 0
 #define PATCHLVL 0
-#define BUILD 1
+#define BUILD 2
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 #define REQUIRED_VERSION 1.0
 #include "\x\cba\addons\main\script_macros_common.hpp"
+#define AUTHOR "Riouken & Gundy"
 
 
 class CfgPatches
