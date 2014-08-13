@@ -99,7 +99,7 @@ If you wish to use cTab on a different side than Bluefore, put this at the **TOP
 Change `east` to what ever side you wish to have cTab available on (i.e. `guer`).
 You can only have cTab available for one side. If you want cTab available on the west side or NATO then you do not need to include this.
 
-### Overried vehicle types that have FBCB2 or TAD available ###
+### Override vehicle types that have FBCB2 or TAD available ###
 If you wish to override the list of vehicles that have FBCB2 or TAD available, put this at the **TOP** of your `init.sqf`:
 
     // only make FBCB2 available to MRAPs, APCs and tanks
@@ -117,18 +117,20 @@ Changelog
   Send text messages between team members equipped with tablets.
 * Addition of cTab equipment box to be used in editor
   A simple box filled with your favourite cTab equipment. Includes 5 Tablets, 15 Android devices and 25 helmet cameras. The box is also available to Zeus.
+* Tablet, Android and helmet camera are now available in Zeus when editing the contents of boxes
 * Addition of TAD (Tactical Awareness Display) for use in air vehicles.
   There are two variants, one is small and can be kept visible while operating your aircraft, similar to the GPS but populated with information from your cTab network. The map will be kept centred on your current position. In the upper right hand corner of the screen you can see the current scale represented by the radius of the outer circle. The inner circle is exactly half of that.
   The other variant is a larger representation of the same TAD, but in an interactive mode and *you will lose your vehicle controls* while open.
   Overall the TAD has been modelled to have a similar look to the TAD found in the DCS A-10C module.
-  All friendly aircraft icons are replaced with a little circle attached symbol that has a small line attached to it, representing the current orientation of that vehicle.
+  All friendly aircraft icons are replaced with a little circle that has a small line attached to it, representing the current orientation of that vehicle.
   When in one of the pilot seats of an aircraft, press `IF_Main` to open or close the small TAD. Use the new `Zoom_In` and `Zoom_Out` keys to zoom the small TAD. `IF_Secondary` opens the large TAD.
 * Addition of userconfig for key bindings
   This frees up the previously used `UserAction12`.
 * Addition of vehicle arrays to userconfig (server side) to define vehicles equipped with on-board FBCB2 or TAD
   The lists will be read by the server and distributed to all clients. It can also be overridden by mission makers.
 * cTab now closes when exiting a vehicle or when the player is killed
-* Players sitting in the cargo area of an FBCB2 enabled vehicle will no longer have access to the vehicle based FBCB2.
+* Added Ifrit, Strider and Tempest to the default list of FBCB2 enabled vehicles.
+* Players sitting in the cargo area of an FBCB2 enabled vehicle will no longer have access to the vehicle based FBCB2. The currently known exceptions are the trucks (HMTT and Tempest), they are working as before. We are waiting on a new command in ArmA3 release 1.26 to hopefully be able to address this.
 * Fixed error appearing when helmet cam screen was selected on the tablet for the first time
 * Added artillery and mortar symbols
 * The increase / decrease font function now actually resizes the fonts (in addition to the symbols as before)
