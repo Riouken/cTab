@@ -98,7 +98,8 @@ class CfgWeapons
 		simulation = "ItemGPS";
 		class ItemInfo {
 			mass = 1;
-		};	
+		};
+		author = AUTHOR;
 	};
 	
 	class ItemAndroid: ItemcTab {
@@ -110,7 +111,8 @@ class CfgWeapons
 		simulation = "ItemGPS";
 		class ItemInfo {
 			mass = 1;
-		};	
+		};
+		author = AUTHOR;
 	};
 	
 	class ItemcTabHCam: ItemCore {
@@ -122,7 +124,8 @@ class CfgWeapons
 		simulation = "ItemRadio";
 		class ItemInfo {
 			mass = 1;
-		};	
+		};
+		author = AUTHOR;
 	};	
 };
 
