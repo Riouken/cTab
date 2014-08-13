@@ -29,8 +29,8 @@ class CfgPatches
 			versionDesc = "cTab";
 			versionAct = "";
 			VERSION_CONFIG;
-			author[] = {"Riouken"};
-			authorUrl = "http://forums.bistudio.com/member.php?64032-Riouken";
+			author[] = {"Riouken","Gundy"};
+			authorUrl = "https://github.com/Riouken/cTab";
 		};
 };
 
@@ -54,13 +54,15 @@ class CfgSettings
 class CfgMods {
 	class PREFIX {
 		dir = "@cTab";
-		name = "Commander's Tablet / FBCB2 - Blue Force Tracking";
+		name = "cTab - Blue Force Tracking";
 		picture = "\cTab\img\cTab_BFT_ico.paa";
 		hidePicture = "True";
 		hideName = "True";
 		actionName = "Website";
-		action = "http://dev-heaven.net/projects/cca";
-		description = "Battlefield tablet to access real time intel and blue force tracker.";
+		action = "https://github.com/Riouken/cTab";
+		overview = "Commander's Tablet / FBCB2 - Blue Force Tracking\nBattlefield tablet to access real time intel and blue force tracker.";
+		tooltip = "Commander's Tablet / FBCB2 - Blue Force Tracking";
+		author = AUTHOR;
 	};
 };
 
