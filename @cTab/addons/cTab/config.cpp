@@ -180,7 +180,7 @@ class CfgVehicles
 
 	class Box_NATO_WpsSpecial_F;
 	class Box_cTab_items : Box_NATO_WpsSpecial_F {
-		displayname = "cTab Computer Gear";
+		displayname = "[cTab] Computer Gear";
 		icon = "iconCrateLarge";
 		model = "\A3\weapons_F\AmmoBoxes\WpnsBox_large_F";
 		scope = 2;
