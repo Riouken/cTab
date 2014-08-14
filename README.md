@@ -50,7 +50,7 @@ Media
 
 Install
 -------
-Place the `@cTab` and `userconfig` folders in your ArmA 3 folder (both on the server and the clients). Then start the game with `@CBA_A3`and `@cTab`. It can be done either by enabling the necessary mods in the game settings (Settings -> Expansions), or by adding the mod names to the game shortcut after the EXE file, i.e. `…\arma3.exe -mod=@CBA_A3;@cTab`.
+Place the `@cTab` and `userconfig` folders in your ArmA 3 folder (both on the server and the clients). Then start the game with `@CBA_A3`and `@cTab`. It can be done either by enabling the necessary mods in the game settings (Settings -> Expansions), or by adding the mod names to the game shortcut after the EXE file, i.e. `...\arma3.exe -mod=@CBA_A3;@cTab`.
 
 The keys folder is for the server key.
 
