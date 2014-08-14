@@ -35,6 +35,7 @@ Known Issues
   [*BIS issue with command, please vote for a fix*](http://feedback.arma3.com/view.php?id=11577)
 + If your are viewing yourself from the UAV or Helmet Cam in PiP screen, your textures can bug on your unit
 + Even though items go into the GPS and radio slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
++ Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H` in the userconfig. This seems to only happen sometimes, sofar mostly for players playing Zeus.
 
 Required
 --------
