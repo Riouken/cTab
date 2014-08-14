@@ -8,9 +8,9 @@
 #define PREFIX cTab
 #define COMPONENT main
 #define MAJOR 2
-#define MINOR 0
+#define MINOR 1
 #define PATCHLVL 0
-#define BUILD 2
+#define BUILD 1
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 #define REQUIRED_VERSION 1.0
@@ -23,7 +23,7 @@ class CfgPatches
 	class PREFIX  // cTab
 		{
 			units[] = {Box_cTab_items};
-			weapons[] = {ItemcTab,ItemAndroid,ItemcTabHCam};
+			weapons[] = {ItemcTab,ItemAndroid,ItemMicroDAGR,ItemcTabHCam};
 			requiredVersion = REQUIRED_VERSION;
 			requiredAddons[] = {"CBA_MAIN"};
 			versionDesc = "cTab";
@@ -215,10 +215,14 @@ class CfgVehicles
 				count = 15;
 				name = "ItemAndroid";
 			};
+			class _xx_ItemMicroDAGR {
+				count = 25;
+				name = "ItemMicroDAGR";
+			};
 			class _xx_ItemcTabHCam {
 				count = 25;
 				name = "ItemcTabHCam";
-			};	
+			};
 		};
 	
 	
