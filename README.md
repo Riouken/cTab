@@ -22,10 +22,11 @@ Features
 + User placed makers - place markers for enemy, medical and general purpose
 + Tracks all crewed Bluefor Military vehicles
 + Tracks any dismounted troops with the proper equipment
-+ Android based BFT interface
++ Android based Blue Force Tracker
 + Commanders Tablet can view live UAV streams
 + Commanders Tablet can view live Helmet Cam streams
 + Vehicle mounted FBCB2 interface, Blue Force Tracking
++ Tactical Awareness Display (TAD) for air vehicles, Blue Force Tracking
 + This system is available to only one side at a time, there is a mission configurable parameter to choose sides
 + None of the markers or icons show on maps, need one of the devices to view
 
