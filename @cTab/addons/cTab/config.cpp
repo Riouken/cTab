@@ -111,6 +111,20 @@ class CfgWeapons
 			mass = 1;
 		};	
 	};
+
+	class ItemMicroDAGR: ItemcTab {
+		author = "Raspu";
+		descriptionshort = "HNV-2930 Micro Defense Advanced GPS Receiver";
+		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
+		displayname = "MicroDAGR";
+		picture = "\cTab\img\itemMicroDAGR_icon.paa";
+		scope = 2;
+		simulation = "ItemGPS";
+		model = "\ctab\itemMicroDAGR.p3d";
+		class ItemInfo {
+			mass = 2;
+		};	
+	};
 	
 	class ItemcTabHCam: ItemCore {
 		descriptionshort = "HD Helmet Mounted Camera";
