@@ -515,12 +515,6 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScale / cTabMapScaleFactor, _mapCentrePos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
-	
-	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
-	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
-	
 	{
 		_obj = _x select 0;
 		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
@@ -579,6 +573,12 @@ cTabOnDrawbftTAD = {
 			};
 		} forEach cTabUserIconList;
 	};
+	
+	// draw vehicle icon at own location
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	
+	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
+	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD
 	_hour = date select 3;
