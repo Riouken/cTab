@@ -1279,9 +1279,4 @@ cTab_hCam_Full_View = {
 		closeDialog 0;
 		cTabHCamViewActive = true;		
 	};
-	[cTabActHcam] spawn {
-		_remote = _this select 0;
-		waitUntil {cameraOn != _remote};
-		cTabHCamViewActive = false;
-	};
 };	
