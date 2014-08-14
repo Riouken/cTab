@@ -46,6 +46,8 @@ Media
 -----
 ![Tablet UAV screen](http://imagizer.imageshack.us/a/img802/7273/uhhi.jpg)
 ![Vehicle FBCB2](http://imagizer.imageshack.us/a/img28/5193/cauf.jpg)
+![TAD small](http://i.imgur.com/ZmluNrf)
+![TAD large](http://i.imgur.com/StmJHPg)
 [![cTab release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
 
 Install
@@ -137,3 +139,8 @@ Changelog
 * Added artillery and mortar symbols
 * The increase / decrease font function now actually resizes the fonts (in addition to the symbols as before)
 * General performance improvements and bug fixes
+
+Download / Links
+----------------
+[Armaholic](http://www.armaholic.com/page.php?id=22992)
+[GitHub](https://github.com/Riouken/cTab)
