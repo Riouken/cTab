@@ -120,7 +120,7 @@ class CfgWeapons
 		picture = "\cTab\img\itemMicroDAGR_icon.paa";
 		scope = 2;
 		simulation = "ItemGPS";
-		model = "\ctab\itemMicroDAGR.p3d";
+		model = "\ctab\data\itemMicroDAGR.p3d";
 		class ItemInfo {
 			mass = 2;
 		};	
