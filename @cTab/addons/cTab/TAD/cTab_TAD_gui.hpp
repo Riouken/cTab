@@ -6,6 +6,8 @@
 #define GUI_TAD_W	(0.86)
 #define GUI_TAD_H	(0.86)
 
+#define cTab_TAD_DLGtoDSP_fctr (1)
+
 #define GUI_GRID_X	(safeZoneX + GUI_MARGIN_X * 3/4)
 #define GUI_GRID_Y	(safeZoneY + safeZoneH - GUI_TAD_H - GUI_MARGIN_Y)
 #define GUI_GRID_W	(GUI_TAD_W * 3/4)
@@ -115,7 +117,7 @@ class cTab_TAD_dsp
 			x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 			y = (cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 		};
-		class on_screen_toggleIcon: cTab_RscHTML_TAD_upDownArrow
+		class on_screen_toggleIcon: cTab_TAD_upDownArrow
 		{
 			idc = -1;
 			x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;

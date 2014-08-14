@@ -184,7 +184,6 @@ cTab_fnc_onIfMainPressed = {
 	};
 	_player = player;
 	_vehicle = vehicle _player;
-	_chk_all_items = (items _player) + (assignedItems _player);
 	
 	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {_player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
 		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
@@ -193,18 +192,20 @@ cTab_fnc_onIfMainPressed = {
 	};
 	
 	// -- todo - update to CBA_fnc_find to increase performance in EH.
-	if (("ItemcTab" in _chk_all_items)) exitWith {
+	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		true
 	};
 	
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0 && {!(_player in (assignedCargo _vehicle))}) exitWith {
+	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0 && {
+			!((_player in (assignedCargo _vehicle)) && {[typeOf _vehicle] call BIS_fnc_crewCount >= 3})
+		}) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 		true
 	};
 	
 	// -- todo - update to CBA_fnc_find to increase performance in EH.
-	if ("ItemAndroid" in _chk_all_items) exitWith {
+	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
 		true
 	};
@@ -220,13 +221,12 @@ cTab_fnc_onIfSecondaryPressed = {
 	};
 	_player = player;
 	_vehicle = vehicle _player;
-	_chk_all_items = (items _player) + (assignedItems _player);
 	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {_player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
 		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
 			// close Main
 			call cTab_fnc_close;
 		};
-		if (("ItemcTab" in _chk_all_items)) then {
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {
 			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		} else {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
@@ -805,8 +805,8 @@ cTabOnDrawHCam = {
 	} else {
 		[actionKeys "User12" select 0, [false,false,false], {call cTab_fnc_onIfMainPressed},"keydown","cTab_1"] call CBA_fnc_addKeyHandler;
 		[actionKeys "User12" select 0, [false,true,false], {call cTab_fnc_onIfSecondaryPressed},"keydown","cTab_2"] call CBA_fnc_addKeyHandler;
-		[actionKeys "ZoomIn" select 0, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
-		[actionKeys "ZoomOut" select 0, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
+		[201, [true,true,false], {call cTab_fnc_onZoomInPressed},"keydown","cTab_3"] call CBA_fnc_addKeyHandler;
+		[209, [true,true,false], {call cTab_fnc_onZoomOutPressed},"keydown","cTab_4"] call CBA_fnc_addKeyHandler;
 	};
 };
 
@@ -956,6 +956,11 @@ cTabUavTakeControl = {
 		 cTabActUav switchCamera "Gunner";
 		closeDialog 0;
 		cTabUavViewActive = true;
+		[cTabActUav] spawn {
+			_remote = _this select 0;
+			waitUntil {cameraOn != _remote};
+			cTabUavViewActive = false;
+		};
 	}else
 	{
 	
@@ -965,34 +970,21 @@ cTabUavTakeControl = {
 _return;
 };
 
-// fnc to check players gear for ctab.
-cTabCheckGear = {
-	
-	_unit = _this select 0;
+/*
+fnc to check a units gear for certain items
+Param 0: Unit object to check
+Param 1: Array of items to search for
+*/
+cTab_fnc_checkGear = {
 	_return = false;
+	_unit = _this select 0;
+	_items = _this select 1;
 	
 	_chk_all_items = (items _unit) + (assignedItems _unit);
 	
-	if (("ItemcTab" in _chk_all_items) || ("ItemAndroid" in _chk_all_items)) then
 	{
-		_return = true;
-	};
-	
-	_return;
-};
-
-// fnc to check if unit has helmet cam.
-hCamCheckGear = {
-	
-	_unit = _this select 0;
-	_return = false;
-	
-	_chk_all_items = (items _unit) + (assignedItems _unit);
-	
-	if (("ItemcTabHCam" in _chk_all_items)) then
-	{
-		_return = true;
-	};
+		if (_x in _chk_all_items) exitWith {_return = true};
+	} forEach _items;
 	
 	_return;
 };
@@ -1005,7 +997,7 @@ cTab_fnc_update_lists = {
 	{
 		if (side _x == cTabSide) then
 		{
-			if ([_x] call cTabCheckGear) then
+			if ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then
 			{
 				_name = groupID (group _x);
 				_groupIndex = str([_x] call CBA_fnc_getGroupIndex);
@@ -1013,7 +1005,7 @@ cTab_fnc_update_lists = {
 				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 			};
 			
-			if ([_x] call hCamCheckGear) then
+			if ([_x,["ItemcTabHCam"]] call cTab_fnc_checkGear) then
 			{
 				_cTabHcamlist set [count _cTabHcamlist,_x];
 			};
@@ -1101,7 +1093,7 @@ cTab_msg_gui_load =
 	
 	{
 		_index = _plrlistControl lbAdd name _x;
-		if (!([_x] call cTabCheckGear)) then { _plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];};
+		if (!([_x,["ItemcTab"]] call cTab_fnc_checkGear)) then { _plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];};
 		
 	} forEach _plrList;
 	
@@ -1160,6 +1152,9 @@ cTab_msg_Send =
 	_plrList = (uiNamespace getVariable "cTab_msg_playerList");
 	
 	_indices = lbSelection _plrLBctrl;
+	
+	if (_indices isEqualTo []) exitWith {false};
+	
 	_hr = date select 3;
 	_min = date select 4;
 	_msgTitle = str _hr + ":"+ str _min + " - " + name player;
@@ -1185,7 +1180,7 @@ cTab_msg_Send =
 	   
 	   player setVariable ["ctab_messages",_msgarry];
 	   
-	   if ([player] call cTabCheckGear) then 
+	   if ([player,["ItemcTab"]] call cTab_fnc_checkGear) then 
 	   {
 			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
 	   
