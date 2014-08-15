@@ -236,6 +236,7 @@ cTab_fnc_onIfMainPressed = {
 
 // fnc handling IF_Secondary keydown event
 cTab_fnc_onIfSecondaryPressed = {
+	_return = false;
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) exitWith {
 		// close Secondary
 		call cTab_fnc_close;
@@ -248,12 +249,12 @@ cTab_fnc_onIfSecondaryPressed = {
 			// close Main
 			call cTab_fnc_close;
 		};
-		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
-		} else {
-			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+			_return = true;
 		};
+		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+		nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
@@ -261,18 +262,24 @@ cTab_fnc_onIfSecondaryPressed = {
 			// close Main
 			call cTab_fnc_close;
 		};
-		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
-		} else {
-			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) then {
-				nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
-			} else {
-				nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
-			};
+			_return = true;
 		};
+		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0 && {
+			!((_player in (assignedCargo _vehicle)) && {[typeOf _vehicle] call BIS_fnc_crewCount >= 3})
+		}) exitWith {
+			nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+			_return = true;
+		};
+		if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
+			nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
+			_return = true;
+		};
+		nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
 		true
 	};
-	false
+	_return
 };
 
 // fnc handling Zoom_In keydown event
