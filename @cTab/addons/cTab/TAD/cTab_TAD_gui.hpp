@@ -35,7 +35,7 @@ class cTab_TAD_dsp
 			h = cTab_GUI_TAD_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
 			onDraw = "nop = [] call cTabOnDrawbftTAD;";
 			// set initial map scale
-			scaleDefault = "(missionNamespace getVariable 'cTabTADmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor')";
+			scaleDefault = "missionNamespace getVariable 'cTabTADmapScaleCtrl'";
 			// hide grid lines
 			colorGrid[] = {0.1,0.1,0.1,0};
 			colorGridMap[] = {0.1,0.1,0.1,0};

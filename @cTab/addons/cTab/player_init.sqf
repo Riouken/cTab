@@ -21,13 +21,6 @@ cTabHcamlist = [];
 if (isnil ("cTabSide")) then {cTabSide = west;}; 
 
 /*
-TAD setup
-*/
-// Get a rsc layer for TAD monitor
-cTabTADrscLayer = ["cTab_TAD"] call BIS_fnc_rscLayer;
-// set initial TAD map scale in km
-cTabTADmapScale = 2;
-/*
  figure out the scaling factor based on the map being played
  on Stratis we have a map scaling factor of 3.125 km per ctrlMapScale
  Stratis map size is 8192 (Altis is 30720)
@@ -60,14 +53,19 @@ if (_mapSize == 0) then {
 	};
 };
 cTabMapScaleFactor = _mapSize / 2621.44;
+
+/*
+TAD setup
+*/
+// set initial TAD map scale in km
+cTabTADmapScale = 2;
+cTabTADmapScaleCtrl = cTabTADmapScale / cTabMapScaleFactor;
 // define min and max TAD map scales in km
 cTabTADmapScaleMin = 2;
 cTabTADmapScaleMax = 2 ^ round(sqrt(_mapSize / 1024));
-
 // set icon size of own vehicle on TAD
 cTabTADownIconBaseSize = 18;
 cTabTADownIconScaledSize = cTabTADownIconBaseSize / (0.86 / (safezoneH * 0.8));
-
 // set TAD font colour to neon green
 cTabTADfontColour = [57/255, 255/255, 20/255, 1];
 // set TAD group colour to purple
@@ -261,8 +259,12 @@ cTab_fnc_onIfSecondaryPressed = {
 // fnc handling Zoom_In keydown event
 cTab_fnc_onZoomInPressed = {
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
-		cTabTADmapScale = cTabTADmapScale / 2;
-		if (cTabTADmapScale < cTabTADmapScaleMin) then {cTabTADmapScale = cTabTADmapScaleMin};
+		if (cTabTADmapScale / 2 > cTabTADmapScaleMin) then {
+			cTabTADmapScale = cTabTADmapScale / 2;
+		} else {
+			cTabTADmapScale = cTabTADmapScaleMin;
+		};
+		cTabTADmapScaleCtrl = cTabTADmapScale / cTabMapScaleFactor;
 		call cTab_fnc_OSD_update;
 		true
 	};
@@ -272,8 +274,12 @@ cTab_fnc_onZoomInPressed = {
 // fnc handling Zoom_Out keydown event
 cTab_fnc_onZoomOutPressed = {
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
-		cTabTADmapScale = cTabTADmapScale * 2 ;
-		if (cTabTADmapScale > cTabTADmapScaleMax) then {cTabTADmapScale = cTabTADmapScaleMax};
+		if (cTabTADmapScale * 2 < cTabTADmapScaleMax) then {
+			cTabTADmapScale = cTabTADmapScale * 2;
+		} else {
+			cTabTADmapScale = cTabTADmapScaleMax;
+		};
+		cTabTADmapScaleCtrl = cTabTADmapScale / cTabMapScaleFactor;
 		call cTab_fnc_OSD_update;
 		true
 	};
@@ -531,9 +537,9 @@ cTabOnDrawbftTAD = {
 	
 	// current position
 	_mapCentrePos = getPosASL player;
-	_heading = direction player;
+	_heading = direction vehicle player;
 	// change scale of map and centre to player position
-	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScale / cTabMapScaleFactor, _mapCentrePos];
+	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _mapCentrePos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
@@ -631,9 +637,9 @@ cTabOnDrawbftTADdialog = {
 	
 	// current position
 	_mapCentrePos = getPosASL player;
-	_heading = direction player;
+	_heading = direction vehicle player;
 	// change scale of map and centre to player position
-	//_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScale / cTabMapScaleFactor, _mapCentrePos];
+	//_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _mapCentrePos];
 	//ctrlMapAnimCommit _cntrlScreen;
 	
 	// draw vehicle icon at own location
