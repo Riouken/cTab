@@ -14,8 +14,5 @@ _display = (uiNamespace getVariable "cTab_hCam_dlg");
 _hcamListctrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
 
 {
-	_index = _hcamListctrl lbAdd (str _x);
+	_index = _hcamListctrl lbAdd format ["%2 (%1)",groupId group _x,name _x];
 } forEach cTabHcamlist;
-
-
-
