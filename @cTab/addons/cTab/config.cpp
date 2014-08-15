@@ -87,6 +87,7 @@ class Extended_PostInit_EventHandlers
 #include <cTab_veh_gui.hpp>
 #include <\cTab\msg\msg_ctab_gui.hpp>
 #include <\cTab\TAD\cTab_TAD_dialog.hpp>
+#include <\cTab\microDAGR\cTab_microDAGR_dialog.hpp>
 
 class CfgWeapons
 {
@@ -191,6 +192,7 @@ class RscTitles
 	titles[]={};
 	#include <\cTab\msg\msg_mail_title.hpp>
 	#include <\cTab\TAD\cTab_TAD_gui.hpp>
+	#include <\cTab\microDAGR\cTab_microDAGR_display.hpp>
 };
 
 

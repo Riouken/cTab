@@ -191,6 +191,11 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
+	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
+		nul = [0,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_display_start.sqf";
+		true
+	};
+	
 	// -- todo - update to CBA_fnc_find to increase performance in EH.
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
@@ -231,6 +236,22 @@ cTab_fnc_onIfSecondaryPressed = {
 		} else {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
 			nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+		};
+		true
+	};
+	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
+		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
+			// close Main
+			call cTab_fnc_close;
+		};
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {
+			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
+		} else {
+			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) then {
+				nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
+			} else {
+				nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
+			};
 		};
 		true
 	};
@@ -761,6 +782,106 @@ cTabOnDrawbftAndroid = {
 _return;
 };
 
+// This is drawn every frame on the microDAGR display. fnc
+cTabOnDrawbftmicroDAGRdsp = {
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_microDAGR_dsp");
+	_cntrlScreen = _display displayCtrl 1201;
+	
+	// current position
+	_mapCentrePos = getPosASL player;
+	// _heading = direction player;
+	// change scale of map and centre to player position
+	_mapScale = ctrlMapScale _cntrlScreen;
+	_cntrlScreen ctrlMapAnimAdd [0, _mapScale, _mapCentrePos];
+	ctrlMapAnimCommit _cntrlScreen;
+	
+	{
+		_obj = _x select 0;
+		_texture = _x select 1;
+		_text = "";
+		_pos = getPosASL _obj;
+		if (cTabBFTtxt) then {_text = _x select 2;};
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+	} forEach cTabBFTlist;
+	
+	if ((count cTabUserIconList) != 0) then {
+		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+		{
+			_pos = _x select 0;
+			//_WorldCoordtmp = screenToWorld _pos;
+			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
+			_texture1 = _x select 1;
+			_texture2 = _x select 2;
+			_dir = _x select 3;
+			_color = _x select 4;
+			_text = "";
+			if (cTabBFTtxt) then {_text = _x select 5;};
+			//hint str _x;
+		
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+
+			if (_texture2 != "") then {
+				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
+			};
+	
+			if (_dir < 360) then {
+				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
+				_cntrlScreen drawArrow [_pos, _secondPos, _color];
+			};
+		} forEach cTabUserIconList;
+	};
+	
+	_return;
+};
+
+// This is drawn every frame on the microDAGR dialog. fnc
+cTabOnDrawbftMicroDAGRdlg = {
+	_return = true;
+	_display = (uiNamespace getVariable "cTab_microDAGR_dlg");
+	_cntrlScreen = _display displayCtrl 1201;
+	
+	{
+		_obj = _x select 0;
+		_texture = _x select 1;
+		_text = "";
+		_pos = getPosASL _obj;
+		if (cTabBFTtxt) then {_text = _x select 2;};
+		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+	} forEach cTabBFTlist;
+	
+	if ((count cTabUserIconList) != 0) then {
+		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
+		{
+			_pos = _x select 0;
+			//_WorldCoordtmp = screenToWorld _pos;
+			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
+			_texture1 = _x select 1;
+			_texture2 = _x select 2;
+			_dir = _x select 3;
+			_color = _x select 4;
+			_text = "";
+			if (cTabBFTtxt) then {_text = _x select 5;};
+			//hint str _x;
+		
+			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+
+			if (_texture2 != "") then {
+				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
+				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
+			};
+	
+			if (_dir < 360) then {
+				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
+				_cntrlScreen drawArrow [_pos, _secondPos, _color];
+			};
+		} forEach cTabUserIconList;
+	};
+	
+	_return;
+};
+
 // This is drawn every frame on the tablet uav screen. fnc
 cTabOnDrawUAV = {
 	if (isNil 'cTabActUav') exitWith {};
@@ -997,7 +1118,7 @@ cTab_fnc_update_lists = {
 	{
 		if (side _x == cTabSide) then
 		{
-			if ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then
+			if ([_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear) then
 			{
 				_name = groupID (group _x);
 				_groupIndex = str([_x] call CBA_fnc_getGroupIndex);
