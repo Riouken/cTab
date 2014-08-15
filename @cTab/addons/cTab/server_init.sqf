@@ -20,6 +20,14 @@ if (isArray (ConfigFile >> "cTab_settings" >> "cTab_vehicleClass_has_TAD")) then
 };
 publicVariable "cTab_vehicleClass_has_TAD_server";
 
+// define items that have a helmet camera and broadcast it
+if (isArray (ConfigFile >> "cTab_settings" >> "cTab_helmetClass_has_HCam")) then {
+	cTab_helmetClass_has_HCam_server = getArray (ConfigFile >> "cTab_settings" >> "cTab_helmetClass_has_HCam");
+} else {
+	cTab_helmetClass_has_HCam_server = ["H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"];
+};
+publicVariable "cTab_helmetClass_has_HCam_server";
+
 [] spawn {
 	waituntil {time > 0};
 	sleep .1;

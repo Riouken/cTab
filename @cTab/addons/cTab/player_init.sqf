@@ -129,6 +129,15 @@ if (isNil "cTab_vehicleClass_has_TAD") then {
 	};
 };
 
+// define items that enable head cam
+if (isNil "cTab_helmetClass_has_HCam") then {
+	if (!isNil "cTab_helmetClass_has_HCam_server") then {
+		cTab_helmetClass_has_HCam = cTab_helmetClass_has_HCam_server;
+	} else {
+		cTab_helmetClass_has_HCam = ["H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"];
+	};
+};
+
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
@@ -1211,6 +1220,25 @@ cTab_fnc_checkGear = {
 	_return;
 };
 
+/*
+fnc to check a units gear for certain items
+Param 0: Unit object to check
+Param 1: Array of items to search for
+*/
+cTab_fnc_checkHeadGear = {
+	_return = false;
+	_unit = _this select 0;
+	_items = _this select 1;
+	
+	_chk_all_items = [configfile >> "CfgWeapons" >> headgear _unit,true] call BIS_fnc_returnParents;
+	
+	{
+		if (_x in _chk_all_items) exitWith {_return = true};
+	} forEach _items;
+	
+	_return;
+};
+
 // Main loop to manage lists of people and veh that are shown in FBCB2
 cTab_fnc_update_lists = {
 	_cTabBFTlist = [];
@@ -1227,7 +1255,7 @@ cTab_fnc_update_lists = {
 				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
 			};
 			
-			if ([_x,["ItemcTabHCam"]] call cTab_fnc_checkGear) then
+			if ([_x,["ItemcTabHCam"]] call cTab_fnc_checkGear || {[_x,cTab_helmetClass_has_HCam] call cTab_fnc_checkHeadGear}) then
 			{
 				_cTabHcamlist set [count _cTabHcamlist,_x];
 			};
