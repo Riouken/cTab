@@ -708,15 +708,6 @@ cTabOnDrawbftTADdialog = {
 	// current position
 	_mapCentrePos = getPosASL player;
 	_heading = direction vehicle player;
-	// change scale of map and centre to player position
-	//_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _mapCentrePos];
-	//ctrlMapAnimCommit _cntrlScreen;
-	
-	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
-	
-	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
-	//_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
 	
 	{
 		_obj = _x select 0;
@@ -776,6 +767,9 @@ cTabOnDrawbftTADdialog = {
 			};
 		} forEach cTabUserIconList;
 	};
+	
+	// draw vehicle icon at own location
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD
 	_hour = date select 3;
