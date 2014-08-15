@@ -5,6 +5,6 @@
 // You may re-use any of this work as long as you provide credit back to me.
 // Edited by Gundy to add TAD functionality
 
-cTabTADrscLayer cutRsc ["cTab_microDAGR_dsp","PLAIN",0, false];
+cTabrscLayer cutRsc ["cTab_microDAGR_dsp","PLAIN",0, false];
 waitUntil {!isNull (uiNamespace getVariable 'cTab_microDAGR_dsp')};
 _this + [nil,'cTab_microDAGR_dsp'] call cTab_fnc_onIfOpen;

@@ -20,6 +20,9 @@ cTabHcamlist = [];
 
 if (isnil ("cTabSide")) then {cTabSide = west;}; 
 
+// Get a rsc layer for for our displays
+cTabrscLayer = ["cTab"] call BIS_fnc_rscLayer;
+
 /*
  figure out the scaling factor based on the map being played
  on Stratis we have a map scaling factor of 3.125 km per ctrlMapScale
