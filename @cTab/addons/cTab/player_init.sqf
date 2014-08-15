@@ -353,6 +353,32 @@ cTab_fnc_close = {
 	};
 };
 
+// fnc to fetch infantry marker, based on Shack Tactical ST_STHud_GetMarkerName
+cTab_fnc_GetInfMarkerIcon =
+{
+	private "_unit";
+	_unit = _this;
+	if (getNumber(configFile >> "CfgVehicles" >> typeOf(_unit) >> "attendant") == 1) exitWith {
+		"\A3\ui_f\data\map\vehicleicons\iconManMedic_ca.paa";
+	};
+	if (getNumber(configFile >> "CfgVehicles" >> typeOf(_unit) >> "engineer") == 1) exitWith {
+		"\A3\ui_f\data\map\vehicleicons\iconManEngineer_ca.paa";
+	};
+	if (leader(_unit) == _unit) exitWith {
+		"\A3\ui_f\data\map\vehicleicons\iconManLeader_ca.paa";
+	};
+	// This appears to be the most consistent way to detect that a weapon is an
+	// MG of some sort. These pictures are the overlays for the BIS team hud.
+	if (getText(configFile >> "CfgWeapons" >> primaryWeapon(_unit) >> "UIPicture") == "\a3\weapons_f\data\ui\icon_mg_ca.paa") exitWith {
+		"\A3\ui_f\data\map\vehicleicons\iconManMG_ca.paa";
+	};
+	// Do something similar for launchers.
+	if (getText(configFile >> "CfgWeapons" >> secondaryWeapon(_unit) >> "UIPicture") == "\a3\weapons_f\data\ui\icon_at_ca.paa") exitWith {
+		"\A3\ui_f\data\map\vehicleicons\iconManAT_ca.paa";
+	};
+	"\A3\ui_f\data\map\vehicleicons\iconMan_ca.paa";
+};
+
 // fnc to toggle text next to icons
 cTab_fnc_txt_tggl = {
 	if (cTabBFTtxt) then {cTabBFTtxt = false} else {cTabBFTtxt = true};
@@ -840,18 +866,29 @@ cTabOnDrawbftmicroDAGRdsp = {
 	
 	// current position
 	_mapCentrePos = getPosASL player;
-	// _heading = direction player;
+	_heading = direction vehicle player;
 	// change scale of map and centre to player position
 	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _mapCentrePos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	{
 		_obj = _x select 0;
-		_texture = _x select 1;
-		_text = "";
-		_pos = getPosASL _obj;
-		if (cTabBFTtxt) then {_text = _x select 2;};
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
+		if (!(player in _obj)) then
+		{
+			_texture = _x select 1;
+			_text = "";
+			_pos = getPosASL _obj;
+			// check if object is infantry, not currently in a vehicle and in the same group as the player
+			if (((vehicle _obj) isKindOf "Man") && {player in units _obj}) exitWith {
+				_texture = _obj call cTab_fnc_GetInfMarkerIcon;
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+			};
+			if (!((_obj isKindOf "Man") && {vehicle _obj != _obj})) then {
+				if (cTabBFTtxt) then {_text = _x select 2;};
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+			};
+		};
 	} forEach cTabBFTlist;
 	
 	if ((count cTabUserIconList) != 0) then {
@@ -881,6 +918,9 @@ cTabOnDrawbftmicroDAGRdsp = {
 			};
 		} forEach cTabUserIconList;
 	};
+	
+	// draw directional arrow at own location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	_return;
 };
@@ -891,13 +931,28 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_display = (uiNamespace getVariable "cTab_microDAGR_dlg");
 	_cntrlScreen = _display displayCtrl 1201;
 	
+	// current position
+	_mapCentrePos = getPosASL player;
+	_heading = direction vehicle player;
+	
 	{
 		_obj = _x select 0;
-		_texture = _x select 1;
-		_text = "";
-		_pos = getPosASL _obj;
-		if (cTabBFTtxt) then {_text = _x select 2;};
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
+		if (!(player in _obj)) then
+		{
+			_texture = _x select 1;
+			_text = "";
+			_pos = getPosASL _obj;
+			// check if object is infantry, not currently in a vehicle and in the same group as the player
+			if (((vehicle _obj) isKindOf "Man") && {player in units _obj}) exitWith {
+				_texture = _obj call cTab_fnc_GetInfMarkerIcon;
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+			};
+			if (!((_obj isKindOf "Man") && {vehicle _obj != _obj})) then {
+				if (cTabBFTtxt) then {_text = _x select 2;};
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+			};
+		};
 	} forEach cTabBFTlist;
 	
 	if ((count cTabUserIconList) != 0) then {
@@ -927,6 +982,9 @@ cTabOnDrawbftMicroDAGRdlg = {
 			};
 		} forEach cTabUserIconList;
 	};
+	
+	// draw directional arrow at own location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	_return;
 };
