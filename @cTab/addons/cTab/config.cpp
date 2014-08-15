@@ -91,7 +91,8 @@ class Extended_PostInit_EventHandlers
 
 class CfgWeapons
 {
-    class ItemCore;
+	class ItemCore;
+ 	class InventoryItem_Base_F;
 	class ItemcTab: ItemCore {
 		descriptionshort = "8 inch Rugged Tablet";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Commander's Tablet";
@@ -110,12 +111,6 @@ class CfgWeapons
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "Android Device";
 		picture = "\cTab\img\15th_android_2_ico.paa";
-		scope = 2;
-		simulation = "ItemGPS";
-		class ItemInfo {
-			mass = 1;
-		};
-		author = AUTHOR;
 	};
 
 	class ItemMicroDAGR: ItemcTab {
@@ -124,8 +119,6 @@ class CfgWeapons
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "MicroDAGR";
 		picture = "\cTab\img\itemMicroDAGR_icon.paa";
-		scope = 2;
-		simulation = "ItemGPS";
 		model = "\ctab\data\itemMicroDAGR.p3d";
 		class ItemInfo {
 			mass = 2;
@@ -138,11 +131,10 @@ class CfgWeapons
 		displayname = "Helmet Camera";
 		picture = "\cTab\img\cTab_helmet_cam_ico.paa";
 		scope = 2;
-		simulation = "ItemRadio";
-		class ItemInfo {
+		class ItemInfo: InventoryItem_Base_F {
 			mass = 1;
+			type = 201;
 		};
-		author = AUTHOR;
 	};	
 };
 
