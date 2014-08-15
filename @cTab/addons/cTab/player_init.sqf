@@ -75,6 +75,8 @@ cTabTADfontColour = [57/255, 255/255, 20/255, 1];
 cTabTADgroupColour = [25/255, 25/255, 112/255, 1];
 // set TAD highlight colour to neon yellow
 cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
+// Map type, 0 = SAT, 1 = TOPO, 3 = BLACK
+cTabTADmapType = 0;
 
 /*
 microDAGR setup
@@ -91,6 +93,9 @@ cTabMicroDAGRfontColour = [57/255, 255/255, 20/255, 1];
 cTabMicroDAGRgroupColour = [25/255, 25/255, 112/255, 1];
 // set TAD highlight colour to neon yellow
 cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
+
+// Map type, false = SAT, ture = TOPO
+cTabBFTmapType = false;
 
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.
 _r = profilenamespace getvariable ['Map_BLUFOR_R',0];
@@ -394,6 +399,17 @@ cTab_fnc_txt_tggl = {
 	call cTab_fnc_OSD_update;
 };
 
+cTab_fnc_map_tggl = {
+	if (cTabBFTmapType) then {cTabBFTmapType = false} else {cTabBFTmapType = true};
+	call cTab_fnc_OSD_update;
+};
+
+cTab_fnc_TAD_map_tggl = {
+	cTabTADmapType = cTabTADmapType +1;
+	if (cTabTADmapType> 2) then {cTabTADmapType = 0};
+	call cTab_fnc_OSD_update;
+};
+
 // fnc to increase icon and text size
 cTab_fnc_txt_size_inc = {
 	cTabTxtFctr = cTabTxtFctr + 1;
@@ -420,6 +436,64 @@ cTab_fnc_OSD_update = {
 			} else {
 				_cntrlScreen ctrlSetText "OFF";
 			};
+			_cntrlScreenPrevious = controlNull;
+			_cntrlScreenCurrent = controlNull;
+			_cntrlScreenNext = controlNull;
+			_text = "";
+			switch (cTabTADmapType) do {
+			    case 0: {
+			    	_cntrlScreenPrevious = _display displayCtrl 1202;
+					_cntrlScreenCurrent = _display displayCtrl 1203;
+					_cntrlScreenNext = _display displayCtrl 1201;
+					_text = "SAT"
+			    };
+			    case 1: {
+			    	_cntrlScreenPrevious = _display displayCtrl 1203;
+					_cntrlScreenCurrent = _display displayCtrl 1201;
+					_cntrlScreenNext = _display displayCtrl 1202;
+					_text = "TOPO"
+			    };
+			    case 2: {
+			    	_cntrlScreenPrevious = _display displayCtrl 1201;
+					_cntrlScreenCurrent = _display displayCtrl 1202;
+					_cntrlScreenNext = _display displayCtrl 1203;
+					_text = "BLK"
+			    };
+			};
+			_cntrlMapScale = ctrlMapScale _cntrlScreenCurrent;
+			_cntrlMapPos = _cntrlScreenCurrent ctrlMapScreenToWorld [0.5,0.5];
+			_cntrlScreenNext ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
+			ctrlMapAnimCommit _cntrlScreenNext;
+			_cntrlScreenNext ctrlShow true;
+			_cntrlScreenNext ctrlCommit 0;
+			_cntrlScreenCurrent ctrlShow false;
+			_cntrlScreenCurrent ctrlCommit 0;
+			_cntrlScreenPrevious ctrlShow false;
+			_cntrlScreenPrevious ctrlCommit 0;
+			_cntrlScreenMapTxt = _display displayCtrl 2611;
+			_cntrlScreenMapTxt ctrlSetText _text;
+		};
+		if (_dialogId == 1776134) exitWith {
+			_display = uiNamespace getVariable "cTab_microDAGR_dlg";
+			_cntrlScreenInactive = controlNull;
+			_cntrlScreenActive = controlNull;
+			if (cTabBFTmapType) then {
+				// show topo
+				_cntrlScreenInactive = _display displayCtrl 1201;
+				_cntrlScreenActive = _display displayCtrl 1202;
+			} else {
+				// show SAT
+				_cntrlScreenInactive = _display displayCtrl 1202;
+				_cntrlScreenActive = _display displayCtrl 1201;
+			};
+			_cntrlMapScale = ctrlMapScale _cntrlScreenInactive;
+			_cntrlMapPos = _cntrlScreenInactive ctrlMapScreenToWorld [0.509765625,0.4544049459];
+			_cntrlScreenActive ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
+			ctrlMapAnimCommit _cntrlScreenActive;
+			_cntrlScreenActive ctrlShow true;
+			_cntrlScreenActive ctrlCommit 0;
+			_cntrlScreenInactive ctrlShow false;
+			_cntrlScreenInactive ctrlCommit 0;
 		};
 	} else {
 		if (_displayCtrl == "cTab_TAD_dsp") exitWith {
@@ -434,6 +508,56 @@ cTab_fnc_OSD_update = {
 			} else {
 				_cntrlScreen ctrlSetText "OFF";
 			};
+			_cntrlScreenPrevious = controlNull;
+			_cntrlScreenCurrent = controlNull;
+			_cntrlScreenNext = controlNull;
+			_text = "";
+			switch (cTabTADmapType) do {
+			    case 0: {
+			    	_cntrlScreenPrevious = _display displayCtrl 1202;
+					_cntrlScreenCurrent = _display displayCtrl 1203;
+					_cntrlScreenNext = _display displayCtrl 1201;
+					_text = "SAT"
+			    };
+			    case 1: {
+			    	_cntrlScreenPrevious = _display displayCtrl 1203;
+					_cntrlScreenCurrent = _display displayCtrl 1201;
+					_cntrlScreenNext = _display displayCtrl 1202;
+					_text = "TOPO"
+			    };
+			    case 2: {
+			    	_cntrlScreenPrevious = _display displayCtrl 1201;
+					_cntrlScreenCurrent = _display displayCtrl 1202;
+					_cntrlScreenNext = _display displayCtrl 1203;
+					_text = "BLK"
+			    };
+			};
+			_cntrlScreenNext ctrlShow true;
+			_cntrlScreenNext ctrlCommit 0;
+			_cntrlScreenCurrent ctrlShow false;
+			_cntrlScreenCurrent ctrlCommit 0;
+			_cntrlScreenPrevious ctrlShow false;
+			_cntrlScreenPrevious ctrlCommit 0;
+			_cntrlScreenMapTxt = _display displayCtrl 2611;
+			_cntrlScreenMapTxt ctrlSetText _text;
+		};
+		if (_displayCtrl == "cTab_microDAGR_dsp") exitWith {
+			_display = uiNamespace getVariable _displayCtrl;
+			_cntrlScreenInactive = controlNull;
+			_cntrlScreenActive = controlNull;
+			if (cTabBFTmapType) then {
+				// show topo
+				_cntrlScreenInactive = _display displayCtrl 1201;
+				_cntrlScreenActive = _display displayCtrl 1202;
+			} else {
+				// show SAT
+				_cntrlScreenInactive = _display displayCtrl 1202;
+				_cntrlScreenActive = _display displayCtrl 1201;
+			};
+			_cntrlScreenActive ctrlShow true;
+			_cntrlScreenActive ctrlCommit 0;
+			_cntrlScreenInactive ctrlShow false;
+			_cntrlScreenInactive ctrlCommit 0;
 		};
 	};
 };
@@ -610,7 +734,12 @@ cTabOnDrawbftTAD = {
 	
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_TAD_dsp");
-	_cntrlScreen = _display displayCtrl 1201;
+	_cntrlScreen = controlNull;
+	call {
+		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl 1201;};
+		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl 1202;};
+		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl 1203;};
+	};
 	
 	//[_cntrlScreen] call cTab_fnc_draw_markers;
 	
@@ -696,10 +825,10 @@ cTabOnDrawbftTAD = {
 		_min = format ["0%1", _min];
 	};
 
-	(_display displayCtrl 1202) ctrlSetText format ["%1:%2", _hour, _min];
+	(_display displayCtrl 2613) ctrlSetText format ["%1:%2", _hour, _min];
 	
 	// update grid position on TAD
-	(_display displayCtrl 1203) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
+	(_display displayCtrl 2612) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
 	
 	_return;
 };
@@ -710,7 +839,12 @@ cTabOnDrawbftTADdialog = {
 	disableSerialization;
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_TAD_dialog");
-	_cntrlScreen = _display displayCtrl 1201;
+	_cntrlScreen = controlNull;
+	call {
+		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl 1201;};
+		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl 1202;};
+		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl 1203;};
+	};
 	
 	//[_cntrlScreen] call cTab_fnc_draw_markers;
 	
@@ -790,10 +924,10 @@ cTabOnDrawbftTADdialog = {
 		_min = format ["0%1", _min];
 	};
 
-	(_display displayCtrl 1202) ctrlSetText format ["%1:%2", _hour, _min];
+	(_display displayCtrl 2613) ctrlSetText format ["%1:%2", _hour, _min];
 	
 	// update grid position of the current map centre [0.5,0.5] on TAD
-	(_display displayCtrl 1203) ctrlSetText format ["%1", mapGridPosition (_cntrlScreen ctrlMapScreenToWorld [0.5,0.5])];
+	(_display displayCtrl 2612) ctrlSetText format ["%1", mapGridPosition (_cntrlScreen ctrlMapScreenToWorld [0.5,0.5])];
 	/*
 	// update current map scale on TAD
 	// divide by 2 because we want to display the radius, not the diameter
@@ -865,7 +999,12 @@ _return;
 cTabOnDrawbftmicroDAGRdsp = {
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_microDAGR_dsp");
-	_cntrlScreen = _display displayCtrl 1201;
+	_cntrlScreen = controlNull;
+	if (cTabBFTmapType) then {
+		_cntrlScreen = _display displayCtrl 1202;
+	} else {
+		_cntrlScreen = _display displayCtrl 1201;
+	};
 	
 	// current position
 	_mapCentrePos = getPosASL player;
@@ -885,7 +1024,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 			// check if object is infantry, not currently in a vehicle and in the same group as the player
 			if (((vehicle _obj) isKindOf "Man") && {player in units _obj}) exitWith {
 				_texture = _obj call cTab_fnc_GetInfMarkerIcon;
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTADownIconBaseSize, cTabTADownIconBaseSize, direction _obj, _text, 0, cTabTxtSize,"TahomaB"];
 			};
 			if (!((_obj isKindOf "Man") && {vehicle _obj != _obj})) then {
 				if (cTabBFTtxt) then {_text = _x select 2;};
@@ -932,7 +1071,12 @@ cTabOnDrawbftmicroDAGRdsp = {
 cTabOnDrawbftMicroDAGRdlg = {
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_microDAGR_dlg");
-	_cntrlScreen = _display displayCtrl 1201;
+	_cntrlScreen = controlNull;
+	if (cTabBFTmapType) then {
+		_cntrlScreen = _display displayCtrl 1202;
+	} else {
+		_cntrlScreen = _display displayCtrl 1201;
+	};
 	
 	// current position
 	_mapCentrePos = getPosASL player;
@@ -949,7 +1093,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 			// check if object is infantry, not currently in a vehicle and in the same group as the player
 			if (((vehicle _obj) isKindOf "Man") && {player in units _obj}) exitWith {
 				_texture = _obj call cTab_fnc_GetInfMarkerIcon;
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTADownIconBaseSize, cTabTADownIconBaseSize, direction _obj, _text, 0, cTabTxtSize,"TahomaB"];
 			};
 			if (!((_obj isKindOf "Man") && {vehicle _obj != _obj})) then {
 				if (cTabBFTtxt) then {_text = _x select 2;};

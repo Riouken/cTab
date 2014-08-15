@@ -24,16 +24,14 @@ class cTab_microDAGR_dlg
 			class screen: cTab_microDAGR_RscMapControl
 			{
 				idc = IDC_CTAB_SCREEN;
-				text = "#(argb,8,8,3)color(1,1,1,1)";
-				x = cTab_GUI_microDAGR_MAP_X / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-				y = cTab_GUI_microDAGR_MAP_Y / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-				w = cTab_GUI_microDAGR_MAP_W / GUI_GRID_PX_W * GUI_GRID_W;
-				h = cTab_GUI_microDAGR_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
 				onDraw = "nop = [] call cTabOnDrawbftMicroDAGRdlg;";
-				//onMouseButtonDblClick = "_ok = ['cTab_microDAGR_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
-				//onMouseButtonDown = "_ok = ['cTab_microDAGR_dialog',3300,1201,_this] spawn cTabDeleteUsrMkr;";
 				// set initial map scale
 				scaleDefault = "(missionNamespace getVariable 'cTabMicroDAGRmapScaleCtrl') * 0.86 / (safezoneH * 0.8)";
+			};
+			class screenTopo: screen
+			{
+				idc = IDC_CTAB_SCREEN_TOPO;
+				maxSatelliteAlpha = 0;
 			};
 	};
 
@@ -86,6 +84,12 @@ class cTab_microDAGR_dlg
 			idc = IDC_CTAB_BTNFN;
 			action = "call cTab_fnc_txt_tggl;";
 			tooltip = "Toggle Text on/off";
+		};
+		class btnMapType: cTab_RscButton_microDAGR_LeftUp
+		{
+			idc = -1;
+			action = "call cTab_fnc_map_tggl;";
+			tooltip = "Toggle Map Type";
 		};
 		/*
 		class on_screen_time: cTab_RscText_microDAGR

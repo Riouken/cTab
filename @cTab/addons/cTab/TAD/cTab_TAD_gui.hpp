@@ -25,14 +25,25 @@ class cTab_TAD_dsp
 	onLoad = "uiNamespace setVariable ['cTab_TAD_dsp', (_this select 0)];";
 	class controlsBackground
 	{
+		class mapBackground: cTab_TAD_Map_Background{};
 		class screen: cTab_TAD_RscMapControl
 		{
 			idc = IDC_CTAB_SCREEN;
-			text = "#(argb,8,8,3)color(1,1,1,1)";
-			x = cTab_GUI_TAD_MAP_X / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-			y = cTab_GUI_TAD_MAP_Y / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-			w = cTab_GUI_TAD_MAP_W / GUI_GRID_PX_W * GUI_GRID_W;
-			h = cTab_GUI_TAD_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
+			onDraw = "nop = [] call cTabOnDrawbftTAD;";
+			// set initial map scale
+			scaleDefault = "missionNamespace getVariable 'cTabTADmapScaleCtrl'";
+			// hide grid lines
+			colorGrid[] = {0.1,0.1,0.1,0};
+			colorGridMap[] = {0.1,0.1,0.1,0};
+		};
+		class screenTopo: screen
+		{
+			idc = IDC_CTAB_SCREEN_TOPO;
+			maxSatelliteAlpha = 0;
+		};
+		class screenBlack: cTab_TAD_RscMapControl_BLACK
+		{
+			idc = IDC_CTAB_SCREEN_BLACK;
 			onDraw = "nop = [] call cTabOnDrawbftTAD;";
 			// set initial map scale
 			scaleDefault = "missionNamespace getVariable 'cTabTADmapScaleCtrl'";
@@ -44,15 +55,7 @@ class cTab_TAD_dsp
 
 	class controls
 	{
-		class background: cTab_RscPicture
-		{
-			idc = IDC_CTAB_BACKGROUND;
-			text = "\cTab\img\TAD_background_ca.paa";
-			x = GUI_GRID_X;
-			y = GUI_GRID_Y;
-			w = GUI_GRID_W;
-			h = GUI_GRID_H;
-		};
+		class background: cTab_TAD_Background{};
 		class on_screen_mode: cTab_RscText_TAD
 		{
 			idc = 1204;
@@ -109,17 +112,44 @@ class cTab_TAD_dsp
 		};
 		class on_screen_time: cTab_RscText_TAD
 		{
-			idc = 1202;
+			idc = IDC_CTAB_OSD_TIME;
 			x = (cTab_GUI_TAD_OSD_EDGE_L) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 			y = (cTab_GUI_TAD_OSD_EDGE_B - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 			w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 5 / GUI_GRID_PX_W * GUI_GRID_W;
 		};
 		class on_screen_current_grid: cTab_RscText_TAD
 		{
-			idc = 1203;
+			idc = IDC_CTAB_OSD_GRID;
 			x = (cTab_GUI_TAD_OSD_OSB13_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 6 / 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 			y = (cTab_GUI_TAD_OSD_EDGE_B - cTab_GUI_TAD_OSD_ELEMENT_STD_H * 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 			w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 6 / GUI_GRID_PX_W * GUI_GRID_W;
+		};
+		class on_screen_toggleMapIconBackground: cTab_RscText_TAD
+		{
+			idc = -1;
+			x = (cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+			y = (cTab_GUI_TAD_OSD_OSB20_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+		};
+		class on_screen_toggleMapIcon: cTab_TAD_upDownArrow
+		{
+			idc = -1;
+			x = (cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+			y = (cTab_GUI_TAD_OSD_OSB20_Y - cTab_GUI_TAD_OSD_ICON_H / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+		};
+		class on_screen_toggleMapText1: cTab_RscText_TAD
+		{
+			idc = -1;
+			x = (cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+			y = (cTab_GUI_TAD_OSD_OSB20_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+			w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_W * GUI_GRID_W;
+			text = "MAP";
+		};
+		class on_screen_toggleIconText2: cTab_RscText_TAD
+		{
+			idc = IDC_CTAB_OSD_MAP_TGGL;
+			x = (cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+			y = (cTab_GUI_TAD_OSD_OSB20_Y) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+			w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4 / GUI_GRID_PX_W * GUI_GRID_W;
 		};
 	};
 };

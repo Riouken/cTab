@@ -76,6 +76,11 @@ class cTab_RscText_microDAGR: cTab_RscText
 };
 class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 {
+	text = "#(argb,8,8,3)color(1,1,1,1)";
+	x = cTab_GUI_microDAGR_MAP_X / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+	y = cTab_GUI_microDAGR_MAP_Y / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+	w = cTab_GUI_microDAGR_MAP_W / GUI_GRID_PX_W * GUI_GRID_W;
+	h = cTab_GUI_microDAGR_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
 	//type = CT_MAP;
 	// allow to zoom out further (defines the maximum map scale, usually 1)
 	scaleMax = 1000;
