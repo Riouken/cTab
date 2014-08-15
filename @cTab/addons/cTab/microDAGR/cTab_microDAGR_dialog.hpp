@@ -33,7 +33,7 @@ class cTab_microDAGR_dlg
 				//onMouseButtonDblClick = "_ok = ['cTab_microDAGR_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
 				//onMouseButtonDown = "_ok = ['cTab_microDAGR_dialog',3300,1201,_this] spawn cTabDeleteUsrMkr;";
 				// set initial map scale
-				//scaleDefault = "(missionNamespace getVariable 'cTabmicroDAGRmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor') * 0.86 / (safezoneH * 0.8)";
+				scaleDefault = "(missionNamespace getVariable 'cTabMicroDAGRmapScaleCtrl') * 0.86 / (safezoneH * 0.8)";
 			};
 	};
 

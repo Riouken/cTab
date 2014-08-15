@@ -35,7 +35,7 @@ class cTab_microDAGR_dsp
 			h = cTab_GUI_microDAGR_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
 			onDraw = "nop = [] call cTabOnDrawbftmicroDAGRdsp;";
 			// set initial map scale
-			//scaleDefault = "(missionNamespace getVariable 'cTabmicroDAGRmapScale') / (missionNamespace getVariable 'cTabMapScaleFactor')";
+			scaleDefault = "missionNamespace getVariable 'cTabMicroDAGRmapScaleCtrl'";
 			// hide grid lines
 			//colorGrid[] = {0.1,0.1,0.1,0};
 			//colorGridMap[] = {0.1,0.1,0.1,0};

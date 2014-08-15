@@ -76,6 +76,22 @@ cTabTADgroupColour = [25/255, 25/255, 112/255, 1];
 // set TAD highlight colour to neon yellow
 cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 
+/*
+microDAGR setup
+*/
+// set initial TAD map scale in km
+cTabMicroDAGRmapScale = 0.4;
+cTabMicroDAGRmapScaleCtrl = cTabMicroDAGRmapScale / cTabMapScaleFactor;
+// define min and max TAD map scales in km
+cTabMicroDAGRmapScaleMin = 0.1;
+cTabMicroDAGRmapScaleMax = 2 ^ round(sqrt(_mapSize / 1024));
+// set TAD font colour to neon green
+cTabMicroDAGRfontColour = [57/255, 255/255, 20/255, 1];
+// set TAD group colour to purple
+cTabMicroDAGRgroupColour = [25/255, 25/255, 112/255, 1];
+// set TAD highlight colour to neon yellow
+cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
+
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.
 _r = profilenamespace getvariable ['Map_BLUFOR_R',0];
 _g = profilenamespace getvariable ['Map_BLUFOR_G',0.8];
@@ -271,6 +287,15 @@ cTab_fnc_onZoomInPressed = {
 		call cTab_fnc_OSD_update;
 		true
 	};
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_microDAGR_dsp'}) exitWith {
+		if (cTabMicroDAGRmapScale / 2 > cTabMicroDAGRmapScaleMin) then {
+			cTabMicroDAGRmapScale = cTabMicroDAGRmapScale / 2;
+		} else {
+			cTabMicroDAGRmapScale = cTabMicroDAGRmapScaleMin;
+		};
+		cTabMicroDAGRmapScaleCtrl = cTabMicroDAGRmapScale / cTabMapScaleFactor;
+		true
+	};
 	false
 };
 
@@ -284,6 +309,15 @@ cTab_fnc_onZoomOutPressed = {
 		};
 		cTabTADmapScaleCtrl = cTabTADmapScale / cTabMapScaleFactor;
 		call cTab_fnc_OSD_update;
+		true
+	};
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_microDAGR_dsp'}) exitWith {
+		if (cTabMicroDAGRmapScale * 2 < cTabMicroDAGRmapScaleMax) then {
+			cTabMicroDAGRmapScale = cTabMicroDAGRmapScale * 2;
+		} else {
+			cTabMicroDAGRmapScale = cTabMicroDAGRmapScaleMax;
+		};
+		cTabMicroDAGRmapScaleCtrl = cTabMicroDAGRmapScale / cTabMapScaleFactor;
 		true
 	};
 	false
@@ -801,8 +835,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_mapCentrePos = getPosASL player;
 	// _heading = direction player;
 	// change scale of map and centre to player position
-	_mapScale = ctrlMapScale _cntrlScreen;
-	_cntrlScreen ctrlMapAnimAdd [0, _mapScale, _mapCentrePos];
+	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _mapCentrePos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	{
