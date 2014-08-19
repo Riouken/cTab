@@ -143,6 +143,18 @@ if (isNil "cTab_helmetClass_has_HCam") then {
 	};
 };
 
+/*
+Function to determine map center position of given map control
+Parameter 0: Map control
+Returns: 2D world coordinates of map center
+*/
+cTab_fnc_ctrlMapCenter = {
+	_ctrlScreen = _this select 0;
+	_ctrlPos = ctrlPosition _ctrlScreen;
+	_ctrlPosCenter = [(_ctrlPos select 0) + ((_ctrlPos select 2) / 2),(_ctrlPos select 1) + ((_ctrlPos select 3) / 2)];
+	_ctrlScreen ctrlMapScreenToWorld _ctrlPosCenter
+};
+
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
@@ -461,7 +473,7 @@ cTab_fnc_OSD_update = {
 			    };
 			};
 			_cntrlMapScale = ctrlMapScale _cntrlScreenCurrent;
-			_cntrlMapPos = _cntrlScreenCurrent ctrlMapScreenToWorld [0.5,0.5];
+			_cntrlMapPos = [_cntrlScreenCurrent] call cTab_fnc_ctrlMapCenter;
 			_cntrlScreenNext ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
 			ctrlMapAnimCommit _cntrlScreenNext;
 			_cntrlScreenNext ctrlShow true;
@@ -487,7 +499,7 @@ cTab_fnc_OSD_update = {
 				_cntrlScreenActive = _display displayCtrl 1201;
 			};
 			_cntrlMapScale = ctrlMapScale _cntrlScreenInactive;
-			_cntrlMapPos = _cntrlScreenInactive ctrlMapScreenToWorld [0.509765625,0.4544049459];
+			_cntrlMapPos = [_cntrlScreenInactive] call cTab_fnc_ctrlMapCenter;
 			_cntrlScreenActive ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
 			ctrlMapAnimCommit _cntrlScreenActive;
 			_cntrlScreenActive ctrlShow true;
@@ -926,8 +938,8 @@ cTabOnDrawbftTADdialog = {
 
 	(_display displayCtrl 2613) ctrlSetText format ["%1:%2", _hour, _min];
 	
-	// update grid position of the current map centre [0.5,0.5] on TAD
-	(_display displayCtrl 2612) ctrlSetText format ["%1", mapGridPosition (_cntrlScreen ctrlMapScreenToWorld [0.5,0.5])];
+	// update grid position of the current map centre on TAD
+	(_display displayCtrl 2612) ctrlSetText format ["%1", mapGridPosition ([_cntrlScreen] call cTab_fnc_ctrlMapCenter)];
 	/*
 	// update current map scale on TAD
 	// divide by 2 because we want to display the radius, not the diameter
