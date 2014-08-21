@@ -9,7 +9,7 @@ Thanks to
 + LCpl C. Johnston - Technical advisor
 + LCpl Schwanke - Technical advisor
 + Knobee - Documentation
-+ Raspu - TAD screen model
++ Raspu - TAD and microDAGR model
 + Killzone_Kid - for his many excellent tutorials
 + Everyone else in the 15th MEU SOC and C-L-F for help with support and testing.
 
@@ -23,6 +23,7 @@ Features
 + Tracks all crewed Bluefor Military vehicles
 + Tracks any dismounted troops with the proper equipment
 + Android based Blue Force Tracker
++ MicroDAGR handheld GPS with Blue Force Tracking
 + Commanders Tablet can view live UAV streams
 + Commanders Tablet can view live Helmet Cam streams
 + Vehicle mounted FBCB2 interface, Blue Force Tracking
@@ -52,7 +53,7 @@ Media
 
 Install
 -------
-Place the `@cTab` and `userconfig` folders in your ArmA 3 folder (both on the server and the clients). Then start the game with `@CBA_A3`and `@cTab`. It can be done either by enabling the necessary mods in the game settings (Settings -> Expansions), or by adding the mod names to the game shortcut after the EXE file, i.e. `...\arma3.exe -mod=@CBA_A3;@cTab`.
+Place the `@cTab` and `userconfig` folders in your ArmA 3 folder (*both on the server and the clients*). Then start the game with `@CBA_A3`and `@cTab`. It can be done either by enabling the necessary mods in the game settings (Settings -> Expansions), or by adding the mod names to the game shortcut after the EXE file, i.e. `...\arma3.exe -mod=@CBA_A3;@cTab`.
 
 The keys folder is for the server key.
 
@@ -66,8 +67,8 @@ You can reconfigure the keys in the configuration file, which can be found in th
 | `H` | This key is used to open and close whatever cTab device is available to you. It can also be used to close UAV and Helmet Cam views. |
 | `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft. |
 | `CTRL` + `RMB` |  (Right Mouse Button) Deletes the closest user placed marker to your cursur. |
-| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD. |
-| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD. |
+| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD and microDAGR. |
+| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD and microDAGR. |
 | `ESC` | Closes all interactive cTab devices (i.e. all but the "small" TAD) as well as the UAV and Helmet Cam views. |
 
 ### Define vehicle types that have FBCB2 or TAD available ###
@@ -76,6 +77,15 @@ To configure the list of vehicle types that have FBCB2 or TAD available, edit th
     class cTab_settings {
         cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"};
         cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
+    };
+
+### Define helmet classes with enabled helmet camera ###
+To configure the list of helmet classes that enable helmet cameras, edit the `cTab_helmetClass_has_HCam` array in the configuration file on the server, wich can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
+
+    class cTab_settings {
+        cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"};
+        cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
+        cTab_helmetClass_has_HCam = {"H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"};
     };
 
 For mission Makers
@@ -113,8 +123,18 @@ If you wish to override the list of vehicles that have FBCB2 or TAD available, p
     // make TAD available to all helicopters and planes with the exception of the MH-9 Hummingbird and AH-9 Pawnee
     cTab_vehicleClass_has_TAD = ["Heli_Attack_01_base_F","Heli_Attack_02_base_F","Heli_Light_02_base_F","Heli_Transport_01_base_F","Heli_Transport_02_base_F","I_Heli_light_03_base_F","Plane"];
 
+### Override helmet classes with enabled helmet camera ###
+
+    // Only have BWmod helmets with a camera simulate a helmet camera
+    cTab_helmetClass_has_HCam = ["BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"];
+
 Changelog
 ---------
+### 2.1.0 ###
+* Added MicroDAGR handheld GPS.
+  It features a self-centering small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
+* Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
+
 ### 2.0.0 ###
 * Reduced network traffic by moving the list generation of tracked elements from the server to the clients
   The server now sends an update pulse to all clients every 30 seconds (previous update interval was 20), instead of sending the whole list to every client. The clients then generate the list locally. This lessens the server load a little (shifting it to the clients), greatly reduces cTab related network traffic, while hopefully keeping the list content the same across clients since they update (almost) at the same time.
