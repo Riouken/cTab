@@ -60,7 +60,7 @@ The keys folder is for the server key.
 How to configure
 ----------------
 ### Key Bindings ###
-You can reconfigure the keys in the configuration file, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. The file can be edited in Notepad or any other text editor. These are the default key binding:
+You can reconfigure the default keys in the configuration file, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. The file can be edited in Notepad or any other text editor. These are the default key bindings:
 
 | Keys | Action |
 | --- | --- |
@@ -134,6 +134,7 @@ Changelog
 * Added MicroDAGR handheld GPS.
   It features a self-centering small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
+* Enabled support for CBA Keybinding system to make key bind changes more user friendly and changable without a restart. Userconfig settings now define the default keybinds.
 
 ### 2.0.0 ###
 * Reduced network traffic by moving the list generation of tracked elements from the server to the clients
