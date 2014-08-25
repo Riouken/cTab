@@ -25,7 +25,7 @@ class cTab_Veh_dlg {
 			};
 			class screen: cTab_RscMapControl
 			{
-				idc = 1201;
+				idc = IDC_CTAB_SCREEN;
 				text = "#(argb,8,8,3)color(1,1,1,1)";
 				x = 2.04 * GUI_GRID_W + GUI_GRID_X;
 				y = -1.89 * GUI_GRID_H + GUI_GRID_Y;

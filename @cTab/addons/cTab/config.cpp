@@ -78,6 +78,7 @@ class Extended_PostInit_EventHandlers
 	};
 };
 
+#include <cTab_gui_macros.hpp>
 #include <cTab_base_gui_classes.hpp>
 
 #include <cTab_main_gui.hpp>

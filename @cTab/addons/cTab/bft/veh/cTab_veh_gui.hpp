@@ -4,7 +4,7 @@
 
 			class background: RscPicture
 			{
-				idc = 1200;
+				idc = IDC_CTAB_BACKGROUND;
 				text = "\cTab\img\FBCB2.paa";
 				x = -27.04 * GUI_GRID_W + GUI_GRID_X;
 				y = -21.03 * GUI_GRID_H + GUI_GRID_Y;
@@ -13,7 +13,7 @@
 			};
 			class screen: RscPicture
 			{
-				idc = 1201;
+				idc = IDC_CTAB_SCREEN;
 				text = "#(argb,8,8,3)color(1,1,1,1)";
 				x = 2.04 * GUI_GRID_W + GUI_GRID_X;
 				y = -1.89 * GUI_GRID_H + GUI_GRID_Y;

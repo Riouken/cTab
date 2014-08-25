@@ -53,14 +53,14 @@ class cTab_microDAGR_dsp
 		/*
 		class on_screen_time: cTab_RscText_microDAGR
 		{
-			idc = 1202;
+			idc = IDC_CTAB_OSD_TIME;
 			x = (cTab_GUI_microDAGR_OSD_EDGE_L) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 			y = (cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 			w = cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 5 / GUI_GRID_PX_W * GUI_GRID_W;
 		};
 		class on_screen_current_grid: cTab_RscText_microDAGR
 		{
-			idc = 1203;
+			idc = IDC_CTAB_OSD_GRID;
 			x = (cTab_GUI_microDAGR_OSD_OSB13_X - cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 			y = (cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 			w = cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / GUI_GRID_PX_W * GUI_GRID_W;

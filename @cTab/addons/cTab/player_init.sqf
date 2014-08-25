@@ -6,6 +6,7 @@
 
 // keys.sqf parses the userconfig
 #include "functions\keys.sqf";
+#include "cTab_gui_macros.hpp";
 
 // add cTab_FBCB2_updatePulse event handler triggered periodically by the server
 ["cTab_FBCB2_updatePulse",{
@@ -443,7 +444,7 @@ cTab_fnc_OSD_update = {
 	if (!isNil "_dialogId") then {
 		if (_dialogId == 1755424) exitWith {
 			_display = uiNamespace getVariable "cTab_TAD_dialog";
-			_cntrlScreen = _display displayCtrl 2610;
+			_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
 			if (cTabBFTtxt) then {
 				_cntrlScreen ctrlSetText "ON";
 			} else {
@@ -455,21 +456,21 @@ cTab_fnc_OSD_update = {
 			_text = "";
 			switch (cTabTADmapType) do {
 			    case 0: {
-			    	_cntrlScreenPrevious = _display displayCtrl 1202;
-					_cntrlScreenCurrent = _display displayCtrl 1203;
-					_cntrlScreenNext = _display displayCtrl 1201;
+			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
 					_text = "SAT"
 			    };
 			    case 1: {
-			    	_cntrlScreenPrevious = _display displayCtrl 1203;
-					_cntrlScreenCurrent = _display displayCtrl 1201;
-					_cntrlScreenNext = _display displayCtrl 1202;
+			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
+					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
 					_text = "TOPO"
 			    };
 			    case 2: {
-			    	_cntrlScreenPrevious = _display displayCtrl 1201;
-					_cntrlScreenCurrent = _display displayCtrl 1202;
-					_cntrlScreenNext = _display displayCtrl 1203;
+			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
+					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
 					_text = "BLK"
 			    };
 			};
@@ -483,7 +484,7 @@ cTab_fnc_OSD_update = {
 			_cntrlScreenCurrent ctrlCommit 0;
 			_cntrlScreenPrevious ctrlShow false;
 			_cntrlScreenPrevious ctrlCommit 0;
-			_cntrlScreenMapTxt = _display displayCtrl 2611;
+			_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
 			_cntrlScreenMapTxt ctrlSetText _text;
 		};
 		if (_dialogId == 1776134) exitWith {
@@ -492,12 +493,12 @@ cTab_fnc_OSD_update = {
 			_cntrlScreenActive = controlNull;
 			if (cTabBFTmapType) then {
 				// show topo
-				_cntrlScreenInactive = _display displayCtrl 1201;
-				_cntrlScreenActive = _display displayCtrl 1202;
+				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
+				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
 			} else {
 				// show SAT
-				_cntrlScreenInactive = _display displayCtrl 1202;
-				_cntrlScreenActive = _display displayCtrl 1201;
+				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
 			};
 			_cntrlMapScale = ctrlMapScale _cntrlScreenInactive;
 			_cntrlMapPos = [_cntrlScreenInactive] call cTab_fnc_ctrlMapCenter;
@@ -513,9 +514,9 @@ cTab_fnc_OSD_update = {
 			_display = uiNamespace getVariable _displayCtrl;
 			// update current map scale on TAD
 			// divide by 2 because we want to display the radius, not the diameter
-			(_display displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
+			(_display displayCtrl IDC_CTAB_OSD_MAP_SCALE) ctrlSetText format ["%1", cTabTADmapScale / 2];
 			
-			_cntrlScreen = _display displayCtrl 2610;
+			_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
 			if (cTabBFTtxt) then {
 				_cntrlScreen ctrlSetText "ON";
 			} else {
@@ -527,21 +528,21 @@ cTab_fnc_OSD_update = {
 			_text = "";
 			switch (cTabTADmapType) do {
 			    case 0: {
-			    	_cntrlScreenPrevious = _display displayCtrl 1202;
-					_cntrlScreenCurrent = _display displayCtrl 1203;
-					_cntrlScreenNext = _display displayCtrl 1201;
+			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
 					_text = "SAT"
 			    };
 			    case 1: {
-			    	_cntrlScreenPrevious = _display displayCtrl 1203;
-					_cntrlScreenCurrent = _display displayCtrl 1201;
-					_cntrlScreenNext = _display displayCtrl 1202;
+			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
+					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
 					_text = "TOPO"
 			    };
 			    case 2: {
-			    	_cntrlScreenPrevious = _display displayCtrl 1201;
-					_cntrlScreenCurrent = _display displayCtrl 1202;
-					_cntrlScreenNext = _display displayCtrl 1203;
+			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
+					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
 					_text = "BLK"
 			    };
 			};
@@ -551,7 +552,7 @@ cTab_fnc_OSD_update = {
 			_cntrlScreenCurrent ctrlCommit 0;
 			_cntrlScreenPrevious ctrlShow false;
 			_cntrlScreenPrevious ctrlCommit 0;
-			_cntrlScreenMapTxt = _display displayCtrl 2611;
+			_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
 			_cntrlScreenMapTxt ctrlSetText _text;
 		};
 		if (_displayCtrl == "cTab_microDAGR_dsp") exitWith {
@@ -560,12 +561,12 @@ cTab_fnc_OSD_update = {
 			_cntrlScreenActive = controlNull;
 			if (cTabBFTmapType) then {
 				// show topo
-				_cntrlScreenInactive = _display displayCtrl 1201;
-				_cntrlScreenActive = _display displayCtrl 1202;
+				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
+				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
 			} else {
 				// show SAT
-				_cntrlScreenInactive = _display displayCtrl 1202;
-				_cntrlScreenActive = _display displayCtrl 1201;
+				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
 			};
 			_cntrlScreenActive ctrlShow true;
 			_cntrlScreenActive ctrlCommit 0;
@@ -627,7 +628,7 @@ cTabOnDrawbft = {
 
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_main_dlg");
-	_cntrlScreen = _display displayCtrl 1201;
+	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 
 	{
 		_obj = _x select 0;
@@ -686,7 +687,7 @@ cTabOnDrawbftVeh = {
 
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_Veh_dlg");
-	_cntrlScreen = _display displayCtrl 1201;
+	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 
 	{
 		_obj = _x select 0;
@@ -749,9 +750,9 @@ cTabOnDrawbftTAD = {
 	_display = (uiNamespace getVariable "cTab_TAD_dsp");
 	_cntrlScreen = controlNull;
 	call {
-		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl 1201;};
-		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl 1202;};
-		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl 1203;};
+		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;};
+		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;};
+		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_BLACK;};
 	};
 	
 	//[_cntrlScreen] call cTab_fnc_draw_markers;
@@ -838,10 +839,10 @@ cTabOnDrawbftTAD = {
 		_min = format ["0%1", _min];
 	};
 
-	(_display displayCtrl 2613) ctrlSetText format ["%1:%2", _hour, _min];
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText format ["%1:%2", _hour, _min];
 	
 	// update grid position on TAD
-	(_display displayCtrl 2612) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
 	
 	_return;
 };
@@ -854,9 +855,9 @@ cTabOnDrawbftTADdialog = {
 	_display = (uiNamespace getVariable "cTab_TAD_dialog");
 	_cntrlScreen = controlNull;
 	call {
-		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl 1201;};
-		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl 1202;};
-		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl 1203;};
+		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;};
+		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;};
+		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_BLACK;};
 	};
 	
 	//[_cntrlScreen] call cTab_fnc_draw_markers;
@@ -937,14 +938,14 @@ cTabOnDrawbftTADdialog = {
 		_min = format ["0%1", _min];
 	};
 
-	(_display displayCtrl 2613) ctrlSetText format ["%1:%2", _hour, _min];
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText format ["%1:%2", _hour, _min];
 	
 	// update grid position of the current map centre on TAD
-	(_display displayCtrl 2612) ctrlSetText format ["%1", mapGridPosition ([_cntrlScreen] call cTab_fnc_ctrlMapCenter)];
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition ([_cntrlScreen] call cTab_fnc_ctrlMapCenter)];
 	/*
 	// update current map scale on TAD
 	// divide by 2 because we want to display the radius, not the diameter
-	(_display displayCtrl 1204) ctrlSetText format ["%1", cTabTADmapScale / 2];
+	(_display displayCtrl IDC_CTAB_OSD_MAP_SCALE) ctrlSetText format ["%1", cTabTADmapScale / 2];
 	*/
 	_return;
 };
@@ -954,7 +955,7 @@ cTabOnDrawbftAndroid = {
 
 	_return = true;
 	_display = (uiNamespace getVariable "cTab_Android_dlg");
-	_cntrlScreen = _display displayCtrl 17354;
+	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 
 	{
 		_obj = _x select 0;
@@ -1014,9 +1015,9 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_display = (uiNamespace getVariable "cTab_microDAGR_dsp");
 	_cntrlScreen = controlNull;
 	if (cTabBFTmapType) then {
-		_cntrlScreen = _display displayCtrl 1202;
+		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
 	} else {
-		_cntrlScreen = _display displayCtrl 1201;
+		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 	};
 	
 	// current position
@@ -1086,9 +1087,9 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_display = (uiNamespace getVariable "cTab_microDAGR_dlg");
 	_cntrlScreen = controlNull;
 	if (cTabBFTmapType) then {
-		_cntrlScreen = _display displayCtrl 1202;
+		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
 	} else {
-		_cntrlScreen = _display displayCtrl 1201;
+		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 	};
 	
 	// current position

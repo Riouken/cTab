@@ -14,7 +14,7 @@ _display = (uiNamespace getVariable "cTab_microDAGR_dlg");
 
 /*
 // change map centre to player position
-_cntrlScreen = _display displayCtrl 1201;
+_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 _cntrlScreen ctrlMapAnimAdd [0,ctrlMapScale _cntrlScreen,getPosASL player];
 ctrlMapAnimCommit _cntrlScreen;
 */

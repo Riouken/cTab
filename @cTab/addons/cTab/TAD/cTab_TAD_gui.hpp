@@ -58,7 +58,7 @@ class cTab_TAD_dsp
 		class background: cTab_TAD_Background{};
 		class on_screen_mode: cTab_RscText_TAD
 		{
-			idc = 1204;
+			idc = IDC_CTAB_OSD_MAP_SCALE;
 			x = (cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
 			y = (cTab_GUI_TAD_OSD_EDGE_T) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
 			w = cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 2 / GUI_GRID_PX_W * GUI_GRID_W;

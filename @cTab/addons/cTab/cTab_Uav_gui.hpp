@@ -7,7 +7,6 @@
 
 
 //--- cTab
-#include <cTab_gui_macros.hpp>
 #include <cTab_gui_uav_macros.hpp>
 
 #define GUI_GRID_X	(safezoneX)
