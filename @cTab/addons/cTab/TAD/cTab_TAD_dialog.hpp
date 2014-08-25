@@ -26,8 +26,8 @@ class cTab_TAD_dialog
 		{
 			idc = IDC_CTAB_SCREEN;
 			onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
-			onMouseButtonDblClick = "_ok = ['cTab_TAD_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
-			onMouseButtonDown = "_ok = ['cTab_TAD_dialog',3300,1201,_this] spawn cTabDeleteUsrMkr;";
+			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
+			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 		};
 		class screenTopo: screen
 		{
@@ -38,8 +38,8 @@ class cTab_TAD_dialog
 		{
 			idc = IDC_CTAB_SCREEN_BLACK;
 			onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
-			onMouseButtonDblClick = "_ok = ['cTab_TAD_dialog',3300,1201,_this] execVM 'cTab\bft\userload.sqf';";
-			onMouseButtonDown = "_ok = ['cTab_TAD_dialog',3300,1201,_this] spawn cTabDeleteUsrMkr;";
+			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
+			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 		};
 	};
 

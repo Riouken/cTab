@@ -1736,21 +1736,12 @@ cTabDeleteUsrMkr = {
 	
 	private["_keyData", "_mapCtrl", "_mKey", "_mXPos", "_mYPos", "_mCtrlBool"];
 	
-	_keyData = _this select 3;
-	
-	_mKey = _keyData select 1;
-	_mXPos = _keyData select 2;
-	_mYPos = _keyData select 3;
-	_mCtrlBool = _keyData select 5;
-	
 	disableSerialization;
-	_dsp = _this select 0;
-	_mainPop = _this select 1;
-	_cntrlScreen = _this select 2;
-	_sendingCtrlArry = _this select 3;
-	_display = (uiNamespace getVariable _dsp);
-	_mainPopup = _display displayCtrl _mainPop; // 3300
-	_cntrlScreen = _display displayCtrl _cntrlScreen;  // 1201
+	_cntrlScreen = _this select 0;
+	_mKey = _this select 1;
+	_mXPos = _this select 2;
+	_mYPos = _this select 3;
+	_mCtrlBool = _this select 5;
 	
 	// Check if right mouse button is pressed (RMB)
 	if (_mKey == 1) then 

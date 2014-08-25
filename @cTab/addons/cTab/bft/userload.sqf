@@ -10,15 +10,12 @@ disableSerialization;
 //#include <\cTab\cTab_gui_macros.hpp>
 //#include <\cTab\usermenu_gui_macros.hpp>
 
-_dsp = _this select 0;
-_mainPop = _this select 1;
-_cntrlScreen = _this select 2;
-_sendingCtrlArry = _this select 3;
+_mainPop = _this select 0;
+_sendingCtrlArry = _this select 1;
+_cntrlScreen = _sendingCtrlArry select 0;
+_display = ctrlParent _cntrlScreen;
 
-
-_display = (uiNamespace getVariable _dsp);
 _mainPopup = _display displayCtrl _mainPop; // 3300
-_cntrlScreen = _display displayCtrl _cntrlScreen;  // 1201
 
 _xpos = _sendingCtrlArry select 2;
 _ypos = _sendingCtrlArry select 3;
@@ -35,5 +32,3 @@ cTabUserSelIcon set [5,_time];
 _mainPopup ctrlShow True;
 _mainPopup ctrlSetPosition [_xpos, _ypos];
 _mainPopup ctrlCommit 0;
-
-
