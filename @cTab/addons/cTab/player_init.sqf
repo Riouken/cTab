@@ -72,7 +72,7 @@ cTabTADownIconScaledSize = cTabTADownIconBaseSize / (0.86 / (safezoneH * 0.8));
 // set TAD font colour to neon green
 cTabTADfontColour = [57/255, 255/255, 20/255, 1];
 // set TAD group colour to purple
-cTabTADgroupColour = [25/255, 25/255, 112/255, 1];
+cTabTADgroupColour = [255/255, 0/255, 255/255, 1];
 // set TAD highlight colour to neon yellow
 cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 // Map type, 0 = SAT, 1 = TOPO, 3 = BLACK
@@ -159,6 +159,7 @@ cTab_fnc_ctrlMapCenter = {
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
 	cTabTxtSize = cTabTxtFctr / 12 * 0.035;
+	cTabAirContactGroupTxtSize = cTabTxtFctr / 12 * 0.060;
 	cTabAirContactSize = cTabTxtFctr / 12 * 32;
 	cTabAirContactDummySize = cTabTxtFctr / 12 * 20;
 };
@@ -779,7 +780,7 @@ cTabOnDrawbftTAD = {
 					_groupIndex = _x select 3;
 					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
 					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabTxtSize,"TahomaB","center"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabAirContactGroupTxtSize,"TahomaB","center"];
 				} else {
 					// draw air contact icon and dummy icon for the text to have a better alignment
 					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
@@ -881,7 +882,7 @@ cTabOnDrawbftTADdialog = {
 					_groupIndex = _x select 3;
 					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
 					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabTxtSize,"TahomaB","center"];
+					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
 				} else {
 					// draw air contact icon and dummy icon for the text to have a better alignment
 					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
