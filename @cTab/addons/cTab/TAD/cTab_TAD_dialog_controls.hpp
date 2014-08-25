@@ -348,15 +348,15 @@ class cTab_TAD_RscMapControl_BLACK: cTab_TAD_RscMapControl
 	sizeExLevel = 0.0;
 	stickX[] = {0.0,{ "Gamma",0,0.0 }};
 	stickY[] = {0.0,{ "Gamma",0,0.0 }};
-	ptsPerSquareSea = 0;
-	ptsPerSquareTxt = 0;
-	ptsPerSquareCLn = 0;
-	ptsPerSquareExp = 0;
-	ptsPerSquareCost = 0;
-	ptsPerSquareFor = 0;
-	ptsPerSquareForEdge = 0;
-	ptsPerSquareRoad = 0;
-	ptsPerSquareObj = 0;
+	ptsPerSquareSea = 10000;
+	ptsPerSquareTxt = 10000;
+	ptsPerSquareCLn = 10000;
+	ptsPerSquareExp = 10000;
+	ptsPerSquareCost = 10000;
+	ptsPerSquareFor = 10000;
+	ptsPerSquareForEdge = 10000;
+	ptsPerSquareRoad = 10000;
+	ptsPerSquareObj = 10000;
 	class Task
 	{
 		icon = "";
