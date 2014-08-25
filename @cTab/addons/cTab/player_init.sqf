@@ -7,6 +7,9 @@
 // keys.sqf parses the userconfig
 #include "functions\keys.sqf";
 
+// Track if we sowed an error already
+cTabError = false;
+
 // add cTab_FBCB2_updatePulse event handler triggered periodically by the server
 ["cTab_FBCB2_updatePulse",{
 	[] spawn {
@@ -982,9 +985,19 @@ cTab_fnc_checkGear = {
 	
 	_chk_all_items = (items _unit) + (assignedItems _unit);
 	
-	{
-		if (_x in _chk_all_items) exitWith {_return = true};
-	} forEach _items;
+	if (isNil "_chk_all_items") then {
+		if (!cTabError) then {
+			hint format ["[cTab] Error\nCannot fetch items for unit '%1 (%2)', please send RPT to [C-L-F]Gundy",_unit,name _unit];
+			cTabError = true;
+		};
+		diag_log format ["[cTab] Error, Cannot fetch items for unit '%1 (%2)'",_unit,name _unit];
+		diag_log format ["Result of items _unit '%1'",items _unit];
+		diag_log format ["Result of assignedItems _unit '%1'",assignedItems _unit];
+	} else {
+		{
+			if (_x in _chk_all_items) exitWith {_return = true};
+		} forEach _items;
+	};
 	
 	_return;
 };
