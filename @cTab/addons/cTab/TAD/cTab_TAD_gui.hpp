@@ -144,7 +144,7 @@ class cTab_TAD_dsp
 			w = cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3 / GUI_GRID_PX_W * GUI_GRID_W;
 			text = "MAP";
 		};
-		class on_screen_toggleIconText2: cTab_RscText_TAD
+		class on_screen_toggleMapText2: cTab_RscText_TAD
 		{
 			idc = IDC_CTAB_OSD_MAP_TGGL;
 			x = (cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;

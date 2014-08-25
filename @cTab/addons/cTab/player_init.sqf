@@ -81,17 +81,17 @@ cTabTADmapType = 0;
 /*
 microDAGR setup
 */
-// set initial TAD map scale in km
+// set initial MicroDAGR map scale in km
 cTabMicroDAGRmapScale = 0.4;
 cTabMicroDAGRmapScaleCtrl = cTabMicroDAGRmapScale / cTabMapScaleFactor;
-// define min and max TAD map scales in km
+// define min and max MicroDAGR map scales in km
 cTabMicroDAGRmapScaleMin = 0.1;
 cTabMicroDAGRmapScaleMax = 2 ^ round(sqrt(_mapSize / 1024));
-// set TAD font colour to neon green
+// set MicroDAGR font colour to neon green
 cTabMicroDAGRfontColour = [57/255, 255/255, 20/255, 1];
-// set TAD group colour to purple
+// set MicroDAGR group colour to purple
 cTabMicroDAGRgroupColour = [25/255, 25/255, 112/255, 1];
-// set TAD highlight colour to neon yellow
+// set MicroDAGR highlight colour to neon yellow
 cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 
 // Map type, false = SAT, ture = TOPO
