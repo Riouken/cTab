@@ -8,13 +8,14 @@
 #define PREFIX cTab
 #define COMPONENT main
 #define MAJOR 2
-#define MINOR 0
+#define MINOR 1
 #define PATCHLVL 0
 #define BUILD 1
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 #define REQUIRED_VERSION 1.0
 #include "\x\cba\addons\main\script_macros_common.hpp"
+#define AUTHOR "Riouken & Gundy"
 
 
 class CfgPatches
@@ -22,14 +23,14 @@ class CfgPatches
 	class PREFIX  // cTab
 		{
 			units[] = {Box_cTab_items};
-			weapons[] = {};
+			weapons[] = {ItemcTab,ItemAndroid,ItemMicroDAGR,ItemcTabHCam};
 			requiredVersion = REQUIRED_VERSION;
 			requiredAddons[] = {"CBA_MAIN"};
 			versionDesc = "cTab";
 			versionAct = "";
 			VERSION_CONFIG;
-			author[] = {"Riouken"};
-			authorUrl = "http://forums.bistudio.com/member.php?64032-Riouken";
+			author[] = {"Riouken","Gundy"};
+			authorUrl = "https://github.com/Riouken/cTab";
 		};
 };
 
@@ -53,13 +54,15 @@ class CfgSettings
 class CfgMods {
 	class PREFIX {
 		dir = "@cTab";
-		name = "Commander's Tablet / FBCB2 - Blue Force Tracking";
+		name = "cTab - Blue Force Tracking";
 		picture = "\cTab\img\cTab_BFT_ico.paa";
 		hidePicture = "True";
 		hideName = "True";
 		actionName = "Website";
-		action = "http://dev-heaven.net/projects/cca";
-		description = "Battlefield tablet to access real time intel and blue force tracker.";
+		action = "https://github.com/Riouken/cTab";
+		overview = "Commander's Tablet / FBCB2 - Blue Force Tracking\nBattlefield tablet to access real time intel and blue force tracker.";
+		tooltip = "Commander's Tablet / FBCB2 - Blue Force Tracking";
+		author = AUTHOR;
 	};
 };
 
@@ -75,6 +78,7 @@ class Extended_PostInit_EventHandlers
 	};
 };
 
+#include <cTab_gui_macros.hpp>
 #include <cTab_base_gui_classes.hpp>
 
 #include <cTab_main_gui.hpp>
@@ -84,10 +88,12 @@ class Extended_PostInit_EventHandlers
 #include <cTab_veh_gui.hpp>
 #include <\cTab\msg\msg_ctab_gui.hpp>
 #include <\cTab\TAD\cTab_TAD_dialog.hpp>
+#include <\cTab\microDAGR\cTab_microDAGR_dialog.hpp>
 
 class CfgWeapons
 {
-    class ItemCore;
+	class ItemCore;
+ 	class InventoryItem_Base_F;
 	class ItemcTab: ItemCore {
 		descriptionshort = "8 inch Rugged Tablet";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Commander's Tablet";
@@ -97,20 +103,15 @@ class CfgWeapons
 		simulation = "ItemGPS";
 		class ItemInfo {
 			mass = 1;
-		};	
+		};
+		author = AUTHOR;
 	};
 	
 	class ItemAndroid: ItemcTab {
 		descriptionshort = "GL 300 Android";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "Android Device";
-		picture = "\cTab\img\itemAndroid_icon.paa";
-		scope = 2;
-		simulation = "ItemGPS";
-		model = "\ctab\itemAndroid.p3d";
-		class ItemInfo {
-			mass = 1;
-		};	
+		picture = "\cTab\img\15th_android_2_ico.paa";
 	};
 
 	class ItemMicroDAGR: ItemcTab {
@@ -119,9 +120,7 @@ class CfgWeapons
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "MicroDAGR";
 		picture = "\cTab\img\itemMicroDAGR_icon.paa";
-		scope = 2;
-		simulation = "ItemGPS";
-		model = "\ctab\itemMicroDAGR.p3d";
+		model = "\ctab\data\itemMicroDAGR.p3d";
 		class ItemInfo {
 			mass = 2;
 		};	
@@ -133,10 +132,10 @@ class CfgWeapons
 		displayname = "Helmet Camera";
 		picture = "\cTab\img\cTab_helmet_cam_ico.paa";
 		scope = 2;
-		simulation = "ItemRadio";
-		class ItemInfo {
+		class ItemInfo: InventoryItem_Base_F {
 			mass = 1;
-		};	
+			type = 201;
+		};
 	};	
 };
 
@@ -186,6 +185,7 @@ class RscTitles
 	titles[]={};
 	#include <\cTab\msg\msg_mail_title.hpp>
 	#include <\cTab\TAD\cTab_TAD_gui.hpp>
+	#include <\cTab\microDAGR\cTab_microDAGR_display.hpp>
 };
 
 
@@ -194,7 +194,7 @@ class CfgVehicles
 
 	class Box_NATO_WpsSpecial_F;
 	class Box_cTab_items : Box_NATO_WpsSpecial_F {
-		displayname = "cTab Computer Gear";
+		displayname = "[cTab] Computer Gear";
 		icon = "iconCrateLarge";
 		model = "\A3\weapons_F\AmmoBoxes\WpnsBox_large_F";
 		scope = 2;
@@ -210,10 +210,14 @@ class CfgVehicles
 				count = 15;
 				name = "ItemAndroid";
 			};
+			class _xx_ItemMicroDAGR {
+				count = 25;
+				name = "ItemMicroDAGR";
+			};
 			class _xx_ItemcTabHCam {
 				count = 25;
 				name = "ItemcTabHCam";
-			};	
+			};
 		};
 	
 	

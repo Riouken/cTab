@@ -26,9 +26,9 @@ class cTab_Android_dlg {
 
 			class androidBG: cTab_RscPicture
 			{
-				idc = 1200;
+				idc = IDC_CTAB_BACKGROUND;
 				moving = 1;
-				text = "\cTab\img\itemAndroid_display.paa";
+				text = "\cTab\img\15th_android_2.paa";
 				x = -17 * GUI_GRID_W + GUI_GRID_X;
 				y = 6 * GUI_GRID_H + GUI_GRID_Y;
 				w = 41.5 * GUI_GRID_W;
@@ -36,15 +36,15 @@ class cTab_Android_dlg {
 			};
 			class bftscreen: cTab_RscMapControl
 			{
-				idc = 17354;
+				idc = IDC_CTAB_SCREEN;
 				text = "#(argb,8,8,3)color(1,1,1,1)";
 				x = -7.5 * GUI_GRID_W + GUI_GRID_X;
 				y = 16 * GUI_GRID_H + GUI_GRID_Y;
 				w = 21 * GUI_GRID_W;
 				h = 11 * GUI_GRID_H;
 				onDraw = "nop = [] call cTabOnDrawbftAndroid;";
-				onMouseButtonDblClick = "_ok = ['cTab_Android_dlg',3300,17354,_this] execVM 'cTab\bft\userload.sqf';";
-				onMouseButtonDown = "_ok = ['cTab_Android_dlg',3300,17354,_this] spawn cTabDeleteUsrMkr;";
+				onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
+				onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 			};
 			
 	};
