@@ -38,6 +38,7 @@ Known Issues
 + If your are viewing yourself from the UAV or Helmet Cam in PiP screen, your textures can bug on your unit
 + Even though items go into the GPS and radio slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
 + Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H` in the userconfig. This seems to only happen sometimes, sofar mostly for players playing Zeus.
++ Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
 
 Required
 --------
@@ -136,6 +137,9 @@ Changelog
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
 * Enabled support for CBA Keybinding system to make key bind changes more user friendly and changable without a restart. Userconfig settings now define the default keybinds.
 * Helmet Cam item no longer occupies the radio slot when added to inventory. This is to prevent complications with TFAR.
+* Changed weight of all items to be close to their real-world equivalents (before everything did weight 45g)
+* Updated Android background graphic and added 3D model (for when you drop it on the ground)
+* Added ability to remove marker closest to curser by `CTRL` + `RMB` (right mouse button)
 
 ### 2.0.0 ###
 * Reduced network traffic by moving the list generation of tracked elements from the server to the clients
