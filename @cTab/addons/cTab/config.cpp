@@ -95,27 +95,27 @@ class CfgWeapons
 	class ItemCore;
  	class InventoryItem_Base_F;
 	class ItemcTab: ItemCore {
-		descriptionshort = "8 inch Rugged Tablet";
+		descriptionshort = "DK10 Rugged Tablet PC";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Commander's Tablet";
 		displayname = "Rugged Tablet";
 		picture = "\cTab\img\15th_rugged_tab_ico.paa";
 		scope = 2;
 		simulation = "ItemGPS";
 		class ItemInfo {
-			mass = 1;
+			mass = 56;
 		};
 		author = AUTHOR;
 	};
 	
 	class ItemAndroid: ItemcTab {
 		author = "Raspu";
-		descriptionshort = "GD 300 Android";
+		descriptionshort = "GD300 Rugged Wearable Computer";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
-		displayname = "Android Device";
+		displayname = "GD300 Android";
 		picture = "\cTab\img\itemAndroid_icon.paa";
 		model = "\ctab\data\itemAndroid.p3d";
 		class ItemInfo {
-			mass = 2;
+			mass = 5;
 		};	
 	};
 
@@ -127,7 +127,7 @@ class CfgWeapons
 		picture = "\cTab\img\itemMicroDAGR_icon.paa";
 		model = "\ctab\data\itemMicroDAGR.p3d";
 		class ItemInfo {
-			mass = 2;
+			mass = 6;
 		};	
 	};
 	
@@ -138,7 +138,7 @@ class CfgWeapons
 		picture = "\cTab\img\cTab_helmet_cam_ico.paa";
 		scope = 2;
 		class ItemInfo: InventoryItem_Base_F {
-			mass = 1;
+			mass = 4;
 			type = 201;
 		};
 	};	
