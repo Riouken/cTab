@@ -28,7 +28,7 @@ class cTab_Android_dlg {
 			{
 				idc = IDC_CTAB_BACKGROUND;
 				moving = 1;
-				text = "\cTab\img\15th_android_2.paa";
+				text = "\cTab\img\itemAndroid_display.paa";
 				x = -17 * GUI_GRID_W + GUI_GRID_X;
 				y = 6 * GUI_GRID_H + GUI_GRID_Y;
 				w = 41.5 * GUI_GRID_W;

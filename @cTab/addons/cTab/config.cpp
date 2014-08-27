@@ -108,10 +108,15 @@ class CfgWeapons
 	};
 	
 	class ItemAndroid: ItemcTab {
-		descriptionshort = "GL 300 Android";
+		author = "Raspu";
+		descriptionshort = "GD 300 Android";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "Android Device";
-		picture = "\cTab\img\15th_android_2_ico.paa";
+		picture = "\cTab\img\itemAndroid_icon.paa";
+		model = "\ctab\data\itemAndroid.p3d";
+		class ItemInfo {
+			mass = 2;
+		};	
 	};
 
 	class ItemMicroDAGR: ItemcTab {
