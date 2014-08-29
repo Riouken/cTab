@@ -145,6 +145,64 @@ if (isNil "cTab_helmetClass_has_HCam") then {
 };
 
 /*
+Function that determines if a unit sits in the front-section of a cTab enabled vehicle.
+The front seciton-of a vehilce is defined as:
+- Ground vehicles, everyone in the same compartment as the driver, including the driver.
+  Excluded are people sitting in the cargo / passenger compartment of a Truck or APC
+- Aircraft, pilot and co-pilot / gunner, but not door gunners or any passengers
+Parameter 0: Unit object to check
+Parameter 1: Vehicle object to check against
+Parameter 2: String of device to check for (current options are: "FBCB2" and "TAD")
+Returns: True if unit is in the front-section of a cTab enabled vehicle, false if not
+*/
+cTab_fnc_unitInEnabledVehicleSeat = {
+	private ["_return","_unit","_vehicle","_vehicle","_typeClassList","_coPilotTurret"]; 
+	_return = false;
+	_unit = _this select 0;
+	_vehicle = _this select 1;
+	_type = _this select 2;
+	
+	switch (_type) do {
+	    case "FBCB2": {_typeClassList = cTab_vehicleClass_has_FBCB2;};
+		case "TAD": {_typeClassList = cTab_vehicleClass_has_TAD;};
+		default {_typeClassList = [];};
+	};
+	
+	{
+		if (_vehicle isKindOf _x) exitWith {
+			call {
+				if (_unit == driver _vehicle) exitWith {_return = true;};
+				if (_type == "FBCB2") exitWith {
+					call {
+						_cargoIndex = _vehicle getCargoIndex _unit; // 0-based seat number in cargo, -1 if not in cargo
+						if (_cargoIndex == -1) exitWith {_return = true;}; // if not in cargo, _unit must be gunner or commander
+						_cargoCompartments = getArray (configFile/"CfgVehicles"/typeOf _vehicle/"cargoCompartments");
+						if (count _cargoCompartments > 1) then {
+							// assume the vehicle setup is correct if there is more than one cargo compartment
+							_cargoIsCoDriver = getArray (configFile/"CfgVehicles"/typeOf _vehicle/"cargoIsCoDriver");
+							if (_cargoIndex < count _cargoIsCoDriver - 1) then {_return = true;};
+						} else {
+							// assume the vehicle setup is not correct if there is just one cargo compartment
+							_transportSoldier = getNumber (configFile/"CfgVehicles"/typeOf _vehicle/"transportSoldier");
+							// assume that if a vehicle carries less than 5 passengers, they all sit with the driver
+							If (_transportSoldier < 5) then {_return = true;};
+						};
+					};
+				};
+				if (_type == "TAD") exitWith {
+					call {
+						if (_vehicle isKindOf "kyo_MH47E_base") exitWith {_coPilotTurret = 2};
+						_coPilotTurret = 0; // default
+					};
+					if (_unit == _vehicle turretUnit[_coPilotTurret]) then {_return = true;};
+				};
+			};
+		};
+	} forEach _typeClassList;
+	_return
+};
+
+/*
 Function to determine map center position of given map control
 Parameter 0: Map control
 Returns: 2D world coordinates of map center
@@ -230,7 +288,7 @@ cTab_fnc_onIfMainPressed = {
 	_player = player;
 	_vehicle = vehicle _player;
 	
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {_player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
+	if ([player,vehicle player,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
 		nul = [0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
 		true
@@ -247,9 +305,7 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0 && {
-			!((_player in (assignedCargo _vehicle)) && {[typeOf _vehicle] call BIS_fnc_crewCount >= 3})
-		}) exitWith {
+	if ([player,vehicle player,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 		true
 	};
@@ -272,7 +328,7 @@ cTab_fnc_onIfSecondaryPressed = {
 	};
 	_player = player;
 	_vehicle = vehicle _player;
-	if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_TAD) > 0 && {_player in [driver _vehicle,_vehicle turretUnit[0]]}) exitWith {
+	if ([player,vehicle player,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
 			// close Main
 			call cTab_fnc_close;
@@ -294,9 +350,7 @@ cTab_fnc_onIfSecondaryPressed = {
 			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 			_return = true;
 		};
-		if (({_vehicle isKindOf _x} count cTab_vehicleClass_has_FBCB2) > 0 && {
-			!((_player in (assignedCargo _vehicle)) && {[typeOf _vehicle] call BIS_fnc_crewCount >= 3})
-		}) exitWith {
+		if ([player,vehicle player,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 			nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 			_return = true;
 		};
