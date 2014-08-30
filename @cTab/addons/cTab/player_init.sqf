@@ -1425,10 +1425,13 @@ cTab_fnc_checkGear = {
 	
 	_chk_all_items = (items _unit) + (assignedItems _unit);
 	
+	// Some "units" don't return assignedItems, for example the Headquater module
+	if (isNil "_chk_all_items") exitWith {false};
+	
 	{
 		if (_x in _chk_all_items) exitWith {_return = true};
 	} forEach _items;
-	
+
 	_return;
 };
 
