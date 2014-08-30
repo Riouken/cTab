@@ -290,7 +290,7 @@ cTab_fnc_onIfMainPressed = {
 	_player = player;
 	_vehicle = vehicle _player;
 	
-	if ([player,vehicle player,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
 		nul = [0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
 		true
@@ -301,18 +301,16 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
-	// -- todo - update to CBA_fnc_find to increase performance in EH.
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		true
 	};
 	
-	if ([player,vehicle player,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 		true
 	};
 	
-	// -- todo - update to CBA_fnc_find to increase performance in EH.
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
 		true
@@ -330,7 +328,7 @@ cTab_fnc_onIfSecondaryPressed = {
 	};
 	_player = player;
 	_vehicle = vehicle _player;
-	if ([player,vehicle player,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
 			// close Main
 			call cTab_fnc_close;
@@ -352,7 +350,7 @@ cTab_fnc_onIfSecondaryPressed = {
 			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 			_return = true;
 		};
-		if ([player,vehicle player,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+		if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 			nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 			_return = true;
 		};
