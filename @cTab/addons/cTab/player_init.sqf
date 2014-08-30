@@ -241,7 +241,9 @@ uiNamespace setVariable ["cTab_main_dlg", displayNull];
 uiNamespace setVariable ["cTab_Android_dlg", displayNull];
 uiNamespace setVariable ["cTab_Veh_dlg", displayNull];
 uiNamespace setVariable ["cTab_TAD_dsp", displayNull];
-uiNamespace setVariable ["cTab_TAD_display", displayNull];
+uiNamespace setVariable ["cTab_TAD_dialog", displayNull];
+uiNamespace setVariable ["cTab_microDAGR_dsp", displayNull];
+uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
 uiNamespace setVariable ["cTab_hCam_dlg", displayNull];
 uiNamespace setVariable ["cTab_uav_dlg", displayNull];
 
