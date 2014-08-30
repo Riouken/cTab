@@ -143,7 +143,7 @@ class cTab_msg_main_dlg {
 				y = 19.51 * GUI_GRID_H + GUI_GRID_Y;
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
-				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
+				action = "call cTab_fnc_txt_tggl;";
 				tooltip = "Toggle Text on/off";
 			};
 			class btnOFF: cTab_RscButtonInv

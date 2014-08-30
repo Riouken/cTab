@@ -150,7 +150,7 @@ class cTab_Android_dlg {
 						w = 3 * GUI_GRID_W;
 						h = 1 * GUI_GRID_H;
 						sizeEx = .5 * GUI_GRID_H;
-						action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
+						action = "call cTab_fnc_txt_tggl;";
 					};
 					class BtnTxtUp: cTab_ActiveText
 					{
