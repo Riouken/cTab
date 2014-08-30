@@ -88,9 +88,9 @@ class cTab_Android_dlg {
 			{
 				idc = 3357;
 				x = 5 * GUI_GRID_W + GUI_GRID_X;
-				y = 20 * GUI_GRID_H + GUI_GRID_Y;
+				y = 19 * GUI_GRID_H + GUI_GRID_Y;
 				w = 8 * GUI_GRID_W;
-				h = 6.5 * GUI_GRID_H;
+				h = 7.5 * GUI_GRID_H;
 				class controls
 				{
 					class mainbg: cTab_IGUIBack
@@ -99,7 +99,7 @@ class cTab_Android_dlg {
 						x = 0;
 						y = 0;
 						w = 7.3 * GUI_GRID_W;
-						h = 6.3 * GUI_GRID_H;
+						h = 7 * GUI_GRID_H;
 					};
 					class mainMenTxtOnOff: cTab_RscText
 					{
@@ -141,6 +141,17 @@ class cTab_Android_dlg {
 						h = 1 * GUI_GRID_H;
 						sizeEx = .5 * GUI_GRID_H;
 					};
+					class mainMenmsg: cTab_RscText
+					{
+						idc = 123647;
+						text = "Messages"; //--- ToDo: Localize;
+						x = 0;
+						y = (1.5 * GUI_GRID_H) * 4;
+						w = 3 * GUI_GRID_W;
+						h = 1 * GUI_GRID_H;
+						sizeEx = .5 * GUI_GRID_H;
+					};					
+					
 					class BtnTxtOnOff: cTab_ActiveText
 					{
 						idc = 23478;
@@ -186,7 +197,17 @@ class cTab_Android_dlg {
 						action = "ctrlShow [3357, False];";
 					};		
 				
-				
+					class BtnTxtMsg: cTab_ActiveText
+					{
+						idc = 2152471;
+						text = "GoTo>>"; //--- ToDo: Localize;
+						x = (3 * GUI_GRID_W) * 1.5;
+						y = (1.5 * GUI_GRID_H) * 4.1;
+						w = 3 * GUI_GRID_W;
+						h = 1 * GUI_GRID_H;
+						sizeEx = .5 * GUI_GRID_H;
+						action = "nop = [] spawn cTab_open_android_msg;";
+					};					
 				};
 			};
 

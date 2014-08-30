@@ -89,6 +89,7 @@ class Extended_PostInit_EventHandlers
 #include <\cTab\msg\msg_ctab_gui.hpp>
 #include <\cTab\TAD\cTab_TAD_dialog.hpp>
 #include <\cTab\microDAGR\cTab_microDAGR_dialog.hpp>
+#include <\cTab\msg\android_msg_gui.hpp>
 
 class CfgWeapons
 {
