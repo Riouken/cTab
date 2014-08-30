@@ -9,4 +9,4 @@ waitUntil {!dialog};
 
 createDialog "cTab_Android_dlg";
 waitUntil {dialog};
-_this + [177382,nil] call cTab_fnc_onIfOpen;
+_this + ["cTab_Android_dlg"] call cTab_fnc_onIfOpen;
