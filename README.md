@@ -114,6 +114,9 @@ If you wish to override the list of vehicles that have FBCB2 or TAD available, p
 
 Changelog
 ---------
+### 2.0.1 ###
+* Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions
+
 ### 2.0.0 ###
 * Reduced network traffic by moving the list generation of tracked elements from the server to the clients
   The server now sends an update pulse to all clients every 30 seconds (previous update interval was 20), instead of sending the whole list to every client. The clients then generate the list locally. This lessens the server load a little (shifting it to the clients), greatly reduces cTab related network traffic, while hopefully keeping the list content the same across clients since they update (almost) at the same time.
