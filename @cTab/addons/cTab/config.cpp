@@ -84,7 +84,13 @@ class Extended_PostInit_EventHandlers
 #include <cTab_main_gui.hpp>
 #include <cTab_Uav_gui.hpp>
 #include <cTab_Hcam_gui.hpp>
-#include <cTab_android_gui.hpp>
+
+//Old Android 
+//#include <cTab_android_gui.hpp>
+//New Android Gui
+#include <\cTab\android\cTab_android_gui_new.hpp>
+
+
 #include <cTab_veh_gui.hpp>
 #include <\cTab\msg\msg_ctab_gui.hpp>
 #include <\cTab\TAD\cTab_TAD_dialog.hpp>
