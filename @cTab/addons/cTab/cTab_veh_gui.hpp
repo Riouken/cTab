@@ -132,7 +132,7 @@ class cTab_Veh_dlg {
 				y = 23.08 * GUI_GRID_H + GUI_GRID_Y;
 				w = 2 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
-				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
+				action = "call cTab_fnc_txt_tggl;";
 				tooltip = "Toggle Text on/off";				
 			};
 			class btnf1: cTab_RscButtonInv

@@ -7,4 +7,4 @@
 
 cTabrscLayer cutRsc ["cTab_TAD_dsp","PLAIN",0, false];
 waitUntil {!isNull (uiNamespace getVariable 'cTab_TAD_dsp')};
-_this + [nil,'cTab_TAD_dsp'] call cTab_fnc_onIfOpen;
+_this + ["cTab_TAD_dsp"] call cTab_fnc_onIfOpen;

@@ -241,23 +241,32 @@ uiNamespace setVariable ["cTab_main_dlg", displayNull];
 uiNamespace setVariable ["cTab_Android_dlg", displayNull];
 uiNamespace setVariable ["cTab_Veh_dlg", displayNull];
 uiNamespace setVariable ["cTab_TAD_dsp", displayNull];
-uiNamespace setVariable ["cTab_TAD_display", displayNull];
+uiNamespace setVariable ["cTab_TAD_dialog", displayNull];
+uiNamespace setVariable ["cTab_microDAGR_dsp", displayNull];
+uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
 uiNamespace setVariable ["cTab_hCam_dlg", displayNull];
 uiNamespace setVariable ["cTab_uav_dlg", displayNull];
 
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
 
-// fnc handling post dialog / display load handling (register event handlers)
+/*
+Function handling post dialog / display load handling (register event handlers)
+Parameter 0: Interface type, 0 = Main, 1 = Secondary
+Parameter 1: Unit to register killed eventhandler for
+Parameter 2: Vehicle to register GetOut eventhandler for
+Parameter 3: Name of uiNameSpace variable for display / dialog
+No return
+*/
 cTab_fnc_onIfOpen = {
 	_player = _this select 1;
 	_vehicle = _this select 2;
 	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
 	if (_vehicle != _player) then {
 		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{call cTab_fnc_close}];
-		cTabIfOpen = [_this select 0,_this select 3,_this select 4,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
+		cTabIfOpen = [_this select 0,_this select 3,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
 	} else {
-		cTabIfOpen = [_this select 0,_this select 3,_this select 4,_player,_playerKilledEhId,_vehicle,nil];
+		cTabIfOpen = [_this select 0,_this select 3,_player,_playerKilledEhId,_vehicle,nil];
 	};
 	call cTab_fnc_OSD_update;
 };
@@ -288,7 +297,7 @@ cTab_fnc_onIfMainPressed = {
 	_player = player;
 	_vehicle = vehicle _player;
 	
-	if ([player,vehicle player,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
 		nul = [0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
 		true
@@ -299,18 +308,16 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
-	// -- todo - update to CBA_fnc_find to increase performance in EH.
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 		true
 	};
 	
-	if ([player,vehicle player,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 		true
 	};
 	
-	// -- todo - update to CBA_fnc_find to increase performance in EH.
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
 		true
@@ -328,7 +335,7 @@ cTab_fnc_onIfSecondaryPressed = {
 	};
 	_player = player;
 	_vehicle = vehicle _player;
-	if ([player,vehicle player,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
 			// close Main
 			call cTab_fnc_close;
@@ -350,7 +357,7 @@ cTab_fnc_onIfSecondaryPressed = {
 			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
 			_return = true;
 		};
-		if ([player,vehicle player,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+		if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 			nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
 			_return = true;
 		};
@@ -366,7 +373,7 @@ cTab_fnc_onIfSecondaryPressed = {
 
 // fnc handling Zoom_In keydown event
 cTab_fnc_onZoomInPressed = {
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_TAD_dsp'}) exitWith {
 		if (cTabTADmapScale / 2 > cTabTADmapScaleMin) then {
 			cTabTADmapScale = cTabTADmapScale / 2;
 		} else {
@@ -376,7 +383,7 @@ cTab_fnc_onZoomInPressed = {
 		call cTab_fnc_OSD_update;
 		true
 	};
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_microDAGR_dsp'}) exitWith {
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_microDAGR_dsp'}) exitWith {
 		if (cTabMicroDAGRmapScale / 2 > cTabMicroDAGRmapScaleMin) then {
 			cTabMicroDAGRmapScale = cTabMicroDAGRmapScale / 2;
 		} else {
@@ -390,7 +397,7 @@ cTab_fnc_onZoomInPressed = {
 
 // fnc handling Zoom_Out keydown event
 cTab_fnc_onZoomOutPressed = {
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_TAD_dsp'}) exitWith {
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_TAD_dsp'}) exitWith {
 		if (cTabTADmapScale * 2 < cTabTADmapScaleMax) then {
 			cTabTADmapScale = cTabTADmapScale * 2;
 		} else {
@@ -400,7 +407,7 @@ cTab_fnc_onZoomOutPressed = {
 		call cTab_fnc_OSD_update;
 		true
 	};
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 2 == 'cTab_microDAGR_dsp'}) exitWith {
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_microDAGR_dsp'}) exitWith {
 		if (cTabMicroDAGRmapScale * 2 < cTabMicroDAGRmapScaleMax) then {
 			cTabMicroDAGRmapScale = cTabMicroDAGRmapScale * 2;
 		} else {
@@ -415,19 +422,18 @@ cTab_fnc_onZoomOutPressed = {
 // fnc to close cTab
 cTab_fnc_close = {
 	if (!isNil "cTabIfOpen") then {
-		// [_ifType,_dialogId,_displayCtrl,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
+		// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
 		_ifType = cTabIfOpen select 0;
-		_dialogId = cTabIfOpen select 1;
-		_displayCtrl = cTabIfOpen select 2;
-		_player = cTabIfOpen select 3;
-		_playerKilledEhId = cTabIfOpen select 4;
-		_vehicle = cTabIfOpen select 5;
-		_vehicleGetOutEhId = cTabIfOpen select 6;
+		_displayName = cTabIfOpen select 1;
+		_player = cTabIfOpen select 2;
+		_playerKilledEhId = cTabIfOpen select 3;
+		_vehicle = cTabIfOpen select 4;
+		_vehicleGetOutEhId = cTabIfOpen select 5;
 		
-		if (!isNil "_dialogId" && {!isNull (findDisplay _dialogId)}) then {closeDialog 0;};
-		if (!isNil "_displayCtrl") then {
-			(uiNamespace getVariable _displayCtrl) closeDisplay 0;
-			uiNamespace setVariable [_displayCtrl, displayNull];
+		_display = uiNamespace getVariable _displayName;
+		if (!isNil "_display") then {
+			_display closeDisplay 0;
+			uiNamespace setVariable [_displayName, displayNull];
 		};
 		if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
@@ -493,140 +499,134 @@ cTab_fnc_txt_size_dec = {
 // fnc to updated OSD elements
 cTab_fnc_OSD_update = {
 	disableSerialization;
-	_dialogId = cTabIfOpen select 1;
-	_displayCtrl = cTabIfOpen select 2;
-	if (!isNil "_dialogId") then {
-		if (_dialogId == 1755424) exitWith {
-			_display = uiNamespace getVariable "cTab_TAD_dialog";
-			_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
-			if (cTabBFTtxt) then {
-				_cntrlScreen ctrlSetText "ON";
-			} else {
-				_cntrlScreen ctrlSetText "OFF";
-			};
-			_cntrlScreenPrevious = controlNull;
-			_cntrlScreenCurrent = controlNull;
-			_cntrlScreenNext = controlNull;
-			_text = "";
-			switch (cTabTADmapType) do {
-			    case 0: {
-			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
-					_text = "SAT"
-			    };
-			    case 1: {
-			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
-					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-					_text = "TOPO"
-			    };
-			    case 2: {
-			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
-					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-					_text = "BLK"
-			    };
-			};
-			_cntrlMapScale = ctrlMapScale _cntrlScreenCurrent;
-			_cntrlMapPos = [_cntrlScreenCurrent] call cTab_fnc_ctrlMapCenter;
-			_cntrlScreenNext ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
-			ctrlMapAnimCommit _cntrlScreenNext;
-			_cntrlScreenNext ctrlShow true;
-			_cntrlScreenNext ctrlCommit 0;
-			_cntrlScreenCurrent ctrlShow false;
-			_cntrlScreenCurrent ctrlCommit 0;
-			_cntrlScreenPrevious ctrlShow false;
-			_cntrlScreenPrevious ctrlCommit 0;
-			_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-			_cntrlScreenMapTxt ctrlSetText _text;
+	_displayName = cTabIfOpen select 1;
+	_display = uiNamespace getVariable _displayName;
+	
+	if (_displayName == "cTab_TAD_dialog") exitWith {
+		_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
+		if (cTabBFTtxt) then {
+			_cntrlScreen ctrlSetText "ON";
+		} else {
+			_cntrlScreen ctrlSetText "OFF";
 		};
-		if (_dialogId == 1776134) exitWith {
-			_display = uiNamespace getVariable "cTab_microDAGR_dlg";
-			_cntrlScreenInactive = controlNull;
-			_cntrlScreenActive = controlNull;
-			if (cTabBFTmapType) then {
-				// show topo
-				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
-				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-			} else {
-				// show SAT
-				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
+		_cntrlScreenPrevious = controlNull;
+		_cntrlScreenCurrent = controlNull;
+		_cntrlScreenNext = controlNull;
+		_text = "";
+		switch (cTabTADmapType) do {
+			case 0: {
+				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
+				_text = "SAT"
 			};
-			_cntrlMapScale = ctrlMapScale _cntrlScreenInactive;
-			_cntrlMapPos = [_cntrlScreenInactive] call cTab_fnc_ctrlMapCenter;
-			_cntrlScreenActive ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
-			ctrlMapAnimCommit _cntrlScreenActive;
-			_cntrlScreenActive ctrlShow true;
-			_cntrlScreenActive ctrlCommit 0;
-			_cntrlScreenInactive ctrlShow false;
-			_cntrlScreenInactive ctrlCommit 0;
+			case 1: {
+				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
+				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_text = "TOPO"
+			};
+			case 2: {
+				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
+				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+				_text = "BLK"
+			};
 		};
-	} else {
-		if (_displayCtrl == "cTab_TAD_dsp") exitWith {
-			_display = uiNamespace getVariable _displayCtrl;
-			// update current map scale on TAD
-			// divide by 2 because we want to display the radius, not the diameter
-			(_display displayCtrl IDC_CTAB_OSD_MAP_SCALE) ctrlSetText format ["%1", cTabTADmapScale / 2];
-			
-			_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
-			if (cTabBFTtxt) then {
-				_cntrlScreen ctrlSetText "ON";
-			} else {
-				_cntrlScreen ctrlSetText "OFF";
-			};
-			_cntrlScreenPrevious = controlNull;
-			_cntrlScreenCurrent = controlNull;
-			_cntrlScreenNext = controlNull;
-			_text = "";
-			switch (cTabTADmapType) do {
-			    case 0: {
-			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
-					_text = "SAT"
-			    };
-			    case 1: {
-			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
-					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-					_text = "TOPO"
-			    };
-			    case 2: {
-			    	_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
-					_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-					_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-					_text = "BLK"
-			    };
-			};
-			_cntrlScreenNext ctrlShow true;
-			_cntrlScreenNext ctrlCommit 0;
-			_cntrlScreenCurrent ctrlShow false;
-			_cntrlScreenCurrent ctrlCommit 0;
-			_cntrlScreenPrevious ctrlShow false;
-			_cntrlScreenPrevious ctrlCommit 0;
-			_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-			_cntrlScreenMapTxt ctrlSetText _text;
+		_cntrlMapScale = ctrlMapScale _cntrlScreenCurrent;
+		_cntrlMapPos = [_cntrlScreenCurrent] call cTab_fnc_ctrlMapCenter;
+		_cntrlScreenNext ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
+		ctrlMapAnimCommit _cntrlScreenNext;
+		_cntrlScreenNext ctrlShow true;
+		_cntrlScreenNext ctrlCommit 0;
+		_cntrlScreenCurrent ctrlShow false;
+		_cntrlScreenCurrent ctrlCommit 0;
+		_cntrlScreenPrevious ctrlShow false;
+		_cntrlScreenPrevious ctrlCommit 0;
+		_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
+		_cntrlScreenMapTxt ctrlSetText _text;
+	};
+	if (_displayName == "cTab_microDAGR_dlg") exitWith {
+		_cntrlScreenInactive = controlNull;
+		_cntrlScreenActive = controlNull;
+		if (cTabBFTmapType) then {
+			// show topo
+			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
+			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+		} else {
+			// show SAT
+			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
 		};
-		if (_displayCtrl == "cTab_microDAGR_dsp") exitWith {
-			_display = uiNamespace getVariable _displayCtrl;
-			_cntrlScreenInactive = controlNull;
-			_cntrlScreenActive = controlNull;
-			if (cTabBFTmapType) then {
-				// show topo
-				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
-				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-			} else {
-				// show SAT
-				_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
-			};
-			_cntrlScreenActive ctrlShow true;
-			_cntrlScreenActive ctrlCommit 0;
-			_cntrlScreenInactive ctrlShow false;
-			_cntrlScreenInactive ctrlCommit 0;
+		_cntrlMapScale = ctrlMapScale _cntrlScreenInactive;
+		_cntrlMapPos = [_cntrlScreenInactive] call cTab_fnc_ctrlMapCenter;
+		_cntrlScreenActive ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
+		ctrlMapAnimCommit _cntrlScreenActive;
+		_cntrlScreenActive ctrlShow true;
+		_cntrlScreenActive ctrlCommit 0;
+		_cntrlScreenInactive ctrlShow false;
+		_cntrlScreenInactive ctrlCommit 0;
+	};
+	if (_displayName == "cTab_TAD_dsp") exitWith {
+		// update current map scale on TAD
+		// divide by 2 because we want to display the radius, not the diameter
+		(_display displayCtrl IDC_CTAB_OSD_MAP_SCALE) ctrlSetText format ["%1", cTabTADmapScale / 2];
+		
+		_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
+		if (cTabBFTtxt) then {
+			_cntrlScreen ctrlSetText "ON";
+		} else {
+			_cntrlScreen ctrlSetText "OFF";
 		};
+		_cntrlScreenPrevious = controlNull;
+		_cntrlScreenCurrent = controlNull;
+		_cntrlScreenNext = controlNull;
+		_text = "";
+		switch (cTabTADmapType) do {
+			case 0: {
+				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
+				_text = "SAT"
+			};
+			case 1: {
+				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
+				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_text = "TOPO"
+			};
+			case 2: {
+				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
+				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
+				_text = "BLK"
+			};
+		};
+		_cntrlScreenNext ctrlShow true;
+		_cntrlScreenNext ctrlCommit 0;
+		_cntrlScreenCurrent ctrlShow false;
+		_cntrlScreenCurrent ctrlCommit 0;
+		_cntrlScreenPrevious ctrlShow false;
+		_cntrlScreenPrevious ctrlCommit 0;
+		_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
+		_cntrlScreenMapTxt ctrlSetText _text;
+	};
+	if (_displayName == "cTab_microDAGR_dsp") exitWith {
+		_cntrlScreenInactive = controlNull;
+		_cntrlScreenActive = controlNull;
+		if (cTabBFTmapType) then {
+			// show topo
+			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
+			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+		} else {
+			// show SAT
+			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
+			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
+		};
+		_cntrlScreenActive ctrlShow true;
+		_cntrlScreenActive ctrlCommit 0;
+		_cntrlScreenInactive ctrlShow false;
+		_cntrlScreenInactive ctrlCommit 0;
 	};
 };
 
@@ -1425,10 +1425,13 @@ cTab_fnc_checkGear = {
 	
 	_chk_all_items = (items _unit) + (assignedItems _unit);
 	
+	// Some "units" don't return assignedItems, for example the Headquater module
+	if (isNil "_chk_all_items") exitWith {false};
+	
 	{
 		if (_x in _chk_all_items) exitWith {_return = true};
 	} forEach _items;
-	
+
 	_return;
 };
 
@@ -1513,7 +1516,7 @@ cTab_spawn_msg_dlg = {
 	
 	createDialog "cTab_msg_main_dlg";
 	waitUntil {dialog};
-	_this + [19457,nil] call cTab_fnc_onIfOpen;
+	_this + ["cTab_msg_main_dlg"] call cTab_fnc_onIfOpen;
 };
 
 cTab_msg_gui_load = 
@@ -1670,7 +1673,7 @@ cTab_load_BFT = {
 	
 	createDialog "cTab_main_dlg";
 	waitUntil {dialog};
-	_this + [1775154,nil] call cTab_fnc_onIfOpen;
+	_this + ["cTab_main_dlg"] call cTab_fnc_onIfOpen;
 	_nop = [] execVM '\cTab\main\loadBFT.sqf';
 };
 
@@ -1691,25 +1694,25 @@ cTab_keyDownShortcut =
 		{
 			case 59:
 			{
-				_nop = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_load_BFT;
+				_nop = [0,player,vehicle player] spawn cTab_load_BFT;
 				_handled = true;
 			};
 
 			case 60:
 			{
-				_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
+				_ok = [0,player,vehicle player] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
 				_handled = true;
 			};
 			
 			case 61:
 			{
-				_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
+				_ok = [0,player,vehicle player] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
 				_handled = true;
 			};
 			
 			case 62:
 			{
-				_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_spawn_msg_dlg;
+				_ok = [0,player,vehicle player] spawn cTab_spawn_msg_dlg;
 				_handled = true;
 			};
 			

@@ -159,7 +159,7 @@ class cTab_UAV_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Blue Force Tracker - Quick Key";
-				action = "_nop = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_load_BFT;";
+				action = "_nop = [0,player,vehicle player] spawn cTab_load_BFT;";
 			};
 			class btnF2: cTab_RscButtonInv
 			{
@@ -169,7 +169,7 @@ class cTab_UAV_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "UAV Intel Live Feed - Quick Key";
-				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
+				action = "_ok = [0,player,vehicle player] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
 			};
 			class btnF3: cTab_RscButtonInv
 			{
@@ -179,7 +179,7 @@ class cTab_UAV_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Helmet Cam Live Feed - Quick Key";
-				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
+				action = "_ok = [0,player,vehicle player] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
 			};
 			class btnF4: cTab_RscButtonInv
 			{
@@ -189,7 +189,7 @@ class cTab_UAV_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Text Message Application - Quick Key";
-				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] spawn cTab_spawn_msg_dlg;";
+				action = "_ok = [0,player,vehicle player] spawn cTab_spawn_msg_dlg;";
 			};
 			class btnF5: cTab_RscButtonInv
 			{
@@ -217,7 +217,7 @@ class cTab_UAV_dlg {
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
 				tooltip = "Main Menu";
-				action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 3,cTabIfOpen select 5] execVM 'cTab\cTab_gui_start.sqf';";
+				action = "_ok = [0,player,vehicle player] execVM 'cTab\cTab_gui_start.sqf';";
 			};
 			class btnFN: cTab_RscButtonInv
 			{
@@ -226,7 +226,7 @@ class cTab_UAV_dlg {
 				y = 19.51 * GUI_GRID_H + GUI_GRID_Y;
 				w = 0.683335 * GUI_GRID_W;
 				h = 0.731482 * GUI_GRID_H;
-				action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";
+				action = "call cTab_fnc_txt_tggl;";
 				tooltip = "Toggle Text on/off";
 			};
 			class btnOFF: cTab_RscButtonInv

@@ -10,4 +10,4 @@ waitUntil {!dialog};
 
 createDialog "cTab_microDAGR_dlg";
 waitUntil {dialog};
-_this + [1776134,nil] call cTab_fnc_onIfOpen;
+_this + ["cTab_microDAGR_dlg"] call cTab_fnc_onIfOpen;

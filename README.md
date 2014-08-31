@@ -143,6 +143,9 @@ Changelog
 * Players sitting in the back of the trucks (HMTT and Tempest by default) now no longer have access to the vehicle based FBCB2
 * Workaround for left-door gunner having access to the TAD instead of the co-pilot in Konyo's Boeing/SOAR MH-47E
 
+### 2.0.1 ###
+* Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions
+
 ### 2.0.0 ###
 * Reduced network traffic by moving the list generation of tracked elements from the server to the clients
   The server now sends an update pulse to all clients every 30 seconds (previous update interval was 20), instead of sending the whole list to every client. The clients then generate the list locally. This lessens the server load a little (shifting it to the clients), greatly reduces cTab related network traffic, while hopefully keeping the list content the same across clients since they update (almost) at the same time.

@@ -7,4 +7,4 @@
 
 cTabrscLayer cutRsc ["cTab_microDAGR_dsp","PLAIN",0, false];
 waitUntil {!isNull (uiNamespace getVariable 'cTab_microDAGR_dsp')};
-_this + [nil,'cTab_microDAGR_dsp'] call cTab_fnc_onIfOpen;
+_this + ["cTab_microDAGR_dsp"] call cTab_fnc_onIfOpen;
