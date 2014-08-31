@@ -19,16 +19,7 @@ class cTab_Android_dlg {
 	objects[] = {};
 	class controlsBackground {
 
-			class background: cTab_RscPicture
-			{
-				idc = 1200;
-				text = "\cTab\img\itemAndroid_display.paa";
-				x = -1.5 * GUI_GRID_W + GUI_GRID_X;
-				y = 1 * GUI_GRID_H + GUI_GRID_Y;
-				w = 44 * GUI_GRID_W;
-				h = 35 * GUI_GRID_H;
-			};
-			class bftscreen: cTab_RscMapControl
+				class bftscreen: cTab_RscMapControl
 			{
 				idc = 1201;
 				text = "#(argb,8,8,3)color(1,1,1,1)";
@@ -43,6 +34,17 @@ class cTab_Android_dlg {
 				onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 				onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";				
 			};
+	
+			class background: cTab_RscPicture
+			{
+				idc = 1200;
+				text = "\cTab\img\itemAndroid_display.paa";
+				x = -1.5 * GUI_GRID_W + GUI_GRID_X;
+				y = 1 * GUI_GRID_H + GUI_GRID_Y;
+				w = 44 * GUI_GRID_W;
+				h = 35 * GUI_GRID_H;
+			};
+
 			
 	};
 

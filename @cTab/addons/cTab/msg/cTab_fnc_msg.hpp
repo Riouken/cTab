@@ -15,8 +15,8 @@ cTab_open_android_msg = {
 };
 
 cTab_android_msg_onload = {
-	disableSerialization;
-	_display = (uiNamespace getVariable "cTab_Android_dlg");
+	//disableSerialization;
+	//_display = (uiNamespace getVariable "cTab_Android_msg_dlg");
 	ctrlShow [23012, false];
 	ctrlShow [3357, false];
 
@@ -30,16 +30,16 @@ cTab_android_msg_swi_scrn = {
 	{
 		case 1:
 		{
-			disableSerialization;
-			_display = (uiNamespace getVariable "cTab_Android_dlg");
+			//disableSerialization;
+			//_display = (uiNamespace getVariable "cTab_Android_msg_dlg");
 			ctrlShow [23001, false];
 			ctrlShow [23012, true];
 		};
 
 		case 2:
 		{
-			disableSerialization;
-			_display = (uiNamespace getVariable "cTab_Android_dlg");
+			//disableSerialization;
+			//_display = (uiNamespace getVariable "cTab_Android_msg_dlg");
 			ctrlShow [23012, false];
 			ctrlShow [23001, true];
 		};

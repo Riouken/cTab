@@ -15,20 +15,11 @@
 class cTab_Android_msg_dlg {
 	idd = 177481;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_Android_msg_dlg', (_this select 0)];call cTab_android_msg_onload;nop = [] call cTab_android_msg_gui_load;";
+	onLoad = "uiNamespace setVariable ['cTab_Android_msg_dlg', (_this select 0)];call cTab_android_msg_onload;";
 	onUnload = "uiNamespace setVariable ['cTab_Android_msg_dlg', displayNull];call cTab_fnc_close;";
 	objects[] = {};
 	class controlsBackground {
 
-			class background: cTab_RscPicture
-			{
-				idc = 1200;
-				text = "\cTab\img\itemAndroid_display.paa";
-				x = -1.5 * GUI_GRID_W + GUI_GRID_X;
-				y = 1 * GUI_GRID_H + GUI_GRID_Y;
-				w = 44 * GUI_GRID_W;
-				h = 35 * GUI_GRID_H;
-			};
 			class screen: cTab_RscPicture
 			{
 				idc = 1201;
@@ -41,7 +32,18 @@ class cTab_Android_msg_dlg {
 				colorBackground[] = {-1,-1,-1,0};
 				colorActive[] = {-1,-1,-1,0};
 			};
-			class btnBack: cTab_RscButton
+	
+			class background: cTab_RscPicture
+			{
+				idc = 1200;
+				text = "\cTab\img\itemAndroid_display.paa";
+				x = -1.5 * GUI_GRID_W + GUI_GRID_X;
+				y = 1 * GUI_GRID_H + GUI_GRID_Y;
+				w = 44 * GUI_GRID_W;
+				h = 35 * GUI_GRID_H;
+			};
+
+			class btnBack: cTab_RscButtonInv
 			{
 				idc = 1600;
 				x = 33.18 * GUI_GRID_W + GUI_GRID_X;
@@ -49,7 +51,7 @@ class cTab_Android_msg_dlg {
 				w = 2 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
 			};
-			class btnHome: cTab_RscButton
+			class btnHome: cTab_RscButtonInv
 			{
 				idc = 1601;
 				x = 33.26 * GUI_GRID_W + GUI_GRID_X;
@@ -57,7 +59,7 @@ class cTab_Android_msg_dlg {
 				w = 2 * GUI_GRID_W;
 				h = 1.5 * GUI_GRID_H;
 			};
-			class btnMenu: cTab_RscButton
+			class btnMenu: cTab_RscButtonInv
 			{
 				idc = 1602;
 				x = 33.16 * GUI_GRID_W + GUI_GRID_X;
