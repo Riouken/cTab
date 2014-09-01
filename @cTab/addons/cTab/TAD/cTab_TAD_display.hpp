@@ -13,7 +13,7 @@
 #define GUI_GRID_W	(GUI_TAD_W * 3/4)
 #define GUI_GRID_H	(GUI_TAD_H)
 
-#include <cTab_TAD_dialog_controls.hpp>
+#include <cTab_TAD_controls.hpp>
 
 class cTab_TAD_dsp
 {
@@ -60,7 +60,7 @@ class cTab_TAD_dsp
 		{
 			idc = IDC_CTAB_OSD_MAP_SCALE;
 			x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 2);
-			y = pxToScreen_Y(cTab_GUI_TAD_OSD_EDGE_));
+			y = pxToScreen_Y(cTab_GUI_TAD_OSD_EDGE_T);
 			w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 2);
 			h = pxToScreen_H(cTab_GUI_TAD_OSD_ELEMENT_MODE_H);
 			sizeEx = pxToScreen_H(cTab_GUI_TAD_OSD_TEXT_MODE_SIZE);

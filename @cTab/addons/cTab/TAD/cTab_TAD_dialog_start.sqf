@@ -8,6 +8,6 @@
 closeDialog 0;
 waitUntil {!dialog};
 
-createDialog "cTab_TAD_dialog";
+createDialog "cTab_TAD_dlg";
 waitUntil {dialog};
-_this + ["cTab_TAD_dialog"] call cTab_fnc_onIfOpen;
+_this + ["cTab_TAD_dlg"] call cTab_fnc_onIfOpen;

@@ -10,7 +10,7 @@ disableSerialization;
 #include <\cTab\usermenu_gui_macros.hpp>
 cTabUserPos = [];
 
-_display = (uiNamespace getVariable "cTab_TAD_dialog");
+_display = (uiNamespace getVariable "cTab_TAD_dlg");
 
 /*
 // change map centre to player position

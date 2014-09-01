@@ -241,7 +241,7 @@ uiNamespace setVariable ["cTab_main_dlg", displayNull];
 uiNamespace setVariable ["cTab_Android_dlg", displayNull];
 uiNamespace setVariable ["cTab_Veh_dlg", displayNull];
 uiNamespace setVariable ["cTab_TAD_dsp", displayNull];
-uiNamespace setVariable ["cTab_TAD_dialog", displayNull];
+uiNamespace setVariable ["cTab_TAD_dlg", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dsp", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
 uiNamespace setVariable ["cTab_hCam_dlg", displayNull];
@@ -314,7 +314,7 @@ cTab_fnc_onIfMainPressed = {
 	
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-		nul = [0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_gui_start.sqf";
+		nul = [0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_display_start.sqf";
 		true
 	};
 	
@@ -538,7 +538,7 @@ cTab_fnc_OSD_update = {
 	_displayName = cTabIfOpen select 1;
 	_display = uiNamespace getVariable _displayName;
 	
-	if (_displayName == "cTab_TAD_dialog") exitWith {
+	if (_displayName == "cTab_TAD_dlg") exitWith {
 		_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
 		if (cTabBFTtxt) then {
 			_cntrlScreen ctrlSetText "ON";
@@ -942,7 +942,7 @@ cTabOnDrawbftTADdialog = {
 	// is disableSerialization really required? If so, not sure this is the right place to call it
 	disableSerialization;
 	_return = true;
-	_display = (uiNamespace getVariable "cTab_TAD_dialog");
+	_display = (uiNamespace getVariable "cTab_TAD_dlg");
 	_cntrlScreen = controlNull;
 	call {
 		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;};

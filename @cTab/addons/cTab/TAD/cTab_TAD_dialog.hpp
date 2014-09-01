@@ -5,19 +5,19 @@
 
 #define cTab_TAD_DLGtoDSP_fctr (0.86 / GUI_GRID_H)
 
-#include <cTab_TAD_dialog_controls.hpp>
+#include <cTab_TAD_controls.hpp>
 
 #define MENU_GRID_X	(0)
 #define MENU_GRID_Y	(0)
 #define MENU_GRID_W	(0.025)
 #define MENU_GRID_H	(0.04)
 
-class cTab_TAD_dialog
+class cTab_TAD_dlg
 {
 	idd = 1755424;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_TAD_dialog', (_this select 0)];nul = [] execVM '\cTab\TAD\cTab_TAD_dialog_onload.sqf';";
-	onUnload = "uiNamespace setVariable ['cTab_TAD_dialog', displayNull];call cTab_fnc_close;";
+	onLoad = "uiNamespace setVariable ['cTab_TAD_dlg', (_this select 0)];nul = [] execVM '\cTab\TAD\cTab_TAD_dialog_onload.sqf';";
+	onUnload = "uiNamespace setVariable ['cTab_TAD_dlg', displayNull];call cTab_fnc_close;";
 	objects[] = {};
 	class controlsBackground
 	{
@@ -222,7 +222,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [4,cTabColorRed];Nop = [11,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [4,cTabColorRed];Nop = [11,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 
 				class medbtn: cTab_ActiveText
@@ -234,7 +234,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [4,cTabColorGreen];Nop = [21,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [4,cTabColorGreen];Nop = [21,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 
 				class genbtn: cTab_ActiveText
@@ -246,7 +246,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [4,cTabColorBlue];Nop = [31,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [4,cTabColorBlue];Nop = [31,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 			};
 		};
@@ -278,7 +278,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_inf.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_inf.paa'];Nop = [12,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 
 				};
 				class mecinfbtn: cTab_ActiveText
@@ -290,7 +290,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_mech_inf.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_mech_inf.paa'];Nop = [12,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 
 				class motrinfbtn: cTab_ActiveText
@@ -302,7 +302,7 @@ class cTab_TAD_dialog
 					w = 2.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_motor_inf.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_motor_inf.paa'];Nop = [12,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class amrbtn: cTab_ActiveText
 				{
@@ -313,7 +313,7 @@ class cTab_TAD_dialog
 					w = 2.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_armor.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_armor.paa'];Nop = [12,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class helibtn: cTab_ActiveText
 				{
@@ -324,7 +324,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_air.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_air.paa'];Nop = [12,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class plnbtn: cTab_ActiveText
 				{
@@ -335,7 +335,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_plane.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_plane.paa'];Nop = [12,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class uknbtn: cTab_ActiveText
 				{
@@ -346,7 +346,7 @@ class cTab_TAD_dialog
 					w = 3.45833 * MENU_GRID_W;
 					h = 0.430556 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_unknown.paa'];Nop = [12,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_unknown.paa'];Nop = [12,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 			};
 		};
@@ -379,7 +379,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class patbtn: cTab_ActiveText
 				{
@@ -390,7 +390,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class sqdbtn: cTab_ActiveText
 				{
@@ -401,7 +401,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_1.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_1.paa'];Nop = [13,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class sctbtn: cTab_ActiveText
 				{
@@ -412,7 +412,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_2.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_2.paa'];Nop = [13,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class pltnbtn: cTab_ActiveText
 				{
@@ -423,7 +423,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_3.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_3.paa'];Nop = [13,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class cpnybtn: cTab_ActiveText
 				{
@@ -434,7 +434,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_4.paa'];Nop = [13,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_4.paa'];Nop = [13,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 			};
 		};
@@ -468,7 +468,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,0];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,0];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class nebtn: cTab_ActiveText
 				{
@@ -479,7 +479,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,45];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,45];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class ebtn: cTab_ActiveText
 				{
@@ -490,7 +490,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,90];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,90];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class sebtn: cTab_ActiveText
 				{
@@ -501,7 +501,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,135];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,135];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class sbtn: cTab_ActiveText
 				{
@@ -512,7 +512,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,180];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,180];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class swbtn: cTab_ActiveText
 				{
@@ -523,7 +523,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,225];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,225];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class wbtn: cTab_ActiveText
 				{
@@ -534,7 +534,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,270];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,270];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class RscText_1022: cTab_ActiveText
 				{
@@ -545,7 +545,7 @@ class cTab_TAD_dialog
 					w = 1.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,315];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,315];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class RscText_1023: cTab_ActiveText
 				{
@@ -556,7 +556,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,500];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,500];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 
 				class stnbtn: cTab_ActiveText
@@ -568,7 +568,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [3,700];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [3,700];nop = [] call cTabUserIconPush;Nop = [10,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 
 
@@ -605,7 +605,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\join_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\join_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class ccpbtn: cTab_ActiveText
 				{
@@ -616,7 +616,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\circle_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\circle_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class basbtn: cTab_ActiveText
 				{
@@ -627,7 +627,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\mapcontrol\Hospital_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\mapcontrol\Hospital_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 
 				class mcibtn: cTab_ActiveText
@@ -639,7 +639,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\warning_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\warning_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 			};
 		};
@@ -673,7 +673,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\b_hq.paa'];nop = [] call cTabUserIconPush;Nop = [30,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\b_hq.paa'];nop = [] call cTabUserIconPush;Nop = [30,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 				class lzbtn: cTab_ActiveText
 				{
@@ -684,7 +684,7 @@ class cTab_TAD_dialog
 					w = 3.5 * MENU_GRID_W;
 					h = 0.5 * MENU_GRID_H;
 					sizeEx = .5 * MENU_GRID_H;
-					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\end_CA.paa'];nop = [] call cTabUserIconPush;Nop = [30,'cTab_TAD_dialog'] call cTabUsrMenuSelect;";
+					action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\end_CA.paa'];nop = [] call cTabUserIconPush;Nop = [30,'cTab_TAD_dlg'] call cTabUsrMenuSelect;";
 				};
 			};
 		};
