@@ -27,7 +27,6 @@ class cTab_microDAGR_dsp
 	{
 		class screen: cTab_microDAGR_RscMapControl
 		{
-			idc = IDC_CTAB_SCREEN;
 			onDraw = "nop = [] call cTabOnDrawbftmicroDAGRdsp;";
 			// set initial map scale
 			scaleDefault = "missionNamespace getVariable 'cTabMicroDAGRmapScaleCtrl'";
@@ -41,30 +40,8 @@ class cTab_microDAGR_dsp
 
 	class controls
 	{
-		class background: cTab_RscPicture
-		{
-			idc = IDC_CTAB_BACKGROUND;
-			text = "\cTab\img\microDAGR_background_ca.paa";
-			x = GUI_GRID_X;
-			y = GUI_GRID_Y;
-			w = GUI_GRID_W;
-			h = GUI_GRID_H;
-		};
-		/*
-		class on_screen_time: cTab_RscText_microDAGR
-		{
-			idc = IDC_CTAB_OSD_TIME;
-			x = pxToScreen_X(cTab_GUI_microDAGR_OSD_EDGE_L);
-			y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
-			w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 5);
-		};
-		class on_screen_current_grid: cTab_RscText_microDAGR
-		{
-			idc = IDC_CTAB_OSD_GRID;
-			x = pxToScreen_X(cTab_GUI_microDAGR_OSD_OSB13_X - cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / 2);
-			y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 2);
-			w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6);
-		};
-		*/
+		class header: cTab_microDAGR_header {};
+		class footer: cTab_microDAGR_footer {};
+		class background: cTab_microDAGR_background {};
 	};
 };

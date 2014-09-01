@@ -38,6 +38,21 @@
 #define COLOR_BLACK {0,0,0,1}
 #define COLOR_WHITE {1,1,1,1}
 
+class cTab_microDAGR_header: cTab_RscText
+{
+	idc = -1;
+	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+	colorBackground[] = COLOR_BLACK;
+};
+
+class cTab_microDAGR_footer: cTab_microDAGR_header
+{
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+};
+
 class cTab_RscButton_microDAGR_LeftUp: cTab_RscButtonInv
 {
 	x = pxToScreen_X(373);
@@ -82,6 +97,7 @@ class cTab_RscText_microDAGR: cTab_RscText
 };
 class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 {
+	idc = IDC_CTAB_SCREEN;
 	text = "#(argb,8,8,3)color(1,1,1,1)";
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
@@ -144,3 +160,74 @@ class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 	};
 	*/
 };
+
+class cTab_microDAGR_background: cTab_RscPicture
+{
+	idc = IDC_CTAB_BACKGROUND;
+	text = "\cTab\img\microDAGR_background_ca.paa";
+	x = GUI_GRID_X;
+	y = GUI_GRID_Y;
+	w = GUI_GRID_W;
+	h = GUI_GRID_H;
+};
+/*
+class cTab_microDAGR_cursor: cTab_RscPicture
+{
+	idc = -1;
+	text = "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa";
+		// "\a3\ui_f\data\map\Markers\Military\destroy_ca.paa";
+		// "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
+		// "\a3\ui_f\data\map\MarkerBrushes\cross_ca.paa"
+	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W / 2 - 128 / 33 * cTab_GUI_microDAGR_CURSOR / 2);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H / 2 - 128 / 33 * cTab_GUI_microDAGR_CURSOR / 2);
+	w = pxToScreen_W(128 / 33 * cTab_GUI_microDAGR_CURSOR);
+	h = pxToScreen_H(128 / 33 * cTab_GUI_microDAGR_CURSOR);
+	colorText[] = COLOR_NEON_GREEN;
+};
+*/
+class cTab_microDAGR_pwrbtn: cTab_RscButton_microDAGR_LeftBtn
+{
+	idc = IDC_CTAB_BTNMAIN;
+	action = "closeDialog 0;";
+	tooltip = "Close Interface";
+};
+class cTab_microDAGR_btnbrtpls: cTab_RscButton_microDAGR_RightUp
+{
+	idc = IDC_CTAB_BTNUP;
+	action = "call cTab_fnc_txt_size_inc;";
+	tooltip = "Increase Font";
+};
+class cTab_microDAGR_btnbrtmns: cTab_RscButton_microDAGR_RightDown
+{
+	idc = IDC_CTAB_BTNDWN;
+	action = "call cTab_fnc_txt_size_dec;";
+	tooltip = "Decrease Font";
+};
+class cTab_microDAGR_btnfunction: cTab_RscButton_microDAGR_RightBtn
+{
+	idc = IDC_CTAB_BTNFN;
+	action = "call cTab_fnc_txt_tggl;";
+	tooltip = "Toggle Text on/off";
+};
+class cTab_microDAGR_btnMapType: cTab_RscButton_microDAGR_LeftUp
+{
+	idc = -1;
+	action = "call cTab_fnc_map_tggl;";
+	tooltip = "Toggle Map Type";
+};
+/*
+class cTab_microDAGR_on_screen_time: cTab_RscText_microDAGR
+{
+	idc = IDC_CTAB_OSD_TIME;
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_EDGE_L);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+	w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 5);
+};
+class cTab_microDAGR_on_screen_current_grid: cTab_RscText_microDAGR
+{
+	idc = IDC_CTAB_OSD_GRID;
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_OSB13_X - cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / 2);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 2);
+	w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6);
+};
+*/
