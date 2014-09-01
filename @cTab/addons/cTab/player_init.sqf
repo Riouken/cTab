@@ -255,8 +255,17 @@ Function handling post dialog / display load handling (register event handlers)
 Parameter 0: Interface type, 0 = Main, 1 = Secondary
 Parameter 1: Unit to register killed eventhandler for
 Parameter 2: Vehicle to register GetOut eventhandler for
-Parameter 3: Name of uiNameSpace variable for display / dialog
+Parameter 3: Name of uiNameSpace variable for display / dialog (i.e. "cTab_main_dlg")
 No return
+
+This function will define cTabIfOpen, using the following format:
+Parameter 0: Interface type, 0 = Main, 1 = Secondary
+Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_main_dlg")
+Parameter 2: Unit we registered the killed eventhandler for
+Parameter 3: ID of registered eventhandler for killed event
+Optional (only if unit is in a vehicle):
+Parameter 4: Vehicle we registered the GetOut eventhandler for
+Parameter 5: ID of registered eventhandler for GetOut event
 */
 cTab_fnc_onIfOpen = {
 	_player = _this select 1;
@@ -271,7 +280,13 @@ cTab_fnc_onIfOpen = {
 	call cTab_fnc_OSD_update;
 };
 
-// fnc handling IF_Main keydown event
+/*
+Function handling IF_Main keydown event
+Based on player equipment and the vehicle type he might be in, open or close a cTab device as Main interface.
+No Parameters
+Returns TRUE when action was taken (interface opened or closed)
+Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
+*/
 cTab_fnc_onIfMainPressed = {
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
@@ -325,7 +340,13 @@ cTab_fnc_onIfMainPressed = {
 	false
 };
 
-// fnc handling IF_Secondary keydown event
+/*
+Function handling IF_Secondary keydown event
+Based on player equipment and the vehicle type he might be in, open or close a cTab device as Secondary interface.
+No Parameters
+Returns TRUE when action was taken (interface opened or closed)
+Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
+*/
 cTab_fnc_onIfSecondaryPressed = {
 	_return = false;
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) exitWith {
@@ -371,7 +392,12 @@ cTab_fnc_onIfSecondaryPressed = {
 	_return
 };
 
-// fnc handling Zoom_In keydown event
+/*
+Function handling Zoom_In keydown event
+If supported cTab interface is visible, decrease map scale
+Returns TRUE when action was taken
+Returns FALSE when no action was taken (i.e. no interface open, or unsupported interface)
+*/
 cTab_fnc_onZoomInPressed = {
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_TAD_dsp'}) exitWith {
 		if (cTabTADmapScale / 2 > cTabTADmapScaleMin) then {
@@ -395,7 +421,12 @@ cTab_fnc_onZoomInPressed = {
 	false
 };
 
-// fnc handling Zoom_Out keydown event
+/*
+Function handling Zoom_Out keydown event
+If supported cTab interface is visible, increase map scale
+Returns TRUE when action was taken
+Returns FALSE when no action was taken (i.e. no interface open, or unsupported interface)
+*/
 cTab_fnc_onZoomOutPressed = {
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_TAD_dsp'}) exitWith {
 		if (cTabTADmapScale * 2 < cTabTADmapScaleMax) then {
@@ -419,7 +450,12 @@ cTab_fnc_onZoomOutPressed = {
 	false
 };
 
-// fnc to close cTab
+/*
+Function to close cTab interface
+This function will close the currently open interface and remove any previously registered eventhandlers.
+No Parameters.
+No Return.
+*/
 cTab_fnc_close = {
 	if (!isNil "cTabIfOpen") then {
 		// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
