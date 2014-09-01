@@ -168,7 +168,7 @@ class cTab_Android_dlg {
 						w = 6 * GUI_GRID_W;
 						h = 1 * GUI_GRID_H;
 						tooltip = "Goto Messages"; //--- ToDo: Localize;
-						action = "nop = [] spawn cTab_open_android_msg;";						
+						action = "nop =  [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_open_android_msg;";						
 					};
 					class btnExitmenu: cTab_RscButton
 					{

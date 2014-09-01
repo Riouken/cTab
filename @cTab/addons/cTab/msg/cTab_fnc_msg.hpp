@@ -11,7 +11,7 @@ cTab_open_android_msg = {
 	
 	createDialog "cTab_Android_msg_dlg";
 	waitUntil {dialog};
-	_this + [177481,nil] call cTab_fnc_onIfOpen;
+	_this + ["cTab_Android_msg_dlg"] call cTab_fnc_onIfOpen;
 };
 
 cTab_android_msg_onload = {
