@@ -54,10 +54,10 @@ class cTab_microDAGR_dlg
 				// "\a3\ui_f\data\map\Markers\Military\destroy_ca.paa";
 				// "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
 				// "\a3\ui_f\data\map\MarkerBrushes\cross_ca.paa"
-			x = (cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W / 2 - 128 / 33 * cTab_GUI_microDAGR_CURSOR / 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-			y = (cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H / 2 - 128 / 33 * cTab_GUI_microDAGR_CURSOR / 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-			w = 128 / 33 * cTab_GUI_microDAGR_CURSOR / GUI_GRID_PX_W * GUI_GRID_W;
-			h = 128 / 33 * cTab_GUI_microDAGR_CURSOR / GUI_GRID_PX_H * GUI_GRID_H;
+			x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W / 2 - 128 / 33 * cTab_GUI_microDAGR_CURSOR / 2);
+			y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H / 2 - 128 / 33 * cTab_GUI_microDAGR_CURSOR / 2);
+			w = pxToScreen_W(128 / 33 * cTab_GUI_microDAGR_CURSOR);
+			h = pxToScreen_H(128 / 33 * cTab_GUI_microDAGR_CURSOR);
 			colorText[] = COLOR_NEON_GREEN;
 		};
 		*/
@@ -95,16 +95,16 @@ class cTab_microDAGR_dlg
 		class on_screen_time: cTab_RscText_microDAGR
 		{
 			idc = IDC_CTAB_OSD_TIME;
-			x = (cTab_GUI_microDAGR_OSD_EDGE_L) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-			y = (cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-			w = cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 5 / GUI_GRID_PX_W * GUI_GRID_W;
+			x = pxToScreen_X(cTab_GUI_microDAGR_OSD_EDGE_L);
+			y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+			w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 5);
 		};
 		class on_screen_current_grid: cTab_RscText_microDAGR
 		{
 			idc = IDC_CTAB_OSD_GRID;
-			x = (cTab_GUI_microDAGR_OSD_OSB13_X - cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / 2) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-			y = (cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 2) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-			w = cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / GUI_GRID_PX_W * GUI_GRID_W;
+			x = pxToScreen_X(cTab_GUI_microDAGR_OSD_OSB13_X - cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / 2);
+			y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 2);
+			w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6);
 		};
 		*/
 	};

@@ -2,11 +2,17 @@
 #define GUI_GRID_PX_W 2048 // width in pixels
 #define GUI_GRID_PX_H 2048 // hight in pixels
 
+// Base bacros to convert pixel space to screen space
+#define pxToScreen_X(PIXEL) (PIXEL) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+#define pxToScreen_Y(PIXEL) (PIXEL) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+#define pxToScreen_W(PIXEL) (PIXEL) / GUI_GRID_PX_W * GUI_GRID_W;
+#define pxToScreen_H(PIXEL) (PIXEL) / GUI_GRID_PX_H * GUI_GRID_H;
+
 // Map position within background, pixel based
 #define cTab_GUI_microDAGR_MAP_X (574)
-#define cTab_GUI_microDAGR_MAP_Y (318)
+#define cTab_GUI_microDAGR_MAP_Y (316)
 #define cTab_GUI_microDAGR_MAP_W (940)
-#define cTab_GUI_microDAGR_MAP_H (1294)
+#define cTab_GUI_microDAGR_MAP_H (1296)
 
 // On-screen edge positions (left, right, top, bottom)
 #define cTab_GUI_microDAGR_OSD_MARGIN (24)
@@ -34,53 +40,53 @@
 
 class cTab_RscButton_microDAGR_LeftUp: cTab_RscButtonInv
 {
-	x = 373 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 400 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-	w = 26 / GUI_GRID_PX_W * GUI_GRID_W;
-	h = 171 / GUI_GRID_PX_H * GUI_GRID_H;
+	x = pxToScreen_X(373);
+	y = pxToScreen_Y(400);
+	w = pxToScreen_W(26);
+	h = pxToScreen_H(171);
 };
 class cTab_RscButton_microDAGR_LeftDown: cTab_RscButton_microDAGR_LeftUp
 {
-	y = 571 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
+	y = pxToScreen_Y(571);
 };
 class cTab_RscButton_microDAGR_LeftBtn: cTab_RscButtonInv
 {
-	x = 368 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = 829 / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-	w = 31 / GUI_GRID_PX_W * GUI_GRID_W;
-	h = 184 / GUI_GRID_PX_H * GUI_GRID_H;
+	x = pxToScreen_X(368);
+	y = pxToScreen_Y(829);
+	w = pxToScreen_W(31);
+	h = pxToScreen_H(184);
 };
 class cTab_RscButton_microDAGR_RightUp: cTab_RscButton_microDAGR_LeftUp
 {
-	x = 1689 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+	x = pxToScreen_X(1689);
 };
 class cTab_RscButton_microDAGR_RightDown: cTab_RscButton_microDAGR_LeftDown
 {
-	x = 1689 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+	x = pxToScreen_X(1689);
 };
 class cTab_RscButton_microDAGR_RightBtn: cTab_RscButton_microDAGR_LeftBtn
 {
-	x = 1689 / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
+	x = pxToScreen_X(1689);
 };
 
 class cTab_RscText_microDAGR: cTab_RscText
 {
 	style = ST_CENTER;
-	w = cTab_GUI_microDAGR_OSD_ELEMENT_STD_W / GUI_GRID_PX_W * GUI_GRID_W;
-	h = cTab_GUI_microDAGR_OSD_ELEMENT_STD_H / GUI_GRID_PX_H * GUI_GRID_H;
+	w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
 	font = GUI_FONT_MONO;
 	colorText[] = COLOR_NEON_GREEN;
-	sizeEx = cTab_GUI_microDAGR_OSD_TEXT_STD_SIZE / GUI_GRID_PX_H * GUI_GRID_H;
+	sizeEx = pxToScreen_H(cTab_GUI_microDAGR_OSD_TEXT_STD_SIZE);
 	colorBackground[] = COLOR_BLACK;
 	shadow = 0;
 };
 class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 {
 	text = "#(argb,8,8,3)color(1,1,1,1)";
-	x = cTab_GUI_microDAGR_MAP_X / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X;
-	y = cTab_GUI_microDAGR_MAP_Y / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y;
-	w = cTab_GUI_microDAGR_MAP_W / GUI_GRID_PX_W * GUI_GRID_W;
-	h = cTab_GUI_microDAGR_MAP_H / GUI_GRID_PX_H * GUI_GRID_H;
+	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H);
 	//type = CT_MAP;
 	// allow to zoom out further (defines the maximum map scale, usually 1)
 	scaleMax = 1000;
