@@ -28,8 +28,7 @@ cTabUserPos = [_xpos,_ypos];
 _tempWorldPos = _cntrlScreen  posScreenToWorld [_xpos,_ypos];
 cTabUserSelIcon set [0,_tempWorldPos];
 
-_dateAry = date;
-_time = format["%1:%2",(_dateAry select 3),(_dateAry select 4)];
+_time = call cTab_fnc_currentTime;
 cTabUserSelIcon set [5,_time];
 
 _mainPopup ctrlShow True;

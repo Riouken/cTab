@@ -479,6 +479,20 @@ cTab_fnc_close = {
 	};
 };
 
+/*
+Function to retrieve current in-game time in HH:MM format
+No Parameters
+Returns string in format "HH:MM"
+*/
+cTab_fnc_currentTime = {
+	_date = date;
+	_hour = date select 3;
+	_min = date select 4;
+	if (_hour < 10) then {_hour = format ["0%1", _hour];};
+	if (_min < 10) then {_min = format ["0%1", _min];};
+	format ["%1:%2", _hour, _min]
+};
+
 // fnc to fetch infantry marker, based on Shack Tactical ST_STHud_GetMarkerName
 cTab_fnc_GetInfMarkerIcon =
 {
@@ -730,14 +744,16 @@ cTab_fnc_draw_userMarkers = {
 		_dir = _x select 3;
 		_color = _x select 4;
 		_text = "";
-		if (cTabBFTtxt) then {_text = _x select 5;};
-		_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-		if (_texture2 != "") then {
-			_cntrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-		};
+		_align = "right";
+		if ((_dir > 0) && (_dir < 180)) then {_align = "left"};
 		if (_dir < 360) then {
 			_secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
 			_cntrlScreen drawArrow [_pos, _secondPos, _color];
+		};
+		if (cTabBFTtxt) then {_text = _x select 5;};
+		_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB",_align];
+		if (_texture2 != "") then {
+			_cntrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 		};
 	} forEach cTabUserIconList;
 };
@@ -855,16 +871,7 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD
-	_hour = date select 3;
-	if (_hour < 10) then {
-		_hour = format ["0%1", _hour];
-	};
-	_min = date select 4;
-	if (_min < 10) then {
-		_min = format ["0%1", _min];
-	};
-
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText format ["%1:%2", _hour, _min];
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
 	
 	// update grid position on TAD
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
@@ -928,17 +935,8 @@ cTabOnDrawbftTADdialog = {
 	// draw vehicle icon at own location
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
-	// update time on TAD
-	_hour = date select 3;
-	if (_hour < 10) then {
-		_hour = format ["0%1", _hour];
-	};
-	_min = date select 4;
-	if (_min < 10) then {
-		_min = format ["0%1", _min];
-	};
-
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText format ["%1:%2", _hour, _min];
+	// update time on TAD	
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
 	
 	// update grid position of the current map centre on TAD
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition ([_cntrlScreen] call cTab_fnc_ctrlMapCenter)];
