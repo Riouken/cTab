@@ -217,6 +217,8 @@ cTab_fnc_ctrlMapCenter = {
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
+	cTabGroupOverlayIconSize = cTabIconSize * 1.625;
+	cTabUserMarkerArrowSize = cTabTxtFctr * 25;
 	cTabTxtSize = cTabTxtFctr / 12 * 0.035;
 	cTabAirContactGroupTxtSize = cTabTxtFctr / 12 * 0.060;
 	cTabAirContactSize = cTabTxtFctr / 12 * 32;
@@ -713,6 +715,33 @@ cTab_fnc_draw_markers = {
 };
 */
 
+/*
+Function to draw userMarkers held in cTabUserIconList to map control
+Parameter 0: Map control
+No return
+*/
+cTab_fnc_draw_userMarkers = {
+	_cntrlScreen = _this select 0;
+	_arrowLength = cTabUserMarkerArrowSize * ctrlMapScale _cntrlScreen;
+	{
+		_pos = _x select 0;
+		_texture1 = _x select 1;
+		_texture2 = _x select 2;
+		_dir = _x select 3;
+		_color = _x select 4;
+		_text = "";
+		if (cTabBFTtxt) then {_text = _x select 5;};
+		_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
+		if (_texture2 != "") then {
+			_cntrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
+		};
+		if (_dir < 360) then {
+			_secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
+			_cntrlScreen drawArrow [_pos, _secondPos, _color];
+		};
+	} forEach cTabUserIconList;
+};
+
 // This is drawn every frame on the tablet. fnc
 cTabOnDrawbft = {
 
@@ -733,41 +762,7 @@ cTabOnDrawbft = {
 
 	} forEach cTabBFTlist;
 	
-	
-	if ((count cTabUserIconList) != 0) then 
-	{
-		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-		{
-			_pos = _x select 0;
-			//_WorldCoordtmp = screenToWorld _pos;
-			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
-			_texture1 = _x select 1;
-			_texture2 = _x select 2;
-			_dir = _x select 3;
-			_color = _x select 4;
-			_text = "";
-			if (cTabBFTtxt) then {_text = _x select 5;};
-			//hint str _x;
-		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-			if (_texture2 != "") then 
-			{
-				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-			};
-	
-			if (_dir < 360) then
-			{
-			
-				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
-				_cntrlScreen drawArrow [_pos, _secondPos, _color];
-		
-			};
-
-		
-		} forEach cTabUserIconList;
-	};
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 _return;
 };
@@ -792,42 +787,7 @@ cTabOnDrawbftVeh = {
 
 	} forEach cTabBFTlist;
 	
-	
-	if ((count cTabUserIconList) != 0) then 
-	{
-		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-		{
-			_pos = _x select 0;
-			//_WorldCoordtmp = screenToWorld _pos;
-			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
-			_texture1 = _x select 1;
-			_texture2 = _x select 2;
-			_dir = _x select 3;
-			_color = _x select 4;
-			_text = "";
-			if (cTabBFTtxt) then {_text = _x select 5;};
-			//hint str _x;
-		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-			if (_texture2 != "") then 
-			{
-				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-			};
-	
-			if (_dir < 360) then
-			{
-			
-				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
-				_cntrlScreen drawArrow [_pos, _secondPos, _color];
-		
-			};
-
-		
-		} forEach cTabUserIconList;
-	};
-	
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 _return;
 };
 
@@ -886,32 +846,7 @@ cTabOnDrawbftTAD = {
 		};
 	} forEach cTabBFTlist;
 	
-	if ((count cTabUserIconList) != 0) then 
-	{
-		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-		{
-			_pos = _x select 0;
-			//_WorldCoordtmp = screenToWorld _pos;
-			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
-			_texture1 = _x select 1;
-			_texture2 = _x select 2;
-			_dir = _x select 3;
-			_color = _x select 4;
-			_text = "";
-			if (cTabBFTtxt) then {_text = _x select 5;};
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-			if (_texture2 != "") then 
-			{
-				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-			};
-			if (_dir < 360) then
-			{
-				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
-				_cntrlScreen drawArrow [_pos, _secondPos, _color];
-			};
-		} forEach cTabUserIconList;
-	};
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw vehicle icon at own location
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -988,32 +923,7 @@ cTabOnDrawbftTADdialog = {
 		};
 	} forEach cTabBFTlist;
 	
-	if ((count cTabUserIconList) != 0) then 
-	{
-		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-		{
-			_pos = _x select 0;
-			//_WorldCoordtmp = screenToWorld _pos;
-			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
-			_texture1 = _x select 1;
-			_texture2 = _x select 2;
-			_dir = _x select 3;
-			_color = _x select 4;
-			_text = "";
-			if (cTabBFTtxt) then {_text = _x select 5;};
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-			if (_texture2 != "") then 
-			{
-				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-			};
-			if (_dir < 360) then
-			{
-				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
-				_cntrlScreen drawArrow [_pos, _secondPos, _color];
-			};
-		} forEach cTabUserIconList;
-	};
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw vehicle icon at own location
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -1061,40 +971,7 @@ cTabOnDrawbftAndroid = {
 	} forEach cTabBFTlist;
 	
 	
-	if ((count cTabUserIconList) != 0) then 
-	{
-		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-		{
-			_pos = _x select 0;
-			//_WorldCoordtmp = screenToWorld _pos;
-			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
-			_texture1 = _x select 1;
-			_texture2 = _x select 2;
-			_dir = _x select 3;
-			_color = _x select 4;
-			_text = "";
-			if (cTabBFTtxt) then {_text = _x select 5;};
-			//hint str _x;
-		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-			if (_texture2 != "") then 
-			{
-				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-			};
-	
-			if (_dir < 360) then
-			{
-			
-				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
-				_cntrlScreen drawArrow [_pos, _secondPos, _color];
-		
-			};
-
-		
-		} forEach cTabUserIconList;
-	};
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 _return;
 };
@@ -1137,33 +1014,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 		};
 	} forEach cTabBFTlist;
 	
-	if ((count cTabUserIconList) != 0) then {
-		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-		{
-			_pos = _x select 0;
-			//_WorldCoordtmp = screenToWorld _pos;
-			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
-			_texture1 = _x select 1;
-			_texture2 = _x select 2;
-			_dir = _x select 3;
-			_color = _x select 4;
-			_text = "";
-			if (cTabBFTtxt) then {_text = _x select 5;};
-			//hint str _x;
-		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-			if (_texture2 != "") then {
-				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-			};
-	
-			if (_dir < 360) then {
-				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
-				_cntrlScreen drawArrow [_pos, _secondPos, _color];
-			};
-		} forEach cTabUserIconList;
-	};
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -1206,33 +1057,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 		};
 	} forEach cTabBFTlist;
 	
-	if ((count cTabUserIconList) != 0) then {
-		// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-		{
-			_pos = _x select 0;
-			//_WorldCoordtmp = screenToWorld _pos;
-			//_WorldCoord = [_WorldCoordtmp select 0,_WorldCoordtmp select 1,0];
-			_texture1 = _x select 1;
-			_texture2 = _x select 2;
-			_dir = _x select 3;
-			_color = _x select 4;
-			_text = "";
-			if (cTabBFTtxt) then {_text = _x select 5;};
-			//hint str _x;
-		
-			_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-			if (_texture2 != "") then {
-				_secondPos = [_pos,5,0] call BIS_fnc_relPos;
-				_cntrlScreen drawIcon [_texture2,_color,_secondPos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-			};
-	
-			if (_dir < 360) then {
-				_secondPos = [_pos,26,_dir] call BIS_fnc_relPos;
-				_cntrlScreen drawArrow [_pos, _secondPos, _color];
-			};
-		} forEach cTabUserIconList;
-	};
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
