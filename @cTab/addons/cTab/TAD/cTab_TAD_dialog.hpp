@@ -7,10 +7,8 @@
 
 #include <cTab_TAD_controls.hpp>
 
-#define MENU_GRID_X	(0)
-#define MENU_GRID_Y	(0)
-#define MENU_GRID_W	(0.025)
-#define MENU_GRID_H	(0.04)
+#define MENU_sizeEx pxToScreen_H(cTab_GUI_TAD_OSD_TEXT_STD_SIZE)
+#include <\cTab\cTab_markerMenu_macros.hpp>
 
 class cTab_TAD_dlg
 {
