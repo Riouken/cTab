@@ -1293,7 +1293,7 @@ cTabOnDrawHCam = {
 cTabUsrMenuSelect = {
 	disableSerialization;
 	_type = _this select 0;
-	_dlg = _this select 1;
+	_dlg = cTabIfOpen select 1;
 	_display = (uiNamespace getVariable _dlg);
 	_return = True;
 	
