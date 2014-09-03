@@ -1122,6 +1122,11 @@ cTabUsrMenuSelect = {
 	
 	switch (_type) do
 	{
+		case 0:
+		{
+			{ctrlShow [_x, False];} forEach [3300,3301,3302,3303,3304,3305,3306];
+		};
+		
 		case 11:
 		{
 			ctrlShow [3300, False];

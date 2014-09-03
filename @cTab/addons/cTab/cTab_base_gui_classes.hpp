@@ -1854,3 +1854,13 @@ class cTab_RscMapControl
 
 
 };
+
+class cTab_MenuItem: cTab_ActiveText
+{
+	colorActive[] = {255/255,165/255,0/255,1};
+};
+
+class cTab_MenuExit: cTab_MenuItem
+{
+	color[] = {1,1,1,0.75};
+};
