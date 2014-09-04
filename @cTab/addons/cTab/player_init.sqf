@@ -732,7 +732,7 @@ cTab_fnc_draw_markers = {
 /*
 Function to draw userMarkers held in cTabUserIconList to map control
 Parameter 0: Map control
-No return
+Returns TRUE
 */
 cTab_fnc_draw_userMarkers = {
 	_cntrlScreen = _this select 0;
@@ -756,6 +756,7 @@ cTab_fnc_draw_userMarkers = {
 			_cntrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 		};
 	} forEach cTabUserIconList;
+	true
 };
 
 // This is drawn every frame on the tablet. fnc
