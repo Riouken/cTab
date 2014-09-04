@@ -493,6 +493,17 @@ cTab_fnc_currentTime = {
 	format ["%1:%2", _hour, _min]
 };
 
+/*
+Function to calculate octant from direction
+Parameter 0: Octant in degrees
+Return: String of matching octant
+*/
+cTab_fnc_degreeToOctant = {
+	_dir = _this select 0;
+	_octant = round (_dir / 45);
+	["N ","NE","E ","SE","S ","SW","W ","NW","N "] select _octant
+};
+
 // fnc to fetch infantry marker, based on Shack Tactical ST_STHud_GetMarkerName
 cTab_fnc_GetInfMarkerIcon =
 {
@@ -759,6 +770,37 @@ cTab_fnc_draw_userMarkers = {
 	true
 };
 
+/*
+	Function to calculate and draw hook distance, direction, grid and arrow
+	Parameter 0: Display used to write hook direction, distance and grid to
+	Parameter 1: Map control to draw arrow on
+	Parameter 2: Position A
+	Parameter 3: Position B
+	Parameter 4: Mode, 0 = Reference is A, 1 = Reference is B
+	Returns TRUE
+*/
+cTab_fnc_draw_hook = {
+	private ["_display","_cntrlScreen","_pos","_secondPos"]; 
+	_display = _this select 0;
+	_cntrlScreen = _this select 1;
+	if (_this select 4 == 0) then {
+		_pos = _this select 2;
+		_secondPos = _this select 3;
+	} else {
+		_pos = _this select 3;
+		_secondPos = _this select 2;
+	};
+	_dirToSecondPos = [_pos,_secondPos] call BIS_fnc_dirTo;
+	_dstToSecondPos = [_pos,_secondPos] call BIS_fnc_distance2D;
+	(_display displayCtrl IDC_CTAB_OSD_HOOK_GRID) ctrlSetText format ["%1", mapGridPosition _secondPos];
+	(_display displayCtrl IDC_CTAB_OSD_HOOK_DIR) ctrlSetText format ["%1 %2",[_dirToSecondPos,3] call CBA_fnc_formatNumber,[_dirToSecondPos] call cTab_fnc_degreeToOctant];
+	(_display displayCtrl IDC_CTAB_OSD_HOOK_DST) ctrlSetText format ["%1km",[_dstToSecondPos / 1000,1,2] call CBA_fnc_formatNumber];
+	
+	// draw arror from current position to map centre on MicroDAGR
+	_cntrlScreen drawArrow [_pos,_secondPos,cTabMicroDAGRhighlightColour];
+	true
+};
+
 // This is drawn every frame on the tablet. fnc
 cTabOnDrawbft = {
 
@@ -1018,6 +1060,16 @@ cTabOnDrawbftmicroDAGRdsp = {
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
+	// update time on MicroDAGR
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+	
+	// update grid position on MicroDAGR
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
+	
+	// update current heading on MicroDAGR
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
+	
 	_return;
 };
 
@@ -1060,6 +1112,20 @@ cTabOnDrawbftMicroDAGRdlg = {
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	
+	// update time on MicroDAGR	
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+	
+	// update grid position on MicroDAGR
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
+	
+	// update current heading on MicroDAGR
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
+	
+	// update hook information
+	_secondPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
+	[_display,_cntrlScreen,_playerPos,_secondPos,0] call cTab_fnc_draw_hook;
 	
 	_return;
 };

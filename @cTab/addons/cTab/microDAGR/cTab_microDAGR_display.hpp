@@ -42,6 +42,13 @@ class cTab_microDAGR_dsp
 	{
 		class header: cTab_microDAGR_header {};
 		class footer: cTab_microDAGR_footer {};
+		class battery: cTab_microDAGR_on_screen_battery {};
+		class time: cTab_microDAGR_on_screen_time {};
+		class signalStrength: cTab_microDAGR_on_screen_signalStrength {};
+		class satellite: cTab_microDAGR_on_screen_satellite {};
+		class dirDegree: cTab_microDAGR_on_screen_dirDegree {};
+		class grid: cTab_microDAGR_on_screen_grid {};
+		class dirOctant: cTab_microDAGR_on_screen_dirOctant {};
 		class background: cTab_microDAGR_background {};
 	};
 };

@@ -9,30 +9,39 @@
 #define pxToScreen_H(PIXEL) (PIXEL) / GUI_GRID_PX_H * GUI_GRID_H
 
 // Map position within background, pixel based
-#define cTab_GUI_microDAGR_MAP_X (574)
-#define cTab_GUI_microDAGR_MAP_Y (316)
-#define cTab_GUI_microDAGR_MAP_W (940)
+#define cTab_GUI_microDAGR_MAP_X (573)
+#define cTab_GUI_microDAGR_MAP_Y (317)
+#define cTab_GUI_microDAGR_MAP_W (942)
 #define cTab_GUI_microDAGR_MAP_H (1296)
+
+// Height of header and footer OSD elements
+#define cTab_GUI_microDAGR_OSD_HEADER_H (94)
+#define cTab_GUI_microDAGR_OSD_FOOTER_H (cTab_GUI_microDAGR_OSD_HEADER_H)
 
 // On-screen edge positions (left, right, top, bottom)
 #define cTab_GUI_microDAGR_OSD_MARGIN (24)
 #define cTab_GUI_microDAGR_OSD_EDGE_L (cTab_GUI_microDAGR_OSD_MARGIN + cTab_GUI_microDAGR_MAP_X)
 #define cTab_GUI_microDAGR_OSD_EDGE_R (-cTab_GUI_microDAGR_OSD_MARGIN + cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W)
 #define cTab_GUI_microDAGR_OSD_EDGE_T (cTab_GUI_microDAGR_OSD_MARGIN + cTab_GUI_microDAGR_MAP_Y)
-#define cTab_GUI_microDAGR_OSD_EDGE_B (-cTab_GUI_microDAGR_OSD_MARGIN + cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H)
+#define cTab_GUI_microDAGR_OSD_EDGE_B (-cTab_GUI_microDAGR_OSD_FOOTER_H + cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H)
 
 // On-screen element base width and height
-#define cTab_GUI_microDAGR_OSD_ELEMENT_STD_W (25)
-#define cTab_GUI_microDAGR_OSD_ELEMENT_STD_H (53)
+#define cTab_GUI_microDAGR_OSD_ELEMENT_STD_W ((cTab_GUI_microDAGR_MAP_W - cTab_GUI_microDAGR_OSD_MARGIN * 4) / 3)
+#define cTab_GUI_microDAGR_OSD_ELEMENT_STD_H (cTab_GUI_microDAGR_OSD_HEADER_H - cTab_GUI_microDAGR_OSD_MARGIN)
+
+// On-screen element X-coord for left, center and right elements
+#define cTab_GUI_microDAGR_OSD_LEFT_X (cTab_GUI_microDAGR_OSD_EDGE_L)
+#define cTab_GUI_microDAGR_OSD_CENTER_X (cTab_GUI_microDAGR_OSD_EDGE_L + cTab_GUI_microDAGR_OSD_MARGIN + cTab_GUI_microDAGR_OSD_ELEMENT_STD_W)
+#define cTab_GUI_microDAGR_OSD_RIGHT_X (cTab_GUI_microDAGR_OSD_EDGE_R - cTab_GUI_microDAGR_OSD_ELEMENT_STD_W)
 
 // On-screen text sizes, hight in pixels
 // Standard text elements
-#define cTab_GUI_microDAGR_OSD_TEXT_STD_SIZE (42)
+#define cTab_GUI_microDAGR_OSD_TEXT_STD_SIZE (60)
+#define cTab_GUI_microDAGR_OSD_ICON_STD_SIZE (50)
 
-/*
 // On-screen map centre cursor
-#define cTab_GUI_microDAGR_CURSOR (48)
-*/
+#define cTab_GUI_microDAGR_CURSOR (38)
+
 // define colours
 #define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
 #define COLOR_BLACK {0,0,0,1}
@@ -44,15 +53,14 @@ class cTab_microDAGR_header: cTab_RscText
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
-	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_HEADER_H);
 	colorBackground[] = COLOR_BLACK;
 };
-
 class cTab_microDAGR_footer: cTab_microDAGR_header
 {
-	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H - cTab_GUI_microDAGR_OSD_FOOTER_H);
+	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_FOOTER_H);
 };
-
 class cTab_RscButton_microDAGR_LeftUp: cTab_RscButtonInv
 {
 	x = pxToScreen_X(373);
@@ -90,7 +98,7 @@ class cTab_RscText_microDAGR: cTab_RscText
 	w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W);
 	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
 	font = GUI_FONT_MONO;
-	colorText[] = COLOR_NEON_GREEN;
+	colorText[] = COLOR_WHITE;
 	sizeEx = pxToScreen_H(cTab_GUI_microDAGR_OSD_TEXT_STD_SIZE);
 	colorBackground[] = COLOR_BLACK;
 	shadow = 0;
@@ -100,9 +108,9 @@ class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 	idc = IDC_CTAB_SCREEN;
 	text = "#(argb,8,8,3)color(1,1,1,1)";
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
-	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_OSD_HEADER_H);
 	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
-	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H - cTab_GUI_microDAGR_OSD_HEADER_H - cTab_GUI_microDAGR_OSD_FOOTER_H);
 	//type = CT_MAP;
 	// allow to zoom out further (defines the maximum map scale, usually 1)
 	scaleMax = 1000;
@@ -160,7 +168,6 @@ class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 	};
 	*/
 };
-
 class cTab_microDAGR_background: cTab_RscPicture
 {
 	idc = IDC_CTAB_BACKGROUND;
@@ -170,7 +177,6 @@ class cTab_microDAGR_background: cTab_RscPicture
 	w = GUI_GRID_W;
 	h = GUI_GRID_H;
 };
-/*
 class cTab_microDAGR_cursor: cTab_RscPicture
 {
 	idc = -1;
@@ -184,7 +190,6 @@ class cTab_microDAGR_cursor: cTab_RscPicture
 	h = pxToScreen_H(128 / 33 * cTab_GUI_microDAGR_CURSOR);
 	colorText[] = COLOR_NEON_GREEN;
 };
-*/
 class cTab_microDAGR_pwrbtn: cTab_RscButton_microDAGR_LeftBtn
 {
 	idc = IDC_CTAB_BTNMAIN;
@@ -215,19 +220,72 @@ class cTab_microDAGR_btnMapType: cTab_RscButton_microDAGR_LeftUp
 	action = "call cTab_fnc_map_tggl;";
 	tooltip = "Toggle Map Type";
 };
-/*
+class cTab_microDAGR_on_screen_battery: cTab_RscPicture
+{
+	idc = -1;
+	text = "\cTab\img\icon_battery_ca.paa";
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_LEFT_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_T + (cTab_GUI_microDAGR_OSD_ELEMENT_STD_H - cTab_GUI_microDAGR_OSD_ICON_STD_SIZE) / 2);
+	w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ICON_STD_SIZE);
+	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_ICON_STD_SIZE);
+	colorText[] = COLOR_WHITE;
+};
 class cTab_microDAGR_on_screen_time: cTab_RscText_microDAGR
 {
 	idc = IDC_CTAB_OSD_TIME;
-	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_EDGE_L);
-	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
-	w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 5);
+	style = ST_CENTER;
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_CENTER_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_T);
 };
-class cTab_microDAGR_on_screen_current_grid: cTab_RscText_microDAGR
+class cTab_microDAGR_on_screen_signalStrength: cTab_microDAGR_on_screen_battery
+{
+	idc = -1;
+	text = "\cTab\img\icon_signalStrength_ca.paa";
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_RIGHT_X + cTab_GUI_microDAGR_OSD_ELEMENT_STD_W - cTab_GUI_microDAGR_OSD_ICON_STD_SIZE * 2);
+	colorText[] = COLOR_WHITE;
+};
+class cTab_microDAGR_on_screen_satellite: cTab_microDAGR_on_screen_battery
+{
+	idc = -1;
+	text = "\a3\ui_f\data\map\Diary\signal_ca.paa";
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_RIGHT_X + cTab_GUI_microDAGR_OSD_ELEMENT_STD_W - cTab_GUI_microDAGR_OSD_ICON_STD_SIZE);
+	colorText[] = COLOR_WHITE;
+};
+class cTab_microDAGR_on_screen_dirDegree: cTab_RscText_microDAGR
+{
+	idc = IDC_CTAB_OSD_DIR_DEGREE;
+	style = ST_LEFT;
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B);
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_LEFT_X);
+};
+class cTab_microDAGR_on_screen_grid: cTab_microDAGR_on_screen_dirDegree
 {
 	idc = IDC_CTAB_OSD_GRID;
-	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_OSB13_X - cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6 / 2);
-	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 2);
-	w = pxToScreen_W(cTab_GUI_microDAGR_OSD_ELEMENT_STD_W * 6);
+	style = ST_CENTER;
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_CENTER_X);
 };
-*/
+class cTab_microDAGR_on_screen_dirOctant: cTab_microDAGR_on_screen_dirDegree
+{
+	idc = IDC_CTAB_OSD_DIR_OCTANT;
+	style = ST_RIGHT;
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_RIGHT_X);
+};
+class cTab_microDAGR_on_screen_hookGrid: cTab_RscText_microDAGR
+{
+	idc = IDC_CTAB_OSD_HOOK_GRID;
+	style = ST_CENTER;
+	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_RIGHT_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_MARGIN - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 3);
+	colorText[] = {1,1,1,0.5};
+	colorBackground[] = {0,0,0,0.25};
+};
+class cTab_microDAGR_on_screen_hookDst: cTab_microDAGR_on_screen_hookGrid
+{
+	idc = IDC_CTAB_OSD_HOOK_DST;
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_MARGIN - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H * 2);
+};
+class cTab_microDAGR_on_screen_hookDir: cTab_microDAGR_on_screen_hookGrid
+{
+	idc = IDC_CTAB_OSD_HOOK_DIR;
+	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_MARGIN - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+};

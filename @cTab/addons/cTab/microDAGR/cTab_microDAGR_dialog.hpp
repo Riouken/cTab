@@ -36,13 +36,24 @@ class cTab_microDAGR_dlg
 
 	class controls
 	{
+		class cursor: cTab_microDAGR_cursor {};
 		class header: cTab_microDAGR_header {};
 		class footer: cTab_microDAGR_footer {};
+		class battery: cTab_microDAGR_on_screen_battery {};
+		class time: cTab_microDAGR_on_screen_time {};
+		class signalStrength: cTab_microDAGR_on_screen_signalStrength {};
+		class satellite: cTab_microDAGR_on_screen_satellite {};
+		class dirDegree: cTab_microDAGR_on_screen_dirDegree {};
+		class grid: cTab_microDAGR_on_screen_grid {};
+		class dirOctant: cTab_microDAGR_on_screen_dirOctant {};
 		class background: cTab_microDAGR_background {};
 		class pwrbtn: cTab_microDAGR_pwrbtn {};
 		class btnbrtpls: cTab_microDAGR_btnbrtpls {};
 		class btnbrtmns: cTab_microDAGR_btnbrtmns {};
 		class btnfunction: cTab_microDAGR_btnfunction {};
+		class hookGrid: cTab_microDAGR_on_screen_hookGrid {};
+		class hookDst: cTab_microDAGR_on_screen_hookDst {};
+		class hookDir: cTab_microDAGR_on_screen_hookDir {};
 		class btnMapType: cTab_microDAGR_btnMapType {};
 	};
 };
