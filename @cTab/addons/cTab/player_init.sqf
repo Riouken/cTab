@@ -16,7 +16,10 @@
 }] call CBA_fnc_addEventHandler;
 
 //prep the arrays that will hold ctab data
-cTabBFTlist = [];
+cTabBFTmembers = [];
+cTabBFTgroups = [];
+cTabBFTvehicles = [];
+cTabHcamlist = [];
 cTabHcamlist = [];
 
 if (isnil ("cTabSide")) then {cTabSide = west;}; 
@@ -217,6 +220,7 @@ cTab_fnc_ctrlMapCenter = {
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
+	cTabIconManSize = cTabIconSize * 0.75;
 	cTabGroupOverlayIconSize = cTabIconSize * 1.625;
 	cTabUserMarkerArrowSize = cTabTxtFctr * 25;
 	cTabTxtSize = cTabTxtFctr / 12 * 0.035;
@@ -771,6 +775,73 @@ cTab_fnc_draw_userMarkers = {
 };
 
 /*
+Function to draw items contained in cTabBFTmembers
+Parameter 0: Map control to draw BFT icons on
+Return TRUE
+*/
+cTab_fnc_draw_BFTmembers = {
+	_cntrlScreen = _this select 0;
+	{
+		_obj = _x select 0;
+		_text = if (cTabBFTtxt) then {_x select 3} else {""};
+		_groupID = _x select 4;
+		_pos = getPosASL _obj;
+		_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconManSize,cTabIconManSize,direction _obj,_groupID,0,cTabTxtSize,"TahomaB"];
+	} forEach cTabBFTmembers;
+	true
+};
+
+/*
+Function to draw items contained in cTabBFTgroups
+Parameter 0: Map control to draw BFT icons on
+Return TRUE
+*/
+cTab_fnc_draw_BFTgroups = {	
+	_cntrlScreen = _this select 0;
+	{
+		_obj = _x select 0;
+		_text = if (cTabBFTtxt) then {_x select 3} else {""};
+		_pos = getPosASL _obj;
+		_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
+		_cntrlScreen drawIcon [_x select 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB"];
+	} forEach cTabBFTgroups;
+	true
+};
+
+/*
+Function to draw items contained in cTabBFTvehicles
+Parameter 0: Map control to draw BFT icons on
+Parameter 1: Mode, FALSE = Ground, TRUE = Air (for TAD)
+Return TRUE
+*/
+cTab_fnc_draw_BFTvehicles = {
+	_cntrlScreen = _this select 0;
+	_modeTAD = _this select 1;
+	{
+		_obj = _x select 0;
+		_iconB = _x select 2;
+		_text = if (cTabBFTtxt) then {_x select 3} else {""};
+		_groupID = _x select 4;
+		_pos = getPosASL _obj;
+		
+		if (_modeTAD && {_iconB != ""}) then {
+			// draw air contact icon and dummy icon for the text to have a better alignment
+			if (_groupID != "") then {
+				_cntrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
+				_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupID,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
+			} else {
+				_cntrlScreen drawIcon [_iconB,cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
+				_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB"];
+			};
+		} else {
+			_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
+		};
+	} forEach cTabBFTvehicles;
+	true
+};
+
+
+/*
 	Function to calculate and draw hook distance, direction, grid and arrow
 	Parameter 0: Display used to write hook direction, distance and grid to
 	Parameter 1: Map control to draw arrow on
@@ -803,51 +874,34 @@ cTab_fnc_draw_hook = {
 
 // This is drawn every frame on the tablet. fnc
 cTabOnDrawbft = {
-
-	_return = true;
 	_display = (uiNamespace getVariable "cTab_main_dlg");
 	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 
-	{
-		_obj = _x select 0;
-		_texture = _x select 1;
-		_text = "";
-		_pos = getPosASL _obj;
-		
-		if (cTabBFTtxt) then {_text = _x select 2;};
-		
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-
-	} forEach cTabBFTlist;
-	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
 	
-_return;
+	// draw directional arrow at own location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	
+	true
 };
 
 // This is drawn every frame on the vehicle display. fnc
 cTabOnDrawbftVeh = {
-
-	_return = true;
 	_display = (uiNamespace getVariable "cTab_Veh_dlg");
 	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
-
-	{
-		_obj = _x select 0;
-		_texture = _x select 1;
-		_text = "";
-		_pos = getPosASL _obj;
-		
-		if (cTabBFTtxt) then {_text = _x select 2;};
-		
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-
-	} forEach cTabBFTlist;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-_return;
+	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	
+	// draw directional arrow at own location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	
+	true
 };
 
 // This is drawn every frame on the TAD display. fnc
@@ -855,7 +909,6 @@ cTabOnDrawbftTAD = {
 	// is disableSerialization really required? If so, not sure this is the right place to call it
 	disableSerialization;
 	
-	_return = true;
 	_display = (uiNamespace getVariable "cTab_TAD_dsp");
 	_cntrlScreen = controlNull;
 	call {
@@ -873,39 +926,10 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	{
-		_obj = _x select 0;
-		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
-		if (!(player in _obj)) then
-		{
-			_texture = _x select 1;
-			_text = "";
-			_pos = getPosASL _obj;
-			if (cTabBFTtxt) then {_text = _x select 2;};
-			// check if object is an air vehicle
-			if (_obj isKindOf "Air") then
-			{
-				// check if air contact and player are in the same group group, if so, change _symbolColour
-				if (player in units _obj) then {
-					_groupIndex = _x select 3;
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
-					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabAirContactGroupTxtSize,"TahomaB","center"];
-				} else {
-					// draw air contact icon and dummy icon for the text to have a better alignment
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
-					//_cntrlScreen drawRectangle [[(_pos select 0) + 160 + 80,_pos select 1],160,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB"];
-				};
-			}
-			else
-			{
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
-			};
-		};
-	} forEach cTabBFTlist;
-	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
 	
 	// draw vehicle icon at own location
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -919,14 +943,14 @@ cTabOnDrawbftTAD = {
 	// update grid position on TAD
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
-	_return;
+	true
 };
 
 // This is drawn every frame on the TAD dialog. fnc
 cTabOnDrawbftTADdialog = {
 	// is disableSerialization really required? If so, not sure this is the right place to call it
 	disableSerialization;
-	_return = true;
+	
 	_display = (uiNamespace getVariable "cTab_TAD_dlg");
 	_cntrlScreen = controlNull;
 	call {
@@ -935,45 +959,14 @@ cTabOnDrawbftTADdialog = {
 		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_BLACK;};
 	};
 	
-	//[_cntrlScreen] call cTab_fnc_draw_markers;
+	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
 	
 	// current position
 	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
-	
-	{
-		_obj = _x select 0;
-		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
-		if (!(player in _obj)) then
-		{
-			_texture = _x select 1;
-			_text = "";
-			_pos = getPosASL _obj;
-			if (cTabBFTtxt) then {_text = _x select 2;};
-			// check if object is an air vehicle
-			if (_obj isKindOf "Air") then
-			{
-				// check if air contact and player are in the same group group, if so, change _symbolColour
-				if (player in units _obj) then {
-					_groupIndex = _x select 3;
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
-					//_cntrlScreen drawRectangle [_pos,30,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupIndex,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
-				} else {
-					// draw air contact icon and dummy icon for the text to have a better alignment
-					_cntrlScreen drawIcon ["\cTab\img\icon_air_contact_ca.paa",cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
-					//_cntrlScreen drawRectangle [[(_pos select 0) + 160 + 80,_pos select 1],160,40,0,[0,0,0,1],"#(rgb,1,1,1)color(0,0,0,1)"];
-					_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB"];
-				};
-			}
-			else
-			{
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
-			};
-		};
-	} forEach cTabBFTlist;
-	
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw vehicle icon at own location
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -983,43 +976,28 @@ cTabOnDrawbftTADdialog = {
 	
 	// update grid position of the current map centre on TAD
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition ([_cntrlScreen] call cTab_fnc_ctrlMapCenter)];
-	/*
-	// update current map scale on TAD
-	// divide by 2 because we want to display the radius, not the diameter
-	(_display displayCtrl IDC_CTAB_OSD_MAP_SCALE) ctrlSetText format ["%1", cTabTADmapScale / 2];
-	*/
-	_return;
+	
+	true
 };
 
 // This is drawn every frame on the android. fnc
 cTabOnDrawbftAndroid = {
-
-	_return = true;
 	_display = (uiNamespace getVariable "cTab_Android_dlg");
 	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
 
-	{
-		_obj = _x select 0;
-		_texture = _x select 1;
-		_text = "";
-		_pos = getPosASL _obj;
-		
-		if (cTabBFTtxt) then {_text = _x select 2;};
-		
-		_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-
-
-	} forEach cTabBFTlist;
-	
-	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
 	
-_return;
+	// draw directional arrow at own location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	
+	true
 };
 
 // This is drawn every frame on the microDAGR display. fnc
 cTabOnDrawbftmicroDAGRdsp = {
-	_return = true;
 	_display = (uiNamespace getVariable "cTab_microDAGR_dsp");
 	_cntrlScreen = controlNull;
 	if (cTabBFTmapType) then {
@@ -1035,27 +1013,8 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	{
-		_obj = _x select 0;
-		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
-		if (!(player in _obj)) then
-		{
-			_texture = _x select 1;
-			_text = "";
-			_pos = getPosASL _obj;
-			// check if object is infantry, not currently in a vehicle and in the same group as the player
-			if (((vehicle _obj) isKindOf "Man") && {player in units _obj}) exitWith {
-				_texture = _obj call cTab_fnc_GetInfMarkerIcon;
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTADownIconBaseSize, cTabTADownIconBaseSize, direction _obj, _text, 0, cTabTxtSize,"TahomaB"];
-			};
-			if (!((_obj isKindOf "Man") && {vehicle _obj != _obj})) then {
-				if (cTabBFTtxt) then {_text = _x select 2;};
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-			};
-		};
-	} forEach cTabBFTlist;
-	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -1070,12 +1029,11 @@ cTabOnDrawbftmicroDAGRdsp = {
 	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
-	_return;
+	true
 };
 
 // This is drawn every frame on the microDAGR dialog. fnc
 cTabOnDrawbftMicroDAGRdlg = {
-	_return = true;
 	_display = (uiNamespace getVariable "cTab_microDAGR_dlg");
 	_cntrlScreen = controlNull;
 	if (cTabBFTmapType) then {
@@ -1088,27 +1046,8 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
 	
-	{
-		_obj = _x select 0;
-		// check if the player is not occupying the vehicle we are about to draw an icon for and don't draw if that's the case
-		if (!(player in _obj)) then
-		{
-			_texture = _x select 1;
-			_text = "";
-			_pos = getPosASL _obj;
-			// check if object is infantry, not currently in a vehicle and in the same group as the player
-			if (((vehicle _obj) isKindOf "Man") && {player in units _obj}) exitWith {
-				_texture = _obj call cTab_fnc_GetInfMarkerIcon;
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabTADownIconBaseSize, cTabTADownIconBaseSize, direction _obj, _text, 0, cTabTxtSize,"TahomaB"];
-			};
-			if (!((_obj isKindOf "Man") && {vehicle _obj != _obj})) then {
-				if (cTabBFTtxt) then {_text = _x select 2;};
-				_cntrlScreen drawIcon [_texture,cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB"];
-			};
-		};
-	} forEach cTabBFTlist;
-	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -1127,7 +1066,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_secondPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
 	[_display,_cntrlScreen,_playerPos,_secondPos,0] call cTab_fnc_draw_hook;
 	
-	_return;
+	true
 };
 
 // This is drawn every frame on the tablet uav screen. fnc
@@ -1143,6 +1082,7 @@ cTabOnDrawUAV = {
 	
 	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
+	true
 };
 
 // This is drawn every frame on the tablet helmet cam screen. fnc
@@ -1158,6 +1098,7 @@ cTabOnDrawHCam = {
 	
 	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
+	true
 };
 
 
@@ -1387,57 +1328,91 @@ cTab_fnc_checkHeadGear = {
 
 // Main loop to manage lists of people and veh that are shown in FBCB2
 cTab_fnc_update_lists = {
-	_cTabBFTlist = [];
-	_cTabHcamlist = [];
+	/*
+	List format
+	Index 0: Unit object
+	Index 1: Path to icon A
+	Index 2: Path to icon B (either group size or wingmen)
+	Index 3: Text to display
+	Index 4: String of group index
+	*/
+	_cTabBFTmembers = []; // members of player's group
+	_cTabBFTgroups = []; // other groups
+	_cTabBFTvehicles = []; // all vehicles
+	_cTabHcamlist = [];  // units with a helmet cam
 	
+	/*
+	cTabBFTmembers --- GROUP MEMBERS
+	*/
 	{
-		if (side _x == cTabSide) then
-		{
-			if ([_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear) then
-			{
-				_name = groupID (group _x);
-				_groupIndex = str([_x] call CBA_fnc_getGroupIndex);
-				_tmpArray = [_x,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_name,_groupIndex];
-				_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
+		if ((_x != player) && {[_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear}) then {
+			_tmpArray = [_x,_x call cTab_fnc_GetInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
+			_cTabBFTmembers set [count _cTabBFTmembers,_tmpArray];
+		};
+	} forEach units group player;
+	
+	/*
+	cTabBFTgroups --- GROUPS
+	Groups on our side that player is not a member of. Use the leader for positioning if he has a Tablet or Android.
+	Else, search through the group and use the first member we find equipped with a Tablet or Android for positioning.
+	Should that person be inside a vehicle, do not add the group.
+	*/
+	{
+		if ((side _x == cTabSide) && {_x != group player}) then {
+			_leader = objNull;
+			if ([leader _x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then {
+				_leader = leader _x;
+			} else {
+				{
+					if ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) exitWith {_leader = _x;};
+				} forEach units _x;
 			};
-			
-			if ([_x,["ItemcTabHCam"]] call cTab_fnc_checkGear || {[_x,cTab_helmetClass_has_HCam] call cTab_fnc_checkHeadGear}) then
-			{
-				_cTabHcamlist set [count _cTabHcamlist,_x];
+			if ((!IsNull _leader) && {_leader == vehicle _leader}) then {
+				_groupSize = count units _x;
+				_sizeIcon = call {
+					if (_groupSize <= 5) exitWith {"\A3\ui_f\data\map\markers\nato\group_0.paa"};
+					if (_groupSize <= 10) exitWith {"\A3\ui_f\data\map\markers\nato\group_1.paa"};
+					"\A3\ui_f\data\map\markers\nato\group_2.paa"
+				};
+				_tmpArray = [_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,""];
+				_cTabBFTgroups set [count _cTabBFTgroups,_tmpArray];
 			};
 		};
-		
-	} forEach allUnits;
+	} forEach allGroups;
 	
+	/*
+	cTabBFTvehicles --- VEHICLES
+	Vehciles on our side, that are not empty and that player is not sitting in.
+	*/
 	{
-		if ((count (crew _x) > 0) && (side _x == cTabSide)) then
-		{
-			_name = groupID (group _x);
-			_txture = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
-			_groupIndex = str([_x] call CBA_fnc_getGroupIndex);
-			
+		if ((side _x == cTabSide) && {count (crew _x) > 0} && {_x != vehicle player}) then {
+			_groupID = if (group _x == group player) then {str([_x] call CBA_fnc_getGroupIndex)} else {""};
+			_name = groupID group _x;
+			_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
+			_iconB = "";
 			call {
-				if (_x isKindOf "Car_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
-				if (_x isKindOf "Wheeled_APC_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				if (_x isKindOf "Truck_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
-				if (_x isKindOf "UAV") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
-				if (_x isKindOf "Helicopter") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_air.paa";};
-				if (_x isKindOf "Plane") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_plane.paa";};
-				if (_x isKindOf "MBT_01_arty_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
-				if (_x isKindOf "MBT_01_mlrs_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
-				if (_x isKindOf "MBT_02_arty_base_F") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
-				if (_x isKindOf "Tank") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
-				if (_x isKindOf "StaticMortar") exitWith {_txture = "\A3\ui_f\data\map\markers\nato\b_mortar.paa";};
+				if (_x isKindOf "Car_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
+				if (_x isKindOf "Wheeled_APC_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				if (_x isKindOf "Truck_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_service.paa";};
+				if (_x isKindOf "UAV") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
+				if (_x isKindOf "UAV_01_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
+				if (_x isKindOf "Helicopter") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_air.paa"; _iconB = "\cTab\img\icon_air_contact_ca.paa";};
+				if (_x isKindOf "Plane") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_plane.paa"; _iconB = "\cTab\img\icon_air_contact_ca.paa";};
+				if (_x isKindOf "MBT_01_arty_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
+				if (_x isKindOf "MBT_01_mlrs_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
+				if (_x isKindOf "MBT_02_arty_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
+				if (_x isKindOf "Tank") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
+				if (_x isKindOf "StaticMortar") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_mortar.paa";};
 			};
-			
-			_tmpArray = [_x,_txture,_name,_groupIndex];
-			_cTabBFTlist set [count _cTabBFTlist,_tmpArray];
+			_tmpArray = [_x,_iconA,_iconB,_name,_groupID];
+			_cTabBFTvehicles set [count _cTabBFTvehicles,_tmpArray];
 		};
-		
 	} forEach vehicles;
 	
 	// replace the global list arrays in the end so that we avoid them being empty unnecessarily
-	cTabBFTlist = [] + _cTabBFTlist;
+	cTabBFTmembers = [] + _cTabBFTmembers;
+	cTabBFTgroups = [] + _cTabBFTgroups;
+	cTabBFTvehicles = [] + _cTabBFTvehicles;
 	cTabHcamlist = [] + _cTabHcamlist;
 };
 
