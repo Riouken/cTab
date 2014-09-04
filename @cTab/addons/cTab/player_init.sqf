@@ -1409,6 +1409,17 @@ cTab_fnc_update_lists = {
 		};
 	} forEach vehicles;
 	
+	/*
+	cTabHcamlist --- HELMET CAMS
+	*/
+	{
+		if (side _x == cTabSide) then {
+			if ([_x,["ItemcTabHCam"]] call cTab_fnc_checkGear || {[_x,cTab_helmetClass_has_HCam] call cTab_fnc_checkHeadGear}) then {
+				_cTabHcamlist set [count _cTabHcamlist,_x];
+			};
+		};
+	} forEach allUnits;
+	
 	// replace the global list arrays in the end so that we avoid them being empty unnecessarily
 	cTabBFTmembers = [] + _cTabBFTmembers;
 	cTabBFTgroups = [] + _cTabBFTgroups;
