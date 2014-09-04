@@ -15,7 +15,7 @@
 #define GUI_GRID_WAbs	(safezoneW)
 #define GUI_GRID_HAbs	(safezoneH)
 
-#define MENU_sizeEx GUI_GRID_H
+#define MENU_sizeEx (0.04)
 #include <\cTab\cTab_markerMenu_macros.hpp>
 
 class cTab_main_dlg {
