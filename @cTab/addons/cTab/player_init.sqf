@@ -824,10 +824,10 @@ cTabOnDrawbftTAD = {
 	//[_cntrlScreen] call cTab_fnc_draw_markers;
 	
 	// current position
-	_mapCentrePos = getPosASL player;
+	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
 	// change scale of map and centre to player position
-	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _mapCentrePos];
+	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	{
@@ -865,16 +865,16 @@ cTabOnDrawbftTAD = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
-	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_mapCentrePos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
+	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_playerPos,250,250,0,"",1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD
 	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
 	
 	// update grid position on TAD
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _mapCentrePos];
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
 	_return;
 };
@@ -895,7 +895,7 @@ cTabOnDrawbftTADdialog = {
 	//[_cntrlScreen] call cTab_fnc_draw_markers;
 	
 	// current position
-	_mapCentrePos = getPosASL player;
+	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
 	
 	{
@@ -933,7 +933,7 @@ cTabOnDrawbftTADdialog = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_mapCentrePos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD	
 	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
@@ -986,10 +986,10 @@ cTabOnDrawbftmicroDAGRdsp = {
 	};
 	
 	// current position
-	_mapCentrePos = getPosASL player;
+	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
 	// change scale of map and centre to player position
-	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _mapCentrePos];
+	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	{
@@ -1015,7 +1015,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw directional arrow at own location
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	_return;
 };
@@ -1032,7 +1032,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	};
 	
 	// current position
-	_mapCentrePos = getPosASL player;
+	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
 	
 	{
@@ -1058,7 +1058,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	
 	// draw directional arrow at own location
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_mapCentrePos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	_return;
 };
