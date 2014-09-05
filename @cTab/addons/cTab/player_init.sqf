@@ -252,6 +252,8 @@ uiNamespace setVariable ["cTab_microDAGR_dsp", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
 uiNamespace setVariable ["cTab_hCam_dlg", displayNull];
 uiNamespace setVariable ["cTab_uav_dlg", displayNull];
+uiNamespace setVariable ['cTab_msg_main_dlg', displayNull];
+uiNamespace setVariable ['cTab_Android_msg_dlg', displayNull];
 
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
