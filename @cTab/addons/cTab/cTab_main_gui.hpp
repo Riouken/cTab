@@ -62,7 +62,7 @@ class cTab_main_dlg {
 			y = 5.4 * GUI_GRID_H + GUI_GRID_Y;
 			w = 18.2292 * GUI_GRID_W;
 			h = 13.4444 * GUI_GRID_H;
-			onDraw = "nop = [] call cTabOnDrawbft;";
+			onDraw = "nop = _this call cTabOnDrawbft;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 		};

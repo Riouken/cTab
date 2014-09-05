@@ -874,8 +874,8 @@ cTab_fnc_draw_hook = {
 
 // This is drawn every frame on the tablet. fnc
 cTabOnDrawbft = {
-	_display = (uiNamespace getVariable "cTab_main_dlg");
-	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
@@ -890,8 +890,8 @@ cTabOnDrawbft = {
 
 // This is drawn every frame on the vehicle display. fnc
 cTabOnDrawbftVeh = {
-	_display = (uiNamespace getVariable "cTab_Veh_dlg");
-	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
@@ -909,15 +909,8 @@ cTabOnDrawbftTAD = {
 	// is disableSerialization really required? If so, not sure this is the right place to call it
 	disableSerialization;
 	
-	_display = (uiNamespace getVariable "cTab_TAD_dsp");
-	_cntrlScreen = controlNull;
-	call {
-		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;};
-		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;};
-		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_BLACK;};
-	};
-	
-	//[_cntrlScreen] call cTab_fnc_draw_markers;
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 	
 	// current position
 	_playerPos = getPosASL player;
@@ -951,13 +944,8 @@ cTabOnDrawbftTADdialog = {
 	// is disableSerialization really required? If so, not sure this is the right place to call it
 	disableSerialization;
 	
-	_display = (uiNamespace getVariable "cTab_TAD_dlg");
-	_cntrlScreen = controlNull;
-	call {
-		if (cTabTADmapType == 0) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;};
-		if (cTabTADmapType == 1) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;};
-		if (cTabTADmapType == 2) exitWith {_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_BLACK;};
-	};
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
@@ -982,8 +970,8 @@ cTabOnDrawbftTADdialog = {
 
 // This is drawn every frame on the android. fnc
 cTabOnDrawbftAndroid = {
-	_display = (uiNamespace getVariable "cTab_Android_dlg");
-	_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
@@ -998,13 +986,8 @@ cTabOnDrawbftAndroid = {
 
 // This is drawn every frame on the microDAGR display. fnc
 cTabOnDrawbftmicroDAGRdsp = {
-	_display = (uiNamespace getVariable "cTab_microDAGR_dsp");
-	_cntrlScreen = controlNull;
-	if (cTabBFTmapType) then {
-		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-	} else {
-		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
-	};
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 	
 	// current position
 	_playerPos = getPosASL player;
@@ -1034,13 +1017,8 @@ cTabOnDrawbftmicroDAGRdsp = {
 
 // This is drawn every frame on the microDAGR dialog. fnc
 cTabOnDrawbftMicroDAGRdlg = {
-	_display = (uiNamespace getVariable "cTab_microDAGR_dlg");
-	_cntrlScreen = controlNull;
-	if (cTabBFTmapType) then {
-		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-	} else {
-		_cntrlScreen = _display displayCtrl IDC_CTAB_SCREEN;
-	};
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 	
 	// current position
 	_playerPos = getPosASL player;
@@ -1074,8 +1052,8 @@ cTabOnDrawUAV = {
 	if (isNil 'cTabActUav') exitWith {};
 	if (cTabActUav == player) exitWith {};
 	
-	_display = (uiNamespace getVariable "cTab_UAV_dlg");
-	_cntrlScreen = _display displayCtrl 1774;
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 	_pos = getPosASL cTabActUav;
 	
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_uav.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,"",0,cTabTxtSize,"TahomaB"];
@@ -1090,8 +1068,8 @@ cTabOnDrawHCam = {
 	if (isNil 'cTabActHcam') exitWith {};
 	if (cTabActHcam == player) exitWith {};
 	
-	_display = (uiNamespace getVariable "cTab_hCam_dlg");
-	_cntrlScreen = _display displayCtrl 1774;
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
 	_pos = getPosASL cTabActHcam;
 	
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_inf.paa",cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];

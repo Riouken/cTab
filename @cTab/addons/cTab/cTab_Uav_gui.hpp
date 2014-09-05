@@ -111,7 +111,7 @@ class cTab_UAV_dlg {
 				y = 12.47 * GUI_GRID_H + GUI_GRID_Y;
 				w = 8 * GUI_GRID_W;
 				h = 6 * GUI_GRID_H;
-				onDraw = "nop = [] call cTabOnDrawUAV;";
+				onDraw = "nop = _this call cTabOnDrawUAV;";
 				onMouseButtonDblClick = "";
 				
 			};

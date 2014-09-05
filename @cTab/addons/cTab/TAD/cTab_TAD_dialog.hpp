@@ -23,7 +23,7 @@ class cTab_TAD_dlg
 		class screen: cTab_TAD_RscMapControl
 		{
 			idc = IDC_CTAB_SCREEN;
-			onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
+			onDraw = "nop = _this call cTabOnDrawbftTADdialog;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 		};
@@ -35,7 +35,7 @@ class cTab_TAD_dlg
 		class screenBlack: cTab_TAD_RscMapControl_BLACK
 		{
 			idc = IDC_CTAB_SCREEN_BLACK;
-			onDraw = "nop = [] call cTabOnDrawbftTADdialog;";
+			onDraw = "nop = _this call cTabOnDrawbftTADdialog;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 		};

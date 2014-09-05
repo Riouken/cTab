@@ -33,7 +33,7 @@ class cTab_Android_dlg {
 				colorText[] = {-1,-1,-1,0};
 				colorBackground[] = {-1,-1,-1,0};
 				colorActive[] = {-1,-1,-1,0};
-				onDraw = "nop = [] call cTabOnDrawbftAndroid;";
+				onDraw = "nop = _this call cTabOnDrawbftAndroid;";
 				onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 				onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";				
 			};
