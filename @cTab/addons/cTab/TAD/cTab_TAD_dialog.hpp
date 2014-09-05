@@ -59,7 +59,7 @@ class cTab_TAD_dlg
 		};
 		class on_screen_mode: cTab_RscText_TAD
 		{
-			idc = IDC_CTAB_OSD_MAP_SCALE;
+			idc = -1;
 			x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 4);
 			y = pxToScreen_Y(cTab_GUI_TAD_OSD_EDGE_T);
 			w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 4);
