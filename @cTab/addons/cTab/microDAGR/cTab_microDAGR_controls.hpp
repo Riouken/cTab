@@ -211,13 +211,11 @@ class cTab_microDAGR_btnbrtmns: cTab_RscButton_microDAGR_RightDown
 class cTab_microDAGR_btnfunction: cTab_RscButton_microDAGR_RightBtn
 {
 	idc = IDC_CTAB_BTNFN;
-	action = "call cTab_fnc_txt_tggl;";
 	tooltip = "Toggle Text on/off";
 };
 class cTab_microDAGR_btnMapType: cTab_RscButton_microDAGR_LeftUp
 {
 	idc = -1;
-	action = "call cTab_fnc_map_tggl;";
 	tooltip = "Toggle Map Type";
 };
 class cTab_microDAGR_on_screen_battery: cTab_RscPicture

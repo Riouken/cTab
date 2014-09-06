@@ -50,10 +50,16 @@ class cTab_microDAGR_dlg
 		class pwrbtn: cTab_microDAGR_pwrbtn {};
 		class btnbrtpls: cTab_microDAGR_btnbrtpls {};
 		class btnbrtmns: cTab_microDAGR_btnbrtmns {};
-		class btnfunction: cTab_microDAGR_btnfunction {};
+		class btnfunction: cTab_microDAGR_btnfunction
+		{
+			action = "['cTab_microDAGR_dlg'] call cTab_fnc_iconText_toggle;";
+		};
 		class hookGrid: cTab_microDAGR_on_screen_hookGrid {};
 		class hookDst: cTab_microDAGR_on_screen_hookDst {};
 		class hookDir: cTab_microDAGR_on_screen_hookDir {};
-		class btnMapType: cTab_microDAGR_btnMapType {};
+		class btnMapType: cTab_microDAGR_btnMapType
+		{
+			action = "['cTab_microDAGR_dlg'] call cTab_fnc_mapType_toggle;";
+		};
 	};
 };

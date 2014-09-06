@@ -112,7 +112,7 @@ class cTab_TAD_dlg
 		class btnfunction: cTab_RscButton_TAD_OSB10
 		{
 			idc = IDC_CTAB_BTNFN;
-			action = "call cTab_fnc_txt_tggl;";
+			action = "['cTab_TAD_dlg'] call cTab_fnc_iconText_toggle;";
 			tooltip = "Toggle Text on/off";
 		};
 		class on_screen_toggleIconBackground: cTab_RscText_TAD
@@ -159,7 +159,7 @@ class cTab_TAD_dlg
 		class btnMapType: cTab_RscButton_TAD_OSB20
 		{
 			idc = -1;
-			action = "call cTab_fnc_TAD_map_tggl;";
+			action = "['cTab_TAD_dlg'] call cTab_fnc_mapType_toggle;";
 			tooltip = "Toggle Map Type";
 		};
 		class on_screen_toggleMapIconBackground: cTab_RscText_TAD

@@ -113,7 +113,7 @@ class cTab_Android_dlg {
 						w = 6 * GUI_GRID_W;
 						h = 1 * GUI_GRID_H;
 						tooltip = "Change Icon/Text Size"; //--- ToDo: Localize;
-						action = "if (cTabBFTtxt) then {cTabBFTtxt = false;}else{cTabBFTtxt = true;};";						
+						action = "['cTab_Android_dlg'] call cTab_fnc_iconText_toggle;";
 					};
 					
 					/*

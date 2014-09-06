@@ -61,15 +61,33 @@ if (_mapSize == 0) then {
 };
 cTabMapScaleFactor = _mapSize / 2621.44;
 
+cTabDisplayPropertyGroups = [
+	["cTab_main_dlg", "Main"],
+	["cTab_Android_dlg", "Main"],
+	["cTab_Veh_dlg", "Main"],
+	["cTab_TAD_dsp","TAD"],
+	["cTab_TAD_dlg","TAD"],
+	["cTab_microDAGR_dsp","MicroDAGR"],
+	["cTab_microDAGR_dlg","MicroDAGR"],
+	["cTab_hCam_dlg", "Main"],
+	["cTab_uav_dlg", "Main"],
+	["cTab_msg_main_dlg", "Main"],
+	["cTab_Android_msg_dlg", "Main"]
+];
+
+cTabSettings = [];
+
+[cTabSettings,"COMMON",[
+	["showIconText",true],
+	["mapScaleMax",2 ^ round(sqrt(_mapSize / 1024))]
+]] call BIS_fnc_setToPairs;
+
+[cTabSettings,"Main",[
+]] call BIS_fnc_setToPairs;
+
 /*
 TAD setup
 */
-// set initial TAD map scale in km
-cTabTADmapScale = 2;
-cTabTADmapScaleCtrl = cTabTADmapScale / cTabMapScaleFactor;
-// define min and max TAD map scales in km
-cTabTADmapScaleMin = 2;
-cTabTADmapScaleMax = 2 ^ round(sqrt(_mapSize / 1024));
 // set icon size of own vehicle on TAD
 cTabTADownIconBaseSize = 18;
 cTabTADownIconScaledSize = cTabTADownIconBaseSize / (0.86 / (safezoneH * 0.8));
@@ -79,18 +97,17 @@ cTabTADfontColour = [57/255, 255/255, 20/255, 1];
 cTabTADgroupColour = [255/255, 0/255, 255/255, 1];
 // set TAD highlight colour to neon yellow
 cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
-// Map type, 0 = SAT, 1 = TOPO, 3 = BLACK
-cTabTADmapType = 0;
+
+[cTabSettings,"TAD",[
+	["mapScale",2],
+	["mapScaleMin",2],
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
+	["mapType","SAT"]
+]] call BIS_fnc_setToPairs;
 
 /*
 microDAGR setup
 */
-// set initial MicroDAGR map scale in km
-cTabMicroDAGRmapScale = 0.4;
-cTabMicroDAGRmapScaleCtrl = cTabMicroDAGRmapScale / cTabMapScaleFactor;
-// define min and max MicroDAGR map scales in km
-cTabMicroDAGRmapScaleMin = 0.1;
-cTabMicroDAGRmapScaleMax = 2 ^ round(sqrt(_mapSize / 1024));
 // set MicroDAGR font colour to neon green
 cTabMicroDAGRfontColour = [57/255, 255/255, 20/255, 1];
 // set MicroDAGR group colour to purple
@@ -98,8 +115,12 @@ cTabMicroDAGRgroupColour = [25/255, 25/255, 112/255, 1];
 // set MicroDAGR highlight colour to neon yellow
 cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 
-// Map type, false = SAT, ture = TOPO
-cTabBFTmapType = false;
+[cTabSettings,"MicroDAGR",[
+	["mapScale",0.4],
+	["mapScaleMin",0.1],
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapType","SAT"]
+]] call BIS_fnc_setToPairs;
 
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.
 _r = profilenamespace getvariable ['Map_BLUFOR_R',0];
@@ -119,6 +140,148 @@ _g = profilenamespace getvariable ['Map_Independent_G',1];
 _b = profilenamespace getvariable ['Map_Independent_B',1];
 _a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
 cTabColorGreen = [_r,_g,_b,_a];
+
+/*
+Function to update interface to match current settings
+If no parameters are specified, all interface elements are updated
+
+Optional:
+Parameter 0: Array of property pair(s) to update IF with, in the form of [["propertyName",propertyValue],[...]]
+
+No return
+*/
+cTab_fnc_IfUpdate = {
+	private ["_ifName","_settings","_display","_displayName"];
+	disableSerialization;
+	if (isNil "cTabIfOpen") exitWith {};
+	_displayName = cTabIfOpen select 1;
+	_display = uiNamespace getVariable _displayName;
+	
+	if (count _this == 1) then {
+		_settings = _this select 0;
+	} else {
+		// Retrieve all settings for the currently open interface
+		_settings = [_displayName] call cTab_fnc_settings;
+	};
+	
+	{
+		call {
+			// ------------ SHOW ICON TEXT ------------
+			if (_x select 0 == "showIconText") exitWith {
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
+				if (_osdCtrl != controlNull) then {
+					_text = if (_x select 1) then {"ON"} else {"OFF"};
+					_osdCtrl ctrlSetText _text;
+				};
+			};
+			// ------------ MAP SCALE ------------
+			if (_x select 0 == "mapScale") exitWith {
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
+				if (_osdCtrl != controlNull) then {
+					// divide by 2 because we want to display the radius, not the diameter
+					_osdCtrl ctrlSetText format ["%1",(_x select 1) / 2];
+				};
+			};
+			// ------------ MAP TYPE ------------
+			if (_x select 0 == "mapType") exitWith {
+				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_settings;
+				_targetMapName = _x select 1;
+				_targetMapIDC = [_mapTypes,_targetMapName] call BIS_fnc_getFromPairs;
+				_targetMapCtrl = _display displayCtrl _targetMapIDC;
+				// See if _targetMapCtrl is already being shown
+				if (!ctrlShown _targetMapCtrl) then {
+					{
+						_previousMapIDC = _x select 1;
+						_previousMapCtrl = _display displayCtrl _previousMapIDC;
+						if (ctrlShown _previousMapCtrl) exitWith {
+							// Update _targetMapCtrl to scale and position of _previousMapCtrl
+							_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _previousMapCtrl,[_previousMapCtrl] call cTab_fnc_ctrlMapCenter];
+							ctrlMapAnimCommit _targetMapCtrl;
+						};
+					} forEach _mapTypes;
+				};
+				// Hide all other map types
+				{
+					if (_x select 0 != _targetMapName) then {
+						_ctrl = _display displayCtrl (_x select 1);
+						_ctrl ctrlShow false;
+						_ctrl ctrlCommit 0;
+					};
+				} forEach _mapTypes;
+				// Show _targetMapCtrl
+				_targetMapCtrl ctrlShow true;
+				_targetMapCtrl ctrlCommit 0;
+				// Update OSD element if it exists
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
+				if (_osdCtrl != controlNull) then {_osdCtrl ctrlSetText _targetMapName;};
+			};
+			// ----------------------------------
+		};
+	} forEach _settings;
+};
+
+/*
+Function to read and write cTab settings
+Parameter 0: String of uiNamespace display / dialog variable
+If no further parameters are specified, all property pairs for that display / dialog are returned,
+like so: [["propertyName1",propertyValue1],["propertyName2",propertyValue2]]
+If the uiNamespace variable cannot be found in cTabDisplayPropertyGroups, FALSE is returned.
+
+To Read:
+Parameter 1: String of individual property to read
+Returns: Value of individual property, nil if it does not exist
+
+To Write:
+Parameter 1: Array of property pair(s) to write in the form of [["propertyName",propertyValue],[...]]
+Returns TRUE
+*/
+cTab_fnc_settings = {
+	private ["_propertyGroupName","_displayName","_commonProperties","_groupProperties","_combinedProperties","_properties"]; 
+	_displayName = _this select 0;
+	_propertyGroupName = [cTabDisplayPropertyGroups,_displayName] call BIS_fnc_getFromPairs;
+	
+	// Exit with FALSE if uiNamespace variable cannot be found in cTabDisplayPropertyGroups
+	if (isNil "_propertyGroupName") exitWith {false};
+	
+	_commonProperties = [cTabSettings,"COMMON"] call BIS_fnc_getFromPairs;
+	_groupProperties = [cTabSettings,_propertyGroupName] call BIS_fnc_getFromPairs;
+	if (isNil "_groupProperties") then {_groupProperties = [];};
+	
+	_combinedProperties = [] + _commonProperties;
+	{
+		[_combinedProperties,_x select 0,_x select 1] call BIS_fnc_setToPairs;
+	} forEach _groupProperties;
+	
+	if (count _this == 1) exitWith {_combinedProperties};
+	
+	_properties = _this select 1;
+	
+	// Read and return a single property value
+	if (typeName _properties == "STRING") exitWith {[_combinedProperties,_properties] call BIS_fnc_getFromPairs};
+	
+	// Write multiple property pairs. If they exist in _groupProperties, write them there, else write them to COMMON.
+	_commonPropertiesUpdate = [];
+	{
+		_key = _x select 0;
+		_value = _x select 1;
+		if (([_groupProperties,_key] call BIS_fnc_findInPairs) >= 0) then {
+			[_groupProperties,_key,_value] call BIS_fnc_setToPairs;
+		} else {
+			[_commonProperties,_key,_value] call BIS_fnc_setToPairs;
+			[_commonPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
+		};
+	} forEach _properties;
+	[cTabSettings,_propertyGroupName,_groupProperties] call BIS_fnc_setToPairs;
+	[cTabSettings,"COMMON",_commonProperties] call BIS_fnc_setToPairs;
+	
+	// Finally, call an interface update for the updated properties, but only if the currently interface uses the same property group, if not, pass changed common properties only
+	if (!isNil "cTabIfOpen") then {
+		if (([cTabDisplayPropertyGroups,cTabIfOpen select 1] call BIS_fnc_getFromPairs) == _propertyGroupName) then {
+			[_properties] call cTab_fnc_IfUpdate;
+		} else {[_commonPropertiesUpdate] call cTab_fnc_IfUpdate;};
+	};
+	true
+};
 
 // define vehicles that have FBCB2 monitor
 if (isNil "cTab_vehicleClass_has_FBCB2") then {
@@ -233,6 +396,14 @@ cTabTxtFctr = 12;
 call cTab_fnc_update_txt_size;
 cTabBFTtxt = true;
 
+// fnc to pre-Calculate TAD and MicroDAGR map scales
+cTab_fnc_update_mapScaleFactor = {
+	cTabTADmapScaleCtrl = (["cTab_TAD_dsp","mapScale"] call cTab_fnc_settings) / cTabMapScaleFactor;
+	cTabMicroDAGRmapScaleCtrl = (["cTab_microDAGR_dsp","mapScale"] call cTab_fnc_settings) / cTabMapScaleFactor;
+	true
+};
+call cTab_fnc_update_mapScaleFactor;
+
 //set up array for user stored icons, data waits here until it is sent out to other clients.
 // cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
 cTabUserSelIcon = [[],"","",500,[],""];
@@ -285,7 +456,7 @@ cTab_fnc_onIfOpen = {
 	} else {
 		cTabIfOpen = [_this select 0,_this select 3,_player,_playerKilledEhId,_vehicle,nil];
 	};
-	call cTab_fnc_OSD_update;
+	call cTab_fnc_IfUpdate;
 };
 
 /*
@@ -407,23 +578,18 @@ Returns TRUE when action was taken
 Returns FALSE when no action was taken (i.e. no interface open, or unsupported interface)
 */
 cTab_fnc_onZoomInPressed = {
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_TAD_dsp'}) exitWith {
-		if (cTabTADmapScale / 2 > cTabTADmapScaleMin) then {
-			cTabTADmapScale = cTabTADmapScale / 2;
+	if (isNil "cTabIfOpen") exitWith {false};
+	_displayName = cTabIfOpen select 1;
+	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp"]) exitWith {
+		_mapScale = [_displayName,"mapScale"] call cTab_fnc_settings;
+		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_settings;
+		if (_mapScale / 2 > _mapScaleMin) then {
+			_mapScale = _mapScale / 2;
 		} else {
-			cTabTADmapScale = cTabTADmapScaleMin;
+			_mapScale = _mapScaleMin;
 		};
-		cTabTADmapScaleCtrl = cTabTADmapScale / cTabMapScaleFactor;
-		call cTab_fnc_OSD_update;
-		true
-	};
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_microDAGR_dsp'}) exitWith {
-		if (cTabMicroDAGRmapScale / 2 > cTabMicroDAGRmapScaleMin) then {
-			cTabMicroDAGRmapScale = cTabMicroDAGRmapScale / 2;
-		} else {
-			cTabMicroDAGRmapScale = cTabMicroDAGRmapScaleMin;
-		};
-		cTabMicroDAGRmapScaleCtrl = cTabMicroDAGRmapScale / cTabMapScaleFactor;
+		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_settings;
+		call cTab_fnc_update_mapScaleFactor;
 		true
 	};
 	false
@@ -436,23 +602,18 @@ Returns TRUE when action was taken
 Returns FALSE when no action was taken (i.e. no interface open, or unsupported interface)
 */
 cTab_fnc_onZoomOutPressed = {
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_TAD_dsp'}) exitWith {
-		if (cTabTADmapScale * 2 < cTabTADmapScaleMax) then {
-			cTabTADmapScale = cTabTADmapScale * 2;
+	if (isNil "cTabIfOpen") exitWith {false};
+	_displayName = cTabIfOpen select 1;
+	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp"]) exitWith {
+		_mapScale = [_displayName,"mapScale"] call cTab_fnc_settings;
+		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_settings;
+		if (_mapScale * 2 < _mapScaleMax) then {
+			_mapScale = _mapScale * 2;
 		} else {
-			cTabTADmapScale = cTabTADmapScaleMax;
+			_mapScale = _mapScaleMax;
 		};
-		cTabTADmapScaleCtrl = cTabTADmapScale / cTabMapScaleFactor;
-		call cTab_fnc_OSD_update;
-		true
-	};
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == 'cTab_microDAGR_dsp'}) exitWith {
-		if (cTabMicroDAGRmapScale * 2 < cTabMicroDAGRmapScaleMax) then {
-			cTabMicroDAGRmapScale = cTabMicroDAGRmapScale * 2;
-		} else {
-			cTabMicroDAGRmapScale = cTabMicroDAGRmapScaleMax;
-		};
-		cTabMicroDAGRmapScaleCtrl = cTabMicroDAGRmapScale / cTabMapScaleFactor;
+		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_settings;
+		call cTab_fnc_update_mapScaleFactor;
 		true
 	};
 	false
@@ -536,21 +697,34 @@ cTab_fnc_GetInfMarkerIcon =
 	"\A3\ui_f\data\map\vehicleicons\iconMan_ca.paa";
 };
 
-// fnc to toggle text next to icons
-cTab_fnc_txt_tggl = {
+/*
+Function to toggle text next to BFT icons
+Parameter 0: String of uiNamespace variable for which to toggle showIconText for
+Returns TRUE
+*/
+cTab_fnc_iconText_toggle = {
+	_displayName = _this select 0;
 	if (cTabBFTtxt) then {cTabBFTtxt = false} else {cTabBFTtxt = true};
-	call cTab_fnc_OSD_update;
+	[_displayName,[["showIconText",cTabBFTtxt]]] call cTab_fnc_settings;
+	true
 };
 
-cTab_fnc_map_tggl = {
-	if (cTabBFTmapType) then {cTabBFTmapType = false} else {cTabBFTmapType = true};
-	call cTab_fnc_OSD_update;
-};
-
-cTab_fnc_TAD_map_tggl = {
-	cTabTADmapType = cTabTADmapType +1;
-	if (cTabTADmapType> 2) then {cTabTADmapType = 0};
-	call cTab_fnc_OSD_update;
+/*
+Function to toggle mapType to the next one in the list of available map types
+Parameter 0: String of uiNamespace variable for which to toggle to mapType for
+Returns TRUE
+*/
+cTab_fnc_mapType_toggle = {
+	_displayName = _this select 0;
+	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_settings;
+	_currentMapType = [_displayName,"mapType"] call cTab_fnc_settings;
+	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
+	if (_currentMapTypeIndex == count _mapTypes - 1) then {
+		[_displayName,[["mapType",_mapTypes select 0 select 0]]] call cTab_fnc_settings;
+	} else {
+		[_displayName,[["mapType",_mapTypes select (_currentMapTypeIndex + 1) select 0]]] call cTab_fnc_settings;
+	};
+	true
 };
 
 // fnc to increase icon and text size
@@ -563,140 +737,6 @@ cTab_fnc_txt_size_inc = {
 cTab_fnc_txt_size_dec = {
 	if (cTabTxtFctr > 1) then {cTabTxtFctr = cTabTxtFctr - 1};
 	call cTab_fnc_update_txt_size;
-};
-
-// fnc to updated OSD elements
-cTab_fnc_OSD_update = {
-	disableSerialization;
-	_displayName = cTabIfOpen select 1;
-	_display = uiNamespace getVariable _displayName;
-	
-	if (_displayName == "cTab_TAD_dlg") exitWith {
-		_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
-		if (cTabBFTtxt) then {
-			_cntrlScreen ctrlSetText "ON";
-		} else {
-			_cntrlScreen ctrlSetText "OFF";
-		};
-		_cntrlScreenPrevious = controlNull;
-		_cntrlScreenCurrent = controlNull;
-		_cntrlScreenNext = controlNull;
-		_text = "";
-		switch (cTabTADmapType) do {
-			case 0: {
-				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
-				_text = "SAT"
-			};
-			case 1: {
-				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
-				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_text = "TOPO"
-			};
-			case 2: {
-				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
-				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-				_text = "BLK"
-			};
-		};
-		_cntrlMapScale = ctrlMapScale _cntrlScreenCurrent;
-		_cntrlMapPos = [_cntrlScreenCurrent] call cTab_fnc_ctrlMapCenter;
-		_cntrlScreenNext ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
-		ctrlMapAnimCommit _cntrlScreenNext;
-		_cntrlScreenNext ctrlShow true;
-		_cntrlScreenNext ctrlCommit 0;
-		_cntrlScreenCurrent ctrlShow false;
-		_cntrlScreenCurrent ctrlCommit 0;
-		_cntrlScreenPrevious ctrlShow false;
-		_cntrlScreenPrevious ctrlCommit 0;
-		_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-		_cntrlScreenMapTxt ctrlSetText _text;
-	};
-	if (_displayName == "cTab_microDAGR_dlg") exitWith {
-		_cntrlScreenInactive = controlNull;
-		_cntrlScreenActive = controlNull;
-		if (cTabBFTmapType) then {
-			// show topo
-			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
-			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-		} else {
-			// show SAT
-			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
-		};
-		_cntrlMapScale = ctrlMapScale _cntrlScreenInactive;
-		_cntrlMapPos = [_cntrlScreenInactive] call cTab_fnc_ctrlMapCenter;
-		_cntrlScreenActive ctrlMapAnimAdd [0,_cntrlMapScale,_cntrlMapPos];
-		ctrlMapAnimCommit _cntrlScreenActive;
-		_cntrlScreenActive ctrlShow true;
-		_cntrlScreenActive ctrlCommit 0;
-		_cntrlScreenInactive ctrlShow false;
-		_cntrlScreenInactive ctrlCommit 0;
-	};
-	if (_displayName == "cTab_TAD_dsp") exitWith {
-		// update current map scale on TAD
-		// divide by 2 because we want to display the radius, not the diameter
-		(_display displayCtrl IDC_CTAB_OSD_MAP_SCALE) ctrlSetText format ["%1", cTabTADmapScale / 2];
-		
-		_cntrlScreen = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
-		if (cTabBFTtxt) then {
-			_cntrlScreen ctrlSetText "ON";
-		} else {
-			_cntrlScreen ctrlSetText "OFF";
-		};
-		_cntrlScreenPrevious = controlNull;
-		_cntrlScreenCurrent = controlNull;
-		_cntrlScreenNext = controlNull;
-		_text = "";
-		switch (cTabTADmapType) do {
-			case 0: {
-				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN;
-				_text = "SAT"
-			};
-			case 1: {
-				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN;
-				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_text = "TOPO"
-			};
-			case 2: {
-				_cntrlScreenPrevious = _display displayCtrl IDC_CTAB_SCREEN;
-				_cntrlScreenCurrent = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-				_cntrlScreenNext = _display displayCtrl IDC_CTAB_SCREEN_BLACK;
-				_text = "BLK"
-			};
-		};
-		_cntrlScreenNext ctrlShow true;
-		_cntrlScreenNext ctrlCommit 0;
-		_cntrlScreenCurrent ctrlShow false;
-		_cntrlScreenCurrent ctrlCommit 0;
-		_cntrlScreenPrevious ctrlShow false;
-		_cntrlScreenPrevious ctrlCommit 0;
-		_cntrlScreenMapTxt = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-		_cntrlScreenMapTxt ctrlSetText _text;
-	};
-	if (_displayName == "cTab_microDAGR_dsp") exitWith {
-		_cntrlScreenInactive = controlNull;
-		_cntrlScreenActive = controlNull;
-		if (cTabBFTmapType) then {
-			// show topo
-			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN;
-			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-		} else {
-			// show SAT
-			_cntrlScreenInactive = _display displayCtrl IDC_CTAB_SCREEN_TOPO;
-			_cntrlScreenActive = _display displayCtrl IDC_CTAB_SCREEN;
-		};
-		_cntrlScreenActive ctrlShow true;
-		_cntrlScreenActive ctrlCommit 0;
-		_cntrlScreenInactive ctrlShow false;
-		_cntrlScreenInactive ctrlCommit 0;
-	};
 };
 
 /*
