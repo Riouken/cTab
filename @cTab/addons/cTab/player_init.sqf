@@ -547,6 +547,18 @@ Returns FALSE when no action was taken (i.e. player has no cTab device / is not 
 */
 cTab_fnc_onIfSecondaryPressed = {
 	_return = false;
+	if (cTabUavViewActive) exitWith {
+		objNull remoteControl ((crew cTabActUav) select 1);
+		player switchCamera 'internal';
+		cTabUavViewActive = false;
+		true
+	};
+	if (cTabHCamViewActive) exitWith {
+		objNull remoteControl cTabActHcam;
+		player switchCamera 'internal';
+		cTabHCamViewActive = false;
+		true
+	};
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) exitWith {
 		// close Secondary
 		call cTab_fnc_close;
