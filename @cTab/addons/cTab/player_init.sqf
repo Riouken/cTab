@@ -62,7 +62,7 @@ if (_mapSize == 0) then {
 cTabMapScaleFactor = _mapSize / 2621.44;
 
 cTabDisplayPropertyGroups = [
-	["cTab_main_dlg", "Main"],
+	["cTab_main_dlg", "Tablet"],
 	["cTab_Android_dlg", "Main"],
 	["cTab_Veh_dlg", "Main"],
 	["cTab_TAD_dsp","TAD"],
@@ -78,11 +78,19 @@ cTabDisplayPropertyGroups = [
 cTabSettings = [];
 
 [cTabSettings,"COMMON",[
+	["mode","BFT"],
 	["showIconText",true],
-	["mapScaleMax",2 ^ round(sqrt(_mapSize / 1024))]
+	["mapScaleMax",2 ^ round(sqrt(_mapSize / 1024))],
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN]]],
+	["mapType","SAT"]
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"Main",[
+]] call BIS_fnc_setToPairs;
+
+[cTabSettings,"Tablet",[
+	["mode","DESKTOP"],
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]]
 ]] call BIS_fnc_setToPairs;
 
 /*
@@ -118,8 +126,7 @@ cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 [cTabSettings,"MicroDAGR",[
 	["mapScale",0.4],
 	["mapScaleMin",0.1],
-	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
-	["mapType","SAT"]
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]]
 ]] call BIS_fnc_setToPairs;
 
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.
@@ -166,6 +173,14 @@ cTab_fnc_IfUpdate = {
 	
 	{
 		call {
+			// ------------ MODE ------------
+			if (_x select 0 == "mode") exitWith {
+				call {
+					if (_displayName == "cTab_main_dlg") exitWith {
+						_null = [_x select 1] execVM "\cTab\main\modeSwitch.sqf";
+					};
+				};
+			};
 			// ------------ SHOW ICON TEXT ------------
 			if (_x select 0 == "showIconText") exitWith {
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
@@ -184,36 +199,40 @@ cTab_fnc_IfUpdate = {
 			};
 			// ------------ MAP TYPE ------------
 			if (_x select 0 == "mapType") exitWith {
+				_mode = [_displayName,"mode"] call cTab_fnc_settings;
 				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_settings;
-				_targetMapName = _x select 1;
-				_targetMapIDC = [_mapTypes,_targetMapName] call BIS_fnc_getFromPairs;
-				_targetMapCtrl = _display displayCtrl _targetMapIDC;
-				// See if _targetMapCtrl is already being shown
-				if (!ctrlShown _targetMapCtrl) then {
+				if ((count _mapTypes > 1) && (_mode == "BFT")) then {
+					_targetMapName = _x select 1;
+					_targetMapIDC = [_mapTypes,_targetMapName] call BIS_fnc_getFromPairs;
+					_targetMapCtrl = _display displayCtrl _targetMapIDC;
+					_previousMapCtrl = controlNull;
 					{
 						_previousMapIDC = _x select 1;
 						_previousMapCtrl = _display displayCtrl _previousMapIDC;
-						if (ctrlShown _previousMapCtrl) exitWith {
-							// Update _targetMapCtrl to scale and position of _previousMapCtrl
-							_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _previousMapCtrl,[_previousMapCtrl] call cTab_fnc_ctrlMapCenter];
-							ctrlMapAnimCommit _targetMapCtrl;
+						if (ctrlShown _previousMapCtrl) exitWith {};
+						_previousMapCtrl = controlNull;
+					} forEach _mapTypes;
+					// See if _targetMapCtrl is already being shown
+					if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
+						// Update _targetMapCtrl to scale and position of _previousMapCtrl
+						_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _previousMapCtrl,[_previousMapCtrl] call cTab_fnc_ctrlMapCenter];
+						ctrlMapAnimCommit _targetMapCtrl;
+						// Show _targetMapCtrl
+						_targetMapCtrl ctrlShow true;
+						_targetMapCtrl ctrlCommit 0;
+					};
+					// Hide all other map types
+					{
+						if (_x select 0 != _targetMapName) then {
+							_ctrl = _display displayCtrl (_x select 1);
+							_ctrl ctrlShow false;
+							_ctrl ctrlCommit 0;
 						};
 					} forEach _mapTypes;
+					// Update OSD element if it exists
+					_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
+					if (_osdCtrl != controlNull) then {_osdCtrl ctrlSetText _targetMapName;};
 				};
-				// Hide all other map types
-				{
-					if (_x select 0 != _targetMapName) then {
-						_ctrl = _display displayCtrl (_x select 1);
-						_ctrl ctrlShow false;
-						_ctrl ctrlCommit 0;
-					};
-				} forEach _mapTypes;
-				// Show _targetMapCtrl
-				_targetMapCtrl ctrlShow true;
-				_targetMapCtrl ctrlCommit 0;
-				// Update OSD element if it exists
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-				if (_osdCtrl != controlNull) then {_osdCtrl ctrlSetText _targetMapName;};
 			};
 			// ----------------------------------
 		};
@@ -1605,13 +1624,10 @@ cTab_msg_delete_all =
 };	
 	
 cTab_load_BFT = {
-	closeDialog 0;
-	waitUntil {!dialog};
-	
-	createDialog "cTab_main_dlg";
-	waitUntil {dialog};
-	_this + ["cTab_main_dlg"] call cTab_fnc_onIfOpen;
-	_nop = [] execVM '\cTab\main\loadBFT.sqf';
+	["cTab_main_dlg",[["mode","BFT"]]] call cTab_fnc_settings;
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 != "cTab_main_dlg"}) then {
+		_null = _this execVM "cTab\cTab_gui_start.sqf";
+	};
 };
 
 cTab_keyDownShortcut = 
@@ -1622,34 +1638,40 @@ cTab_keyDownShortcut =
 	_shift = _this select 2;
 	_ctrlKey = _this select 3;
 	_alt = _this select 4;
-	_fKeys = [59,60,61,62];
+	_fKeys = [59,60,61,62,64];
 	_handled = false;
 
 	if (_dikCode in _fKeys) then
 	{
 		switch (_dikCode) do
 		{
-			case 59:
+			case 59: // F1
 			{
-				_nop = [0,player,vehicle player] spawn cTab_load_BFT;
+				_nop = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_load_BFT;
 				_handled = true;
 			};
 
-			case 60:
+			case 60: // F2
 			{
-				_ok = [0,player,vehicle player] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
+				_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
 				_handled = true;
 			};
 			
-			case 61:
+			case 61: // F3
 			{
-				_ok = [0,player,vehicle player] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
+				_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
 				_handled = true;
 			};
 			
-			case 62:
+			case 62: // F4
 			{
-				_ok = [0,player,vehicle player] spawn cTab_spawn_msg_dlg;
+				_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_spawn_msg_dlg;
+				_handled = true;
+			};
+			
+			case 64: // F6
+			{
+				["cTab_main_dlg"] call cTab_fnc_mapType_toggle;
 				_handled = true;
 			};
 			

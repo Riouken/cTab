@@ -21,7 +21,7 @@
 class cTab_main_dlg {
 	idd = 1775154;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_main_dlg', (_this select 0)];nul = [] execVM '\cTab\main\onload.sqf';";
+	onLoad = "uiNamespace setVariable ['cTab_main_dlg', (_this select 0)];";
 	onUnload = "uiNamespace setVariable ['cTab_main_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "call cTab_keyDownShortcut";
 	objects[] = {};
@@ -66,6 +66,11 @@ class cTab_main_dlg {
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 		};
+		class screenTopo: screen
+		{
+			idc = IDC_CTAB_SCREEN_TOPO;
+			maxSatelliteAlpha = 0;
+		};
 	};
 	class controls {
 		class btnF1: cTab_RscButtonInv
@@ -76,7 +81,7 @@ class cTab_main_dlg {
 			w = 0.683335 * GUI_GRID_W;
 			h = 0.731482 * GUI_GRID_H;
 			tooltip = "Blue Force Tracker - Quick Key";
-			action = "_nop = [] execVM '\cTab\main\loadBFT.sqf';";
+			action = "['cTab_main_dlg',[['mode','BFT']]] call cTab_fnc_settings;";
 		};
 		class btnF2: cTab_RscButtonInv
 		{
@@ -86,7 +91,7 @@ class cTab_main_dlg {
 			w = 0.683335 * GUI_GRID_W;
 			h = 0.731482 * GUI_GRID_H;
 			tooltip = "UAV Intel Live Feed - Quick Key";
-			action = "_ok = [0,player,vehicle player] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
+			action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
 		};
 		class btnF3: cTab_RscButtonInv
 		{
@@ -96,7 +101,7 @@ class cTab_main_dlg {
 			w = 0.683335 * GUI_GRID_W;
 			h = 0.731482 * GUI_GRID_H;
 			tooltip = "Helmet Cam Live Feed - Quick Key";
-			action = "_ok = [0,player,vehicle player] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
+			action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
 		};
 		class btnF4: cTab_RscButtonInv
 		{
@@ -106,7 +111,7 @@ class cTab_main_dlg {
 			w = 0.683335 * GUI_GRID_W;
 			h = 0.731482 * GUI_GRID_H;
 			tooltip = "Text Message Application - Quick Key";
-			action = "_ok = [0,player,vehicle player] spawn cTab_spawn_msg_dlg;";
+			action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_spawn_msg_dlg;";
 		};
 		class btnF5: cTab_RscButtonInv
 		{
@@ -124,7 +129,8 @@ class cTab_main_dlg {
 			y = 19.49 * GUI_GRID_H + GUI_GRID_Y;
 			w = 0.683335 * GUI_GRID_W;
 			h = 0.731482 * GUI_GRID_H;
-			tooltip = "Not used yet*";
+			tooltip = "Toggle Map Textures";
+			action = "['cTab_main_dlg'] call cTab_fnc_mapType_toggle;";
 		};
 		class btnMain: cTab_RscButtonInv
 		{
@@ -134,7 +140,7 @@ class cTab_main_dlg {
 			w = 0.683335 * GUI_GRID_W;
 			h = 0.731482 * GUI_GRID_H;
 			tooltip = "Main Menu";
-			action = "_ok = _this execVM 'cTab\main\onload.sqf';";
+			action = "['cTab_main_dlg',[['mode','DESKTOP']]] call cTab_fnc_settings;";
 		};
 		class btnFN: cTab_RscButtonInv
 		{
@@ -204,7 +210,7 @@ class cTab_main_dlg {
 			y = 7.5 * GUI_GRID_H + GUI_GRID_Y;
 			w = 1.5 * GUI_GRID_W;
 			h = 1.5 * GUI_GRID_H;
-			action = "nul = [] execVM '\cTab\main\loadBFT.sqf';";
+			action = "['cTab_main_dlg',[['mode','BFT']]] call cTab_fnc_settings;";
 			toolTip = "FBCB2 - Blue Force Tracker";
 		};
 		class actUAVtxt: cTab_ActiveText
@@ -216,7 +222,7 @@ class cTab_main_dlg {
 			y = 9 * GUI_GRID_H + GUI_GRID_Y;
 			w = 1.5 * GUI_GRID_W;
 			h = 1.5 * GUI_GRID_H;
-			action = "_ok = [0,player,vehicle player] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
+			action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\uav\cTab_gui_uav_start.sqf';";
 			toolTip = "UAV Video Feeds";
 		};
 		class actVIDtxt: cTab_ActiveText
@@ -228,7 +234,7 @@ class cTab_main_dlg {
 			y = 10.5 * GUI_GRID_H + GUI_GRID_Y;
 			w = 1.5 * GUI_GRID_W;
 			h = 1.5 * GUI_GRID_H;
-			action = "_ok = [0,player,vehicle player] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
+			action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';";
 			toolTip = "Live Helmet Cam Video Feeds";
 		};
 		class actMSGtxt: cTab_ActiveText
@@ -240,7 +246,7 @@ class cTab_main_dlg {
 			y = 12.0 * GUI_GRID_H + GUI_GRID_Y;
 			w = 1.5 * GUI_GRID_W;
 			h = 1.5 * GUI_GRID_H;
-			action = "_ok = [0,player,vehicle player] spawn cTab_spawn_msg_dlg;";
+			action = "_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_spawn_msg_dlg;";
 			toolTip = "Text Messaging System";
 		};
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
