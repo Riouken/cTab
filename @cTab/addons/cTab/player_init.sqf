@@ -69,9 +69,6 @@ cTabDisplayPropertyGroups = [
 	["cTab_TAD_dlg","TAD"],
 	["cTab_microDAGR_dsp","MicroDAGR"],
 	["cTab_microDAGR_dlg","MicroDAGR"],
-	["cTab_hCam_dlg", "Main"],
-	["cTab_uav_dlg", "Main"],
-	["cTab_msg_main_dlg", "Main"],
 	["cTab_Android_msg_dlg", "Main"]
 ];
 
@@ -440,9 +437,6 @@ uiNamespace setVariable ["cTab_TAD_dsp", displayNull];
 uiNamespace setVariable ["cTab_TAD_dlg", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dsp", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
-uiNamespace setVariable ["cTab_hCam_dlg", displayNull];
-uiNamespace setVariable ["cTab_uav_dlg", displayNull];
-uiNamespace setVariable ['cTab_msg_main_dlg', displayNull];
 uiNamespace setVariable ['cTab_Android_msg_dlg', displayNull];
 
 // Set up the array that will hold text messages.
@@ -1478,20 +1472,11 @@ cTab_fnc_update_lists = {
 	cTabHcamlist = [] + _cTabHcamlist;
 };
 
-cTab_spawn_msg_dlg = {
-	closeDialog 0;
-	waitUntil {!dialog};
-	
-	createDialog "cTab_msg_main_dlg";
-	waitUntil {dialog};
-	_this + ["cTab_msg_main_dlg"] call cTab_fnc_onIfOpen;
-};
-
 cTab_msg_gui_load = 
 {
 	disableSerialization;
 	_return = true;
-	_display = (uiNamespace getVariable "cTab_msg_main_dlg");
+	_display = (uiNamespace getVariable "cTab_main_dlg");
 	_msgarry = player getVariable ["ctab_messages",[]];
 	_msgControl = _display displayCtrl 15000;
 	_plrlistControl = _display displayCtrl 15010;
@@ -1539,7 +1524,7 @@ cTab_msg_get_mailTxt =
 	disableSerialization;
 	_return = true;
 	_index = _this select 1;
-	_display = (uiNamespace getVariable "cTab_msg_main_dlg");
+	_display = (uiNamespace getVariable "cTab_main_dlg");
 	_msgArray = player getVariable ["ctab_messages",[]];
 	_msgName = (_msgArray select _index) select 0;
 	_msgtxt = (_msgArray select _index) select 1;
@@ -1579,7 +1564,7 @@ cTab_msg_Send =
 {
 	disableSerialization;
 	_return = true;
-	_display = (uiNamespace getVariable "cTab_msg_main_dlg");
+	_display = (uiNamespace getVariable "cTab_main_dlg");
 	_plrLBctrl = _display displayCtrl 15010;
 	_msgBodyctrl = _display displayCtrl 14000;
 	_plrList = (uiNamespace getVariable "cTab_msg_playerList");
@@ -1617,7 +1602,7 @@ cTab_msg_Send =
 	   {
 			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
 	   
-			if (!isnull (findDisplay 19457)) then 
+			if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == "cTab_main_dlg"}) then 
 			{
 				_nop = [] call cTab_msg_gui_load;
 				367 cutRsc ["cTab_Mail_ico_disp", "PLAIN"];
@@ -1633,13 +1618,21 @@ cTab_msg_Send =
 cTab_msg_delete_all = 
 {
 	player setVariable ["ctab_messages",[]];
-};	
-	
-cTab_load_BFT = {
-	["cTab_main_dlg",[["mode","BFT"]]] call cTab_fnc_settings;
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 != "cTab_main_dlg"}) then {
-		_null = _this execVM "cTab\cTab_gui_start.sqf";
+};
+
+/*
+Function to execute the correct action when btnACT is pressed on Tablet
+No Parameters
+Returns TRUE
+*/
+cTab_Tablet_btnACT = {
+	_mode = ["cTab_main_dlg","mode"] call cTab_fnc_settings;
+	call {
+		if (_mode == "BFT") exitWith {if (count cTabUserIconList > 0) then {_nop = cTabUserIconList call BIS_fnc_arrayPop;};};
+		if (_mode == "UAV") exitWith {_nop = [] call cTabUavTakeControl;};
+		if (_mode == "HCAM") exitWith {call cTab_hCam_Full_View;};
 	};
+	true
 };
 
 cTab_keyDownShortcut = 
@@ -1659,25 +1652,25 @@ cTab_keyDownShortcut =
 		{
 			case 59: // F1
 			{
-				_nop = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_load_BFT;
+				["cTab_main_dlg",[["mode","BFT"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 
 			case 60: // F2
 			{
-				_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\uav\cTab_gui_uav_start.sqf';
+				["cTab_main_dlg",[["mode","UAV"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 			
 			case 61: // F3
 			{
-				_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] execVM 'cTab\hcam\cTab_gui_hcam_start.sqf';
+				["cTab_main_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 			
 			case 62: // F4
 			{
-				_ok = [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_spawn_msg_dlg;
+				["cTab_main_dlg",[["mode","MESSAGE"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 			
