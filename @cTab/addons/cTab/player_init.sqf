@@ -200,7 +200,7 @@ cTab_fnc_IfUpdate = {
 				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_settings;
 				if ((count _mapTypes > 1) && (_mode == "BFT")) then {
 					_targetMapName = _x select 1;
-					_targetMapIDC = [_mapTypes,_targetMapName] call BIS_fnc_getFromPairs;
+					_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
 					_targetMapCtrl = _display displayCtrl _targetMapIDC;
 					_previousMapCtrl = controlNull;
 					{
@@ -254,13 +254,13 @@ Returns TRUE
 cTab_fnc_settings = {
 	private ["_propertyGroupName","_displayName","_commonProperties","_groupProperties","_combinedProperties","_properties"]; 
 	_displayName = _this select 0;
-	_propertyGroupName = [cTabDisplayPropertyGroups,_displayName] call BIS_fnc_getFromPairs;
+	_propertyGroupName = [cTabDisplayPropertyGroups,_displayName] call cTab_fnc_getFromPairs;
 	
 	// Exit with FALSE if uiNamespace variable cannot be found in cTabDisplayPropertyGroups
 	if (isNil "_propertyGroupName") exitWith {false};
 	
-	_commonProperties = [cTabSettings,"COMMON"] call BIS_fnc_getFromPairs;
-	_groupProperties = [cTabSettings,_propertyGroupName] call BIS_fnc_getFromPairs;
+	_commonProperties = [cTabSettings,"COMMON"] call cTab_fnc_getFromPairs;
+	_groupProperties = [cTabSettings,_propertyGroupName] call cTab_fnc_getFromPairs;
 	if (isNil "_groupProperties") then {_groupProperties = [];};
 	
 	_combinedProperties = [] + _commonProperties;
@@ -273,28 +273,38 @@ cTab_fnc_settings = {
 	_properties = _this select 1;
 	
 	// Read and return a single property value
-	if (typeName _properties == "STRING") exitWith {[_combinedProperties,_properties] call BIS_fnc_getFromPairs};
+	if (typeName _properties == "STRING") exitWith {[_combinedProperties,_properties] call cTab_fnc_getFromPairs};
 	
-	// Write multiple property pairs. If they exist in _groupProperties, write them there, else write them to COMMON.
+	// Write multiple property pairs. If they exist in _groupProperties, write them there, else write them to COMMON. Only write if they exist and have changed.
 	_commonPropertiesUpdate = [];
+	_combinedPropertiesUpdate = [];
 	{
 		_key = _x select 0;
 		_value = _x select 1;
-		if (([_groupProperties,_key] call BIS_fnc_findInPairs) >= 0) then {
-			[_groupProperties,_key,_value] call BIS_fnc_setToPairs;
-		} else {
-			[_commonProperties,_key,_value] call BIS_fnc_setToPairs;
-			[_commonPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
+		call {
+			_currentValue = [_groupProperties,_key] call cTab_fnc_getFromPairs;
+			if (!isNil "_currentValue" && {!(_currentValue isEqualTo _value)}) exitWith {
+				[_combinedPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
+				[_groupProperties,_key,_value] call BIS_fnc_setToPairs;
+			};
+			_currentValue = [_commonProperties,_key] call cTab_fnc_getFromPairs;
+			if (!isNil "_currentValue" && {!(_currentValue isEqualTo _value)}) exitWith {
+				[_commonPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
+				[_commonProperties,_key,_value] call BIS_fnc_setToPairs;
+			};
 		};
 	} forEach _properties;
 	[cTabSettings,_propertyGroupName,_groupProperties] call BIS_fnc_setToPairs;
 	[cTabSettings,"COMMON",_commonProperties] call BIS_fnc_setToPairs;
 	
-	// Finally, call an interface update for the updated properties, but only if the currently interface uses the same property group, if not, pass changed common properties only
+	// Finally, call an interface update for the updated properties, but only if the currently interface uses the same property group, if not, pass changed common properties only.
 	if (!isNil "cTabIfOpen") then {
-		if (([cTabDisplayPropertyGroups,cTabIfOpen select 1] call BIS_fnc_getFromPairs) == _propertyGroupName) then {
-			[_properties] call cTab_fnc_IfUpdate;
-		} else {[_commonPropertiesUpdate] call cTab_fnc_IfUpdate;};
+		call {
+			if ((([cTabDisplayPropertyGroups,cTabIfOpen select 1] call cTab_fnc_getFromPairs) == _propertyGroupName) && {count _combinedPropertiesUpdate > 0}) exitWith {
+				[_combinedPropertiesUpdate] call cTab_fnc_IfUpdate;
+			};
+			if (count _commonPropertiesUpdate > 0) exitWith {[_commonPropertiesUpdate] call cTab_fnc_IfUpdate;};
+		};
 	};
 	true
 };

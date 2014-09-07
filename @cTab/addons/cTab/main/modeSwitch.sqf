@@ -47,7 +47,7 @@ call {
 	if (_mode == "BFT") exitWith {
 		_mapTypes = ["cTab_main_dlg","mapTypes"] call cTab_fnc_settings;
 		_mapType = ["cTab_main_dlg","mapType"] call cTab_fnc_settings;
-		_mapIDC = [_mapTypes,_mapType] call BIS_fnc_getFromPairs;
+		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
 		_displayItemsToShow = [_mapIDC];
 		_btnActCtrl ctrlSetTooltip "Delete last user placed icon";
