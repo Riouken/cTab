@@ -847,7 +847,7 @@ cTab_fnc_draw_userMarkers = {
 		if (_texture2 != "") then {
 			_cntrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 		};
-	} forEach cTabUserIconList;
+	} count cTabUserIconList;
 	true
 };
 
@@ -864,7 +864,7 @@ cTab_fnc_draw_BFTmembers = {
 		_groupID = _x select 4;
 		_pos = getPosASL _obj;
 		_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconManSize,cTabIconManSize,direction _obj,_groupID,0,cTabTxtSize,"TahomaB"];
-	} forEach cTabBFTmembers;
+	} count cTabBFTmembers;
 	true
 };
 
@@ -881,7 +881,7 @@ cTab_fnc_draw_BFTgroups = {
 		_pos = getPosASL _obj;
 		_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
 		_cntrlScreen drawIcon [_x select 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB"];
-	} forEach cTabBFTgroups;
+	} count cTabBFTgroups;
 	true
 };
 
@@ -913,7 +913,7 @@ cTab_fnc_draw_BFTvehicles = {
 		} else {
 			_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
 		};
-	} forEach cTabBFTvehicles;
+	} count cTabBFTvehicles;
 	true
 };
 
@@ -1340,47 +1340,6 @@ cTabUavTakeControl = {
 _return;
 };
 
-/*
-fnc to check a units gear for certain items
-Param 0: Unit object to check
-Param 1: Array of items to search for
-*/
-cTab_fnc_checkGear = {
-	_return = false;
-	_unit = _this select 0;
-	_items = _this select 1;
-	
-	_chk_all_items = (items _unit) + (assignedItems _unit);
-	
-	// Some "units" don't return assignedItems, for example the Headquater module
-	if (isNil "_chk_all_items") exitWith {false};
-	
-	{
-		if (_x in _chk_all_items) exitWith {_return = true};
-	} forEach _items;
-
-	_return;
-};
-
-/*
-fnc to check a units gear for certain items
-Param 0: Unit object to check
-Param 1: Array of items to search for
-*/
-cTab_fnc_checkHeadGear = {
-	_return = false;
-	_unit = _this select 0;
-	_items = _this select 1;
-	
-	_chk_all_items = [configfile >> "CfgWeapons" >> headgear _unit,true] call BIS_fnc_returnParents;
-	
-	{
-		if (_x in _chk_all_items) exitWith {_return = true};
-	} forEach _items;
-	
-	_return;
-};
-
 // Main loop to manage lists of people and veh that are shown in FBCB2
 cTab_fnc_update_lists = {
 	/*
@@ -1404,7 +1363,7 @@ cTab_fnc_update_lists = {
 			_tmpArray = [_x,_x call cTab_fnc_GetInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
 			_cTabBFTmembers set [count _cTabBFTmembers,_tmpArray];
 		};
-	} forEach units group player;
+	} count units group player;
 	
 	/*
 	cTabBFTgroups --- GROUPS
@@ -1415,12 +1374,11 @@ cTab_fnc_update_lists = {
 	{
 		if ((side _x == cTabSide) && {_x != group player}) then {
 			_leader = objNull;
-			if ([leader _x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then {
-				_leader = leader _x;
-			} else {
+			call {
+				if ([leader _x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) exitWith {_leader = leader _x;};
 				{
 					if ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) exitWith {_leader = _x;};
-				} forEach units _x;
+				} count units _x;
 			};
 			if ((!IsNull _leader) && {_leader == vehicle _leader}) then {
 				_groupSize = count units _x;
@@ -1433,7 +1391,7 @@ cTab_fnc_update_lists = {
 				_cTabBFTgroups set [count _cTabBFTgroups,_tmpArray];
 			};
 		};
-	} forEach allGroups;
+	} count allGroups;
 	
 	/*
 	cTabBFTvehicles --- VEHICLES
@@ -1462,18 +1420,18 @@ cTab_fnc_update_lists = {
 			_tmpArray = [_x,_iconA,_iconB,_name,_groupID];
 			_cTabBFTvehicles set [count _cTabBFTvehicles,_tmpArray];
 		};
-	} forEach vehicles;
+	} count vehicles;
 	
 	/*
 	cTabHcamlist --- HELMET CAMS
 	*/
 	{
 		if (side _x == cTabSide) then {
-			if ([_x,["ItemcTabHCam"]] call cTab_fnc_checkGear || {[_x,cTab_helmetClass_has_HCam] call cTab_fnc_checkHeadGear}) then {
+			if ([_x,cTab_helmetClass_has_HCam] call cTab_fnc_checkHeadGear || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
 				_cTabHcamlist set [count _cTabHcamlist,_x];
 			};
 		};
-	} forEach allUnits;
+	} count allUnits;
 	
 	// replace the global list arrays in the end so that we avoid them being empty unnecessarily
 	cTabBFTmembers = [] + _cTabBFTmembers;
