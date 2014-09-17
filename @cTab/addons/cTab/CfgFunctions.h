@@ -7,6 +7,7 @@ class CfgFunctions
 			file="cTab\functions";
 			class checkGear{};
 			class checkHeadGear{};
+			class drawBftMembers{};
 			class getFromPairs{};
 			class updateLists{};
 		};

@@ -852,23 +852,6 @@ cTab_fnc_draw_userMarkers = {
 };
 
 /*
-Function to draw items contained in cTabBFTmembers
-Parameter 0: Map control to draw BFT icons on
-Return TRUE
-*/
-cTab_fnc_draw_BFTmembers = {
-	_cntrlScreen = _this select 0;
-	{
-		_obj = _x select 0;
-		_text = if (cTabBFTtxt) then {_x select 3} else {""};
-		_groupID = _x select 4;
-		_pos = getPosASL _obj;
-		_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconManSize,cTabIconManSize,direction _obj,_groupID,0,cTabTxtSize,"TahomaB"];
-	} count cTabBFTmembers;
-	true
-};
-
-/*
 Function to draw items contained in cTabBFTgroups
 Parameter 0: Map control to draw BFT icons on
 Return TRUE
@@ -957,7 +940,7 @@ cTabOnDrawbft = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
 	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
-	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
@@ -973,7 +956,7 @@ cTabOnDrawbftVeh = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
 	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
-	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
@@ -999,7 +982,7 @@ cTabOnDrawbftTAD = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
 	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
-	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw vehicle icon at own location
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -1027,7 +1010,7 @@ cTabOnDrawbftTADdialog = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
 	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
-	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// current position
 	_playerPos = getPosASL player;
@@ -1053,7 +1036,7 @@ cTabOnDrawbftAndroid = {
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
 	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
-	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
@@ -1074,7 +1057,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -1102,7 +1085,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_heading = direction vehicle player;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-	[_cntrlScreen] call cTab_fnc_draw_BFTmembers;
+	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
