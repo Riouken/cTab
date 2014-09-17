@@ -10,6 +10,7 @@ class CfgFunctions
 			class drawBftGroups{};
 			class drawBftMembers{};
 			class drawBftVehicles{};
+			class drawUserMarkers{};
 			class getFromPairs{};
 			class updateLists{};
 		};

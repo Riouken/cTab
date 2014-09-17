@@ -822,36 +822,6 @@ cTab_fnc_draw_markers = {
 */
 
 /*
-Function to draw userMarkers held in cTabUserIconList to map control
-Parameter 0: Map control
-Returns TRUE
-*/
-cTab_fnc_draw_userMarkers = {
-	_cntrlScreen = _this select 0;
-	_arrowLength = cTabUserMarkerArrowSize * ctrlMapScale _cntrlScreen;
-	{
-		_pos = _x select 0;
-		_texture1 = _x select 1;
-		_texture2 = _x select 2;
-		_dir = _x select 3;
-		_color = _x select 4;
-		_text = "";
-		_align = "right";
-		if ((_dir > 0) && (_dir < 180)) then {_align = "left"};
-		if (_dir < 360) then {
-			_secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
-			_cntrlScreen drawArrow [_pos, _secondPos, _color];
-		};
-		if (cTabBFTtxt) then {_text = _x select 5;};
-		_cntrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB",_align];
-		if (_texture2 != "") then {
-			_cntrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
-		};
-	} count cTabUserIconList;
-	true
-};
-
-/*
 	Function to calculate and draw hook distance, direction, grid and arrow
 	Parameter 0: Display used to write hook direction, distance and grid to
 	Parameter 1: Map control to draw arrow on
@@ -887,7 +857,7 @@ cTabOnDrawbft = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -903,7 +873,7 @@ cTabOnDrawbftVeh = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -929,7 +899,7 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -957,7 +927,7 @@ cTabOnDrawbftTADdialog = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -983,7 +953,7 @@ cTabOnDrawbftAndroid = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -1006,7 +976,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
@@ -1034,7 +1004,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
 	
-	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
+	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
