@@ -26,7 +26,7 @@ _chk_all_items= [];
 _entry = configfile >> "CfgWeapons" >> headgear _unit;
 
 while {isclass _entry} do {
-	_chk_all_items set [count _chk_all_items,configname _entry];
+	_chk_all_items pushBack configname _entry;
 	_entry = inheritsfrom _entry;
 };
 
