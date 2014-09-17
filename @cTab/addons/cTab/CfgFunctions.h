@@ -8,6 +8,7 @@ class CfgFunctions
 			class checkGear{};
 			class checkHeadGear{};
 			class getFromPairs{};
+			class updateLists{};
 		};
 	};
 };
