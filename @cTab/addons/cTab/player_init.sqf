@@ -852,23 +852,6 @@ cTab_fnc_draw_userMarkers = {
 };
 
 /*
-Function to draw items contained in cTabBFTgroups
-Parameter 0: Map control to draw BFT icons on
-Return TRUE
-*/
-cTab_fnc_draw_BFTgroups = {	
-	_cntrlScreen = _this select 0;
-	{
-		_obj = _x select 0;
-		_text = if (cTabBFTtxt) then {_x select 3} else {""};
-		_pos = getPosASL _obj;
-		_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
-		_cntrlScreen drawIcon [_x select 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB"];
-	} count cTabBFTgroups;
-	true
-};
-
-/*
 Function to draw items contained in cTabBFTvehicles
 Parameter 0: Map control to draw BFT icons on
 Parameter 1: Mode, FALSE = Ground, TRUE = Air (for TAD)
@@ -939,7 +922,7 @@ cTabOnDrawbft = {
 
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
-	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
@@ -955,7 +938,7 @@ cTabOnDrawbftVeh = {
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
-	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
@@ -981,7 +964,7 @@ cTabOnDrawbftTAD = {
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
-	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw vehicle icon at own location
@@ -1009,7 +992,7 @@ cTabOnDrawbftTADdialog = {
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
-	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// current position
@@ -1035,7 +1018,7 @@ cTabOnDrawbftAndroid = {
 
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
 	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
-	[_cntrlScreen] call cTab_fnc_draw_BFTgroups;
+	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
