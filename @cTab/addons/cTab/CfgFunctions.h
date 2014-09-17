@@ -9,6 +9,7 @@ class CfgFunctions
 			class checkHeadGear{};
 			class drawBftGroups{};
 			class drawBftMembers{};
+			class drawBftVehicles{};
 			class getFromPairs{};
 			class updateLists{};
 		};

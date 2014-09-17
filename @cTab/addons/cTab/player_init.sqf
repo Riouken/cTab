@@ -852,39 +852,6 @@ cTab_fnc_draw_userMarkers = {
 };
 
 /*
-Function to draw items contained in cTabBFTvehicles
-Parameter 0: Map control to draw BFT icons on
-Parameter 1: Mode, FALSE = Ground, TRUE = Air (for TAD)
-Return TRUE
-*/
-cTab_fnc_draw_BFTvehicles = {
-	_cntrlScreen = _this select 0;
-	_modeTAD = _this select 1;
-	{
-		_obj = _x select 0;
-		_iconB = _x select 2;
-		_text = if (cTabBFTtxt) then {_x select 3} else {""};
-		_groupID = _x select 4;
-		_pos = getPosASL _obj;
-		
-		if (_modeTAD && {_iconB != ""}) then {
-			// draw air contact icon and dummy icon for the text to have a better alignment
-			if (_groupID != "") then {
-				_cntrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
-				_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupID,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
-			} else {
-				_cntrlScreen drawIcon [_iconB,cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _obj,"",0,cTabTxtSize,"TahomaB"];
-				_cntrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB"];
-			};
-		} else {
-			_cntrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
-		};
-	} count cTabBFTvehicles;
-	true
-};
-
-
-/*
 	Function to calculate and draw hook distance, direction, grid and arrow
 	Parameter 0: Display used to write hook direction, distance and grid to
 	Parameter 1: Map control to draw arrow on
@@ -921,7 +888,7 @@ cTabOnDrawbft = {
 	_display = ctrlParent _cntrlScreen;
 
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
@@ -937,7 +904,7 @@ cTabOnDrawbftVeh = {
 	_display = ctrlParent _cntrlScreen;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
@@ -963,7 +930,7 @@ cTabOnDrawbftTAD = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
@@ -991,7 +958,7 @@ cTabOnDrawbftTADdialog = {
 	_display = ctrlParent _cntrlScreen;
 	
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-	[_cntrlScreen,true] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
@@ -1017,7 +984,7 @@ cTabOnDrawbftAndroid = {
 	_display = ctrlParent _cntrlScreen;
 
 	[_cntrlScreen] call cTab_fnc_draw_userMarkers;
-	[_cntrlScreen,false] call cTab_fnc_draw_BFTvehicles;
+	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
