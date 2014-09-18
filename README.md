@@ -114,6 +114,9 @@ If you wish to override the list of vehicles that have FBCB2 or TAD available, p
 
 Changelog
 ---------
+### 2.0.2 ###
+* Fixed full-screen helmet camera getting stuck while sitting in a moving vehicle and viewing
+
 ### 2.0.1 ###
 * Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions
 

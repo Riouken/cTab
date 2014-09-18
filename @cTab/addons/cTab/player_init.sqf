@@ -164,12 +164,14 @@ cTab_fnc_onIfMainPressed = {
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
+		selectPlayer player;
 		cTabUavViewActive = false;
 		true
 	};
 	if (cTabHCamViewActive) exitWith {
 		objNull remoteControl cTabActHcam;
 		player switchCamera 'internal';
+		selectPlayer player;
 		cTabHCamViewActive = false;
 		true
 	};
