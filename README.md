@@ -9,7 +9,7 @@ Thanks to
 + LCpl C. Johnston - Technical advisor
 + LCpl Schwanke - Technical advisor
 + Knobee - Documentation
-+ Raspu - TAD and microDAGR model
++ Raspu - TAD, Android and MicroDAGR model
 + Killzone_Kid - for his many excellent tutorials
 + Everyone else in the 15th MEU SOC and C-L-F for help with support and testing.
 
@@ -67,9 +67,10 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | --- | --- |
 | `H` | This key is used to open and close whatever cTab device is available to you. It can also be used to close UAV and Helmet Cam views. |
 | `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft. |
+| `LEFT DOUBLE-CLICK` |  Opens dialog to place markers at mouse cursor location. Not available on MicroDAGR |
 | `CTRL` + `RMB` |  (Right Mouse Button) Deletes the closest user placed marker to your cursur. |
-| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD and microDAGR. |
-| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD and microDAGR. |
+| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD and MicroDAGR. |
+| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD and MicroDAGR. |
 | `ESC` | Closes all interactive cTab devices (i.e. all but the "small" TAD) as well as the UAV and Helmet Cam views. |
 
 ### Define vehicle types that have FBCB2 or TAD available ###
@@ -142,6 +143,11 @@ Changelog
 * Added ability to remove marker closest to curser by `CTRL` + `RMB` (right mouse button)
 * Players sitting in the back of the trucks (HMTT and Tempest by default) now no longer have access to the vehicle based FBCB2
 * Workaround for left-door gunner having access to the TAD instead of the co-pilot in Konyo's Boeing/SOAR MH-47E
+* Tablet is now restored to last mode of operation operation (BFT,UAV,...) on open
+* Added switch (F6) to toggle map on Tablet between satellite and topographical modes
+* Added switch (OSB20) to toggle map on TAD between satellite, topographical and black modes
+* Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
+* Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)
 
 ### 2.0.1 ###
 * Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions
