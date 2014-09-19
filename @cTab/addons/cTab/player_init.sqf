@@ -20,7 +20,6 @@ cTabBFTmembers = [];
 cTabBFTgroups = [];
 cTabBFTvehicles = [];
 cTabHcamlist = [];
-cTabHcamlist = [];
 
 if (isnil ("cTabSide")) then {cTabSide = west;}; 
 
