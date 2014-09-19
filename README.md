@@ -148,6 +148,7 @@ Changelog
 * Added switch (OSB20) to toggle map on TAD between satellite, topographical and black modes
 * Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
 * Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)
+* Added TAD compatibility (for correct map scale) for the following maps: Rahmadi, Takistan Mountains, Porto, Sahrani, United Sahrani, Southern Sahrani
 
 ### 2.0.1 ###
 * Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions

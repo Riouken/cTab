@@ -45,9 +45,15 @@ if (_mapSize == 0) then {
 		case "Desert_E": {_mapSize = 2048}; //Desert
 		case "fallujah": {_mapSize = 10240}; //Fallujah
 		case "fata": {_mapSize = 10240}; //PR FATA
+		case "Intro": {_mapSize = 5120}; //Rahmadi
 		case "j198_ftb": {_mapSize = 7168}; //Ft. Benning - US Army Infantry School
 		case "mbg_celle2": {_mapSize = 12288}; //Celle 2
-		case "ProvingGrounds_PMC": {_mapSize = 2048}; //ProvingGrounds_PMC
+		case "Mountains_ACR": {_mapSize = 6400}; //Takistan Mountains
+		case "Porto": {_mapSize = 5120}; //Porto
+		case "ProvingGrounds_PMC": {_mapSize = 2048}; //Proving Grounds
+		case "Sara": {_mapSize = 20480}; //Sahrani
+		case "Sara_dbe1": {_mapSize = 20480}; //United Sahrani
+		case "SaraLite": {_mapSize = 10240}; //Southern Sahrani
 		case "Shapur_BAF": {_mapSize = 2048}; //Shapur
 		case "Stratis": {_mapSize = 8192};
 		case "Takistan": {_mapSize = 12800};
