@@ -551,7 +551,6 @@ Returns TRUE when action was taken (interface opened or closed)
 Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
 */
 cTab_fnc_onIfSecondaryPressed = {
-	_return = false;
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
@@ -576,12 +575,13 @@ cTab_fnc_onIfSecondaryPressed = {
 			// close Main
 			call cTab_fnc_close;
 		};
-		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
-			_return = true;
+		call {	
+			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
+				nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
+			};
+			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+			nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		};
-		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-		nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
@@ -589,22 +589,21 @@ cTab_fnc_onIfSecondaryPressed = {
 			// close Main
 			call cTab_fnc_close;
 		};
-		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-			nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
-			_return = true;
+		call {
+			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
+				nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
+			};
+			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+				nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+			};
+			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
+				nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
+			};
+			nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
 		};
-		if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-			nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
-			_return = true;
-		};
-		if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-			nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
-			_return = true;
-		};
-		nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
 		true
 	};
-	_return
+	false
 };
 
 /*
