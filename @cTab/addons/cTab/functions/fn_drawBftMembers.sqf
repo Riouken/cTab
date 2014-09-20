@@ -25,13 +25,14 @@
 		[_ctrlScreen] call cTab_fnc_drawBftMembers;
 */
 
-private ["_ctrlScreen","_obj"];
+private ["_ctrlScreen","_obj","_text"];
 
 _ctrlScreen = _this select 0;
 
 {
+	_text = if (cTabBFTtxt) then {_x select 4} else {""};
 	_obj = _x select 0;
-	_ctrlScreen drawIcon [_x select 1,cTabColorBlue,getPosASL _obj,cTabIconManSize,cTabIconManSize,direction _obj,_x select 4,0,cTabTxtSize,"TahomaB"];
+	_ctrlScreen drawIcon [_x select 1,cTabColorBlue,getPosASL _obj,cTabIconManSize,cTabIconManSize,direction _obj,_text,0,cTabTxtSize,"TahomaB"];
 } count cTabBFTmembers;
 
 true
