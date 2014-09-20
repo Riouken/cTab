@@ -9,11 +9,7 @@
 #include "cTab_gui_macros.hpp";
 
 // add cTab_FBCB2_updatePulse event handler triggered periodically by the server
-["cTab_FBCB2_updatePulse",{
-	[] spawn {
-		call cTab_fnc_updateLists;
-	};
-}] call CBA_fnc_addEventHandler;
+["cTab_FBCB2_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
 //prep the arrays that will hold ctab data
 cTabBFTmembers = [];
