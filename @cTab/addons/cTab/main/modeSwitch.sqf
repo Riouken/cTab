@@ -30,7 +30,8 @@ _displayItems = [
 	IDC_CTAB_CTABHCAMMAP,
 	IDC_CTAB_CTABUAVMAP,
 	IDC_CTAB_SCREEN,
-	IDC_CTAB_SCREEN_TOPO
+	IDC_CTAB_SCREEN_TOPO,
+	IDC_CTAB_HCAM_FULL
 ];
 _displayItemsToShow = [];
 
@@ -64,16 +65,36 @@ call {
 	// ---------- HELMET CAM -----------
 	if (_mode == "HCAM") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_HCAM,IDC_CTAB_CTABUAVMAPBG,IDC_CTAB_CTABHCAMMAP];
-		_btnActCtrl ctrlSetTooltip "View Optics";
+		_data = ["cTab_main_dlg","hCam"] call cTab_fnc_settings;
+		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
 		// Populate list of HCAMs
 		lbClear _hcamListCtrl;
-		{_index = _hcamListCtrl lbAdd format ["%2 (%1)",groupId group _x,name _x];} forEach cTabHcamlist;
+		{
+			_index = _hcamListCtrl lbAdd format ["%2 (%1:%3)",groupId group _x,name _x,[_x] call CBA_fnc_getGroupIndex];
+			_hcamListCtrl lbSetData [_index,str _x];
+		} count cTabHcamlist;
+		lbSort [_hcamListCtrl, "ASC"];
+		for "_x" from 0 to (lbSize _hcamListCtrl - 1) do {
+			if (_data == _hcamListCtrl lbData _x) exitWith {
+				if (lbCurSel _hcamListCtrl != _x) then {
+					_hcamListCtrl lbSetCurSel _x;
+				};
+				['rendertarget12',_data] spawn cTab_fnc_createHelmetCam;
+			};
+		};
 	};
 	// ---------- MESSAGING -----------
 	if (_mode == "MESSAGE") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
 		call cTab_msg_gui_load;
+	};
+	// ---------- FULLSCREEN HCAM -----------
+	if (_mode == "HCAM_FULL") exitWith {
+		_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
+		_data = ["cTab_main_dlg","hCam"] call cTab_fnc_settings;
+		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+		['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
 	};
 };
 

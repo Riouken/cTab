@@ -249,7 +249,7 @@ class cTab_main_dlg {
 				class cTabUAVdisplay: cTab_RscPicture
 				{
 					idc = IDC_CTAB_CTABUAVDISPLAY;
-					text = "#(argb,512,512,1)r2t(rendertarget9,1.0)";
+					text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_CONTENT_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
@@ -258,7 +258,7 @@ class cTab_main_dlg {
 				class cTabUAV2nddisplay: cTab_RscPicture
 				{
 					idc = IDC_CTAB_CTABUAV2NDDISPLAY;
-					text = "#(argb,512,512,1)r2t(rendertarget8,1.0)";
+					text = "#(argb,512,512,1)r2t(rendertarget8,1.1896551724)";
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_CONTENT_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_B_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
@@ -298,12 +298,12 @@ class cTab_main_dlg {
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-					onLBSelChanged = "_nop = _this execVM '\cTab\hcam\cTab_gui_hcam_cam.sqf';";
+					onLBSelChanged = "['cTab_main_dlg',[['hCam',(_this select 0) lbData (_this select 1)]]] call cTab_fnc_settings;"
 				};
 				class cTabHcamDisplay: cTab_RscPicture
 				{
 					idc = IDC_CTAB_CTABHCAMDISPLAY;
-					text = "#(argb,512,512,1)r2t(rendertarget12,1.0)";
+					text = "#(argb,512,512,1)r2t(rendertarget12,1.1896551724)";
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_CONTENT_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
@@ -408,6 +408,16 @@ class cTab_main_dlg {
 					h = pxToScreen_H(cTab_GUI_tablet_MESSAGE_COMPOSE_TEXT_H);
 				};
 			};
+		};
+		// ---------- FULLSCREEN HCAM -----------
+		class cTabHcamFull: cTab_RscPicture
+		{
+			idc = IDC_CTAB_HCAM_FULL;
+			text = "#(argb,512,512,1)r2t(rendertarget13,1.3096153846)";
+			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
+			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
 		};
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
 		#include <\cTab\cTab_markerMenu_controls.hpp>

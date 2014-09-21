@@ -88,7 +88,8 @@ cTabSettings = [];
 
 [cTabSettings,"Tablet",[
 	["mode","DESKTOP"],
-	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]]
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["hCam",""]
 ]] call BIS_fnc_setToPairs;
 
 /*
@@ -230,6 +231,17 @@ cTab_fnc_IfUpdate = {
 					// Update OSD element if it exists
 					_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
 					if (_osdCtrl != controlNull) then {_osdCtrl ctrlSetText _targetMapName;};
+				};
+			};
+			// ------------ HCAM ------------
+			if (_x select 0 == "hCam") exitWith {
+				_mode = [_displayName,"mode"] call cTab_fnc_settings;
+				_renderTarget = call {
+					if (_mode == "HCAM") exitWith {"rendertarget12"};
+					if (_mode == "HCAM_FULL") exitWith {"rendertarget13"}
+				};
+				if (!isNil "_renderTarget") then {
+					[_renderTarget,_x select 1] spawn cTab_fnc_createHelmetCam;
 				};
 			};
 			// ----------------------------------
@@ -438,7 +450,6 @@ cTabUserSelIcon = [[],"","",500,[],""];
 // Base defines.
 cTabUserIconList = [];
 cTabUavViewActive = false;
-cTabHCamViewActive = false;
 
 // Initialize all uiNamespace variables
 uiNamespace setVariable ["cTab_main_dlg", displayNull];
@@ -497,12 +508,6 @@ cTab_fnc_onIfMainPressed = {
 		cTabUavViewActive = false;
 		true
 	};
-	if (cTabHCamViewActive) exitWith {
-		objNull remoteControl cTabActHcam;
-		player switchCamera 'internal';
-		cTabHCamViewActive = false;
-		true
-	};
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) exitWith {
 		// close Main
 		call cTab_fnc_close;
@@ -555,12 +560,6 @@ cTab_fnc_onIfSecondaryPressed = {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
 		cTabUavViewActive = false;
-		true
-	};
-	if (cTabHCamViewActive) exitWith {
-		objNull remoteControl cTabActHcam;
-		player switchCamera 'internal';
-		cTabHCamViewActive = false;
 		true
 	};
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) exitWith {
@@ -677,6 +676,7 @@ cTab_fnc_close = {
 		};
 		if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
+		call cTabHcamDelCam;
 		cTabIfOpen = nil;
 	};
 };
@@ -1188,12 +1188,13 @@ cTabUavDelCam = {
 
 // fnc to delete cameras after helmet cam interface is closed.
 cTabHcamDelCam = {
-	player cameraEffect ["terminate","back"];
-	_camArray = player getVariable "cTabHcams";
-	camDestroy (_camArray select 0);
-	deleteVehicle (_camArray select 1);
-	player setVariable ["cTabHcams",nil];
-	cTabActHcam = nil;
+	if (!isNil "cTabHcams") then {
+		_cam = cTabHcams select 0;
+		_cam cameraEffect ["TERMINATE","BACK"];
+		camDestroy _cam;
+		deleteVehicle (cTabHcams select 1);
+		cTabHcams = nil;
+	};
 	true
 };
 
@@ -1401,7 +1402,8 @@ cTab_Tablet_btnACT = {
 	call {
 		if (_mode == "BFT") exitWith {if (count cTabUserIconList > 0) then {_nop = cTabUserIconList call BIS_fnc_arrayPop;};};
 		if (_mode == "UAV") exitWith {_nop = [] call cTabUavTakeControl;};
-		if (_mode == "HCAM") exitWith {call cTab_hCam_Full_View;};
+		if (_mode == "HCAM") exitWith {["cTab_main_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_settings;};
+		if (_mode == "HCAM_FULL") exitWith {["cTab_main_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;};
 	};
 	true
 };
@@ -1460,25 +1462,6 @@ cTab_keyDownShortcut =
 
 
 	_handled;  
-};	
-
-
-cTab_hCam_Full_View = {
-	if (isNil 'cTabActHcam') exitWith {false};
-	if (vehicle cTabActHcam isKindOf "CAManBase") then 
-	{
-		player switchCamera 'Internal';
-		cTabActHcam switchCamera 'Internal';
-		closeDialog 0;
-		cTabHCamViewActive = true;
-	}
-	else
-	{
-		player switchCamera "EXTERNAL";
-		(vehicle cTabActHcam) switchCamera "EXTERNAL";
-		closeDialog 0;
-		cTabHCamViewActive = true;		
-	};
 };
 
 // Function to find the closest marker to the places cursor.
