@@ -7,7 +7,6 @@
 
 //--- cTab
 #include <\cTab\usermenu_gui_macros.hpp>
-#include <\cTab\cTab_gui_uav_macros.hpp>
 
 #define GUI_GRID_W	(safezoneW * 0.8)
 #define GUI_GRID_H	(GUI_GRID_W * 4/3)
@@ -33,7 +32,7 @@ class cTab_main_dlg {
 		};
 		class windowsBG: cTab_RscPicture
 		{
-			idc = 1247854;
+			idc = IDC_CTAB_WIN_BACK;
 			text = "#(argb,8,8,3)color(0.2,0.431,0.647,1)";
 			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
 			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
@@ -42,7 +41,7 @@ class cTab_main_dlg {
 		};
 		class windowsBar: cTab_RscPicture
 		{
-			idc = 1247858;
+			idc = IDC_CTAB_WIN_TASKBAR;
 			text = "\cTab\img\Desktop_bar.jpg";
 			x = pxToScreen_X(cTab_GUI_tablet_TASKBAR_X);
 			y = pxToScreen_Y(cTab_GUI_tablet_TASKBAR_Y);
@@ -51,7 +50,7 @@ class cTab_main_dlg {
 		};
 		class MiniMapBG: cTab_Tablet_window_back_BL
 		{
-			idc = IDC_CTAB_CTABUAVMAPBG;
+			idc = IDC_CTAB_MINIMAPBG;
 		};
 		class cTabUavMap: cTab_RscMapControl
 		{
@@ -236,19 +235,19 @@ class cTab_main_dlg {
 			{
 				class UAVListBG: cTab_Tablet_window_back_TL
 				{
-					idc = 478594;
+					idc = -1;
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_L_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
 				class UAVVidBG1: cTab_Tablet_window_back_TR
 				{
-					idc = 478595;
+					idc = -1;
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
 				class UAVVidBG2: cTab_Tablet_window_back_BR
 				{
-					idc = 478596;
+					idc = -1;
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_B_Y);
 				};
@@ -296,13 +295,13 @@ class cTab_main_dlg {
 			{
 				class HcamListBG: cTab_Tablet_window_back_TL
 				{
-					idc = 478597;
+					idc = -1;
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_L_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
 				class HcamVidBG: cTab_Tablet_window_back_TR
 				{
-					idc = 478598;
+					idc = -1;
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
@@ -313,7 +312,7 @@ class cTab_main_dlg {
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-					onLBSelChanged = "['cTab_main_dlg',[['hCam',(_this select 0) lbData (_this select 1)]]] call cTab_fnc_settings;"
+					onLBSelChanged = "['cTab_main_dlg',[['hCam',(_this select 0) lbData (_this select 1)]]] call cTab_fnc_settings;";
 				};
 				class cTabHcamDisplay: cTab_RscPicture
 				{
@@ -341,7 +340,7 @@ class cTab_main_dlg {
 			{
 				class msgListbox: cTab_RscListbox
 				{
-					idc = 15000;
+					idc = IDC_CTAB_MSG_LIST;
 					style = LB_MULTI;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_MESSAGELIST_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_MESSAGELIST_Y);
@@ -351,7 +350,7 @@ class cTab_main_dlg {
 				};
 				class msgframe: cTab_RscFrame
 				{
-					idc = 18000;
+					idc = -1;
 					text = "Read Message"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_MESSAGETEXT_FRAME_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_MESSAGETEXT_FRAME_Y);
@@ -360,7 +359,7 @@ class cTab_main_dlg {
 				};
 				class msgTxt: cTab_RscEdit
 				{
-					idc = 18510;
+					idc = IDC_CTAB_MSG_CONTENT;
 					htmlControl = true;
 					style = ST_MULTI;
 					lineSpacing = 0.2;
@@ -373,7 +372,7 @@ class cTab_main_dlg {
 				};			
 				class composeFrame: cTab_RscFrame
 				{
-					idc = 18010;
+					idc = -1;
 					text = "Compose Message"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_COMPOSE_FRAME_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_COMPOSE_FRAME_Y);
@@ -382,7 +381,7 @@ class cTab_main_dlg {
 				};
 				class playerlistbox: cTab_RscListbox
 				{
-					idc = 15010;
+					idc = IDC_CTAB_MSG_RECIPIENTS;
 					style = LB_MULTI;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_PLAYERLIST_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_PLAYERLIST_Y);
@@ -391,7 +390,7 @@ class cTab_main_dlg {
 				};
 				class deletebtn: cTab_RscButton
 				{
-					idc = 16120;
+					idc = IDS_CTAB_MSG_BTNDELETE;
 					text = "Delete"; //--- ToDo: Localize;
 					tooltip = "Delete All Messages";
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_BUTTON_DELETE_X);
@@ -402,7 +401,7 @@ class cTab_main_dlg {
 				};
 				class sendbtn: cTab_RscButton
 				{
-					idc = 16130;
+					idc = IDS_CTAB_MSG_BTNSEND;
 					text = "Send"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_BUTTON_SEND_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_BUTTON_SEND_Y);
@@ -412,7 +411,7 @@ class cTab_main_dlg {
 				};
 				class edittxtbox: cTab_RscEdit
 				{
-					idc = 14000;
+					idc = IDC_CTAB_MSG_COMPOSE;
 					htmlControl = true;
 					style = ST_MULTI;
 					lineSpacing = 0.2;

@@ -8,7 +8,6 @@ disableSerialization;
 
 #include <\cTab\cTab_gui_macros.hpp>
 #include <\cTab\usermenu_gui_macros.hpp>
-#include <\cTab\cTab_gui_uav_macros.hpp>
 
 cTabUserPos = [];
 
@@ -26,7 +25,7 @@ _displayItems = [
 	IDC_CTAB_GROUP_UAV,
 	IDC_CTAB_GROUP_HCAM,
 	IDC_CTAB_GROUP_MESSAGE,
-	IDC_CTAB_CTABUAVMAPBG,
+	IDC_CTAB_MINIMAPBG,
 	IDC_CTAB_CTABHCAMMAP,
 	IDC_CTAB_CTABUAVMAP,
 	IDC_CTAB_SCREEN,
@@ -55,7 +54,7 @@ call {
 	};
 	// ---------- UAV -----------
 	if (_mode == "UAV") exitWith {
-		_displayItemsToShow = [IDC_CTAB_GROUP_UAV,IDC_CTAB_CTABUAVMAPBG,IDC_CTAB_CTABUAVMAP];
+		_displayItemsToShow = [IDC_CTAB_GROUP_UAV,IDC_CTAB_MINIMAPBG,IDC_CTAB_CTABUAVMAP];
 		_btnActCtrl ctrlSetTooltip "View Optics";
 		_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
 		lbClear _uavListCtrl;
@@ -64,7 +63,7 @@ call {
 	};
 	// ---------- HELMET CAM -----------
 	if (_mode == "HCAM") exitWith {
-		_displayItemsToShow = [IDC_CTAB_GROUP_HCAM,IDC_CTAB_CTABUAVMAPBG,IDC_CTAB_CTABHCAMMAP];
+		_displayItemsToShow = [IDC_CTAB_GROUP_HCAM,IDC_CTAB_MINIMAPBG,IDC_CTAB_CTABHCAMMAP];
 		_data = ["cTab_main_dlg","hCam"] call cTab_fnc_settings;
 		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
