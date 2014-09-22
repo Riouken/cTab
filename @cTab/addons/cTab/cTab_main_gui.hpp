@@ -83,6 +83,19 @@ class cTab_main_dlg {
 			maxSatelliteAlpha = 10000;
 			alphaFadeStartScale = 10;
 			alphaFadeEndScale = 10;
+
+			// Rendering density coefficients
+			ptsPerSquareSea = 8 / (0.86 / GUI_GRID_H);		// seas
+			ptsPerSquareTxt = 8 / (0.86 / GUI_GRID_H);		// textures
+			ptsPerSquareCLn = 8 / (0.86 / GUI_GRID_H);		// count-lines
+			ptsPerSquareExp = 8 / (0.86 / GUI_GRID_H);		// exposure
+			ptsPerSquareCost = 8 / (0.86 / GUI_GRID_H);		// cost
+
+			// Rendering thresholds
+			ptsPerSquareFor = 3 / (0.86 / GUI_GRID_H);		// forests
+			ptsPerSquareForEdge = 100 / (0.86 / GUI_GRID_H);	// forest edges
+			ptsPerSquareRoad = 1.5 / (0.86 / GUI_GRID_H);		// roads
+			ptsPerSquareObj = 4 / (0.86 / GUI_GRID_H);		// other objects
 		};
 		class screenTopo: screen
 		{
