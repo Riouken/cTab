@@ -81,6 +81,8 @@ class cTab_main_dlg {
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 			maxSatelliteAlpha = 10000;
+			alphaFadeStartScale = 10;
+			alphaFadeEndScale = 10;
 		};
 		class screenTopo: screen
 		{
