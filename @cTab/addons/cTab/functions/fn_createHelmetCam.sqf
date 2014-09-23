@@ -51,7 +51,7 @@ call {
 
 // if there is no valid unit or we are not allowed to set up a helmet cam in these conditions, drop out of full screen view
 if (IsNull _newHost) exitWith {
-	["cTab_main_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;
+	["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;
 	false
 };
 

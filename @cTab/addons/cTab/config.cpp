@@ -82,7 +82,7 @@ class Extended_PostInit_EventHandlers
 #include <cTab_gui_macros.hpp>
 #include <cTab_base_gui_classes.hpp>
 
-#include <cTab_main_gui.hpp>
+#include <\cTab\tablet\cTab_Tablet_dialog.hpp>
 
 //Old Android 
 //#include <cTab_android_gui.hpp>

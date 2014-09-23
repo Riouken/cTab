@@ -11,7 +11,7 @@ disableSerialization;
 
 cTabUserPos = [];
 
-_display = (uiNamespace getVariable "cTab_main_dlg");
+_display = (uiNamespace getVariable "cTab_Tablet_dlg");
 
 ctrlShow [IDC_CTAB_LOADINGTXT,true];
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
@@ -45,8 +45,8 @@ call {
 	};
 	// ---------- BFT -----------
 	if (_mode == "BFT") exitWith {
-		_mapTypes = ["cTab_main_dlg","mapTypes"] call cTab_fnc_settings;
-		_mapType = ["cTab_main_dlg","mapType"] call cTab_fnc_settings;
+		_mapTypes = ["cTab_Tablet_dlg","mapTypes"] call cTab_fnc_settings;
+		_mapType = ["cTab_Tablet_dlg","mapType"] call cTab_fnc_settings;
 		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
 		_displayItemsToShow = [_mapIDC];
@@ -64,7 +64,7 @@ call {
 	// ---------- HELMET CAM -----------
 	if (_mode == "HCAM") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_HCAM,IDC_CTAB_MINIMAPBG,IDC_CTAB_CTABHCAMMAP];
-		_data = ["cTab_main_dlg","hCam"] call cTab_fnc_settings;
+		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_settings;
 		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
 		// Populate list of HCAMs
@@ -91,7 +91,7 @@ call {
 	// ---------- FULLSCREEN HCAM -----------
 	if (_mode == "HCAM_FULL") exitWith {
 		_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
-		_data = ["cTab_main_dlg","hCam"] call cTab_fnc_settings;
+		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_settings;
 		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
 	};

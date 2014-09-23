@@ -60,7 +60,7 @@ if (_mapSize == 0) then {
 cTabMapScaleFactor = _mapSize / 2621.44;
 
 cTabDisplayPropertyGroups = [
-	["cTab_main_dlg", "Tablet"],
+	["cTab_Tablet_dlg", "Tablet"],
 	["cTab_Android_dlg", "Main"],
 	["cTab_Veh_dlg", "Main"],
 	["cTab_TAD_dsp","TAD"],
@@ -172,8 +172,8 @@ cTab_fnc_IfUpdate = {
 			// ------------ MODE ------------
 			if (_x select 0 == "mode") exitWith {
 				call {
-					if (_displayName == "cTab_main_dlg") exitWith {
-						_null = [_x select 1] execVM "\cTab\main\modeSwitch.sqf";
+					if (_displayName == "cTab_Tablet_dlg") exitWith {
+						_null = [_x select 1] execVM "\cTab\tablet\cTab_Tablet_modeSwitch.sqf";
 					};
 				};
 			};
@@ -486,7 +486,7 @@ cTabUserIconList = [];
 cTabUavViewActive = false;
 
 // Initialize all uiNamespace variables
-uiNamespace setVariable ["cTab_main_dlg", displayNull];
+uiNamespace setVariable ["cTab_Tablet_dlg", displayNull];
 uiNamespace setVariable ["cTab_Android_dlg", displayNull];
 uiNamespace setVariable ["cTab_Veh_dlg", displayNull];
 uiNamespace setVariable ["cTab_TAD_dsp", displayNull];
@@ -503,12 +503,12 @@ Function handling post dialog / display load handling (register event handlers)
 Parameter 0: Interface type, 0 = Main, 1 = Secondary
 Parameter 1: Unit to register killed eventhandler for
 Parameter 2: Vehicle to register GetOut eventhandler for
-Parameter 3: Name of uiNameSpace variable for display / dialog (i.e. "cTab_main_dlg")
+Parameter 3: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
 No return
 
 This function will define cTabIfOpen, using the following format:
 Parameter 0: Interface type, 0 = Main, 1 = Secondary
-Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_main_dlg")
+Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
 Parameter 2: Unit we registered the killed eventhandler for
 Parameter 3: ID of registered eventhandler for killed event
 Optional (only if unit is in a vehicle):
@@ -1282,7 +1282,7 @@ cTab_msg_gui_load =
 {
 	disableSerialization;
 	_return = true;
-	_display = (uiNamespace getVariable "cTab_main_dlg");
+	_display = (uiNamespace getVariable "cTab_Tablet_dlg");
 	_msgarry = player getVariable ["ctab_messages",[]];
 	_msgControl = _display displayCtrl 15000;
 	_plrlistControl = _display displayCtrl 15010;
@@ -1330,7 +1330,7 @@ cTab_msg_get_mailTxt =
 	disableSerialization;
 	_return = true;
 	_index = _this select 1;
-	_display = (uiNamespace getVariable "cTab_main_dlg");
+	_display = (uiNamespace getVariable "cTab_Tablet_dlg");
 	_msgArray = player getVariable ["ctab_messages",[]];
 	_msgName = (_msgArray select _index) select 0;
 	_msgtxt = (_msgArray select _index) select 1;
@@ -1370,7 +1370,7 @@ cTab_msg_Send =
 {
 	disableSerialization;
 	_return = true;
-	_display = (uiNamespace getVariable "cTab_main_dlg");
+	_display = (uiNamespace getVariable "cTab_Tablet_dlg");
 	_plrLBctrl = _display displayCtrl 15010;
 	_msgBodyctrl = _display displayCtrl 14000;
 	_plrList = (uiNamespace getVariable "cTab_msg_playerList");
@@ -1408,7 +1408,7 @@ cTab_msg_Send =
 	   {
 			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
 	   
-			if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == "cTab_main_dlg"}) then 
+			if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == "cTab_Tablet_dlg"}) then 
 			{
 				_nop = [] call cTab_msg_gui_load;
 				367 cutRsc ["cTab_Mail_ico_disp", "PLAIN"];
@@ -1432,12 +1432,12 @@ No Parameters
 Returns TRUE
 */
 cTab_Tablet_btnACT = {
-	_mode = ["cTab_main_dlg","mode"] call cTab_fnc_settings;
+	_mode = ["cTab_Tablet_dlg","mode"] call cTab_fnc_settings;
 	call {
 		if (_mode == "BFT") exitWith {if (count cTabUserIconList > 0) then {_nop = cTabUserIconList call BIS_fnc_arrayPop;};};
 		if (_mode == "UAV") exitWith {_nop = [] call cTabUavTakeControl;};
-		if (_mode == "HCAM") exitWith {["cTab_main_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_settings;};
-		if (_mode == "HCAM_FULL") exitWith {["cTab_main_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;};
+		if (_mode == "HCAM") exitWith {["cTab_Tablet_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_settings;};
+		if (_mode == "HCAM_FULL") exitWith {["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;};
 	};
 	true
 };
@@ -1459,31 +1459,31 @@ cTab_keyDownShortcut =
 		{
 			case 59: // F1
 			{
-				["cTab_main_dlg",[["mode","BFT"]]] call cTab_fnc_settings;
+				["cTab_Tablet_dlg",[["mode","BFT"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 
 			case 60: // F2
 			{
-				["cTab_main_dlg",[["mode","UAV"]]] call cTab_fnc_settings;
+				["cTab_Tablet_dlg",[["mode","UAV"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 			
 			case 61: // F3
 			{
-				["cTab_main_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;
+				["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 			
 			case 62: // F4
 			{
-				["cTab_main_dlg",[["mode","MESSAGE"]]] call cTab_fnc_settings;
+				["cTab_Tablet_dlg",[["mode","MESSAGE"]]] call cTab_fnc_settings;
 				_handled = true;
 			};
 			
 			case 64: // F6
 			{
-				["cTab_main_dlg"] call cTab_fnc_mapType_toggle;
+				["cTab_Tablet_dlg"] call cTab_fnc_mapType_toggle;
 				_handled = true;
 			};
 			

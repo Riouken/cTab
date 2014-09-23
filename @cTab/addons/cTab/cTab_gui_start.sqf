@@ -7,6 +7,6 @@
 closeDialog 0;
 waitUntil {!dialog};
 
-createDialog "cTab_main_dlg";
+createDialog "cTab_Tablet_dlg";
 waitUntil {dialog};
-_this + ["cTab_main_dlg"] call cTab_fnc_onIfOpen;
+_this + ["cTab_Tablet_dlg"] call cTab_fnc_onIfOpen;
