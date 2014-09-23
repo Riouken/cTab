@@ -114,18 +114,18 @@
 #define cTab_GUI_tablet_MESSAGE_BUTTON_DELETE_Y (cTab_GUI_tablet_MESSAGE_MESSAGETEXT_Y + cTab_GUI_tablet_MESSAGE_MESSAGETEXT_H + cTab_GUI_tablet_MESSAGE_MARGIN_INNER)
 
 // Height of header and footer OSD elements
-#define cTab_GUI_tablet_OSD_HEADER_H (94)
+#define cTab_GUI_tablet_OSD_HEADER_H (30)
 #define cTab_GUI_tablet_OSD_FOOTER_H (cTab_GUI_tablet_OSD_HEADER_H)
 
 // On-screen edge positions (left, right, top, bottom)
-#define cTab_GUI_tablet_OSD_MARGIN (24)
+#define cTab_GUI_tablet_OSD_MARGIN (10)
 #define cTab_GUI_tablet_OSD_EDGE_L (cTab_GUI_tablet_OSD_MARGIN + cTab_GUI_tablet_MAP_X)
 #define cTab_GUI_tablet_OSD_EDGE_R (-cTab_GUI_tablet_OSD_MARGIN + cTab_GUI_tablet_MAP_X + cTab_GUI_tablet_MAP_W)
 #define cTab_GUI_tablet_OSD_EDGE_T (cTab_GUI_tablet_OSD_MARGIN + cTab_GUI_tablet_MAP_Y)
 #define cTab_GUI_tablet_OSD_EDGE_B (-cTab_GUI_tablet_OSD_FOOTER_H + cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_MAP_H)
 
 // On-screen element base width and height
-#define cTab_GUI_tablet_OSD_ELEMENT_STD_W ((cTab_GUI_tablet_MAP_W - cTab_GUI_tablet_OSD_MARGIN * 4) / 3)
+#define cTab_GUI_tablet_OSD_ELEMENT_STD_W ((cTab_GUI_tablet_MAP_W - cTab_GUI_tablet_OSD_MARGIN * 7) / 6)
 #define cTab_GUI_tablet_OSD_ELEMENT_STD_H (cTab_GUI_tablet_OSD_HEADER_H - cTab_GUI_tablet_OSD_MARGIN)
 
 // On-screen element X-coord for left, center and right elements
@@ -135,8 +135,8 @@
 
 // On-screen text sizes, hight in pixels
 // Standard text elements
-#define cTab_GUI_tablet_OSD_TEXT_STD_SIZE (60)
-#define cTab_GUI_tablet_OSD_ICON_STD_SIZE (50)
+#define cTab_GUI_tablet_OSD_TEXT_STD_SIZE (16)
+#define cTab_GUI_tablet_OSD_ICON_STD_SIZE (19)
 
 // On-screen map centre cursor
 #define cTab_GUI_tablet_CURSOR (38)
@@ -146,6 +146,17 @@
 #define COLOR_BLACK {0,0,0,1}
 #define COLOR_WHITE {1,1,1,1}
 
+class cTab_RscText_Tablet: cTab_RscText
+{
+	style = ST_CENTER;
+	w = pxToScreen_W(cTab_GUI_tablet_OSD_ELEMENT_STD_W);
+	h = pxToScreen_H(cTab_GUI_tablet_OSD_ELEMENT_STD_H);
+	font = GUI_FONT_MONO;
+	colorText[] = COLOR_WHITE;
+	sizeEx = pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE);
+	colorBackground[] = COLOR_BLACK;
+	shadow = 0;
+};
 class cTab_Tablet_background: cTab_RscPicture
 {
 	idc = IDC_CTAB_BACKGROUND;
@@ -245,4 +256,28 @@ class cTab_Tablet_notificationLight
 	y = pxToScreen_Y(794);
 	w = pxToScreen_W(8);
 	h = pxToScreen_H(9);
+};
+class cTab_Tablet_on_screen_hookGrid: cTab_RscText_Tablet
+{
+	idc = IDC_CTAB_OSD_HOOK_GRID;
+	style = ST_CENTER;
+	x = pxToScreen_X(cTab_GUI_tablet_OSD_RIGHT_X);
+	y = pxToScreen_Y(cTab_GUI_tablet_OSD_EDGE_B - cTab_GUI_tablet_OSD_MARGIN - cTab_GUI_tablet_OSD_ELEMENT_STD_H * 4);
+	colorText[] = {1,1,1,0.5};
+	colorBackground[] = {0,0,0,0.25};
+};
+class cTab_Tablet_on_screen_hookElevation: cTab_Tablet_on_screen_hookGrid
+{
+	idc = IDC_CTAB_OSD_HOOK_ELEVATION;
+	y = pxToScreen_Y(cTab_GUI_tablet_OSD_EDGE_B - cTab_GUI_tablet_OSD_MARGIN - cTab_GUI_tablet_OSD_ELEMENT_STD_H * 3);
+};
+class cTab_Tablet_on_screen_hookDst: cTab_Tablet_on_screen_hookGrid
+{
+	idc = IDC_CTAB_OSD_HOOK_DST;
+	y = pxToScreen_Y(cTab_GUI_tablet_OSD_EDGE_B - cTab_GUI_tablet_OSD_MARGIN - cTab_GUI_tablet_OSD_ELEMENT_STD_H * 2);
+};
+class cTab_Tablet_on_screen_hookDir: cTab_Tablet_on_screen_hookGrid
+{
+	idc = IDC_CTAB_OSD_HOOK_DIR;
+	y = pxToScreen_Y(cTab_GUI_tablet_OSD_EDGE_B - cTab_GUI_tablet_OSD_MARGIN - cTab_GUI_tablet_OSD_ELEMENT_STD_H);
 };

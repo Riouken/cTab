@@ -77,6 +77,7 @@ class cTab_Tablet_dlg {
 			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
 			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
 			onDraw = "nop = _this call cTabOnDrawbft;";
+			onMouseMoving = "cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
 			maxSatelliteAlpha = 10000;
@@ -169,6 +170,10 @@ class cTab_Tablet_dlg {
 			action = "_null = [] call cTab_Tablet_btnACT;";
 			tooltip = "";
 		};
+		class hookGrid: cTab_Tablet_on_screen_hookGrid {};
+		class hookElevation: cTab_Tablet_on_screen_hookElevation {};
+		class hookDst: cTab_Tablet_on_screen_hookDst {};
+		class hookDir: cTab_Tablet_on_screen_hookDir {};
 		// ---------- DESKTOP -----------
 		class Desktop: cTab_RscControlsGroup
 		{

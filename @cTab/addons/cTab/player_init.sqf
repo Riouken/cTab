@@ -903,6 +903,8 @@ cTabOnDrawbft = {
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
 	
+	// update hook information
+	[_display,_cntrlScreen,getPosASL player,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
 	true
 };
 

@@ -30,7 +30,11 @@ _displayItems = [
 	IDC_CTAB_CTABUAVMAP,
 	IDC_CTAB_SCREEN,
 	IDC_CTAB_SCREEN_TOPO,
-	IDC_CTAB_HCAM_FULL
+	IDC_CTAB_HCAM_FULL,
+	IDC_CTAB_OSD_HOOK_GRID,
+	IDC_CTAB_OSD_HOOK_ELEVATION,
+	IDC_CTAB_OSD_HOOK_DST,
+	IDC_CTAB_OSD_HOOK_DIR
 ];
 _displayItemsToShow = [];
 
@@ -49,7 +53,7 @@ call {
 		_mapType = ["cTab_Tablet_dlg","mapType"] call cTab_fnc_settings;
 		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
-		_displayItemsToShow = [_mapIDC];
+		_displayItemsToShow = [_mapIDC,IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_ELEVATION,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_DIR];
 		_btnActCtrl ctrlSetTooltip "Delete last user placed icon";
 	};
 	// ---------- UAV -----------
