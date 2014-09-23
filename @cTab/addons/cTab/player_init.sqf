@@ -327,6 +327,14 @@ if (isNil "cTab_vehicleClass_has_FBCB2") then {
 		cTab_vehicleClass_has_FBCB2 = ["MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"];
 	};
 };
+// strip list of invalid config names and duplicates to save time checking through them later
+_classNames = [];
+{
+	if (isClass (configfile >> "CfgVehicles" >> _x) && _classNames find _x == -1) then {
+		_classNames pushBack _x;
+	};
+} count cTab_vehicleClass_has_FBCB2;
+cTab_vehicleClass_has_FBCB2 = [] + _classNames;
 
 // define vehicles that have TAD
 if (isNil "cTab_vehicleClass_has_TAD") then {
@@ -336,6 +344,14 @@ if (isNil "cTab_vehicleClass_has_TAD") then {
 		cTab_vehicleClass_has_TAD = ["Helicopter","Plane"];
 	};
 };
+// strip list of invalid config names and duplicates to save time checking through them later
+_classNames = [];
+{
+	if (isClass (configfile >> "CfgVehicles" >> _x) && _classNames find _x == -1) then {
+		_classNames pushBack _x;
+	};
+} count cTab_vehicleClass_has_TAD;
+cTab_vehicleClass_has_TAD = [] + _classNames;
 
 // define items that enable head cam
 if (isNil "cTab_helmetClass_has_HCam") then {
