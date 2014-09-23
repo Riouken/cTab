@@ -58,6 +58,8 @@ if (_mapSize == 0) then {
 	};
 };
 cTabMapScaleFactor = _mapSize / 2621.44;
+cTabMapScaleUAV = 0.8 / cTabMapScaleFactor;
+cTabMapScaleHCam = 0.3 / cTabMapScaleFactor;
 
 cTabDisplayPropertyGroups = [
 	["cTab_Tablet_dlg", "Tablet"],
@@ -1072,23 +1074,24 @@ cTabOnDrawUAV = {
 	
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_uav.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,"",0,cTabTxtSize,"TahomaB"];
 	
-	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
+	_cntrlScreen ctrlMapAnimAdd [0,cTabMapScaleUAV,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
 	true
 };
 
 // This is drawn every frame on the tablet helmet cam screen. fnc
 cTabOnDrawHCam = {
-	if (isNil 'cTabActHcam') exitWith {};
-	if (cTabActHcam == player) exitWith {};
+	if (isNil 'cTabHcams') exitWith {};
+	_camHost = cTabHcams select 2;
+	if (_camHost == vehicle player) exitWith {};
 	
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
-	_pos = getPosASL cTabActHcam;
+	_pos = getPosASL _camHost;
 	
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_inf.paa",cTabColorBlue,_pos, cTabIconSize, cTabIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabColorBlue,_pos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _camHost,"",0,cTabTxtSize,"TahomaB"];
 	
-	_cntrlScreen ctrlMapAnimAdd [0,0.1,_pos];
+	_cntrlScreen ctrlMapAnimAdd [0,cTabMapScaleHCam,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
 	true
 };

@@ -59,7 +59,7 @@ if (IsNull _newHost) exitWith {
 // if true, render to given target (in case the target has changed), else delete the camera so we can create a new one
 if (!isNil "cTabHcams") then {
 	_oldCam = cTabHcams select 0;
-	_oldHost = attachedTo _oldCam;
+	_oldHost = cTabHcams select 2;
 	if (_oldHost isEqualTo _newHost) then {
 		_oldCam cameraEffect ["INTERNAL","BACK",_renderTarget]
 	} else {
@@ -86,5 +86,5 @@ if (vehicle _newHost == _newHost) then {
 };
 _cam cameraEffect ["INTERNAL","BACK",_renderTarget];
 
-cTabHcams = [_cam,_target];
+cTabHcams = [_cam,_target,_newHost];
 true
