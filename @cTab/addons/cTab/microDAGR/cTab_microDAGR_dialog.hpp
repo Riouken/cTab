@@ -24,6 +24,7 @@ class cTab_microDAGR_dlg
 			class screen: cTab_microDAGR_RscMapControl
 			{
 				onDraw = "nop = _this call cTabOnDrawbftmicroDAGRdlg;";
+				onMouseMoving = "cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 				// set initial map scale
 				scaleDefault = "(missionNamespace getVariable 'cTabMicroDAGRmapScaleCtrl') * 0.86 / (safezoneH * 0.8)";
 			};
@@ -36,7 +37,6 @@ class cTab_microDAGR_dlg
 
 	class controls
 	{
-		class cursor: cTab_microDAGR_cursor {};
 		class header: cTab_microDAGR_header {};
 		class footer: cTab_microDAGR_footer {};
 		class battery: cTab_microDAGR_on_screen_battery {};

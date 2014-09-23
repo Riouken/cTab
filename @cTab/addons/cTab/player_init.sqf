@@ -486,6 +486,7 @@ cTabUserSelIcon = [[],"","",500,[],""];
 // Base defines.
 cTabUserIconList = [];
 cTabUavViewActive = false;
+cTabMapCursorPos = [0,0,0];
 
 // Initialize all uiNamespace variables
 uiNamespace setVariable ["cTab_Tablet_dlg", displayNull];
@@ -1058,8 +1059,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
-	_secondPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
-	[_display,_cntrlScreen,_playerPos,_secondPos,0] call cTab_fnc_draw_hook;
+	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
 	
 	true
 };
