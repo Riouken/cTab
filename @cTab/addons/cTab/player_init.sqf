@@ -880,6 +880,7 @@ cTab_fnc_draw_hook = {
 	_dirToSecondPos = [_pos,_secondPos] call BIS_fnc_dirTo;
 	_dstToSecondPos = [_pos,_secondPos] call BIS_fnc_distance2D;
 	(_display displayCtrl IDC_CTAB_OSD_HOOK_GRID) ctrlSetText format ["%1", mapGridPosition _secondPos];
+	(_display displayCtrl IDC_CTAB_OSD_HOOK_ELEVATION) ctrlSetText format ["%1m", round getTerrainHeightASL _secondPos];
 	(_display displayCtrl IDC_CTAB_OSD_HOOK_DIR) ctrlSetText format ["%1 %2",[_dirToSecondPos,3] call CBA_fnc_formatNumber,[_dirToSecondPos] call cTab_fnc_degreeToOctant];
 	(_display displayCtrl IDC_CTAB_OSD_HOOK_DST) ctrlSetText format ["%1km",[_dstToSecondPos / 1000,1,2] call CBA_fnc_formatNumber];
 	

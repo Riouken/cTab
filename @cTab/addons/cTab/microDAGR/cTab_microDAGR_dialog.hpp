@@ -55,6 +55,7 @@ class cTab_microDAGR_dlg
 			action = "['cTab_microDAGR_dlg'] call cTab_fnc_iconText_toggle;";
 		};
 		class hookGrid: cTab_microDAGR_on_screen_hookGrid {};
+		class hookElevation: cTab_microDAGR_on_screen_hookElevation {};
 		class hookDst: cTab_microDAGR_on_screen_hookDst {};
 		class hookDir: cTab_microDAGR_on_screen_hookDir {};
 		class btnMapType: cTab_microDAGR_btnMapType
