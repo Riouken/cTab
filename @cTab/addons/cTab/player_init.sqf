@@ -8,9 +8,6 @@
 #include "functions\keys.sqf";
 #include "cTab_gui_macros.hpp";
 
-// add cTab_FBCB2_updatePulse event handler triggered periodically by the server
-["cTab_FBCB2_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
-
 //prep the arrays that will hold ctab data
 cTabBFTmembers = [];
 cTabBFTgroups = [];
@@ -348,6 +345,27 @@ if (isNil "cTab_helmetClass_has_HCam") then {
 		cTab_helmetClass_has_HCam = ["H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"];
 	};
 };
+// strip list of invalid config names and duplicates to save time checking through them later
+_classNames = [];
+{
+	if (isClass (configfile >> "CfgWeapons" >> _x) && _classNames find _x == -1) then {
+		_classNames pushBack _x;
+	};
+} count cTab_helmetClass_has_HCam;
+// iterate through all class names and add child classes, so we end up with a list of helmet classes that have the defined helmet classes as parents
+{
+	_childClasses = "inheritsFrom _x == (configfile >> 'CfgWeapons' >> '" + _x + "')" configClasses (configfile >> "CfgWeapons");
+	{
+		_childClassName = configName _x;
+		if (_classNames find _childClassName == -1) then {
+			_classNames pushBack configName _x;
+		};
+	} count _childClasses;
+} forEach _classNames;
+cTab_helmetClass_has_HCam = [] + _classNames;
+
+// add cTab_FBCB2_updatePulse event handler triggered periodically by the server
+["cTab_FBCB2_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
 /*
 Function that determines if a unit sits in the front-section of a cTab enabled vehicle.

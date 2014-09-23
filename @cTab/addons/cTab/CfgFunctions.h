@@ -6,7 +6,6 @@ class CfgFunctions
 		{
 			file="cTab\functions";
 			class checkGear{};
-			class checkHeadGear{};
 			class createHelmetCam{};
 			class drawBftGroups{};
 			class drawBftMembers{};

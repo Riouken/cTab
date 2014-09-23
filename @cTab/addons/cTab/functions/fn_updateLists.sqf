@@ -106,7 +106,7 @@ cTabHcamlist --- HELMET CAMS
 */
 {
 	if (side _x == cTabSide) then {
-		if ([_x,cTab_helmetClass_has_HCam] call cTab_fnc_checkHeadGear || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
+		if (headgear _x in cTab_helmetClass_has_HCam || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
 			_cTabHcamlist pushBack _x;
 		};
 	};
