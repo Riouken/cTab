@@ -4,7 +4,7 @@ class MainSubmenu: cTab_RscControlsGroup
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(4);
+	h = MENU_H(5);
 	class controls
 	{
 		class mainbg: cTab_IGUIBack
@@ -13,7 +13,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(4);
+			h = MENU_H(5);
 		};
 		class op4btn: cTab_MenuItem
 		{
@@ -48,12 +48,23 @@ class MainSubmenu: cTab_RscControlsGroup
 			sizeEx = MENU_sizeEx;
 			action = "cTabUserSelIcon set [4,cTabColorBlue];Nop = [31] call cTabUsrMenuSelect;";
 		};
+		class copyGrid: cTab_MenuItem
+		{
+			idc = -1;
+			text = "Copy #Grid"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementH * 3;
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "copyToClipboard ('#' + mapGridPosition (cTabUserSelIcon select 0));Nop = [0] call cTabUsrMenuSelect;";
+		};
 		class exit: cTab_MenuExit
 		{
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementH * 3;
+			y = MENU_elementH * 4;
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
