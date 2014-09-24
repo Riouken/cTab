@@ -54,7 +54,7 @@ call {
 		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
 		_displayItemsToShow = [_mapIDC,IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_ELEVATION,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_DIR];
-		_btnActCtrl ctrlSetTooltip "Delete last user placed icon";
+		_btnActCtrl ctrlSetTooltip "";
 	};
 	// ---------- UAV -----------
 	if (_mode == "UAV") exitWith {

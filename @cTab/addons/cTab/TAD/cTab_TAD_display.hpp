@@ -75,14 +75,6 @@ class cTab_TAD_dsp
 			colorBackground[] = COLOR_NEON_GREEN;
 			text = "TAD";
 		};
-		class on_screen_delete: cTab_RscText_TAD
-		{
-			idc = -1;
-			x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3);
-			y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB09_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2);
-			w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3);
-			text = "DEL";
-		};
 		class on_screen_toggleIconBackground: cTab_RscText_TAD
 		{
 			idc = -1;

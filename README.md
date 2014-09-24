@@ -68,7 +68,12 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | `H` | This key is used to open and close whatever cTab device is available to you. It can also be used to close UAV and Helmet Cam views. |
 | `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft. |
 | `LEFT DOUBLE-CLICK` |  Opens dialog to place markers at mouse cursor location. Not available on MicroDAGR |
-| `CTRL` + `RMB` |  (Right Mouse Button) Deletes the closest user placed marker to your cursur. |
+| `DEL` |  Deletes the highlighted user placed marker under your cursor. |
+| `F1` |  Change to Blue Force Tracker on tablet. |
+| `F2` |  Change to UAV cameras on tablet. |
+| `F3` |  Change to helmet cameras on tablet. |
+| `F4` |  Change to Message mode on tablet. |
+| `F6` |  Toggles map mode (satellite/topographical/black). |
 | `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD and MicroDAGR. |
 | `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD and MicroDAGR. |
 | `ESC` | Closes all interactive cTab devices (i.e. all but the "small" TAD) as well as the UAV and Helmet Cam views. |
@@ -140,11 +145,11 @@ Changelog
 * Helmet Cam item no longer occupies the radio slot when added to inventory. This is to prevent complications with TFAR.
 * Changed weight of all items to be close to their real-world equivalents (before everything did weight 45g)
 * Updated Android background graphic and added 3D model (for when you drop it on the ground)
-* Added ability to remove marker closest to curser by `CTRL` + `RMB` (right mouse button)
+* Added ability to remove marker at mouse cursor position. The marker currently under the cursor will be highlighted and removed upon pressing DEL (delete on your keyboard).
 * Players sitting in the back of the trucks (HMTT and Tempest by default) now no longer have access to the vehicle based FBCB2
 * Workaround for left-door gunner having access to the TAD instead of the co-pilot in Konyo's Boeing/SOAR MH-47E
 * Tablet is now restored to last mode of operation operation (BFT,UAV,...) on open
-* Added switch (F6) to toggle map on Tablet between satellite and topographical modes
+* Added switch (F6) to toggle map modes (satellite, topographical, black) on the "large" versions of the devices that have them (currently Tablet, TAD and MicroDAGR)
 * Added switch (OSB20) to toggle map on TAD between satellite, topographical and black modes
 * Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
 * Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)

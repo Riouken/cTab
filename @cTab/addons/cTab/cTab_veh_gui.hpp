@@ -13,6 +13,7 @@ class cTab_Veh_dlg {
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_Veh_dlg', (_this select 0)];nul = [] execVM '\cTab\bft\veh\onload.sqf';";
 	onUnload = "uiNamespace setVariable ['cTab_Veh_dlg', displayNull];call cTab_fnc_close;";
+	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground {
 		class background: cTab_RscPicture
@@ -34,7 +35,7 @@ class cTab_Veh_dlg {
 			h = 28 * GUI_GRID_H;
 			onDraw = "nop = _this call cTabOnDrawbftVeh;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
-			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
+			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 		};
 	};
 
@@ -77,6 +78,7 @@ class cTab_Veh_dlg {
 			w = 2 * GUI_GRID_W;
 			h = 1.5 * GUI_GRID_H;
 		};
+		/*
 		class btnesc: cTab_RscButtonInv
 		{
 			idc = 2404;
@@ -84,9 +86,10 @@ class cTab_Veh_dlg {
 			y = 9.69 * GUI_GRID_H + GUI_GRID_Y;
 			w = 2 * GUI_GRID_W;
 			h = 1.5 * GUI_GRID_H;
-			action = "if (count cTabUserIconList > 0) then { _nop = cTabUserIconList call BIS_fnc_arrayPop;};";
-			tooltip = "Delete last user placed icon";
+			action = "";
+			tooltip = "";
 		};
+		*/
 		class btnright: cTab_RscButtonInv
 		{
 			idc = 2405;

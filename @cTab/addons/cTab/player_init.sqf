@@ -486,7 +486,8 @@ cTabUserSelIcon = [[],"","",500,[],""];
 // Base defines.
 cTabUserIconList = [];
 cTabUavViewActive = false;
-cTabMapCursorPos = [0,0,0];
+cTabCursorOnMap = false;
+cTabMapCursorPos = [0,0];
 
 // Initialize all uiNamespace variables
 uiNamespace setVariable ["cTab_Tablet_dlg", displayNull];
@@ -714,6 +715,7 @@ cTab_fnc_close = {
 		if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
 		call cTabHcamDelCam;
+		cTabCursorOnMap = false;
 		cTabIfOpen = nil;
 	};
 };
@@ -895,7 +897,7 @@ cTabOnDrawbft = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 
-	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -905,6 +907,7 @@ cTabOnDrawbft = {
 	
 	// update hook information
 	[_display,_cntrlScreen,getPosASL player,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	
 	true
 };
 
@@ -913,7 +916,7 @@ cTabOnDrawbftVeh = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -939,7 +942,7 @@ cTabOnDrawbftTAD = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -967,7 +970,7 @@ cTabOnDrawbftTADdialog = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -993,7 +996,7 @@ cTabOnDrawbftAndroid = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 
-	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
@@ -1016,7 +1019,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
@@ -1044,7 +1047,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_playerPos = getPosASL player;
 	_heading = direction vehicle player;
 	
-	[_cntrlScreen] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
@@ -1440,149 +1443,12 @@ Returns TRUE
 cTab_Tablet_btnACT = {
 	_mode = ["cTab_Tablet_dlg","mode"] call cTab_fnc_settings;
 	call {
-		if (_mode == "BFT") exitWith {if (count cTabUserIconList > 0) then {_nop = cTabUserIconList call BIS_fnc_arrayPop;};};
 		if (_mode == "UAV") exitWith {_nop = [] call cTabUavTakeControl;};
 		if (_mode == "HCAM") exitWith {["cTab_Tablet_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_settings;};
 		if (_mode == "HCAM_FULL") exitWith {["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;};
 	};
 	true
 };
-
-cTab_keyDownShortcut = 
-{
-	private["_handled", "_ctrl", "_dikCode", "_shift", "_ctrlKey", "_alt","_target"];
-	_ctrl = _this select 0;
-	_dikCode = _this select 1;
-	_shift = _this select 2;
-	_ctrlKey = _this select 3;
-	_alt = _this select 4;
-	_fKeys = [59,60,61,62,64];
-	_handled = false;
-
-	if (_dikCode in _fKeys) then
-	{
-		switch (_dikCode) do
-		{
-			case 59: // F1
-			{
-				["cTab_Tablet_dlg",[["mode","BFT"]]] call cTab_fnc_settings;
-				_handled = true;
-			};
-
-			case 60: // F2
-			{
-				["cTab_Tablet_dlg",[["mode","UAV"]]] call cTab_fnc_settings;
-				_handled = true;
-			};
-			
-			case 61: // F3
-			{
-				["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;
-				_handled = true;
-			};
-			
-			case 62: // F4
-			{
-				["cTab_Tablet_dlg",[["mode","MESSAGE"]]] call cTab_fnc_settings;
-				_handled = true;
-			};
-			
-			case 64: // F6
-			{
-				["cTab_Tablet_dlg"] call cTab_fnc_mapType_toggle;
-				_handled = true;
-			};
-			
-			default
-			{
-			};
-		};
-	
-	};
-
-
-	_handled;  
-};
-
-// Function to find the closest marker to the places cursor.
-cTabFindCloseUsrMkr = {
-	
-	private["_posToCheck","_i"];
-	_posToCheck = _this select 0;
-	_closestUsrMkr = 0;
-	_closestDistanceToMkr = 20000;
-	_setFirstAsClose = true;
-	_return = (count cTabUserIconList) - 1;
-	_distanceCheck = 0;
-	_arrayToBeCheckedPos = [];
-			
-	// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-	{
-		_arrayToBeCheckedPos = _x select 0;
-		
-		_distanceCheck = _arrayToBeCheckedPos distance _posToCheck;
-		
-		if (_setFirstAsClose) then {
-			
-			_closestUsrMkr = _forEachIndex;
-			_closestDistanceToMkr = _distanceCheck;	
-			_setFirstAsClose = false;	
-		} else
-		{
-			if (_distanceCheck < _closestDistanceToMkr) then
-			{
-				_closestUsrMkr = _forEachIndex;
-				_closestDistanceToMkr = _distanceCheck;
-			};
-			
-		};		
-	
-		_return = _closestUsrMkr;
-		
-	} forEach cTabUserIconList;
-	
-
-_return;	
-};
-
-
-
-// Key handler to call for deleteing of user placed markers based on user cursor.
-cTabDeleteUsrMkr = {
-	
-	private["_keyData", "_mapCtrl", "_mKey", "_mXPos", "_mYPos", "_mCtrlBool"];
-	
-	disableSerialization;
-	_cntrlScreen = _this select 0;
-	_mKey = _this select 1;
-	_mXPos = _this select 2;
-	_mYPos = _this select 3;
-	_mCtrlBool = _this select 5;
-	
-	// Check if right mouse button is pressed (RMB)
-	if (_mKey == 1) then 
-	{		
-		if (_mCtrlBool) then 
-		{
-			if ((count cTabUserIconList) > 0) then
-			{
-				_tempPosToCheck = _cntrlScreen ctrlMapScreenToWorld [_mXPos,_mYPos];
-				_findCloseMarker = [_tempPosToCheck] call cTabFindCloseUsrMkr;
-			
-				// Thanks to KK for this great work around for delteing and resizing arrays of arrays: http://killzonekid.com/arma-scripting-tutorials-arrays-part-2/
-				cTabUserIconList set [_findCloseMarker,"deletethis"];
-				cTabUserIconList = cTabUserIconList - ["deletethis"];
-				publicVariable "cTabUserIconList";
-			};
-				
-		};
-		
-	
-	};
-	
-	
-};
-
 
 // I think we should start breaking out the functions like this to help keep it organized. This function file is starting to get pretty long.
 // Eventualy we can move the rest to this format, but all work going forward I will be breaking the functions into their respective folders and just #including them here.

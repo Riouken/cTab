@@ -16,7 +16,8 @@
 
 	
 	Parameters:
-		0: OBJECT - Map control to draw BFT icons on
+		0: OBJECT  - Map control to draw BFT icons on
+		1: BOOLEAN - Highlight marker under cursor
  	
  	Returns:
 		BOOLEAN - Always TRUE
@@ -25,17 +26,17 @@
 		[_ctrlScreen] call cTab_fnc_drawUserMarkers;
 */
 
-private ["_ctrlScreen","_arrowLength","_pos","_secondPos","_texture1","_texture2","_dir","_color","_text","_align"];
+private ["_ctrlScreen","_arrowLength","_pos","_secondPos","_texture1","_texture2","_dir","_color","_text","_align","_cursorMarkerIndex"];
 
 _ctrlScreen = _this select 0;
 _arrowLength = cTabUserMarkerArrowSize * ctrlMapScale _ctrlScreen;
-
+_cursorMarkerIndex = if (_this select 1) then {[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker} else {-1};
 {
 	_pos = _x select 0;
 	_texture1 = _x select 1;
 	_texture2 = _x select 2;
 	_dir = _x select 3;
-	_color = _x select 4;
+	_color = if (_forEachIndex != _cursorMarkerIndex) then {_x select 4} else {cTabTADhighlightColour};
 	_text = "";
 	_align = "right";
 	if ((_dir > 0) && (_dir < 180)) then {_align = "left"};
@@ -48,6 +49,6 @@ _arrowLength = cTabUserMarkerArrowSize * ctrlMapScale _ctrlScreen;
 	if (_texture2 != "") then {
 		_ctrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 	};
-} count cTabUserIconList;
+} forEach cTabUserIconList;
 
 true

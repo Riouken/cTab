@@ -23,7 +23,7 @@ class cTab_Tablet_dlg {
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_Tablet_dlg', (_this select 0)];";
 	onUnload = "uiNamespace setVariable ['cTab_Tablet_dlg', displayNull];call cTab_fnc_close;";
-	onKeyDown = "call cTab_keyDownShortcut";
+	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground {
 		class background: cTab_Tablet_background
@@ -77,9 +77,8 @@ class cTab_Tablet_dlg {
 			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
 			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
 			onDraw = "nop = _this call cTabOnDrawbft;";
-			onMouseMoving = "cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
-			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
+			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 			maxSatelliteAlpha = 10000;
 			alphaFadeStartScale = 10;
 			alphaFadeEndScale = 10;

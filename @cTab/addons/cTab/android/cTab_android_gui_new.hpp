@@ -19,6 +19,7 @@ class cTab_Android_dlg {
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];nul = [] execVM '\cTab\bft\ctab_gui_Android_onload.sqf';";
 	onUnload = "uiNamespace setVariable ['cTab_Android_dlg', displayNull];call cTab_fnc_close;";
+	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground {
 
@@ -35,7 +36,7 @@ class cTab_Android_dlg {
 				colorActive[] = {-1,-1,-1,0};
 				onDraw = "nop = _this call cTabOnDrawbftAndroid;";
 				onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
-				onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";				
+				onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 			};
 	
 			class background: cTab_RscPicture

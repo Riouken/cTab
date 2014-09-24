@@ -18,6 +18,7 @@ class cTab_microDAGR_dlg
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_microDAGR_dlg', (_this select 0)];nul = [] execVM '\cTab\microDAGR\cTab_microDAGR_dialog_onload.sqf';";
 	onUnload = "uiNamespace setVariable ['cTab_microDAGR_dlg', displayNull];call cTab_fnc_close;";
+	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground
 	{

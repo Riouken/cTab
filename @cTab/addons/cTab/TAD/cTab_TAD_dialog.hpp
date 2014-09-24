@@ -16,6 +16,7 @@ class cTab_TAD_dlg
 	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_TAD_dlg', (_this select 0)];nul = [] execVM '\cTab\TAD\cTab_TAD_dialog_onload.sqf';";
 	onUnload = "uiNamespace setVariable ['cTab_TAD_dlg', displayNull];call cTab_fnc_close;";
+	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground
 	{
@@ -25,7 +26,7 @@ class cTab_TAD_dlg
 			idc = IDC_CTAB_SCREEN;
 			onDraw = "nop = _this call cTabOnDrawbftTADdialog;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
-			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
+			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 		};
 		class screenTopo: screen
 		{
@@ -37,7 +38,7 @@ class cTab_TAD_dlg
 			idc = IDC_CTAB_SCREEN_BLACK;
 			onDraw = "nop = _this call cTabOnDrawbftTADdialog;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
-			onMouseButtonDown = "_ok = _this spawn cTabDeleteUsrMkr;";
+			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 		};
 	};
 
@@ -95,20 +96,6 @@ class cTab_TAD_dlg
 			action = "call cTab_fnc_txt_size_dec;";
 			tooltip = "Decrease Font";
 		};
-		class btnesc: cTab_RscButton_TAD_OSB09
-		{
-			idc = IDC_CTAB_BTNACT;
-			action = "if (count cTabUserIconList > 0) then { _nop = cTabUserIconList call BIS_fnc_arrayPop;};";
-			tooltip = "Delete last user placed icon";
-		};
-		class on_screen_delete: cTab_RscText_TAD
-		{
-			idc = -1;
-			x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3);
-			y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB09_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2);
-			w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3);
-			text = "DEL";
-		};
 		class btnfunction: cTab_RscButton_TAD_OSB10
 		{
 			idc = IDC_CTAB_BTNFN;
@@ -160,7 +147,7 @@ class cTab_TAD_dlg
 		{
 			idc = -1;
 			action = "['cTab_TAD_dlg'] call cTab_fnc_mapType_toggle;";
-			tooltip = "Toggle Map Type";
+			tooltip = "Toggle Map Type (F6)";
 		};
 		class on_screen_toggleMapIconBackground: cTab_RscText_TAD
 		{
