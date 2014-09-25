@@ -395,7 +395,7 @@ cTab_fnc_onIfMainPressed = {
 	};
 	
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-		nul = [0,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
+		nul = [0,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
 		true
 	};
 	
@@ -439,7 +439,7 @@ cTab_fnc_onIfSecondaryPressed = {
 		};
 		call {	
 			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
+				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
 			};
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
 			nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
@@ -453,7 +453,7 @@ cTab_fnc_onIfSecondaryPressed = {
 		};
 		call {
 			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\cTab_gui_start.sqf";
+				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
 			};
 			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 				nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
