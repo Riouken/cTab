@@ -146,181 +146,6 @@ _b = profilenamespace getvariable ['Map_Independent_B',1];
 _a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
 cTabColorGreen = [_r,_g,_b,_a];
 
-/*
-Function to update interface to match current settings
-If no parameters are specified, all interface elements are updated
-
-Optional:
-Parameter 0: Array of property pair(s) to update IF with, in the form of [["propertyName",propertyValue],[...]]
-
-No return
-*/
-cTab_fnc_IfUpdate = {
-	private ["_ifName","_settings","_display","_displayName"];
-	disableSerialization;
-	if (isNil "cTabIfOpen") exitWith {};
-	_displayName = cTabIfOpen select 1;
-	_display = uiNamespace getVariable _displayName;
-	
-	if (count _this == 1) then {
-		_settings = _this select 0;
-	} else {
-		// Retrieve all settings for the currently open interface
-		_settings = [_displayName] call cTab_fnc_settings;
-	};
-	
-	{
-		call {
-			// ------------ MODE ------------
-			if (_x select 0 == "mode") exitWith {
-				call {
-					if (_displayName == "cTab_Tablet_dlg") exitWith {
-						_null = [_x select 1] execVM "\cTab\tablet\cTab_Tablet_modeSwitch.sqf";
-					};
-				};
-			};
-			// ------------ SHOW ICON TEXT ------------
-			if (_x select 0 == "showIconText") exitWith {
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
-				if (_osdCtrl != controlNull) then {
-					_text = if (_x select 1) then {"ON"} else {"OFF"};
-					_osdCtrl ctrlSetText _text;
-				};
-			};
-			// ------------ MAP SCALE ------------
-			if (_x select 0 == "mapScale") exitWith {
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
-				if (_osdCtrl != controlNull) then {
-					// divide by 2 because we want to display the radius, not the diameter
-					_osdCtrl ctrlSetText format ["%1",(_x select 1) / 2];
-				};
-			};
-			// ------------ MAP TYPE ------------
-			if (_x select 0 == "mapType") exitWith {
-				_mode = [_displayName,"mode"] call cTab_fnc_settings;
-				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_settings;
-				if ((count _mapTypes > 1) && (_mode == "BFT")) then {
-					_targetMapName = _x select 1;
-					_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
-					_targetMapCtrl = _display displayCtrl _targetMapIDC;
-					_previousMapCtrl = controlNull;
-					{
-						_previousMapIDC = _x select 1;
-						_previousMapCtrl = _display displayCtrl _previousMapIDC;
-						if (ctrlShown _previousMapCtrl) exitWith {};
-						_previousMapCtrl = controlNull;
-					} forEach _mapTypes;
-					// See if _targetMapCtrl is already being shown
-					if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
-						// Update _targetMapCtrl to scale and position of _previousMapCtrl
-						_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _previousMapCtrl,[_previousMapCtrl] call cTab_fnc_ctrlMapCenter];
-						ctrlMapAnimCommit _targetMapCtrl;
-						// Show _targetMapCtrl
-						_targetMapCtrl ctrlShow true;
-						_targetMapCtrl ctrlCommit 0;
-					};
-					// Hide all other map types
-					{
-						if (_x select 0 != _targetMapName) then {
-							_ctrl = _display displayCtrl (_x select 1);
-							_ctrl ctrlShow false;
-							_ctrl ctrlCommit 0;
-						};
-					} forEach _mapTypes;
-					// Update OSD element if it exists
-					_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-					if (_osdCtrl != controlNull) then {_osdCtrl ctrlSetText _targetMapName;};
-				};
-			};
-			// ------------ HCAM ------------
-			if (_x select 0 == "hCam") exitWith {
-				_mode = [_displayName,"mode"] call cTab_fnc_settings;
-				_renderTarget = call {
-					if (_mode == "HCAM") exitWith {"rendertarget12"};
-					if (_mode == "HCAM_FULL") exitWith {"rendertarget13"}
-				};
-				if (!isNil "_renderTarget") then {
-					[_renderTarget,_x select 1] spawn cTab_fnc_createHelmetCam;
-				};
-			};
-			// ----------------------------------
-		};
-	} forEach _settings;
-};
-
-/*
-Function to read and write cTab settings
-Parameter 0: String of uiNamespace display / dialog variable
-If no further parameters are specified, all property pairs for that display / dialog are returned,
-like so: [["propertyName1",propertyValue1],["propertyName2",propertyValue2]]
-If the uiNamespace variable cannot be found in cTabDisplayPropertyGroups, FALSE is returned.
-
-To Read:
-Parameter 1: String of individual property to read
-Returns: Value of individual property, nil if it does not exist
-
-To Write:
-Parameter 1: Array of property pair(s) to write in the form of [["propertyName",propertyValue],[...]]
-Returns TRUE
-*/
-cTab_fnc_settings = {
-	private ["_propertyGroupName","_displayName","_commonProperties","_groupProperties","_combinedProperties","_properties"]; 
-	_displayName = _this select 0;
-	_propertyGroupName = [cTabDisplayPropertyGroups,_displayName] call cTab_fnc_getFromPairs;
-	
-	// Exit with FALSE if uiNamespace variable cannot be found in cTabDisplayPropertyGroups
-	if (isNil "_propertyGroupName") exitWith {false};
-	
-	_commonProperties = [cTabSettings,"COMMON"] call cTab_fnc_getFromPairs;
-	_groupProperties = [cTabSettings,_propertyGroupName] call cTab_fnc_getFromPairs;
-	if (isNil "_groupProperties") then {_groupProperties = [];};
-	
-	_combinedProperties = [] + _commonProperties;
-	{
-		[_combinedProperties,_x select 0,_x select 1] call BIS_fnc_setToPairs;
-	} forEach _groupProperties;
-	
-	if (count _this == 1) exitWith {_combinedProperties};
-	
-	_properties = _this select 1;
-	
-	// Read and return a single property value
-	if (typeName _properties == "STRING") exitWith {[_combinedProperties,_properties] call cTab_fnc_getFromPairs};
-	
-	// Write multiple property pairs. If they exist in _groupProperties, write them there, else write them to COMMON. Only write if they exist and have changed.
-	_commonPropertiesUpdate = [];
-	_combinedPropertiesUpdate = [];
-	{
-		_key = _x select 0;
-		_value = _x select 1;
-		call {
-			_currentValue = [_groupProperties,_key] call cTab_fnc_getFromPairs;
-			if (!isNil "_currentValue" && {!(_currentValue isEqualTo _value)}) exitWith {
-				[_combinedPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
-				[_groupProperties,_key,_value] call BIS_fnc_setToPairs;
-			};
-			_currentValue = [_commonProperties,_key] call cTab_fnc_getFromPairs;
-			if (!isNil "_currentValue" && {!(_currentValue isEqualTo _value)}) exitWith {
-				[_commonPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
-				[_commonProperties,_key,_value] call BIS_fnc_setToPairs;
-			};
-		};
-	} forEach _properties;
-	[cTabSettings,_propertyGroupName,_groupProperties] call BIS_fnc_setToPairs;
-	[cTabSettings,"COMMON",_commonProperties] call BIS_fnc_setToPairs;
-	
-	// Finally, call an interface update for the updated properties, but only if the currently interface uses the same property group, if not, pass changed common properties only.
-	if (!isNil "cTabIfOpen") then {
-		call {
-			if ((([cTabDisplayPropertyGroups,cTabIfOpen select 1] call cTab_fnc_getFromPairs) == _propertyGroupName) && {count _combinedPropertiesUpdate > 0}) exitWith {
-				[_combinedPropertiesUpdate] call cTab_fnc_IfUpdate;
-			};
-			if (count _commonPropertiesUpdate > 0) exitWith {[_commonPropertiesUpdate] call cTab_fnc_IfUpdate;};
-		};
-	};
-	true
-};
-
 // define vehicles that have FBCB2 monitor
 if (isNil "cTab_vehicleClass_has_FBCB2") then {
 	if (!isNil "cTab_vehicleClass_has_FBCB2_server") then {
@@ -473,8 +298,8 @@ cTabBFTtxt = true;
 
 // fnc to pre-Calculate TAD and MicroDAGR map scales
 cTab_fnc_update_mapScaleFactor = {
-	cTabTADmapScaleCtrl = (["cTab_TAD_dsp","mapScale"] call cTab_fnc_settings) / cTabMapScaleFactor;
-	cTabMicroDAGRmapScaleCtrl = (["cTab_microDAGR_dsp","mapScale"] call cTab_fnc_settings) / cTabMapScaleFactor;
+	cTabTADmapScaleCtrl = (["cTab_TAD_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
+	cTabMicroDAGRmapScaleCtrl = (["cTab_microDAGR_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
 	true
 };
 call cTab_fnc_update_mapScaleFactor;
@@ -529,7 +354,7 @@ cTab_fnc_onIfOpen = {
 	} else {
 		cTabIfOpen = [_this select 0,_this select 3,_player,_playerKilledEhId,_vehicle,nil];
 	};
-	call cTab_fnc_IfUpdate;
+	call cTab_fnc_updateInterface;
 };
 
 /*
@@ -653,14 +478,14 @@ cTab_fnc_onZoomInPressed = {
 	if (isNil "cTabIfOpen") exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp"]) exitWith {
-		_mapScale = [_displayName,"mapScale"] call cTab_fnc_settings;
-		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_settings;
+		_mapScale = [_displayName,"mapScale"] call cTab_fnc_getSettings;
+		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
 		if (_mapScale / 2 > _mapScaleMin) then {
 			_mapScale = _mapScale / 2;
 		} else {
 			_mapScale = _mapScaleMin;
 		};
-		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_settings;
+		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
 		call cTab_fnc_update_mapScaleFactor;
 		true
 	};
@@ -677,14 +502,14 @@ cTab_fnc_onZoomOutPressed = {
 	if (isNil "cTabIfOpen") exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp"]) exitWith {
-		_mapScale = [_displayName,"mapScale"] call cTab_fnc_settings;
-		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_settings;
+		_mapScale = [_displayName,"mapScale"] call cTab_fnc_getSettings;
+		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
 		if (_mapScale * 2 < _mapScaleMax) then {
 			_mapScale = _mapScale * 2;
 		} else {
 			_mapScale = _mapScaleMax;
 		};
-		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_settings;
+		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
 		call cTab_fnc_update_mapScaleFactor;
 		true
 	};
@@ -779,7 +604,7 @@ Returns TRUE
 cTab_fnc_iconText_toggle = {
 	_displayName = _this select 0;
 	if (cTabBFTtxt) then {cTabBFTtxt = false} else {cTabBFTtxt = true};
-	[_displayName,[["showIconText",cTabBFTtxt]]] call cTab_fnc_settings;
+	[_displayName,[["showIconText",cTabBFTtxt]]] call cTab_fnc_setSettings;
 	true
 };
 
@@ -790,13 +615,13 @@ Returns TRUE
 */
 cTab_fnc_mapType_toggle = {
 	_displayName = _this select 0;
-	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_settings;
-	_currentMapType = [_displayName,"mapType"] call cTab_fnc_settings;
+	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
 	if (_currentMapTypeIndex == count _mapTypes - 1) then {
-		[_displayName,[["mapType",_mapTypes select 0 select 0]]] call cTab_fnc_settings;
+		[_displayName,[["mapType",_mapTypes select 0 select 0]]] call cTab_fnc_setSettings;
 	} else {
-		[_displayName,[["mapType",_mapTypes select (_currentMapTypeIndex + 1) select 0]]] call cTab_fnc_settings;
+		[_displayName,[["mapType",_mapTypes select (_currentMapTypeIndex + 1) select 0]]] call cTab_fnc_setSettings;
 	};
 	true
 };
@@ -1441,11 +1266,11 @@ No Parameters
 Returns TRUE
 */
 cTab_Tablet_btnACT = {
-	_mode = ["cTab_Tablet_dlg","mode"] call cTab_fnc_settings;
+	_mode = ["cTab_Tablet_dlg","mode"] call cTab_fnc_getSettings;
 	call {
 		if (_mode == "UAV") exitWith {_nop = [] call cTabUavTakeControl;};
-		if (_mode == "HCAM") exitWith {["cTab_Tablet_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_settings;};
-		if (_mode == "HCAM_FULL") exitWith {["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_settings;};
+		if (_mode == "HCAM") exitWith {["cTab_Tablet_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_setSettings;};
+		if (_mode == "HCAM_FULL") exitWith {["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_setSettings;};
 	};
 	true
 };

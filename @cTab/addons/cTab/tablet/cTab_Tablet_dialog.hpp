@@ -107,25 +107,25 @@ class cTab_Tablet_dlg {
 		{
 			idc = IDC_CTAB_BTNF1;
 			tooltip = "Blue Force Tracker - Quick Key";
-			action = "['cTab_Tablet_dlg',[['mode','BFT']]] call cTab_fnc_settings;";
+			action = "['cTab_Tablet_dlg',[['mode','BFT']]] call cTab_fnc_setSettings;";
 		};
 		class btnF2: cTab_Tablet_btnF2
 		{
 			idc = IDC_CTAB_BTNF2;
 			tooltip = "UAV Intel Live Feed - Quick Key";
-			action = "['cTab_Tablet_dlg',[['mode','UAV']]] call cTab_fnc_settings;";
+			action = "['cTab_Tablet_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 		};
 		class btnF3: cTab_Tablet_btnF3
 		{
 			idc = IDC_CTAB_BTNF3;
 			tooltip = "Helmet Cam Live Feed - Quick Key";
-			action = "['cTab_Tablet_dlg',[['mode','HCAM']]] call cTab_fnc_settings;";
+			action = "['cTab_Tablet_dlg',[['mode','HCAM']]] call cTab_fnc_setSettings;";
 		};
 		class btnF4: cTab_Tablet_btnF4
 		{
 			idc = IDC_CTAB_BTNF4;
 			tooltip = "Text Message Application - Quick Key";
-			action = "['cTab_Tablet_dlg',[['mode','MESSAGE']]] call cTab_fnc_settings;";
+			action = "['cTab_Tablet_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 		};
 		class btnF6: cTab_Tablet_btnF6
 		{
@@ -137,7 +137,7 @@ class cTab_Tablet_dlg {
 		{
 			idc = IDC_CTAB_BTNMAIN;
 			tooltip = "Main Menu";
-			action = "['cTab_Tablet_dlg',[['mode','DESKTOP']]] call cTab_fnc_settings;";
+			action = "['cTab_Tablet_dlg',[['mode','DESKTOP']]] call cTab_fnc_setSettings;";
 		};
 		class btnFN: cTab_Tablet_btnFn
 		{
@@ -195,7 +195,7 @@ class cTab_Tablet_dlg {
 					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_DESKTOP_ICON_W);
 					h = pxToScreen_H(cTab_GUI_tablet_DESKTOP_ICON_H);
-					action = "['cTab_Tablet_dlg',[['mode','BFT']]] call cTab_fnc_settings;";
+					action = "['cTab_Tablet_dlg',[['mode','BFT']]] call cTab_fnc_setSettings;";
 					toolTip = "FBCB2 - Blue Force Tracker";
 				};
 				class actUAVtxt: actBFTtxt
@@ -203,7 +203,7 @@ class cTab_Tablet_dlg {
 					idc = IDC_CTAB_ACTUAVTXT;
 					text = "\cTab\img\cTab_UAV_ico.paa" ;//"UAV Intelligence"; //--- ToDo: Localize;
 					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 2 + cTab_GUI_tablet_DESKTOP_ICON_H);
-					action = "['cTab_Tablet_dlg',[['mode','UAV']]] call cTab_fnc_settings;";
+					action = "['cTab_Tablet_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 					toolTip = "UAV Video Feeds";
 				};
 				class actVIDtxt: actBFTtxt
@@ -211,7 +211,7 @@ class cTab_Tablet_dlg {
 					idc = IDC_CTAB_ACTVIDTXT;
 					text = "\cTab\img\cTab_HMC_ico.paa" ;//"Live Video Feeds"; //--- ToDo: Localize;
 					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 3 + cTab_GUI_tablet_DESKTOP_ICON_H * 2);
-					action = "['cTab_Tablet_dlg',[['mode','HCAM']]] call cTab_fnc_settings;";
+					action = "['cTab_Tablet_dlg',[['mode','HCAM']]] call cTab_fnc_setSettings;";
 					toolTip = "Live Helmet Cam Video Feeds";
 				};
 				class actMSGtxt: actBFTtxt
@@ -219,7 +219,7 @@ class cTab_Tablet_dlg {
 					idc = IDC_CTAB_ACTMSGTXT;
 					text = "\cTab\img\Mail_Main_Icon_ico.paa" ;
 					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 4 + cTab_GUI_tablet_DESKTOP_ICON_H * 3);
-					action = "['cTab_Tablet_dlg',[['mode','MESSAGE']]] call cTab_fnc_settings;";
+					action = "['cTab_Tablet_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 					toolTip = "Text Messaging System";
 				};
 			};
@@ -316,7 +316,7 @@ class cTab_Tablet_dlg {
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-					onLBSelChanged = "['cTab_Tablet_dlg',[['hCam',(_this select 0) lbData (_this select 1)]]] call cTab_fnc_settings;";
+					onLBSelChanged = "['cTab_Tablet_dlg',[['hCam',(_this select 0) lbData (_this select 1)]]] call cTab_fnc_setSettings;";
 				};
 				class cTabHcamDisplay: cTab_RscPicture
 				{

@@ -49,8 +49,8 @@ call {
 	};
 	// ---------- BFT -----------
 	if (_mode == "BFT") exitWith {
-		_mapTypes = ["cTab_Tablet_dlg","mapTypes"] call cTab_fnc_settings;
-		_mapType = ["cTab_Tablet_dlg","mapType"] call cTab_fnc_settings;
+		_mapTypes = ["cTab_Tablet_dlg","mapTypes"] call cTab_fnc_getSettings;
+		_mapType = ["cTab_Tablet_dlg","mapType"] call cTab_fnc_getSettings;
 		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
 		_displayItemsToShow = [_mapIDC,IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_ELEVATION,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_DIR];
@@ -68,7 +68,7 @@ call {
 	// ---------- HELMET CAM -----------
 	if (_mode == "HCAM") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_HCAM,IDC_CTAB_MINIMAPBG,IDC_CTAB_CTABHCAMMAP];
-		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_settings;
+		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_getSettings;
 		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
 		// Populate list of HCAMs
@@ -95,7 +95,7 @@ call {
 	// ---------- FULLSCREEN HCAM -----------
 	if (_mode == "HCAM_FULL") exitWith {
 		_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
-		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_settings;
+		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_getSettings;
 		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
 	};

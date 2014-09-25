@@ -33,19 +33,19 @@ _altKey = _this select 4;
 _handled = false;
 
 if (_dikCode == 59 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F1
-	[_displayName,[["mode","BFT"]]] call cTab_fnc_settings;
+	[_displayName,[["mode","BFT"]]] call cTab_fnc_setSettings;
 	true
 };
 if (_dikCode == 60 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F2
-	[_displayName,[["mode","UAV"]]] call cTab_fnc_settings;
+	[_displayName,[["mode","UAV"]]] call cTab_fnc_setSettings;
 	true
 };
 if (_dikCode == 61 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F3
-	[_displayName,[["mode","HCAM"]]] call cTab_fnc_settings;
+	[_displayName,[["mode","HCAM"]]] call cTab_fnc_setSettings;
 	true
 };
 if (_dikCode == 62 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F4
-	[_displayName,[["mode","MESSAGE"]]] call cTab_fnc_settings;
+	[_displayName,[["mode","MESSAGE"]]] call cTab_fnc_setSettings;
 	true
 };
 if (_dikCode == 64 && {_displayName in ["cTab_Tablet_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg"]}) exitWith { // F6
@@ -53,8 +53,8 @@ if (_dikCode == 64 && {_displayName in ["cTab_Tablet_dlg","cTab_TAD_dlg","cTab_m
 	true
 };
 if (_dikCode == 211 && {cTabCursorOnMap}) exitWith { // DELETE
-	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_settings;
-	_currentMapType = [_displayName,"mapType"] call cTab_fnc_settings;
+	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
 	_ctrlScreen = _display displayCtrl (_mapTypes select _currentMapTypeIndex select 1);
 	_markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
