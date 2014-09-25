@@ -64,7 +64,7 @@ cTabMapScaleHCam = 0.3 / cTabMapScaleFactor;
 cTabDisplayPropertyGroups = [
 	["cTab_Tablet_dlg", "Tablet"],
 	["cTab_Android_dlg", "Main"],
-	["cTab_Veh_dlg", "Main"],
+	["cTab_FBCB2_dlg", "FBCB2"],
 	["cTab_TAD_dsp","TAD"],
 	["cTab_TAD_dlg","TAD"],
 	["cTab_microDAGR_dsp","MicroDAGR"],
@@ -89,6 +89,10 @@ cTabSettings = [];
 	["mode","DESKTOP"],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["hCam",""]
+]] call BIS_fnc_setToPairs;
+
+[cTabSettings,"FBCB2",[
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]]
 ]] call BIS_fnc_setToPairs;
 
 /*
@@ -317,7 +321,7 @@ cTabMapCursorPos = [0,0];
 // Initialize all uiNamespace variables
 uiNamespace setVariable ["cTab_Tablet_dlg", displayNull];
 uiNamespace setVariable ["cTab_Android_dlg", displayNull];
-uiNamespace setVariable ["cTab_Veh_dlg", displayNull];
+uiNamespace setVariable ["cTab_FBCB2_dlg", displayNull];
 uiNamespace setVariable ["cTab_TAD_dsp", displayNull];
 uiNamespace setVariable ["cTab_TAD_dlg", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dsp", displayNull];
@@ -727,11 +731,13 @@ cTabOnDrawbft = {
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
+	
 	// draw directional arrow at own location
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	_playerPos = getPosASL player;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update hook information
-	[_display,_cntrlScreen,getPosASL player,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
 	
 	true
 };
@@ -747,7 +753,11 @@ cTabOnDrawbftVeh = {
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	_playerPos = getPosASL player;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	
+	// update hook information
+	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
 	
 	true
 };

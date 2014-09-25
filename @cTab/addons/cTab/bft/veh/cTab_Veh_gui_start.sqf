@@ -7,7 +7,7 @@
 closeDialog 0;
 waitUntil {!dialog};
 
-createDialog "cTab_Veh_dlg";
+createDialog "cTab_FBCB2_dlg";
 waitUntil {dialog};
-_this + ["cTab_Veh_dlg"] call cTab_fnc_onIfOpen;
+_this + ["cTab_FBCB2_dlg"] call cTab_fnc_onIfOpen;
 

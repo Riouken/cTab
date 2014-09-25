@@ -48,7 +48,7 @@ if (_dikCode == 62 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F4
 	[_displayName,[["mode","MESSAGE"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == 64 && {_displayName in ["cTab_Tablet_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg"]}) exitWith { // F6
+if (_dikCode == 64 && {_displayName in ["cTab_Tablet_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith { // F6
 	[_displayName] call cTab_fnc_mapType_toggle;
 	true
 };

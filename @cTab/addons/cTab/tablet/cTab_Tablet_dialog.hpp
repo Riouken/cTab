@@ -15,7 +15,7 @@
 
 #include <\cTab\tablet\cTab_Tablet_controls.hpp>
 
-#define MENU_sizeEx (0.04)
+#define MENU_sizeEx pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE)
 #include <\cTab\cTab_markerMenu_macros.hpp>
 
 class cTab_Tablet_dlg {

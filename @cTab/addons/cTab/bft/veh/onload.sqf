@@ -10,7 +10,7 @@ disableSerialization;
 #include <\cTab\usermenu_gui_macros.hpp>
 cTabUserPos = [];
 
-_display = (uiNamespace getVariable "cTab_Veh_dlg");
+_display = (uiNamespace getVariable "cTab_FBCB2_dlg");
 _popup = [3300,3301,3302,3303,3304,3305,3306];
 
 {
