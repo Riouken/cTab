@@ -52,7 +52,6 @@ _combinedPropertiesUpdate = [];
 } forEach _properties;
 [cTabSettings,_propertyGroupName,_groupProperties] call BIS_fnc_setToPairs;
 [cTabSettings,"COMMON",_commonProperties] call BIS_fnc_setToPairs;
-systemChat str [_propertyGroupName,_properties,_combinedPropertiesUpdate,_commonPropertiesUpdate];
 
 // Finally, call an interface update for the updated properties, but only if the currently interface uses the same property group, if not, pass changed common properties only.
 if (!isNil "cTabIfOpen") then {
