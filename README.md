@@ -95,23 +95,30 @@ To configure the list of helmet classes that enable helmet cameras, edit the `cT
         cTab_helmetClass_has_HCam = {"H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"};
     };
 
-For mission Makers
+For Mission Makers
 ------------------
 ### Class Names ###
 
     ItemcTab // Commander Tablet
     ItemAndroid // Android based Blue Force Tracker
     ItemcTabHCam // Helmet Cam
+    ItemMicroDAGR // MicroDAGR GPS
 
 ### Add items to a box ###
 Place this in the initialisation of an Ammo box to add 10 of each item:
 
-    this addItemCargo ["ItemcTab",10];this addItemCargo ["ItemcTabHCam",10];this addItemCargo ["ItemAndroid",10];
+    this addItemCargo ["ItemcTab",10];this addItemCargo ["ItemcTabHCam",10];this addItemCargo ["ItemAndroid",10];this addItemCargo ["ItemMicroDAGR",10];
 
-### Add item to a player directly ###
+### Add item to a unit directly ###
 Place this in the initialisation of a soldier:
 
     this addItem "ItemcTab";
+
+Note: This will add the item to the actual inventory, but not assign it to the GPS slot. The unit will have to have enough space in its inventory to fit the item, otherwise it won't be assigned. `addItem` assigns the item to the next best inventory container that fits the item, in the order of uniform, vest and backpack. The Tablet (`itemcTab`) for example won't fit in most uniforms, so there has to be space in either the vest or backpack. Use `addItemToBackpack` to add the item directly to the unit's backpack and `addItemToVest` to directly assign it to the vest. To assign an item directly to the GPS slot (it has no space restrictons, but will still count towards the unit's total load), use ´linkItem´ instead.
+
+This will for example assign the MicroDAGR to the GPS slot and the place the Tablet into the unit's backpack:
+
+    this linkItem "ItemMicroDAGR";this addItemToBackpack "ItemcTab";
 
 ### Set cTab side ###
 If you wish to use cTab on a different side than Bluefore, put this at the **TOP** of your `init.sqf`:
