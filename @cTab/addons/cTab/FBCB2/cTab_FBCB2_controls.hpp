@@ -62,11 +62,11 @@
 #define cTab_GUI_FBCB2_MESSAGE_BUTTON_DELETE_Y (cTab_GUI_FBCB2_MESSAGE_MESSAGETEXT_Y + cTab_GUI_FBCB2_MESSAGE_MESSAGETEXT_H + cTab_GUI_FBCB2_MESSAGE_MARGIN_INNER)
 
 // Height of header and footer OSD elements
-#define cTab_GUI_FBCB2_OSD_HEADER_H (56)
+#define cTab_GUI_FBCB2_OSD_HEADER_H (50)
 #define cTab_GUI_FBCB2_OSD_FOOTER_H (cTab_GUI_FBCB2_OSD_HEADER_H)
 
 // On-screen edge positions (left, right, top, bottom)
-#define cTab_GUI_FBCB2_OSD_MARGIN (20)
+#define cTab_GUI_FBCB2_OSD_MARGIN (18)
 #define cTab_GUI_FBCB2_OSD_EDGE_L (cTab_GUI_FBCB2_OSD_MARGIN + cTab_GUI_FBCB2_MAP_X)
 #define cTab_GUI_FBCB2_OSD_EDGE_R (-cTab_GUI_FBCB2_OSD_MARGIN + cTab_GUI_FBCB2_MAP_X + cTab_GUI_FBCB2_MAP_W)
 #define cTab_GUI_FBCB2_OSD_EDGE_T (cTab_GUI_FBCB2_OSD_MARGIN + cTab_GUI_FBCB2_MAP_Y)
@@ -83,7 +83,7 @@
 
 // On-screen text sizes, hight in pixels
 // Standard text elements
-#define cTab_GUI_FBCB2_OSD_TEXT_STD_SIZE (28)
+#define cTab_GUI_FBCB2_OSD_TEXT_STD_SIZE (24)
 #define cTab_GUI_FBCB2_OSD_ICON_STD_SIZE (38)
 
 // On-screen map centre cursor

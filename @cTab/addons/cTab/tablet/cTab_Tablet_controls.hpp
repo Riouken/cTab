@@ -125,7 +125,7 @@
 #define cTab_GUI_tablet_OSD_EDGE_B (-cTab_GUI_tablet_OSD_FOOTER_H + cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_MAP_H)
 
 // On-screen element base width and height
-#define cTab_GUI_tablet_OSD_ELEMENT_STD_W ((cTab_GUI_tablet_MAP_W - cTab_GUI_tablet_OSD_MARGIN * 7) / 6)
+#define cTab_GUI_tablet_OSD_ELEMENT_STD_W ((cTab_GUI_tablet_MAP_W - cTab_GUI_tablet_OSD_MARGIN * 8) / 7)
 #define cTab_GUI_tablet_OSD_ELEMENT_STD_H (cTab_GUI_tablet_OSD_HEADER_H - cTab_GUI_tablet_OSD_MARGIN)
 
 // On-screen element X-coord for left, center and right elements
