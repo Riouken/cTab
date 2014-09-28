@@ -117,7 +117,7 @@ Place this in the initialisation of a soldier:
 
 Note: This will add the item to the actual inventory, but not assign it to the GPS slot. The unit will have to have enough space in its inventory to fit the item, otherwise it won't be assigned. `addItem` assigns the item to the next best inventory container that fits the item, in the order of uniform, vest and backpack. The Tablet (`itemcTab`) for example won't fit in most uniforms, so there has to be space in either the vest or backpack. Use `addItemToBackpack` to add the item directly to the unit's backpack and `addItemToVest` to directly assign it to the vest. To assign an item directly to the GPS slot (it has no space restrictons, but will still count towards the unit's total load), use ´linkItem´ instead.
 
-This will for example assign the MicroDAGR to the GPS slot and the place the Tablet into the unit's backpack:
+This will for example assign the MicroDAGR to the GPS slot and place the Tablet into the unit's backpack:
 
     this linkItem "ItemMicroDAGR";this addItemToBackpack "ItemcTab";
 
