@@ -196,6 +196,11 @@ class cTab_microDAGR_btnMapType: cTab_RscButton_microDAGR_LeftUp
 	idc = -1;
 	tooltip = "Toggle Map Type (F6)";
 };
+class cTab_microDAGR_btnMapTools: cTab_RscButton_microDAGR_LeftDown
+{
+	idc = -1;
+	tooltip = "Toggle Map Tools (F5)";
+};
 class cTab_microDAGR_on_screen_battery: cTab_RscPicture
 {
 	idc = -1;

@@ -63,5 +63,9 @@ class cTab_microDAGR_dlg
 		{
 			action = "['cTab_microDAGR_dlg'] call cTab_fnc_mapType_toggle;";
 		};
+		class btnMapTools: cTab_microDAGR_btnMapTools
+		{
+			action = "['cTab_microDAGR_dlg'] call cTab_fnc_toggleMapTools;";
+		};
 	};
 };

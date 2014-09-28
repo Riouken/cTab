@@ -73,6 +73,7 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | `F2` |  Change to UAV cameras on tablet. |
 | `F3` |  Change to helmet cameras on tablet. |
 | `F4` |  Change to Message mode on tablet. |
+| `F5` |  Toggles map tools (grid/elevation/range/direction to mouse cursor). |
 | `F6` |  Toggles map mode (satellite/topographical/black). |
 | `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD and MicroDAGR. |
 | `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD and MicroDAGR. |
@@ -161,6 +162,7 @@ Changelog
 * Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
 * Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)
 * Added TAD compatibility (for correct map scale) for the following maps: Rahmadi, Takistan Mountains, Porto, Sahrani, United Sahrani, Southern Sahrani
+* Added map tools (can be toggled using F6) that show grid and elevation at mouse cursor as well as distance and direction from the current positon to the mouse cursor positon.
 
 ### 2.0.1 ###
 * Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions

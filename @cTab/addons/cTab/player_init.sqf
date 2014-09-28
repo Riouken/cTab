@@ -88,11 +88,13 @@ cTabSettings = [];
 [cTabSettings,"Tablet",[
 	["mode","DESKTOP"],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
-	["hCam",""]
+	["hCam",""],
+	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"FBCB2",[
-	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]]
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
 /*
@@ -128,7 +130,8 @@ cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 [cTabSettings,"MicroDAGR",[
 	["mapScale",0.4],
 	["mapScaleMin",0.1],
-	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]]
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.
@@ -299,6 +302,9 @@ cTab_fnc_update_txt_size = {
 cTabTxtFctr = 12;
 call cTab_fnc_update_txt_size;
 cTabBFTtxt = true;
+
+// Draw Map Tolls (Hook)
+cTabDrawMapTools = false;
 
 // fnc to pre-Calculate TAD and MicroDAGR map scales
 cTab_fnc_update_mapScaleFactor = {
@@ -737,7 +743,9 @@ cTabOnDrawbft = {
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update hook information
-	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	if (cTabDrawMapTools) then {
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	};
 	
 	true
 };
@@ -757,7 +765,9 @@ cTabOnDrawbftVeh = {
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update hook information
-	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	if (cTabDrawMapTools) then {
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	};
 	
 	true
 };
@@ -899,7 +909,9 @@ cTabOnDrawbftMicroDAGRdlg = {
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
-	[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	if (cTabDrawMapTools) then {
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	};
 	
 	true
 };

@@ -81,6 +81,12 @@ class cTab_FBCB2_dlg {
 			action = "['cTab_FBCB2_dlg'] call cTab_fnc_iconText_toggle;";
 			tooltip = "Toggle Text on/off";
 		};
+		class btnF5: cTab_FBCB2_btnF5
+		{
+			idc = IDC_CTAB_BTNF5;
+			tooltip = "Toggle Map Tools (F5)";
+			action = "['cTab_FBCB2_dlg'] call cTab_fnc_toggleMapTools;";
+		};
 		class btnF6: cTab_FBCB2_btnF6
 		{
 			idc = IDC_CTAB_BTNF6;

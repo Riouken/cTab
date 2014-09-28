@@ -127,6 +127,12 @@ class cTab_Tablet_dlg {
 			tooltip = "Text Message Application - Quick Key";
 			action = "['cTab_Tablet_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 		};
+		class btnF5: cTab_Tablet_btnF5
+		{
+			idc = IDC_CTAB_BTNF5;
+			tooltip = "Toggle Map Tools (F5)";
+			action = "['cTab_Tablet_dlg'] call cTab_fnc_toggleMapTools;";
+		};
 		class btnF6: cTab_Tablet_btnF6
 		{
 			idc = IDC_CTAB_BTNF6;

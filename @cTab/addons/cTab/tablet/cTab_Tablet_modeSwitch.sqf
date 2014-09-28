@@ -53,7 +53,13 @@ call {
 		_mapType = ["cTab_Tablet_dlg","mapType"] call cTab_fnc_getSettings;
 		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
-		_displayItemsToShow = [_mapIDC,IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_ELEVATION,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_DIR];
+		_displayItemsToShow = [_mapIDC];
+		
+		_mapTools = ["cTab_Tablet_dlg","mapTools"] call cTab_fnc_getSettings;
+		if (_mapTools) then {
+			_displayItemsToShow = _displayItemsToShow + [IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_ELEVATION,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_DIR];
+		};
+		
 		_btnActCtrl ctrlSetTooltip "";
 	};
 	// ---------- UAV -----------
@@ -63,7 +69,7 @@ call {
 		_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
 		lbClear _uavListCtrl;
 		// Populate list of UAVs
-		{if (!(crew _x isEqualTo [])) then {_index = _uavListCtrl lbAdd (str _x)};} forEach allUnitsUav;
+		{if (!(crew _x isEqualTo [])) then {_index = _uavListCtrl lbAdd (str _x)};} count allUnitsUav;
 	};
 	// ---------- HELMET CAM -----------
 	if (_mode == "HCAM") exitWith {
@@ -102,7 +108,7 @@ call {
 };
 
 // hide every _displayItems not in _displayItemsToShow
-{ctrlShow [_x,_x in _displayItemsToShow];} forEach _displayItems;
+{ctrlShow [_x,_x in _displayItemsToShow];} count _displayItems;
 
 ctrlShow [IDC_CTAB_LOADINGTXT,false];
 

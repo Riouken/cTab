@@ -109,6 +109,16 @@ if (count _this == 1) then {
 				[_renderTarget,_x select 1] spawn cTab_fnc_createHelmetCam;
 			};
 		};
+		// ------------ MAP TOOLS ------------
+		if (_x select 0 == "mapTools") exitWith {
+			cTabDrawMapTools = _x select 1;
+			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
+			if (_mode == "BFT") then {
+				{
+					(_display displayCtrl _x) ctrlShow cTabDrawMapTools;
+				} count [IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_DIR,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_ELEVATION];
+			};
+		};
 		// ----------------------------------
 	};
 } forEach _settings;

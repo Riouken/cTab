@@ -17,6 +17,7 @@ class CfgFunctions
 			class getSettings{};
 			class onIfKeyDown{};
 			class setSettings{};
+			class toggleMapTools{};
 			class updateLists{};
 			class updateInterface{};
 		};
