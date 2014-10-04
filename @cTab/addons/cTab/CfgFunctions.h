@@ -8,9 +8,7 @@ class CfgFunctions
 			class checkGear{};
 			class createHelmetCam{};
 			class deleteUserMarker{};
-			class drawBftGroups{};
-			class drawBftMembers{};
-			class drawBftVehicles{};
+			class drawBftMarkers{};
 			class drawUserMarkers{};
 			class findUserMarker{};
 			class getFromPairs{};

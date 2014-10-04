@@ -729,10 +729,7 @@ cTabOnDrawbft = {
 	_display = ctrlParent _cntrlScreen;
 
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
-	[_cntrlScreen] call cTab_fnc_drawBftGroups;
-	[_cntrlScreen] call cTab_fnc_drawBftMembers;
-	
+	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
 	_veh = vehicle player;
@@ -753,9 +750,7 @@ cTabOnDrawbftVeh = {
 	_display = ctrlParent _cntrlScreen;
 	
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
-	[_cntrlScreen] call cTab_fnc_drawBftGroups;
-	[_cntrlScreen] call cTab_fnc_drawBftMembers;
+	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
 	_veh = vehicle player;
@@ -787,9 +782,7 @@ cTabOnDrawbftTAD = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
-	[_cntrlScreen] call cTab_fnc_drawBftGroups;
-	[_cntrlScreen] call cTab_fnc_drawBftMembers;
+	[_cntrlScreen,1] call cTab_fnc_drawBftMarkers;
 	
 	// draw vehicle icon at own location
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -815,9 +808,7 @@ cTabOnDrawbftTADdialog = {
 	_display = ctrlParent _cntrlScreen;
 	
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen,true] call cTab_fnc_drawBftVehicles;
-	[_cntrlScreen] call cTab_fnc_drawBftGroups;
-	[_cntrlScreen] call cTab_fnc_drawBftMembers;
+	[_cntrlScreen,1] call cTab_fnc_drawBftMarkers;
 	
 	// draw vehicle icon at own location
 	_veh = vehicle player;
@@ -838,9 +829,7 @@ cTabOnDrawbftAndroid = {
 	_display = ctrlParent _cntrlScreen;
 
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen,false] call cTab_fnc_drawBftVehicles;
-	[_cntrlScreen] call cTab_fnc_drawBftGroups;
-	[_cntrlScreen] call cTab_fnc_drawBftMembers;
+	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
 	_veh = vehicle player;
@@ -863,7 +852,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen] call cTab_fnc_drawBftMembers;
+	[_cntrlScreen,2] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -892,7 +881,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_heading = direction _veh;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen] call cTab_fnc_drawBftMembers;
+	[_cntrlScreen,2] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
