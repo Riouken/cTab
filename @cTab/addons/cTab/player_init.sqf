@@ -735,8 +735,9 @@ cTabOnDrawbft = {
 	
 	
 	// draw directional arrow at own location
-	_playerPos = getPosASL player;
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	_veh = vehicle player;
+	_playerPos = getPosASL _veh;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
@@ -757,8 +758,9 @@ cTabOnDrawbftVeh = {
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
-	_playerPos = getPosASL player;
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	_veh = vehicle player;
+	_playerPos = getPosASL _veh;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
@@ -777,8 +779,9 @@ cTabOnDrawbftTAD = {
 	_display = ctrlParent _cntrlScreen;
 	
 	// current position
-	_playerPos = getPosASL player;
-	_heading = direction vehicle player;
+	_veh = vehicle player;
+	_playerPos = getPosASL _veh;
+	_heading = direction _veh;
 	// change scale of map and centre to player position
 	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
@@ -816,12 +819,9 @@ cTabOnDrawbftTADdialog = {
 	[_cntrlScreen] call cTab_fnc_drawBftGroups;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
-	// current position
-	_playerPos = getPosASL player;
-	_heading = direction vehicle player;
-	
 	// draw vehicle icon at own location
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	_veh = vehicle player;
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,getPosASL _veh,cTabTADownIconScaledSize,cTabTADownIconScaledSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD	
 	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
@@ -843,7 +843,8 @@ cTabOnDrawbftAndroid = {
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
 	
 	// draw directional arrow at own location
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL player,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction vehicle player,"", 1,cTabTxtSize,"TahomaB"];
+	_veh = vehicle player;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL _veh,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	true
 };
@@ -854,8 +855,9 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_display = ctrlParent _cntrlScreen;
 	
 	// current position
-	_playerPos = getPosASL player;
-	_heading = direction vehicle player;
+	_veh = vehicle player;
+	_playerPos = getPosASL _veh;
+	_heading = direction _veh;
 	// change scale of map and centre to player position
 	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
@@ -885,8 +887,9 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_display = ctrlParent _cntrlScreen;
 	
 	// current position
-	_playerPos = getPosASL player;
-	_heading = direction vehicle player;
+	_veh = vehicle player;
+	_playerPos = getPosASL _veh;
+	_heading = direction _veh;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen] call cTab_fnc_drawBftMembers;
