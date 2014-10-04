@@ -102,9 +102,10 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 
 /*
 cTabHcamlist --- HELMET CAMS
+Units on our side, that are no the player and have either helmets that have been specified to include a helmet cam, or ItemCTabHCAM in their inventory.
 */
 {
-	if (side _x == cTabSide) then {
+	if ((side _x == cTabSide) && {_x != player}) then {
 		if (headgear _x in cTab_helmetClass_has_HCam || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
 			_cTabHcamlist pushBack _x;
 		};

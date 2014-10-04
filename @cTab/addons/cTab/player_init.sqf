@@ -935,7 +935,6 @@ cTabOnDrawUAV = {
 cTabOnDrawHCam = {
 	if (isNil 'cTabHcams') exitWith {};
 	_camHost = cTabHcams select 2;
-	if (_camHost == vehicle player) exitWith {};
 	
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
