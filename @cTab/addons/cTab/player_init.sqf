@@ -913,7 +913,15 @@ cTabOnDrawUAV = {
 	_display = ctrlParent _cntrlScreen;
 	_pos = getPosASL cTabActUav;
 	
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\markers\nato\b_uav.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,"",0,cTabTxtSize,"TahomaB"];
+	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
+	
+	// draw icon at own location
+	_veh = vehicle player;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL _veh,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
+	
+	// draw icon at UAV location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabTADhighlightColour,_pos,cTabIconSize,cTabIconSize,0,"",0,cTabTxtSize,"TahomaB"];
 	
 	_cntrlScreen ctrlMapAnimAdd [0,cTabMapScaleUAV,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
@@ -929,7 +937,15 @@ cTabOnDrawHCam = {
 	_display = ctrlParent _cntrlScreen;
 	_pos = getPosASL _camHost;
 	
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabColorBlue,_pos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _camHost,"",0,cTabTxtSize,"TahomaB"];
+	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
+	
+	// draw icon at own location
+	_veh = vehicle player;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL _veh,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
+	
+	// draw icon at helmet cam location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabTADhighlightColour,_pos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _camHost,"",0,cTabTxtSize,"TahomaB"];
 	
 	_cntrlScreen ctrlMapAnimAdd [0,cTabMapScaleHCam,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
