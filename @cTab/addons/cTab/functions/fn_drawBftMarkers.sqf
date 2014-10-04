@@ -26,7 +26,7 @@
 		[_ctrlScreen,0] call cTab_fnc_drawBftMarkers;
 */
 
-private ["_ctrlScreen","_mode","_veh","_iconB","_text","_groupID","_pos","_vehicles","_mountedLabels","_mountedIndex","_drawText"];
+private ["_ctrlScreen","_mode","_veh","_iconB","_text","_groupID","_pos","_vehicles","_vehIndex","_mountedLabels","_mountedIndex","_drawText"];
 
 _ctrlScreen = _this select 0;
 _mode = _this select 1;
