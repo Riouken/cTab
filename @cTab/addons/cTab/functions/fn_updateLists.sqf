@@ -44,13 +44,12 @@ cTabBFTmembers --- GROUP MEMBERS
 	if ((_x != player) && {[_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear}) then {
 		_cTabBFTmembers pushBack [_x,_x call cTab_fnc_GetInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
 	};
-} count units group player;
+} count units player;
 
 /*
 cTabBFTgroups --- GROUPS
 Groups on our side that player is not a member of. Use the leader for positioning if he has a Tablet or Android.
 Else, search through the group and use the first member we find equipped with a Tablet or Android for positioning.
-Should that person be inside a vehicle, do not add the group.
 */
 {
 	if ((side _x == cTabSide) && {_x != group player}) then {
@@ -61,11 +60,11 @@ Should that person be inside a vehicle, do not add the group.
 				if ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) exitWith {_leader = _x;};
 			} count units _x;
 		};
-		if ((!IsNull _leader) && {_leader == vehicle _leader}) then {
+		if !(IsNull _leader) then {
 			_groupSize = count units _x;
 			_sizeIcon = call {
-				if (_groupSize <= 5) exitWith {"\A3\ui_f\data\map\markers\nato\group_0.paa"};
-				if (_groupSize <= 10) exitWith {"\A3\ui_f\data\map\markers\nato\group_1.paa"};
+				if (_groupSize <= 3) exitWith {"\A3\ui_f\data\map\markers\nato\group_0.paa"};
+				if (_groupSize <= 9) exitWith {"\A3\ui_f\data\map\markers\nato\group_1.paa"};
 				"\A3\ui_f\data\map\markers\nato\group_2.paa"
 			};
 			_cTabBFTgroups pushBack [_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,""];
