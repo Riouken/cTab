@@ -10,6 +10,8 @@ disableSerialization;
 //#include <\cTab\cTab_gui_macros.hpp>
 //#include <\cTab\usermenu_gui_macros.hpp>
 
+cTabUserSelIcon = [[],"","",500,cTabColorRed,"",""];
+
 _mainPop = _this select 0;
 _sendingCtrlArry = _this select 1;
 _cntrlScreen = _sendingCtrlArry select 0;

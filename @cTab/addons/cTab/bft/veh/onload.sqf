@@ -23,6 +23,3 @@ _cntrlBFTMap = _display displayCtrl IDC_CTAB_SCREEN;
 _cntrlBFTMap ctrlShow False;
 
 */
-cTabUserOptions = [];
-cTabUserSelIcon = [[],"","",500,cTabColorRed];
-

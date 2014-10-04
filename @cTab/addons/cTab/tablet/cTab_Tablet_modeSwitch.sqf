@@ -111,6 +111,3 @@ call {
 {ctrlShow [_x,_x in _displayItemsToShow];} count _displayItems;
 
 ctrlShow [IDC_CTAB_LOADINGTXT,false];
-
-cTabUserOptions = [];
-cTabUserSelIcon = [[],"","",500,cTabColorRed];

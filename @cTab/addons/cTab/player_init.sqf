@@ -314,10 +314,6 @@ cTab_fnc_update_mapScaleFactor = {
 };
 call cTab_fnc_update_mapScaleFactor;
 
-//set up array for user stored icons, data waits here until it is sent out to other clients.
-// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-cTabUserSelIcon = [[],"","",500,[],""];
-
 // Base defines.
 cTabUserIconList = [];
 cTabUavViewActive = false;
@@ -1059,7 +1055,6 @@ cTabUserIconPush = {
 	_nop = [cTabUserIconList,cTabUserSelIcon] call BIS_fnc_arrayPush;
 	//hint str cTabUserIconList;
 	publicVariable "cTabUserIconList";
-	cTabUserSelIcon = [[],"","",500,[],""];
 	_return;
 };
 
