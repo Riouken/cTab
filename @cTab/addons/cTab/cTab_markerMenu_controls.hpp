@@ -188,7 +188,7 @@ class EnemySub2: cTab_RscControlsGroup
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(7);
+	h = MENU_H(6);
 	class controls
 	{
 		class IGUIBack_2202: cTab_IGUIBack
@@ -197,18 +197,18 @@ class EnemySub2: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(7);
+			h = MENU_H(6);
 		};
 		class ftbtn: cTab_MenuItem
 		{
 			idc = IDC_USRMN_FTBTN;
-			text = "Fire Team"; //--- ToDo: Localize;
+			text = "Singular"; //--- ToDo: Localize;
 			x = 0;
 			y = 0;
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "Nop = [14] call cTabUsrMenuSelect;";
 		};
 		class patbtn: cTab_MenuItem
 		{
@@ -254,23 +254,12 @@ class EnemySub2: cTab_RscControlsGroup
 			sizeEx = MENU_sizeEx;
 			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_3.paa'];Nop = [13] call cTabUsrMenuSelect;";
 		};
-		class cpnybtn: cTab_MenuItem
-		{
-			idc = IDC_USRMN_CPNYBTN;
-			text = "Company"; //--- ToDo: Localize;
-			x = 0;
-			y = MENU_elementH * 5;
-			w = MENU_W;
-			h = MENU_elementH;
-			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_4.paa'];Nop = [13] call cTabUsrMenuSelect;";
-		};
 		class exit: cTab_MenuExit
 		{
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementH * 6;
+			y = MENU_elementH * 5;
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
@@ -413,6 +402,70 @@ class EnemySub3: cTab_RscControlsGroup
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
 			y = MENU_elementH * 10;
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "Nop = [0] call cTabUsrMenuSelect;";
+		};
+	};
+};
+
+class EnemySub4: cTab_RscControlsGroup
+{
+	idc = 3307;
+	x = MENU_X;
+	y = MENU_Y;
+	w = MENU_W;
+	h = MENU_H(4);
+	class controls
+	{
+		class IGUIBack_2202: cTab_IGUIBack
+		{
+			idc = IDC_USRMN_IGUIBACK_2202;
+			x = 0;
+			y = 0;
+			w = MENU_W;
+			h = MENU_H(4);
+		};
+		class rifle_btn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_FTBTN;
+			text = "Rifle"; //--- ToDo: Localize;
+			x = 0;
+			y = 0;
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_rifle.paa'];Nop = [13] call cTabUsrMenuSelect;";
+		};
+		class lmg_btn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_PATBTN;
+			text = "MG"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementH * 1;
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_mg.paa'];Nop = [13] call cTabUsrMenuSelect;";
+		};
+		class at_btn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_SQDBTN;
+			text = "AT"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementH * 2;
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_at.paa'];Nop = [13] call cTabUsrMenuSelect;";
+		};
+		class exit: cTab_MenuExit
+		{
+			idc = -1;
+			text = "Exit"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementH * 3;
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;

@@ -976,7 +976,7 @@ cTabUsrMenuSelect = {
 	{
 		case 0:
 		{
-			{ctrlShow [_x, False];} forEach [3300,3301,3302,3303,3304,3305,3306];
+			{ctrlShow [_x, False];} forEach [3300,3301,3302,3303,3304,3305,3306,3307];
 		};
 		
 		case 11:
@@ -1000,8 +1000,22 @@ cTabUsrMenuSelect = {
 		case 13:
 		{
 			ctrlShow [3303, False];
+			ctrlShow [3307, False];
 			_control = _display displayCtrl 3304;
 			ctrlShow [3304, True];
+			_control ctrlSetPosition cTabUserPos;
+			_control ctrlCommit 0;
+		};
+		
+		case 14:
+		{
+			if (cTabUserSelIcon select 1 != "\A3\ui_f\data\map\markers\nato\o_inf.paa") exitWith {
+				cTabUserSelIcon set [2,""];
+				[13] call cTabUsrMenuSelect;
+			};
+			ctrlShow [3303, False];
+			_control = _display displayCtrl 3307;
+			ctrlShow [3307, True];
 			_control ctrlSetPosition cTabUserPos;
 			_control ctrlCommit 0;
 		};
