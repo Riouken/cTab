@@ -406,7 +406,7 @@ cTab_fnc_onIfMainPressed = {
 	};
 	
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		nul = [0,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+		nul = [0,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
 		true
 	};
 	
@@ -453,7 +453,7 @@ cTab_fnc_onIfSecondaryPressed = {
 				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
 			};
 			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\bft\veh\cTab_Veh_gui_start.sqf";
+				nul = [1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
 			};
 			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 				nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";

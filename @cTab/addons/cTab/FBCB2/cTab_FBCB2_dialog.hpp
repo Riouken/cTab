@@ -13,7 +13,7 @@
 class cTab_FBCB2_dlg {
 	idd = 1775144;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_FBCB2_dlg', (_this select 0)];nul = [] execVM '\cTab\bft\veh\onload.sqf';";
+	onLoad = "uiNamespace setVariable ['cTab_FBCB2_dlg', (_this select 0)];nul = [] execVM '\cTab\FBCB2\cTab_FBCB2_dialog_onload.sqf';";
 	onUnload = "uiNamespace setVariable ['cTab_FBCB2_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
