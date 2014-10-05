@@ -42,7 +42,7 @@ cTabBFTmembers --- GROUP MEMBERS
 */
 {
 	if ((_x != player) && {[_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear}) then {
-		_cTabBFTmembers pushBack [_x,_x call cTab_fnc_GetInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
+		_cTabBFTmembers pushBack [_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
 	};
 } count units player;
 

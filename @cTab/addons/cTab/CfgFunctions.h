@@ -12,6 +12,7 @@ class CfgFunctions
 			class drawUserMarkers{};
 			class findUserMarker{};
 			class getFromPairs{};
+			class getInfMarkerIcon{};
 			class getSettings{};
 			class onIfKeyDown{};
 			class setSettings{};

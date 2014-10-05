@@ -576,32 +576,6 @@ cTab_fnc_degreeToOctant = {
 	["N ","NE","E ","SE","S ","SW","W ","NW","N "] select _octant
 };
 
-// fnc to fetch infantry marker, based on Shack Tactical ST_STHud_GetMarkerName
-cTab_fnc_GetInfMarkerIcon =
-{
-	private "_unit";
-	_unit = _this;
-	if (getNumber(configFile >> "CfgVehicles" >> typeOf(_unit) >> "attendant") == 1) exitWith {
-		"\A3\ui_f\data\map\vehicleicons\iconManMedic_ca.paa";
-	};
-	if (getNumber(configFile >> "CfgVehicles" >> typeOf(_unit) >> "engineer") == 1) exitWith {
-		"\A3\ui_f\data\map\vehicleicons\iconManEngineer_ca.paa";
-	};
-	if (leader(_unit) == _unit) exitWith {
-		"\A3\ui_f\data\map\vehicleicons\iconManLeader_ca.paa";
-	};
-	// This appears to be the most consistent way to detect that a weapon is an
-	// MG of some sort. These pictures are the overlays for the BIS team hud.
-	if (getText(configFile >> "CfgWeapons" >> primaryWeapon(_unit) >> "UIPicture") == "\a3\weapons_f\data\ui\icon_mg_ca.paa") exitWith {
-		"\A3\ui_f\data\map\vehicleicons\iconManMG_ca.paa";
-	};
-	// Do something similar for launchers.
-	if (getText(configFile >> "CfgWeapons" >> secondaryWeapon(_unit) >> "UIPicture") == "\a3\weapons_f\data\ui\icon_at_ca.paa") exitWith {
-		"\A3\ui_f\data\map\vehicleicons\iconManAT_ca.paa";
-	};
-	"\A3\ui_f\data\map\vehicleicons\iconMan_ca.paa";
-};
-
 /*
 Function to toggle text next to BFT icons
 Parameter 0: String of uiNamespace variable for which to toggle showIconText for
