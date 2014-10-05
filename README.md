@@ -66,7 +66,8 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | Keys | Action |
 | --- | --- |
 | `H` | This key is used to open and close whatever cTab device is available to you. It can also be used to close UAV and Helmet Cam views. |
-| `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft. |
+| `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft (TAD) or when otherwise equipped with a MicroDAGR. |
+| `ALT` + `H` | Opens and closes an alternative cTab device that you may have available (i.e. when a pilot carrying a tablet, this will open the tablet). |
 | `LEFT DOUBLE-CLICK` |  Opens dialog to place markers at mouse cursor location. Not available on MicroDAGR |
 | `DEL` |  Deletes the highlighted user placed marker under your cursor. |
 | `F1` |  Change to Blue Force Tracker on tablet. |
