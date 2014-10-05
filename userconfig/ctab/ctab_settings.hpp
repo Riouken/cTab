@@ -20,6 +20,13 @@ class cTab_keys {
 		alt = 0;
 	};
 
+	class if_tertiary {
+		key = 35; // H
+		ctrl = 0;
+		shift = 0;
+		alt = 1;
+	};
+
 	class zoom_in {
 		key = 201; // PAGE_UP
 		ctrl = 1;

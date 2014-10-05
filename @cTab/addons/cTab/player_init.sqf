@@ -382,8 +382,8 @@ cTab_fnc_onIfMainPressed = {
 		call cTab_fnc_close;
 		true
 	};
-	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) then {
-		// close Secondary
+	if !(isNil "cTabIfOpen") then {
+		// close Secondary / Tertiary
 		call cTab_fnc_close;
 	};
 	_player = player;
@@ -436,27 +436,18 @@ cTab_fnc_onIfSecondaryPressed = {
 		call cTab_fnc_close;
 		true
 	};
+	if !(isNil "cTabIfOpen") then {
+		// close Main / Tertiary
+		call cTab_fnc_close;
+	};
 	_player = player;
 	_vehicle = vehicle _player;
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
-			// close Main
-			call cTab_fnc_close;
-		};
-		call {	
-			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
-			};
-			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
-		};
+		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+		nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
-		if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) then {
-			// close Main
-			call cTab_fnc_close;
-		};
 		call {
 			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
@@ -468,6 +459,45 @@ cTab_fnc_onIfSecondaryPressed = {
 				nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
 			};
 			nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
+		};
+		true
+	};
+	false
+};
+
+/*
+Function handling IF_Tertiary keydown event
+Based on player equipment and the vehicle type he might be in, open or close a cTab device as Tertiary interface.
+No Parameters
+Returns TRUE when action was taken (interface opened or closed)
+Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
+*/
+cTab_fnc_onIfTertiaryPressed = {
+	if (cTabUavViewActive) exitWith {
+		objNull remoteControl ((crew cTabActUav) select 1);
+		player switchCamera 'internal';
+		cTabUavViewActive = false;
+		true
+	};
+	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 2}) exitWith {
+		// close Tertiary
+		call cTab_fnc_close;
+		true
+	};
+	if !(isNil "cTabIfOpen") then {
+		// close Main / Secondary
+		call cTab_fnc_close;
+	};
+	_player = player;
+	_vehicle = vehicle _player;
+	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+		call {	
+			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
+				nul = [2,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			};
+			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
+				nul = [2,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
+			};
 		};
 		true
 	};
@@ -935,11 +965,13 @@ cTabOnDrawHCam = {
 	if (cTab_key_if_main_scancode != 0) then {
 		["cTab","Toggle Main Interface",{call cTab_fnc_onIfMainPressed},[cTab_key_if_main_scancode] + cTab_key_if_main_modifiers] call cba_fnc_registerKeybind;
 		["cTab","Toggle Secondary Interface",{call cTab_fnc_onIfSecondaryPressed},[cTab_key_if_secondary_scancode] + cTab_key_if_secondary_modifiers] call cba_fnc_registerKeybind;
+		["cTab","Toggle Tertiary Interface",{call cTab_fnc_onIfTertiaryPressed},[cTab_key_if_tertiary_scancode] + cTab_key_if_tertiary_modifiers] call cba_fnc_registerKeybind;
 		["cTab","Zoom In",{call cTab_fnc_onZoomInPressed},[cTab_key_zoom_in_scancode] + cTab_key_zoom_in_modifiers] call cba_fnc_registerKeybind;
 		["cTab","Zoom Out",{call cTab_fnc_onZoomOutPressed},[cTab_key_zoom_out_scancode] + cTab_key_zoom_out_modifiers] call cba_fnc_registerKeybind;
 	} else {
 		["cTab","Toggle Main Interface",{call cTab_fnc_onIfMainPressed},[actionKeys "User12" select 0,false,false,false]] call cba_fnc_registerKeybind;
 		["cTab","Toggle Secondary Interface",{call cTab_fnc_onIfSecondaryPressed},[actionKeys "User12" select 0,false,true,false]] call cba_fnc_registerKeybind;
+		["cTab","Toggle Tertiary Interface",{call cTab_fnc_onIfTertiaryPressed},[actionKeys "User12" select 0,false,false,true]] call cba_fnc_registerKeybind;
 		["cTab","Zoom In",{call cTab_fnc_onZoomInPressed},[201,true,true,false]] call cba_fnc_registerKeybind;
 		["cTab","Zoom Out",{call cTab_fnc_onZoomOutPressed},[209,true,true,false]] call cba_fnc_registerKeybind;
 	};
