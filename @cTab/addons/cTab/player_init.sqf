@@ -165,7 +165,7 @@ if (isNil "cTab_vehicleClass_has_FBCB2") then {
 _classNames = [];
 {
 	if (isClass (configfile >> "CfgVehicles" >> _x) && _classNames find _x == -1) then {
-		_classNames pushBack _x;
+		0 = _classNames pushBack _x;
 	};
 } count cTab_vehicleClass_has_FBCB2;
 cTab_vehicleClass_has_FBCB2 = [] + _classNames;
@@ -182,7 +182,7 @@ if (isNil "cTab_vehicleClass_has_TAD") then {
 _classNames = [];
 {
 	if (isClass (configfile >> "CfgVehicles" >> _x) && _classNames find _x == -1) then {
-		_classNames pushBack _x;
+		0 = _classNames pushBack _x;
 	};
 } count cTab_vehicleClass_has_TAD;
 cTab_vehicleClass_has_TAD = [] + _classNames;
@@ -199,7 +199,7 @@ if (isNil "cTab_helmetClass_has_HCam") then {
 _classNames = [];
 {
 	if (isClass (configfile >> "CfgWeapons" >> _x) && _classNames find _x == -1) then {
-		_classNames pushBack _x;
+		0 = _classNames pushBack _x;
 	};
 } count cTab_helmetClass_has_HCam;
 // iterate through all class names and add child classes, so we end up with a list of helmet classes that have the defined helmet classes as parents
@@ -208,7 +208,7 @@ _classNames = [];
 	{
 		_childClassName = configName _x;
 		if (_classNames find _childClassName == -1) then {
-			_classNames pushBack configName _x;
+			0 = _classNames pushBack configName _x;
 		};
 	} count _childClasses;
 } forEach _classNames;

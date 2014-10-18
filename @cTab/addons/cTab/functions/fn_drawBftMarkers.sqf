@@ -72,7 +72,7 @@ if (_mode != 2) then {
 				};
 			};
 		};
-		_vehicles pushBack _veh;
+		0 = _vehicles pushBack _veh;
 	} count cTabBFTvehicles;
 
 	// ------------------ GROUPS ------------------
@@ -118,8 +118,8 @@ if (_mode != 2) then {
 				if (_mountedIndex != -1) then {
 					_mountedLabels set [_mountedIndex + 1,(_mountedLabels select (_mountedIndex + 1)) + "/" + (_x select 4)];
 				} else {
-					_mountedLabels pushBack _veh;
-					_mountedLabels pushBack (_x select 4);
+					0 = _mountedLabels pushBack _veh;
+					0 = _mountedLabels pushBack (_x select 4);
 				};
 			};
 		};
@@ -129,9 +129,9 @@ if (_mode != 2) then {
 			if (_mountedIndex != -1 && _drawText) then {
 				_mountedLabels set [_mountedIndex + 1,(_mountedLabels select (_mountedIndex + 1)) + "/" + (_x select 4)];
 			} else {
-				_mountedLabels pushBack _veh;
+				0 = _mountedLabels pushBack _veh;
 				if  (_drawText) then {
-					_mountedLabels pushBack (_x select 4);
+					0 = _mountedLabels pushBack (_x select 4);
 				};
 				if (_veh != vehicle player) then {
 					_ctrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabColorBlue,getPosASL _veh,cTabIconSize,cTabIconSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];

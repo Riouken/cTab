@@ -42,7 +42,7 @@ cTabBFTmembers --- GROUP MEMBERS
 */
 {
 	if ((_x != player) && {[_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear}) then {
-		_cTabBFTmembers pushBack [_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
+		0 = _cTabBFTmembers pushBack [_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
 	};
 } count units player;
 
@@ -67,7 +67,7 @@ Else, search through the group and use the first member we find equipped with a 
 				if (_groupSize <= 9) exitWith {"\A3\ui_f\data\map\markers\nato\group_1.paa"};
 				"\A3\ui_f\data\map\markers\nato\group_2.paa"
 			};
-			_cTabBFTgroups pushBack [_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,""];
+			0 = _cTabBFTgroups pushBack [_leader,"\A3\ui_f\data\map\markers\nato\b_inf.paa",_sizeIcon,groupID _x,""];
 		};
 	};
 } count allGroups;
@@ -101,7 +101,7 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 			if (_x isKindOf "Tank") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
 			if (_x isKindOf "StaticMortar") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_mortar.paa";};
 		};
-		_cTabBFTvehicles pushBack [_x,_iconA,_iconB,_name,_groupID];
+		0 = _cTabBFTvehicles pushBack [_x,_iconA,_iconB,_name,_groupID];
 	};
 } count vehicles;
 
@@ -112,7 +112,7 @@ Units on our side, that are no the player and have either helmets that have been
 {
 	if ((side _x == cTabSide) && {_x != player}) then {
 		if (headgear _x in cTab_helmetClass_has_HCam || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
-			_cTabHcamlist pushBack _x;
+			0 = _cTabHcamlist pushBack _x;
 		};
 	};
 } count allUnits;
