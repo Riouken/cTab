@@ -1,5 +1,3 @@
-#include <\cTab\usermenu_gui_macros.hpp>
-
 #define GUI_GRID_W	(safezoneW)
 #define GUI_GRID_H	(GUI_GRID_W * 4/3)
 #define GUI_GRID_X	(safezoneX + (safezoneW - GUI_GRID_W) / 2)

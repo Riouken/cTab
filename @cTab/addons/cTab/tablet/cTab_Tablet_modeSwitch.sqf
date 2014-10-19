@@ -7,7 +7,6 @@
 disableSerialization;
 
 #include <\cTab\cTab_gui_macros.hpp>
-#include <\cTab\usermenu_gui_macros.hpp>
 
 cTabUserPos = [];
 
