@@ -15,8 +15,8 @@
 #define cTab_GUI_tablet_MAP_H (520)
 
 // Base macros to convert pixel space to screen space, but for groups (same size as map)
-#define pxToGroup_X(PIXEL) ((PIXEL) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X) - (cTab_GUI_tablet_MAP_X / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X)
-#define pxToGroup_Y(PIXEL) ((PIXEL) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y) - (cTab_GUI_tablet_MAP_Y / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y)
+#define pxToGroup_X(PIXEL) (((PIXEL) - cTab_GUI_tablet_MAP_X) / GUI_GRID_PX_W * GUI_GRID_W)
+#define pxToGroup_Y(PIXEL) (((PIXEL) - cTab_GUI_tablet_MAP_Y) / GUI_GRID_PX_H * GUI_GRID_H)
 
 // Task bar absolute size, pixel based (from source)
 #define cTab_GUI_tablet_TASKBAR_PX_W (1024)

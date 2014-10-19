@@ -134,7 +134,7 @@ class cTab_Tablet_dlg {
 		class btnF6: cTab_Tablet_btnF6
 		{
 			idc = IDC_CTAB_BTNF6;
-			tooltip = "Toggle Map Textures";
+			tooltip = "Toggle Map Textures (F6)";
 			action = "['cTab_Tablet_dlg'] call cTab_fnc_mapType_toggle;";
 		};
 		class btnMain: cTab_Tablet_btnHome
