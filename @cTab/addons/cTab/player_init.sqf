@@ -418,7 +418,7 @@ cTab_fnc_onIfMainPressed = {
 	};
 	
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-		nul = [0,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
+		nul = [0,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
 		true
 	};
 	false
@@ -463,7 +463,7 @@ cTab_fnc_onIfSecondaryPressed = {
 				nul = [1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
 			};
 			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
+				nul = [1,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
 			};
 			nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
 		};
@@ -503,7 +503,7 @@ cTab_fnc_onIfTertiaryPressed = {
 				nul = [2,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
 			};
 			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-				nul = [2,_player,_vehicle] execVM "cTab\bft\cTab_android_gui_start.sqf";
+				nul = [2,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
 			};
 		};
 		true
@@ -1377,9 +1377,3 @@ cTab_Tablet_btnACT = {
 	};
 	true
 };
-
-// I think we should start breaking out the functions like this to help keep it organized. This function file is starting to get pretty long.
-// Eventualy we can move the rest to this format, but all work going forward I will be breaking the functions into their respective folders and just #including them here.
-
-#include <\cTab\msg\cTab_fnc_msg.hpp>	
-
