@@ -4,203 +4,280 @@
 // http://forums.bistudio.com/member.php?64032-Riouken
 // You may re-use any of this work as long as you provide credit back to me.
 
-#define GUI_GRID_X	(0)
-#define GUI_GRID_Y	(0)
-#define GUI_GRID_W	(0.025)
-#define GUI_GRID_H	(0.04)
-#define GUI_GRID_WAbs	(1)
-#define GUI_GRID_HAbs	(1)
+#define GUI_GRID_W	(safezoneW * 0.8)
+#define GUI_GRID_H	(GUI_GRID_W * 4/3)
+#define GUI_GRID_X	(safezoneX + (safezoneW - GUI_GRID_W) / 2)
+#define GUI_GRID_Y	(safezoneY + (safezoneH - GUI_GRID_H) / 2)
 
-#define MENU_sizeEx GUI_GRID_H * 0.75
+#include <\cTab\android\cTab_android_controls.hpp>
+
+#define MENU_sizeEx pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE)
 #include <\cTab\cTab_markerMenu_macros.hpp>
 
 class cTab_Android_dlg {
 	idd = 177382;
-	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];nul = [] execVM '\cTab\bft\ctab_gui_Android_onload.sqf';";
+	movingEnable = false;
+	onLoad = "uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];";
 	onUnload = "uiNamespace setVariable ['cTab_Android_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
-	class controlsBackground {
-
-				class bftscreen: cTab_RscMapControl
-			{
-				idc = 1201;
-				text = "#(argb,8,8,3)color(1,1,1,1)";
-				x = 8.06 * GUI_GRID_W + GUI_GRID_X;
-				y = 13.17 * GUI_GRID_H + GUI_GRID_Y;
-				w = 23.0714 * GUI_GRID_W;
-				h = 10.8386 * GUI_GRID_H;
-				colorText[] = {-1,-1,-1,0};
-				colorBackground[] = {-1,-1,-1,0};
-				colorActive[] = {-1,-1,-1,0};
-				onDraw = "nop = _this call cTabOnDrawbftAndroid;";
-				onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
-				onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
-			};
-	
-			class background: cTab_RscPicture
-			{
-				idc = 1200;
-				text = "\cTab\img\itemAndroid_display.paa";
-				x = -1.5 * GUI_GRID_W + GUI_GRID_X;
-				y = 1 * GUI_GRID_H + GUI_GRID_Y;
-				w = 44 * GUI_GRID_W;
-				h = 35 * GUI_GRID_H;
-			};
-
-			
+	class controlsBackground
+	{
+		class windowsBG: cTab_android_windowsBG {};
+		class screen: cTab_android_RscMapControl
+		{
+			onDraw = "nop = _this call cTabOnDrawbftAndroid;";
+			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
+			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
+		};
+		class screenTopo: screen
+		{
+			idc = IDC_CTAB_SCREEN_TOPO;
+			maxSatelliteAlpha = 0;
+		};
 	};
 
+	class controls
+	{
+		class background: cTab_android_background {};
+		class btnMenu: cTab_android_btnMenu
+		{
+			idc = IDC_CTAB_BTNFN;
+			action = "['cTab_Android_dlg'] call cTab_fnc_showMenu_toggle;";
+			tooltip = "Map Options";
+		};
+		class btnPower: cTab_android_btnPower
+		{
+			idc = IDC_CTAB_BTNOFF;
+			action = "closeDialog 0;";
+			tooltip = "Close Interface";
+		};
+		class btnHome: cTab_android_btnHome
+		{
+			idc = IDC_CTAB_BTNF1;
+			action = "['cTab_Android_dlg'] call cTab_fnc_mode_toggle;";
+			tooltip = "Toggle Map (F1) / Messages (F4)";
+		};
+		class header: cTab_android_header {};
+		class battery: cTab_android_on_screen_battery {};
+		class time: cTab_android_on_screen_time {};
+		class signalStrength: cTab_android_on_screen_signalStrength {};
+		class satellite: cTab_android_on_screen_satellite {};
+		class dirDegree: cTab_android_on_screen_dirDegree {};
+		class grid: cTab_android_on_screen_grid {};
+		class dirOctant: cTab_android_on_screen_dirOctant {};
+		class hookGrid: cTab_android_on_screen_hookGrid {};
+		class hookElevation: cTab_android_on_screen_hookElevation {};
+		class hookDst: cTab_android_on_screen_hookDst {};
+		class hookDir: cTab_android_on_screen_hookDir {};
 
-
-	class controls {
-	
-			class btnBack: cTab_RscButtonInv
+		// ---------- MAIN MENU -----------			
+		class menuContainer: cTab_RscControlsGroup
+		{
+			idc = IDC_CTAB_GROUP_MENU;
+			x = pxToScreen_X(cTab_GUI_android_OSD_MENU_X);
+			y = pxToScreen_Y(cTab_GUI_android_OSD_MENU_Y);
+			w = pxToScreen_W(cTab_GUI_android_OSD_MENU_W);
+			h = pxToScreen_H(cTab_GUI_android_OSD_MENU_H);
+			class VScrollbar {};
+			class HScrollbar {};
+			class Scrollbar {};
+			class controls
 			{
-				idc = 1600;
-				x = 33.18 * GUI_GRID_W + GUI_GRID_X;
-				y = 14.9 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-				action = "if (count cTabUserIconList > 0) then { _nop = cTabUserIconList call BIS_fnc_arrayPop;};";
-				tooltip = "Delete last user placed icon";				
-			};
-			class btnHome: cTab_RscButtonInv
-			{
-				idc = 1601;
-				x = 33.26 * GUI_GRID_W + GUI_GRID_X;
-				y = 17.77 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-				tooltip = "** Coming Soon";
-			};
-			class btnMenu: cTab_RscButtonInv
-			{
-				idc = 1602;
-				x = 33.16 * GUI_GRID_W + GUI_GRID_X;
-				y = 20.65 * GUI_GRID_H + GUI_GRID_Y;
-				w = 2 * GUI_GRID_W;
-				h = 1.5 * GUI_GRID_H;
-				action = "ctrlShow [3357, True];";
-				tooltip = "Main Options";				
-			};
-			
-			
-// Main Menu			
-			class menuContainer: cTab_RscControlsGroup
-			{
-				idc = 3357;
-				x = 24.4 * GUI_GRID_W + GUI_GRID_X;
-				y = 13.64 * GUI_GRID_H + GUI_GRID_Y;
-				w = 6.5 * GUI_GRID_W;
-				h = 9.5 * GUI_GRID_H;
-				class controls
+				class menuBackground: cTab_IGUIBack
 				{
-					class menuBackground: cTab_IGUIBack
-					{
-						idc = 2200;
-						x = -0.01 * GUI_GRID_W;
-						y = -0.04 * GUI_GRID_H;
-						w = 6.5 * GUI_GRID_W;
-						h = 9.5 * GUI_GRID_H;
-					};
-					class btnTextonoff: cTab_RscButton
-					{
-						idc = 2800;
-						text = "Text On/Off"; //--- ToDo: Localize;
-						x = 0.3 * GUI_GRID_W;
-						y = 0.3 * GUI_GRID_H;
-						w = 6 * GUI_GRID_W;
-						h = 1 * GUI_GRID_H;
-						tooltip = "Change Icon/Text Size"; //--- ToDo: Localize;
-						action = "['cTab_Android_dlg'] call cTab_fnc_iconText_toggle;";
-					};
-					
-					/*
-					class RscText_1001: RscText
-					{
-						idc = 1001;
-						text = "Text"; //--- ToDo: Localize;
-						x = 0.8 * GUI_GRID_W;
-						y = -0.54 * GUI_GRID_H;
-						w = 4 * GUI_GRID_W;
-						h = 2.5 * GUI_GRID_H;
-						sizeEx = .75 * GUI_GRID_H;
-					};
-					*/
-					
-					class btnIcnSizeup: cTab_RscButton
-					{
-						idc = 1603;
-						text = "Icon Size +"; //--- ToDo: Localize;
-						x = 0.3 * GUI_GRID_W;
-						y = 1.3 * GUI_GRID_H;
-						w = 6 * GUI_GRID_W;
-						h = 1 * GUI_GRID_H;
-						tooltip = "Increase Icon/Text Size"; //--- ToDo: Localize;
-						action = "call cTab_fnc_txt_size_inc;";						
-					};
-					class btnIconSizedwn: cTab_RscButton
-					{
-						idc = 1604;
-						text = "Icon Size -"; //--- ToDo: Localize;
-						x = 0.29 * GUI_GRID_W;
-						y = 2.6 * GUI_GRID_H;
-						w = 6 * GUI_GRID_W;
-						h = 1 * GUI_GRID_H;
-						tooltip = "Decrease Icon/Text Size"; //--- ToDo: Localize;
-						action = "call cTab_fnc_txt_size_dec;";						
-					};
-					class btnDeleteIcon: cTab_RscButton
-					{
-						idc = 1605;
-						text = "Delete Icon"; //--- ToDo: Localize;
-						x = 0.32 * GUI_GRID_W;
-						y = 3.96 * GUI_GRID_H;
-						w = 6 * GUI_GRID_W;
-						h = 1 * GUI_GRID_H;
-						action = "if (count cTabUserIconList > 0) then { _nop = cTabUserIconList call BIS_fnc_arrayPop;};";
-						tooltip = "Delete last user placed icon";
-					};
-					class RscButton_1606: cTab_RscButton
-					{
-						idc = 1606;
-						text = "Messages >>"; //--- ToDo: Localize;
-						x = 0.33 * GUI_GRID_W;
-						y = 5.25 * GUI_GRID_H;
-						w = 6 * GUI_GRID_W;
-						h = 1 * GUI_GRID_H;
-						tooltip = "Goto Messages"; //--- ToDo: Localize;
-						action = "nop =  [cTabIfOpen select 0,cTabIfOpen select 2,cTabIfOpen select 4] spawn cTab_open_android_msg;";						
-					};
-					class btnExitmenu: cTab_RscButton
-					{
-						idc = 1607;
-						text = "Exit Menu"; //--- ToDo: Localize;
-						x = 0.28 * GUI_GRID_W;
-						y = 6.7 * GUI_GRID_H;
-						w = 6 * GUI_GRID_W;
-						h = 1 * GUI_GRID_H;
-						tooltip = "Exit Current Menu"; //--- ToDo: Localize;
-						action = "ctrlShow [3357, False];";
-					};
-					class btnExit: cTab_RscButton
-					{
-						idc = 1608;
-						text = "Exit Android"; //--- ToDo: Localize;
-						x = 0.29 * GUI_GRID_W;
-						y = 8.15 * GUI_GRID_H;
-						w = 6 * GUI_GRID_W;
-						h = 1 * GUI_GRID_H;
-						tooltip = "Exit Android GUI"; //--- ToDo: Localize;
-						action = "closeDialog 0;";
-					};
+					idc = -1;
+					x = 0;
+					y = 0;
+					w = pxToScreen_W(cTab_GUI_android_OSD_MENU_W);
+					h = pxToScreen_H(cTab_GUI_android_OSD_MENU_H);
+				};
+				class btnTextonoff: cTab_RscButton
+				{
+					idc = -1;
+					text = "Text On/Off"; //--- ToDo: Localize;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE);
+					x = pxToMenu_X(cTab_GUI_android_OSD_MENU_ELEMENT_X);
+					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(1));
+					w = pxToScreen_W(cTab_GUI_android_OSD_MENU_ELEMENT_W);
+					h = pxToScreen_H(cTab_GUI_android_OSD_MENU_ELEMENT_H);
+					tooltip = "Toggle Text on/off"; //--- ToDo: Localize;
+					action = "['cTab_Android_dlg'] call cTab_fnc_iconText_toggle;";
+				};
+				class btnIcnSizeup: btnTextonoff
+				{
+					idc = -1;
+					text = "Icon Size +"; //--- ToDo: Localize;
+					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(2));
+					tooltip = "Increase Icon/Text Size"; //--- ToDo: Localize;
+					action = "call cTab_fnc_txt_size_inc;";						
+				};
+				class btnIconSizedwn: btnTextonoff
+				{
+					idc = -1;
+					text = "Icon Size -"; //--- ToDo: Localize;
+					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(3));
+					tooltip = "Decrease Icon/Text Size"; //--- ToDo: Localize;
+					action = "call cTab_fnc_txt_size_dec;";						
+				};
+				class btnF5: btnTextonoff
+				{
+					idc = -1;
+					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(7));
+					text = "Map Tools";
+					tooltip = "Toggle Map Tools (F5)";
+					action = "['cTab_Android_dlg'] call cTab_fnc_toggleMapTools;";
+				};
+				class btnF6: btnTextonoff
+				{
+					idc = -1;
+					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(5));
+					text = "Map Textures";
+					tooltip = "Toggle Map Textures (F6)";
+					action = "['cTab_Android_dlg'] call cTab_fnc_mapType_toggle;";
 				};
 			};
+		};
+		// ---------- MESSAGING READ -----------
+		class MESSAGE: cTab_RscControlsGroup
+		{
+			idc = IDC_CTAB_GROUP_MESSAGE;
+			x = pxToScreen_X(cTab_GUI_android_MAP_X);
+			y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
+			w = pxToScreen_W(cTab_GUI_android_MAP_W);
+			h = pxToScreen_H(cTab_GUI_android_MAP_H);
+			class VScrollbar {};
+			class HScrollbar {};
+			class Scrollbar {};
+			class controls
+			{
+				class msgListbox: cTab_RscListbox
+				{
+					idc = IDC_CTAB_MSG_LIST;
+					style = LB_MULTI;
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGELIST_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGELIST_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGELIST_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_MESSAGELIST_H);
+					onLBSelChanged = "_this call cTab_msg_get_mailTxt;";
+				};
+				class msgframe: cTab_RscFrame
+				{
+					idc = -1;
+					text = "Read Message"; //--- ToDo: Localize;
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGETEXT_FRAME_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGETEXT_FRAME_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGETEXT_FRAME_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_MESSAGETEXT_FRAME_H);
+				};
+				class msgTxt: cTab_RscEdit
+				{
+					idc = IDC_CTAB_MSG_CONTENT;
+					htmlControl = true;
+					style = ST_MULTI;
+					lineSpacing = 0.2;
+					text = "No Message Selected"; //--- ToDo: Localize;
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGETEXT_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGETEXT_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGETEXT_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_MESSAGETEXT_H);
+					canModify = 0;
+				};			
+				class deletebtn: cTab_RscButton
+				{
+					idc = IDS_CTAB_MSG_BTNDELETE;
+					text = "Delete"; //--- ToDo: Localize;
+					tooltip = "Delete All Messages";
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_DELETE_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_BUTTON_DELETE_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_BUTTON_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_BUTTON_H);
+					action = "player setVariable ['ctab_messages',[]];_nop = [] call cTab_msg_gui_load;";
+				};
+				class toCompose: cTab_RscButton
+				{
+					idc = -1;
+					text = "Compose >>"; //--- ToDo: Localize;
+					tooltip = "Compose Messages";
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_MODE_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_BUTTON_MODE_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_BUTTON_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_BUTTON_H);
+					action = "['cTab_Android_dlg',[['mode','COMPOSE']]] call cTab_fnc_setSettings;";
+				};
+			};
+		};
+		// ---------- MESSAGING COMPOSE -----------
+		class COMPOSE: cTab_RscControlsGroup
+		{
+			idc = IDC_CTAB_GROUP_COMPOSE;
+			x = pxToScreen_X(cTab_GUI_android_MAP_X);
+			y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
+			w = pxToScreen_W(cTab_GUI_android_MAP_W);
+			h = pxToScreen_H(cTab_GUI_android_MAP_H);
+			class VScrollbar {};
+			class HScrollbar {};
+			class Scrollbar {};
+			class controls
+			{
+				class composeFrame: cTab_RscFrame
+				{
+					idc = -1;
+					text = "Compose Message"; //--- ToDo: Localize;
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_COMPOSE_FRAME_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_COMPOSE_FRAME_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_COMPOSE_FRAME_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_COMPOSE_FRAME_H);
+				};
+				class playerlistbox: cTab_RscListbox
+				{
+					idc = IDC_CTAB_MSG_RECIPIENTS;
+					style = LB_MULTI;
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_PLAYERLIST_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_PLAYERLIST_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_PLAYERLIST_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_PLAYERLIST_H);
+				};
+				class sendbtn: cTab_RscButton
+				{
+					idc = IDS_CTAB_MSG_BTNSEND;
+					text = "Send"; //--- ToDo: Localize;
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_SEND_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_BUTTON_SEND_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_BUTTON_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_BUTTON_H);
+					action = "call cTab_msg_Send;";
+				};
+				class edittxtbox: cTab_RscEdit
+				{
+					idc = IDC_CTAB_MSG_COMPOSE;
+					htmlControl = true;
+					style = ST_MULTI;
+					lineSpacing = 0.2;
+					text = ""; //--- ToDo: Localize;
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_H);
+				};
+			class toRead: cTab_RscButton
+				{
+					idc = -1;
+					text = "Read >>"; //--- ToDo: Localize;
+					tooltip = "Read Messages";
+					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_MODE_X);
+					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_BUTTON_MODE_Y);
+					w = pxToScreen_W(cTab_GUI_android_MESSAGE_BUTTON_W);
+					h = pxToScreen_H(cTab_GUI_android_MESSAGE_BUTTON_H);
+					action = "['cTab_Android_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
+				};
+			};
+		};
 
-			// User Placed markers
-			#include <\cTab\cTab_markerMenu_controls.hpp>
+		// User Placed markers
+		#include <\cTab\cTab_markerMenu_controls.hpp>
+
+		// ---------- LOADING ------------
+		class loadingtxt: cTab_android_loadingtxt {};
 	};
-
 };

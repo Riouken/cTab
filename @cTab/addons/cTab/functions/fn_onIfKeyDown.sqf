@@ -32,7 +32,7 @@ _ctrlKey = _this select 3;
 _altKey = _this select 4;
 _handled = false;
 
-if (_dikCode == 59 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F1
+if (_dikCode == 59 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith { // F1
 	[_displayName,[["mode","BFT"]]] call cTab_fnc_setSettings;
 	true
 };
@@ -44,15 +44,15 @@ if (_dikCode == 61 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F3
 	[_displayName,[["mode","HCAM"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == 62 && {_displayName in ["cTab_Tablet_dlg"]}) exitWith { // F4
+if (_dikCode == 62 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith { // F4
 	[_displayName,[["mode","MESSAGE"]]] call cTab_fnc_setSettings;
 	true
 };
-if (_dikCode == 63 && {_displayName in ["cTab_Tablet_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith { // F5
+if (_dikCode == 63 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith { // F5
 	[_displayName] call cTab_fnc_toggleMapTools;
 	true
 };
-if (_dikCode == 64 && {_displayName in ["cTab_Tablet_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith { // F6
+if (_dikCode == 64 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith { // F6
 	[_displayName] call cTab_fnc_mapType_toggle;
 	true
 };

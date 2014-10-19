@@ -63,13 +63,13 @@ cTabMapScaleHCam = 0.3 / cTabMapScaleFactor;
 
 cTabDisplayPropertyGroups = [
 	["cTab_Tablet_dlg", "Tablet"],
-	["cTab_Android_dlg", "Main"],
+	["cTab_Android_dlg", "Android"],
 	["cTab_FBCB2_dlg", "FBCB2"],
 	["cTab_TAD_dsp","TAD"],
 	["cTab_TAD_dlg","TAD"],
 	["cTab_microDAGR_dsp","MicroDAGR"],
 	["cTab_microDAGR_dlg","MicroDAGR"],
-	["cTab_Android_msg_dlg", "Main"]
+	["cTab_Android_msg_dlg", "Android"]
 ];
 
 cTabSettings = [];
@@ -89,6 +89,13 @@ cTabSettings = [];
 	["mode","DESKTOP"],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["hCam",""],
+	["mapTools",true]
+]] call BIS_fnc_setToPairs;
+
+[cTabSettings,"Android",[
+	["mode","BFT"],
+	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["showMenu",false],
 	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
@@ -636,6 +643,40 @@ cTab_fnc_mapType_toggle = {
 	true
 };
 
+/*
+Function to toggle showMenu
+Parameter 0: String of uiNamespace variable for which to toggle showMenu for
+Returns TRUE
+*/
+cTab_fnc_showMenu_toggle = {
+	_displayName = _this select 0;
+	_showMenu = [_displayName,"showMenu"] call cTab_fnc_getSettings;
+	_showMenu = !_showMenu;
+	[_displayName,[["showMenu",_showMenu]]] call cTab_fnc_setSettings;
+	true
+};
+
+/*
+Function to toggle mode
+Parameter 0: String of uiNamespace variable for which to toggle mode for
+Returns TRUE
+*/
+cTab_fnc_mode_toggle = {
+	_displayName = _this select 0;
+	_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
+	
+	call {
+		if (_displayName == "cTab_Android_dlg") exitWith {
+			call {
+				if (_mode != "BFT") exitWith {_mode = "BFT"};
+				_mode = "MESSAGE";
+			};
+		};
+	};
+	[_displayName,[["mode",_mode]]] call cTab_fnc_setSettings;
+	true
+};
+
 // fnc to increase icon and text size
 cTab_fnc_txt_size_inc = {
 	cTabTxtFctr = cTabTxtFctr + 1;
@@ -837,7 +878,24 @@ cTabOnDrawbftAndroid = {
 	
 	// draw directional arrow at own location
 	_veh = vehicle player;
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL _veh,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
+	_playerPos = getPosASL _veh;
+	_heading = direction _veh;
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	
+	// update time on android	
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+	
+	// update grid position on android
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
+	
+	// update current heading on android
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
+	
+	// update hook information
+	if (cTabDrawMapTools) then {
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+	};
 	
 	true
 };
@@ -1160,12 +1218,12 @@ cTab_msg_gui_load =
 {
 	disableSerialization;
 	_return = true;
-	_display = (uiNamespace getVariable "cTab_Tablet_dlg");
+	_display = uiNamespace getVariable (cTabIfOpen select 1);
 	_msgarry = player getVariable ["ctab_messages",[]];
-	_msgControl = _display displayCtrl 15000;
-	_plrlistControl = _display displayCtrl 15010;
-	lbClear 15000;
-	lbClear 15010;
+	_msgControl = _display displayCtrl IDC_CTAB_MSG_LIST;
+	_plrlistControl = _display displayCtrl IDC_CTAB_MSG_RECIPIENTS;
+	lbClear _msgControl;
+	lbClear _plrlistControl;
 	_plrList = playableUnits;
 	
 	if (count _plrList < 1) then { _plrList = switchableUnits;};
@@ -1195,8 +1253,9 @@ cTab_msg_gui_load =
 	
 	{
 		_index = _plrlistControl lbAdd name _x;
-		if (!([_x,["ItemcTab"]] call cTab_fnc_checkGear)) then { _plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];};
-		
+		if (!([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear)) then {
+			_plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];
+		};
 	} forEach _plrList;
 	
 	367 cutText ["", "PLAIN"];
@@ -1208,7 +1267,7 @@ cTab_msg_get_mailTxt =
 	disableSerialization;
 	_return = true;
 	_index = _this select 1;
-	_display = (uiNamespace getVariable "cTab_Tablet_dlg");
+	_display = uiNamespace getVariable (cTabIfOpen select 1);
 	_msgArray = player getVariable ["ctab_messages",[]];
 	_msgName = (_msgArray select _index) select 0;
 	_msgtxt = (_msgArray select _index) select 1;
@@ -1218,7 +1277,7 @@ cTab_msg_get_mailTxt =
 	
 	_nop = [] call cTab_msg_gui_load;
 	
-	_txtControl = _display displayCtrl 18510;
+	_txtControl = _display displayCtrl IDC_CTAB_MSG_CONTENT;
 
 	_nul = _txtControl ctrlSetText  _msgtxt;
 	
@@ -1248,9 +1307,9 @@ cTab_msg_Send =
 {
 	disableSerialization;
 	_return = true;
-	_display = (uiNamespace getVariable "cTab_Tablet_dlg");
-	_plrLBctrl = _display displayCtrl 15010;
-	_msgBodyctrl = _display displayCtrl 14000;
+	_display = uiNamespace getVariable (cTabIfOpen select 1);
+	_plrLBctrl = _display displayCtrl IDC_CTAB_MSG_RECIPIENTS;
+	_msgBodyctrl = _display displayCtrl IDC_CTAB_MSG_COMPOSE;
 	_plrList = (uiNamespace getVariable "cTab_msg_playerList");
 	
 	_indices = lbSelection _plrLBctrl;
@@ -1282,7 +1341,7 @@ cTab_msg_Send =
 	   
 	   player setVariable ["ctab_messages",_msgarry];
 	   
-	   if ([player,["ItemcTab"]] call cTab_fnc_checkGear) then 
+	   if ([player,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then 
 	   {
 			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
 	   
