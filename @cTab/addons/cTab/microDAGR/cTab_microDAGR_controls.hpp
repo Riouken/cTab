@@ -127,9 +127,9 @@ class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 	ptsPerSquareCost = 8 / cTab_microDAGR_DLGtoDSP_fctr;		// cost
 
 	// Rendering thresholds
-	ptsPerSquareFor = 2 / cTab_microDAGR_DLGtoDSP_fctr;		// forests
+	ptsPerSquareFor = 3 / cTab_microDAGR_DLGtoDSP_fctr;		// forests
 	ptsPerSquareForEdge = 100 / cTab_microDAGR_DLGtoDSP_fctr;	// forest edges
-	ptsPerSquareRoad = 2 / cTab_microDAGR_DLGtoDSP_fctr;		// roads
+	ptsPerSquareRoad = 1.5 / cTab_microDAGR_DLGtoDSP_fctr;		// roads
 	ptsPerSquareObj = 4 / cTab_microDAGR_DLGtoDSP_fctr;		// other objects
 
 	/*

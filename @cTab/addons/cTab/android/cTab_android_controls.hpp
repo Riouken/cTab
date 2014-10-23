@@ -142,17 +142,17 @@ class cTab_android_RscMapControl: cTab_RscMapControl
 	alphaFadeEndScale = 10;
 
 	// Rendering density coefficients
-	ptsPerSquareSea = 8 / (0.86 / GUI_GRID_H);		// seas
-	ptsPerSquareTxt = 8 / (0.86 / GUI_GRID_H);		// textures
-	ptsPerSquareCLn = 8 / (0.86 / GUI_GRID_H);		// count-lines
-	ptsPerSquareExp = 8 / (0.86 / GUI_GRID_H);		// exposure
-	ptsPerSquareCost = 8 / (0.86 / GUI_GRID_H);		// cost
+	ptsPerSquareSea = 8 / cTab_android_DLGtoDSP_fctr;		// seas
+	ptsPerSquareTxt = 8 / cTab_android_DLGtoDSP_fctr;		// textures
+	ptsPerSquareCLn = 8 / cTab_android_DLGtoDSP_fctr;		// count-lines
+	ptsPerSquareExp = 8 / cTab_android_DLGtoDSP_fctr;		// exposure
+	ptsPerSquareCost = 8 / cTab_android_DLGtoDSP_fctr;		// cost
 
 	// Rendering thresholds
-	ptsPerSquareFor = 2 / (0.86 / GUI_GRID_H);		// forests
-	ptsPerSquareForEdge = 100 / (0.86 / GUI_GRID_H);	// forest edges
-	ptsPerSquareRoad = 2 / (0.86 / GUI_GRID_H);		// roads
-	ptsPerSquareObj = 4 / (0.86 / GUI_GRID_H);		// other objects
+	ptsPerSquareFor = 3 / cTab_android_DLGtoDSP_fctr;		// forests
+	ptsPerSquareForEdge = 100 / cTab_android_DLGtoDSP_fctr;	// forest edges
+	ptsPerSquareRoad = 1.5 / cTab_android_DLGtoDSP_fctr;		// roads
+	ptsPerSquareObj = 4 / cTab_android_DLGtoDSP_fctr;		// other objects
 
 	/*
 	// replace CustomMark with wedding cake icon

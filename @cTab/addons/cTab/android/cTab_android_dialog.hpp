@@ -9,6 +9,8 @@
 #define GUI_GRID_X	(safezoneX + (safezoneW - GUI_GRID_W) / 2)
 #define GUI_GRID_Y	(safezoneY + (safezoneH - GUI_GRID_H) / 2)
 
+#define cTab_android_DLGtoDSP_fctr (0.86 / GUI_GRID_H)
+
 #include <\cTab\android\cTab_android_controls.hpp>
 
 #define MENU_sizeEx pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE)
@@ -71,7 +73,7 @@ class cTab_Android_dlg {
 		class hookDst: cTab_android_on_screen_hookDst {};
 		class hookDir: cTab_android_on_screen_hookDir {};
 
-		// ---------- MAIN MENU -----------			
+		// ---------- MAIN MENU -----------
 		class menuContainer: cTab_RscControlsGroup
 		{
 			idc = IDC_CTAB_GROUP_MENU;
@@ -110,7 +112,7 @@ class cTab_Android_dlg {
 					text = "Icon Size +"; //--- ToDo: Localize;
 					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(2));
 					tooltip = "Increase Icon/Text Size"; //--- ToDo: Localize;
-					action = "call cTab_fnc_txt_size_inc;";						
+					action = "call cTab_fnc_txt_size_inc;";
 				};
 				class btnIconSizedwn: btnTextonoff
 				{
@@ -118,7 +120,7 @@ class cTab_Android_dlg {
 					text = "Icon Size -"; //--- ToDo: Localize;
 					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(3));
 					tooltip = "Decrease Icon/Text Size"; //--- ToDo: Localize;
-					action = "call cTab_fnc_txt_size_dec;";						
+					action = "call cTab_fnc_txt_size_dec;";
 				};
 				class btnF5: btnTextonoff
 				{
@@ -182,7 +184,7 @@ class cTab_Android_dlg {
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGETEXT_W);
 					h = pxToScreen_H(cTab_GUI_android_MESSAGE_MESSAGETEXT_H);
 					canModify = 0;
-				};			
+				};
 				class deletebtn: cTab_RscButton
 				{
 					idc = IDS_CTAB_MSG_BTNDELETE;
