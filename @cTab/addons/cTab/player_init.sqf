@@ -18,6 +18,7 @@ if (isnil ("cTabSide")) then {cTabSide = west;};
 
 // Get a rsc layer for for our displays
 cTabrscLayer = ["cTab"] call BIS_fnc_rscLayer;
+cTabRscLayerMailNotification = ["cTab_mailNotification"] call BIS_fnc_rscLayer;
 
 /*
  figure out the scaling factor based on the map being played
@@ -1303,7 +1304,6 @@ cTab_msg_gui_load =
 		};
 	} forEach _plrList;
 	
-	367 cutText ["", "PLAIN"];
 	_return;
 };
 
@@ -1361,9 +1361,8 @@ cTab_msg_Send =
 	
 	if (_indices isEqualTo []) exitWith {false};
 	
-	_hr = date select 3;
-	_min = date select 4;
-	_msgTitle = str _hr + ":"+ str _min + " - " + name player;
+	_time = call cTab_fnc_currentTime;
+	_msgTitle = _time + " - " + name player;
 	_msgBody = ctrlText _msgBodyctrl;
 	
 	{
@@ -1390,14 +1389,14 @@ cTab_msg_Send =
 	   {
 			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
 	   
-			if (!isNil "cTabIfOpen" && {cTabIfOpen select 1 == "cTab_Tablet_dlg"}) then 
+			if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then 
 			{
 				_nop = [] call cTab_msg_gui_load;
-				367 cutRsc ["cTab_Mail_ico_disp", "PLAIN"];
+				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"];
 			}
 			else
 			{
-				367 cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; //show
+				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; //show
 			};
 		};
   }

@@ -55,6 +55,7 @@ call {
 	if (_mode == "MESSAGE") exitWith {
 		_displayItemsToShow pushBack IDC_CTAB_GROUP_MESSAGE;
 		call cTab_msg_gui_load;
+		cTabRscLayerMailNotification cutText ["", "PLAIN"];
 	};
 	// ---------- MESSAGING COMPOSE -----------
 	if (_mode == "COMPOSE") exitWith {

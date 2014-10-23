@@ -96,6 +96,7 @@ call {
 	if (_mode == "MESSAGE") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
 		call cTab_msg_gui_load;
+		cTabRscLayerMailNotification cutText ["", "PLAIN"];
 	};
 	// ---------- FULLSCREEN HCAM -----------
 	if (_mode == "HCAM_FULL") exitWith {
