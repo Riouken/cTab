@@ -62,14 +62,14 @@ cTabMapScaleUAV = 0.8 / cTabMapScaleFactor;
 cTabMapScaleHCam = 0.3 / cTabMapScaleFactor;
 
 cTabDisplayPropertyGroups = [
-	["cTab_Tablet_dlg", "Tablet"],
-	["cTab_Android_dlg", "Android"],
-	["cTab_FBCB2_dlg", "FBCB2"],
+	["cTab_Tablet_dlg","Tablet"],
+	["cTab_Android_dlg","Android"],
+	["cTab_Android_dsp","Android"],
+	["cTab_FBCB2_dlg","FBCB2"],
 	["cTab_TAD_dsp","TAD"],
 	["cTab_TAD_dlg","TAD"],
 	["cTab_microDAGR_dsp","MicroDAGR"],
-	["cTab_microDAGR_dlg","MicroDAGR"],
-	["cTab_Android_msg_dlg", "Android"]
+	["cTab_microDAGR_dlg","MicroDAGR"]
 ];
 
 cTabSettings = [];
@@ -94,6 +94,8 @@ cTabSettings = [];
 
 [cTabSettings,"Android",[
 	["mode","BFT"],
+	["mapScale",0.4],
+	["mapScaleMin",0.1],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["showMenu",false],
 	["mapTools",true]
@@ -317,6 +319,7 @@ cTabDrawMapTools = false;
 cTab_fnc_update_mapScaleFactor = {
 	cTabTADmapScaleCtrl = (["cTab_TAD_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
 	cTabMicroDAGRmapScaleCtrl = (["cTab_microDAGR_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
+	cTabAndroidMapScaleCtrl = (["cTab_Android_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
 	true
 };
 call cTab_fnc_update_mapScaleFactor;
@@ -330,12 +333,12 @@ cTabMapCursorPos = [0,0];
 // Initialize all uiNamespace variables
 uiNamespace setVariable ["cTab_Tablet_dlg", displayNull];
 uiNamespace setVariable ["cTab_Android_dlg", displayNull];
+uiNamespace setVariable ["cTab_Android_dsp", displayNull];
 uiNamespace setVariable ["cTab_FBCB2_dlg", displayNull];
 uiNamespace setVariable ["cTab_TAD_dsp", displayNull];
 uiNamespace setVariable ["cTab_TAD_dlg", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dsp", displayNull];
 uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
-uiNamespace setVariable ['cTab_Android_msg_dlg', displayNull];
 
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
@@ -402,6 +405,11 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
+	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
+		nul = [0,_player,_vehicle] execVM "cTab\android\cTab_android_display_start.sqf";
+		true
+	};
+	
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		nul = [0,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_display_start.sqf";
 		true
@@ -417,10 +425,6 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	
-	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-		nul = [0,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
-		true
-	};
 	false
 };
 
@@ -454,7 +458,7 @@ cTab_fnc_onIfSecondaryPressed = {
 		nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
 		true
 	};
-	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
+	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		call {
 			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
@@ -462,8 +466,17 @@ cTab_fnc_onIfSecondaryPressed = {
 			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 				nul = [1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
 			};
-			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
+			nul = [1,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
+		};
+		true
+	};
+	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
+		call {
+			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
+				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			};
+			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+				nul = [1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
 			};
 			nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
 		};
@@ -520,7 +533,7 @@ Returns FALSE when no action was taken (i.e. no interface open, or unsupported i
 cTab_fnc_onZoomInPressed = {
 	if (isNil "cTabIfOpen") exitWith {false};
 	_displayName = cTabIfOpen select 1;
-	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp"]) exitWith {
+	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp","cTab_Android_dsp"]) exitWith {
 		_mapScale = [_displayName,"mapScale"] call cTab_fnc_getSettings;
 		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
 		if (_mapScale / 2 > _mapScaleMin) then {
@@ -544,7 +557,7 @@ Returns FALSE when no action was taken (i.e. no interface open, or unsupported i
 cTab_fnc_onZoomOutPressed = {
 	if (isNil "cTabIfOpen") exitWith {false};
 	_displayName = cTabIfOpen select 1;
-	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp"]) exitWith {
+	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp","cTab_Android_dsp"]) exitWith {
 		_mapScale = [_displayName,"mapScale"] call cTab_fnc_getSettings;
 		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
 		if (_mapScale * 2 < _mapScaleMax) then {
@@ -868,7 +881,7 @@ cTabOnDrawbftTADdialog = {
 	true
 };
 
-// This is drawn every frame on the android. fnc
+// This is drawn every frame on the android dialog. fnc
 cTabOnDrawbftAndroid = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
@@ -896,6 +909,38 @@ cTabOnDrawbftAndroid = {
 	if (cTabDrawMapTools) then {
 		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
 	};
+	
+	true
+};
+
+// This is drawn every frame on the android display. fnc
+cTabOnDrawbftAndroidDsp = {
+	_cntrlScreen = _this select 0;
+	_display = ctrlParent _cntrlScreen;
+	
+	_veh = vehicle player;
+	_playerPos = getPosASL _veh;
+	_heading = direction _veh;
+	
+	// change scale of map and centre to player position
+	_cntrlScreen ctrlMapAnimAdd [0, cTabAndroidMapScaleCtrl, _playerPos];
+	ctrlMapAnimCommit _cntrlScreen;
+	
+	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
+	
+	// draw directional arrow at own location
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
+	
+	// update time on android	
+	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+	
+	// update grid position on android
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
+	
+	// update current heading on android
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	true
 };

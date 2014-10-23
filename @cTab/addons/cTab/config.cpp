@@ -189,6 +189,7 @@ class RscTitles
 	#include <\cTab\msg\msg_mail_title.hpp>
 	#include <\cTab\TAD\cTab_TAD_display.hpp>
 	#include <\cTab\microDAGR\cTab_microDAGR_display.hpp>
+	#include <\cTab\android\cTab_android_display.hpp>
 };
 
 

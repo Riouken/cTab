@@ -136,6 +136,8 @@ class cTab_android_RscMapControl: cTab_RscMapControl
 	//type = CT_MAP;
 	// allow to zoom out further (defines the maximum map scale, usually 1)
 	scaleMax = 1000;
+	// set initial map scale
+	scaleDefault = "(missionNamespace getVariable 'cTabAndroidMapScaleCtrl') * 0.86 / safezoneH"
 	// turn on satellite map information (defines the map scale of when to switch to topographical)
 	maxSatelliteAlpha = 10000;
 	alphaFadeStartScale = 10;
