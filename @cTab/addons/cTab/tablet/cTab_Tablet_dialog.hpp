@@ -70,10 +70,10 @@ class cTab_Tablet_dlg {
 		{
 			idc = IDC_CTAB_SCREEN;
 			text = "#(argb,8,8,3)color(1,1,1,1)";
-			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
-			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
+			x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 			onDraw = "nop = _this call cTabOnDrawbft;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
@@ -101,6 +101,14 @@ class cTab_Tablet_dlg {
 		};
 	};
 	class controls {
+		class header: cTab_tablet_header {};
+		class battery: cTab_tablet_on_screen_battery {};
+		class time: cTab_tablet_on_screen_time {};
+		class signalStrength: cTab_tablet_on_screen_signalStrength {};
+		class satellite: cTab_tablet_on_screen_satellite {};
+		class dirDegree: cTab_tablet_on_screen_dirDegree {};
+		class grid: cTab_tablet_on_screen_grid {};
+		class dirOctant: cTab_tablet_on_screen_dirOctant {};
 		class btnF1: cTab_Tablet_btnF1
 		{
 			idc = IDC_CTAB_BTNF1;
@@ -181,10 +189,10 @@ class cTab_Tablet_dlg {
 		class Desktop: cTab_RscControlsGroup
 		{
 			idc = IDC_CTAB_GROUP_DESKTOP;
-			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
-			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
+			x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 			class VScrollbar {};
 			class HScrollbar {};
 			class Scrollbar {};
@@ -195,8 +203,8 @@ class cTab_Tablet_dlg {
 					style = ST_PICTURE;
 					idc = IDC_CTAB_ACTBFTTXT;
 					text = "\cTab\img\cTab_BFT_ico.paa" ;//"Blue Force Tracker"; //--- ToDo: Localize;
-					x = pxToGroup_X(cTab_GUI_tablet_MAP_X + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_X);
-					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y);
+					x = pxToGroup_X(cTab_GUI_tablet_SCREEN_CONTENT_X + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_X);
+					y = pxToGroup_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_DESKTOP_ICON_W);
 					h = pxToScreen_H(cTab_GUI_tablet_DESKTOP_ICON_H);
 					action = "['cTab_Tablet_dlg',[['mode','BFT']]] call cTab_fnc_setSettings;";
@@ -206,7 +214,7 @@ class cTab_Tablet_dlg {
 				{
 					idc = IDC_CTAB_ACTUAVTXT;
 					text = "\cTab\img\cTab_UAV_ico.paa" ;//"UAV Intelligence"; //--- ToDo: Localize;
-					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 2 + cTab_GUI_tablet_DESKTOP_ICON_H);
+					y = pxToGroup_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 2 + cTab_GUI_tablet_DESKTOP_ICON_H);
 					action = "['cTab_Tablet_dlg',[['mode','UAV']]] call cTab_fnc_setSettings;";
 					toolTip = "UAV Video Feeds";
 				};
@@ -214,7 +222,7 @@ class cTab_Tablet_dlg {
 				{
 					idc = IDC_CTAB_ACTVIDTXT;
 					text = "\cTab\img\cTab_HMC_ico.paa" ;//"Live Video Feeds"; //--- ToDo: Localize;
-					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 3 + cTab_GUI_tablet_DESKTOP_ICON_H * 2);
+					y = pxToGroup_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 3 + cTab_GUI_tablet_DESKTOP_ICON_H * 2);
 					action = "['cTab_Tablet_dlg',[['mode','HCAM']]] call cTab_fnc_setSettings;";
 					toolTip = "Live Helmet Cam Video Feeds";
 				};
@@ -222,7 +230,7 @@ class cTab_Tablet_dlg {
 				{
 					idc = IDC_CTAB_ACTMSGTXT;
 					text = "\cTab\img\Mail_Main_Icon_ico.paa" ;
-					y = pxToGroup_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 4 + cTab_GUI_tablet_DESKTOP_ICON_H * 3);
+					y = pxToGroup_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y + cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y * 4 + cTab_GUI_tablet_DESKTOP_ICON_H * 3);
 					action = "['cTab_Tablet_dlg',[['mode','MESSAGE']]] call cTab_fnc_setSettings;";
 					toolTip = "Text Messaging System";
 				};
@@ -232,10 +240,10 @@ class cTab_Tablet_dlg {
 		class UAV: cTab_RscControlsGroup
 		{
 			idc = IDC_CTAB_GROUP_UAV;
-			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
-			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
+			x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 			class VScrollbar {};
 			class HScrollbar {};
 			class Scrollbar {};
@@ -292,10 +300,10 @@ class cTab_Tablet_dlg {
 		class HCAM: cTab_RscControlsGroup
 		{
 			idc = IDC_CTAB_GROUP_HCAM;
-			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
-			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
+			x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 			class VScrollbar {};
 			class HScrollbar {};
 			class Scrollbar {};
@@ -337,10 +345,10 @@ class cTab_Tablet_dlg {
 		class MESSAGE: cTab_RscControlsGroup
 		{
 			idc = IDC_CTAB_GROUP_MESSAGE;
-			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
-			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
+			x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 			class VScrollbar {};
 			class HScrollbar {};
 			class Scrollbar {};
@@ -436,10 +444,10 @@ class cTab_Tablet_dlg {
 		{
 			idc = IDC_CTAB_HCAM_FULL;
 			text = "#(argb,512,512,1)r2t(rendertarget13,1.3096153846)";
-			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
-			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
+			x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 		};
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
 		#include <\cTab\cTab_markerMenu_controls.hpp>
@@ -450,10 +458,10 @@ class cTab_Tablet_dlg {
 			idc = IDC_CTAB_LOADINGTXT;
 			style = ST_CENTER;
 			text = "Loading"; //--- ToDo: Localize;
-			x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
-			h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
+			x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 			colorBackground[] = {0.2,0.431,0.647,1};
 		};
 	};
