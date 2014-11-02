@@ -24,10 +24,10 @@ class cTab_FBCB2_dlg {
 		{
 			idc = IDC_CTAB_SCREEN;
 			text = "#(argb,8,8,3)color(1,1,1,1)";
-			x = pxToScreen_X(cTab_GUI_FBCB2_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_FBCB2_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_FBCB2_MAP_W);
-			h = pxToScreen_H(cTab_GUI_FBCB2_MAP_H);
+			x = pxToScreen_X(cTab_GUI_FBCB2_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_FBCB2_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_FBCB2_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_FBCB2_SCREEN_CONTENT_H);
 			onDraw = "nop = _this call cTabOnDrawbftVeh;";
 			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
 			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
@@ -55,6 +55,14 @@ class cTab_FBCB2_dlg {
 		};
 	};
 	class controls {
+		class header: cTab_FBCB2_header {};
+		class battery: cTab_FBCB2_on_screen_battery {};
+		class time: cTab_FBCB2_on_screen_time {};
+		class signalStrength: cTab_FBCB2_on_screen_signalStrength {};
+		class satellite: cTab_FBCB2_on_screen_satellite {};
+		class dirDegree: cTab_FBCB2_on_screen_dirDegree {};
+		class grid: cTab_FBCB2_on_screen_grid {};
+		class dirOctant: cTab_FBCB2_on_screen_dirOctant {};
 		class pwrbtn: cTab_FBCB2_btnPWR
 		{
 			idc = IDC_CTAB_BTNOFF;
