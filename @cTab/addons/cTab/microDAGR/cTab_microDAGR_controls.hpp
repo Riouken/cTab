@@ -47,14 +47,14 @@
 #define COLOR_BLACK {0,0,0,1}
 #define COLOR_WHITE {1,1,1,1}
 
-class cTab_microDAGR_header: cTab_RscText
+class cTab_microDAGR_header: cTab_RscPicture
 {
 	idc = -1;
+	text = "#(argb,8,8,3)color(0,0,0,1)";
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
 	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_HEADER_H);
-	colorBackground[] = COLOR_BLACK;
 };
 class cTab_microDAGR_footer: cTab_microDAGR_header
 {
