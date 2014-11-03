@@ -39,14 +39,18 @@ _combinedPropertiesUpdate = [];
 	_value = _x select 1;
 	call {
 		_currentValue = [_groupProperties,_key] call cTab_fnc_getFromPairs;
-		if (!isNil "_currentValue" && {!(_currentValue isEqualTo _value)}) exitWith {
-			[_combinedPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
-			[_groupProperties,_key,_value] call BIS_fnc_setToPairs;
+		if (!isNil "_currentValue") exitWith {
+			if !(_currentValue isEqualTo _value) then {
+				[_combinedPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
+				[_groupProperties,_key,_value] call BIS_fnc_setToPairs;
+			};
 		};
 		_currentValue = [_commonProperties,_key] call cTab_fnc_getFromPairs;
-		if (!isNil "_currentValue" && {!(_currentValue isEqualTo _value)}) then {
-			[_commonPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
-			[_commonProperties,_key,_value] call BIS_fnc_setToPairs;
+		if (!isNil "_currentValue") then {
+			if  !(_currentValue isEqualTo _value) then {
+				[_commonPropertiesUpdate,_key,_value] call BIS_fnc_setToPairs;
+				[_commonProperties,_key,_value] call BIS_fnc_setToPairs;
+			};
 		};
 	};
 } forEach _properties;
