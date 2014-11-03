@@ -232,6 +232,14 @@ class CfgVehicles
 	
 };
 
-
-
-
+class CfgSounds
+{
+	sounds[] = {};
+	class cTab_phoneVibrate
+	{
+		// filename, volume, pitch
+		sound[] = {"\cTab\sounds\phoneVibrate.wss",1,1};
+		// subtitle delay in seconds, subtitle text 
+		titles[] = {};
+	};
+};

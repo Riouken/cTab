@@ -6,7 +6,7 @@
 
 #define GUI_GRID_H	(0.048)
 #define GUI_GRID_W	(GUI_GRID_H * 3/4)
-#define GUI_GRID_X	(safezoneX + safezoneW - GUI_GRID_W)
+#define GUI_GRID_X	(safezoneX + safezoneW * (1 - 0.00675) - GUI_GRID_W)
 #define GUI_GRID_Y	(safezoneY + safezoneH * 0.25)
 
 class cTab_Mail_ico_disp {

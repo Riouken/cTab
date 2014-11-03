@@ -1394,7 +1394,6 @@ cTab_msg_Send = {
 		
 	} forEach _indices;
 	
-	_nop = ["cTabMsgSent",[]] call bis_fnc_showNotification;
 	_return;
 };
 
@@ -1409,12 +1408,11 @@ cTab_msg_Send = {
 	   
 	   if ([player,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then 
 	   {
-			_nop = ["cTabNewMsg",["You have a new Text Message!"]] call bis_fnc_showNotification;
 	   
+			playSound "cTab_phoneVibrate";
 			if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then 
 			{
 				_nop = [] call cTab_msg_gui_load;
-				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"];
 			}
 			else
 			{
