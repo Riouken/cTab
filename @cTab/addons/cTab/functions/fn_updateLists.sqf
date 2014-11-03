@@ -80,7 +80,7 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 	if ((side _x == cTabSide) && {count (crew _x) > 0} && {_x != vehicle player}) then {
 		_groupID = if (group _x == group player) then {str([_x] call CBA_fnc_getGroupIndex)} else {""};
 		_name = groupID group _x;
-		_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";
+		_iconA = "";
 		_iconB = "";
 		call {
 			if (_x isKindOf "MRAP_01_base_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
@@ -101,7 +101,11 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 			if (_x isKindOf "Tank") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_armor.paa";};
 			if (_x isKindOf "StaticMortar") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_mortar.paa";};
 		};
-		0 = _cTabBFTvehicles pushBack [_x,_iconA,_iconB,_name,_groupID];
+		call {
+			if (_iconA isEqualTo "" && {!(_x isKindOf "Static")} && {!(_x isKindOf "StaticWeapon")}) then {_iconA = "\A3\ui_f\data\map\markers\nato\b_unknown.paa";};
+			if (_iconA isEqualTo "") exitWith {};
+			0 = _cTabBFTvehicles pushBack [_x,_iconA,_iconB,_name,_groupID];
+		};
 	};
 } count vehicles;
 
