@@ -1287,37 +1287,30 @@ cTab_msg_gui_load = {
 	lbClear _plrlistControl;
 	_plrList = playableUnits;
 	
-	if (count _plrList < 1) then { _plrList = switchableUnits;};
+	// turn this on for testing, otherwise not really usefull, since sending to an AI controlled, but switchable unit will send the message to the player himself
+	/*if (count _plrList < 1) then { _plrList = switchableUnits;};*/
 	
 	uiNamespace setVariable ['cTab_msg_playerList', _plrList];
 	// Messages
-	if ((count _msgarry) > 0) then 
 	{
-		{		
-			_title =  _x select 0;
-			_msgIsRead = _x select 2;
-			_img = "";
-			if (_msgIsRead) then 
-			{
-				_img = "\cTab\img\icoOpenmail.paa";
-			}
-			else
-			{
-				_img = "\cTab\img\icoUnopenedmail.paa";
-			};
-		
-			_index = _msgControl lbAdd _title;
-			_index = _msgControl lbSetPicture [_forEachIndex,_img];
-		
-		} forEach _msgarry;
-	};
+		_title =  _x select 0;
+		_msgState = _x select 2;
+		_img = call {
+			if (_msgState == 0) exitWith {"\cTab\img\icoUnopenedmail.paa"};
+			if (_msgState == 1) exitWith {"\cTab\img\icoOpenmail.paa"};
+			if (_msgState == 2) exitWith {"\cTab\img\icon_sentMail_ca.paa"};
+		};
+		_index = _msgControl lbAdd _title;
+		_msgControl lbSetPicture [_index,_img];
+		_msgControl lbSetTooltip [_index,_title];
+	} count _msgarry;
 	
 	{
-		_index = _plrlistControl lbAdd name _x;
-		if (!([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear)) then {
-			_plrlistControl lbSetColor [_forEachIndex, [1,0,0,1]];
+		if ((_x != player) && ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear)) then {
+			_index = _plrlistControl lbAdd name _x;
+			_plrlistControl lbSetData [_index,str _x];
 		};
-	} forEach _plrList;
+	} count _plrList;
 	
 	_return;
 };
@@ -1330,9 +1323,11 @@ cTab_msg_get_mailTxt = {
 	_msgArray = player getVariable ["ctab_messages",[]];
 	_msgName = (_msgArray select _index) select 0;
 	_msgtxt = (_msgArray select _index) select 1;
-	_msgArray set [_index,[_msgName,_msgtxt,true]];
-	
-	player setVariable ["ctab_messages",_msgArray];
+	_msgState = (_msgArray select _index) select 2;
+	if (_msgState == 0) then {
+		_msgArray set [_index,[_msgName,_msgtxt,1]];
+		player setVariable ["ctab_messages",_msgArray];
+	};
 	
 	_nop = [] call cTab_msg_gui_load;
 	
@@ -1344,7 +1339,7 @@ cTab_msg_get_mailTxt = {
 };
 
 cTab_msg_Send = {
-	private ["_return","_display","_plrLBctrl","_msgBodyctrl","_plrList","_indices","_time","_msgTitle","_msgBody","_recip"];
+	private ["_return","_display","_plrLBctrl","_msgBodyctrl","_plrList","_indices","_time","_msgTitle","_msgBody","_recip","_recipientNames","_msgarry"];
 	disableSerialization;
 	_return = true;
 	_display = uiNamespace getVariable (cTabIfOpen select 1);
@@ -1357,15 +1352,35 @@ cTab_msg_Send = {
 	if (_indices isEqualTo []) exitWith {false};
 	
 	_time = call cTab_fnc_currentTime;
-	_msgTitle = _time + " - " + name player;
+	_msgTitle = format ["%1 - %2",_time,name player];
 	_msgBody = ctrlText _msgBodyctrl;
+	if (_msgBody isEqualTo "") exitWith {false};
+	_recipientNames = "";
 	
 	{
-		_recip = _plrList select _x;
+		_data = _plrLBctrl lbData _x;
+		_recip = objNull;
+		{
+			if (_data == str _x) exitWith {_recip = _x;};
+		} count _plrList;
 		
-		["cTab_msg_receive", [_recip,_msgTitle,_msgBody]] call CBA_fnc_whereLocalEvent;
-		
+		if !(IsNull _recip) then {
+			if (_recipientNames isEqualTo "") then {
+				_recipientNames = name _recip;
+			} else {
+				_recipientNames = format ["%1; %2",_recipientNames,name _recip];
+			};
+			
+			["cTab_msg_receive", [_recip,_msgTitle,_msgBody]] call CBA_fnc_whereLocalEvent;
+		};
 	} forEach _indices;
+	
+	_msgarry = player getVariable ["ctab_messages",[]];
+	_msgarry pushBack [format ["%1 - %2",_time,_recipientNames],_msgBody,2];
+	
+	if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then {
+		call cTab_msg_gui_load;
+	};
 	
 	_return;
 };
@@ -1375,7 +1390,7 @@ cTab_msg_Send = {
 		_msgTitle = _this select 1;
 		_msgBody = _this select 2;
 		_msgarry = player getVariable ["ctab_messages",[]];
-		_msgarry pushBack [_msgTitle,_msgBody,false];
+		_msgarry pushBack [_msgTitle,_msgBody,0];
 		
 		player setVariable ["ctab_messages",_msgarry];
 		
