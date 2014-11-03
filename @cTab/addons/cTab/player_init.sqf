@@ -1200,15 +1200,9 @@ _return;
 
 // fnc to push out data from the user placed icon to all clents.
 cTabUserIconPush = {
-	// cTabUserSelIcon = [_pos,_texture1,_texture2,_dir,_color,_text];
-	
-	//if ((count cTabUserIconList) == 0) exitWith {};
-	
-	_return = true;
-	_nop = [cTabUserIconList,cTabUserSelIcon] call BIS_fnc_arrayPush;
-	//hint str cTabUserIconList;
+	0 = cTabUserIconList pushBack cTabUserSelIcon;
 	publicVariable "cTabUserIconList";
-	_return;
+	true
 };
 
 // fnc to delete cameras after UAV interface is closed.
