@@ -609,8 +609,8 @@ Returns string in format "HH:MM"
 */
 cTab_fnc_currentTime = {
 	_date = date;
-	_hour = date select 3;
-	_min = date select 4;
+	_hour = _date select 3;
+	_min = _date select 4;
 	if (_hour < 10) then {_hour = format ["0%1", _hour];};
 	if (_min < 10) then {_min = format ["0%1", _min];};
 	format ["%1:%2", _hour, _min]
