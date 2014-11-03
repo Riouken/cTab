@@ -21,9 +21,7 @@ private["_markerIndex"];
 
 _markerIndex = _this select 0;
 if (_markerIndex >= 0 && count cTabUserIconList > _markerIndex) exitWith {
-	// Thanks to KK for this great work around for delteing and resizing arrays of arrays: http://killzonekid.com/arma-scripting-tutorials-arrays-part-2/
-	cTabUserIconList set [_markerIndex,"deletethis"];
-	cTabUserIconList = cTabUserIconList - ["deletethis"];
+	cTabUserIconList deleteAt _markerIndex;
 	publicVariable "cTabUserIconList";
 	true
 };
