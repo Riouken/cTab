@@ -67,7 +67,7 @@
 
 // Height of header and footer OSD elements
 #define cTab_GUI_android_OSD_HEADER_H (60)
-#define cTab_GUI_android_OSD_FOOTER_H (cTab_GUI_android_OSD_HEADER_H)
+#define cTab_GUI_android_OSD_FOOTER_H (0)
 
 // On-screen edge positions (left, right, top, bottom)
 #define cTab_GUI_android_OSD_MARGIN (20)

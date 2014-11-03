@@ -5,6 +5,7 @@
 // You may re-use any of this work as long as you provide credit back to me.
 // Edited by Gundy to add TAD functionality
 
+["cTab_Android_dsp",[["mode","BFT"],["showMenu",false]]] call cTab_fnc_setSettings;
 cTabrscLayer cutRsc ["cTab_Android_dsp","PLAIN",0, false];
 waitUntil {!isNull (uiNamespace getVariable 'cTab_Android_dsp')};
 _this + ["cTab_Android_dsp"] call cTab_fnc_onIfOpen;
