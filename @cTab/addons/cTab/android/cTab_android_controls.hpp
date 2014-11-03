@@ -14,9 +14,19 @@
 #define cTab_GUI_android_MAP_W (1067)
 #define cTab_GUI_android_MAP_H (622)
 
+// Height of header and footer OSD elements
+#define cTab_GUI_android_OSD_HEADER_H (60)
+#define cTab_GUI_android_OSD_FOOTER_H (0)
+
+// Screen content (the stuff that changes, so map area - header and footer)
+#define cTab_GUI_android_SCREEN_CONTENT_X (cTab_GUI_android_MAP_X)
+#define cTab_GUI_android_SCREEN_CONTENT_Y (cTab_GUI_android_MAP_Y + cTab_GUI_android_OSD_HEADER_H)
+#define cTab_GUI_android_SCREEN_CONTENT_W (cTab_GUI_android_MAP_W)
+#define cTab_GUI_android_SCREEN_CONTENT_H (cTab_GUI_android_MAP_H - cTab_GUI_android_OSD_HEADER_H - cTab_GUI_android_OSD_FOOTER_H)
+
 // Base macros to convert pixel space to screen space, but for groups (same size as map)
-#define pxToGroup_X(PIXEL) (((PIXEL) - cTab_GUI_android_MAP_X) / GUI_GRID_PX_W * GUI_GRID_W)
-#define pxToGroup_Y(PIXEL) (((PIXEL) - cTab_GUI_android_MAP_Y) / GUI_GRID_PX_H * GUI_GRID_H)
+#define pxToGroup_X(PIXEL) (((PIXEL) - cTab_GUI_android_SCREEN_CONTENT_X) / GUI_GRID_PX_W * GUI_GRID_W)
+#define pxToGroup_Y(PIXEL) (((PIXEL) - cTab_GUI_android_SCREEN_CONTENT_Y) / GUI_GRID_PX_H * GUI_GRID_H)
 
 // Message element positions in pixels
 #define cTab_GUI_android_MESSAGE_MARGIN_OUTER (20)
@@ -65,10 +75,6 @@
 #define cTab_GUI_android_MESSAGE_BUTTON_MODE_X (cTab_GUI_android_MESSAGE_BUTTON_SEND_X)
 #define cTab_GUI_android_MESSAGE_BUTTON_MODE_Y (cTab_GUI_android_MESSAGE_BUTTON_SEND_Y + cTab_GUI_android_MESSAGE_MARGIN_INNER + cTab_GUI_android_MESSAGE_BUTTON_H)
 
-// Height of header and footer OSD elements
-#define cTab_GUI_android_OSD_HEADER_H (60)
-#define cTab_GUI_android_OSD_FOOTER_H (0)
-
 // On-screen edge positions (left, right, top, bottom)
 #define cTab_GUI_android_OSD_MARGIN (20)
 #define cTab_GUI_android_OSD_EDGE_L (cTab_GUI_android_OSD_MARGIN + cTab_GUI_android_MAP_X)
@@ -92,10 +98,10 @@
 #define cTab_GUI_android_CURSOR (48)
 
 // On-screen menu frame
-#define cTab_GUI_android_OSD_MENU_W (cTab_GUI_android_MAP_W / 4)
-#define cTab_GUI_android_OSD_MENU_H (cTab_GUI_android_MAP_H - cTab_GUI_android_OSD_HEADER_H)
-#define cTab_GUI_android_OSD_MENU_X (cTab_GUI_android_MAP_X + cTab_GUI_android_MAP_W - cTab_GUI_android_OSD_MENU_W)
-#define cTab_GUI_android_OSD_MENU_Y (cTab_GUI_android_MAP_Y + cTab_GUI_android_OSD_HEADER_H)
+#define cTab_GUI_android_OSD_MENU_W (cTab_GUI_android_SCREEN_CONTENT_W / 4)
+#define cTab_GUI_android_OSD_MENU_H (cTab_GUI_android_SCREEN_CONTENT_H)
+#define cTab_GUI_android_OSD_MENU_X (cTab_GUI_android_SCREEN_CONTENT_X + cTab_GUI_android_SCREEN_CONTENT_W - cTab_GUI_android_OSD_MENU_W)
+#define cTab_GUI_android_OSD_MENU_Y (cTab_GUI_android_SCREEN_CONTENT_Y)
 
 // On-screen menu elelements
 #define cTab_GUI_android_OSD_MENU_MARGIN_W (cTab_GUI_android_OSD_MENU_W * 0.05)
@@ -129,10 +135,10 @@ class cTab_android_RscMapControl: cTab_RscMapControl
 {
 	idc = IDC_CTAB_SCREEN;
 	text = "#(argb,8,8,3)color(1,1,1,1)";
-	x = pxToScreen_X(cTab_GUI_android_MAP_X);
-	y = pxToScreen_Y(cTab_GUI_android_MAP_Y + cTab_GUI_android_OSD_HEADER_H);
-	w = pxToScreen_W(cTab_GUI_android_MAP_W);
-	h = pxToScreen_H(cTab_GUI_android_MAP_H - cTab_GUI_android_OSD_HEADER_H);
+	x = pxToScreen_X(cTab_GUI_android_SCREEN_CONTENT_X);
+	y = pxToScreen_Y(cTab_GUI_android_SCREEN_CONTENT_Y);
+	w = pxToScreen_W(cTab_GUI_android_SCREEN_CONTENT_W);
+	h = pxToScreen_H(cTab_GUI_android_SCREEN_CONTENT_H);
 	//type = CT_MAP;
 	// allow to zoom out further (defines the maximum map scale, usually 1)
 	scaleMax = 1000;
@@ -296,10 +302,10 @@ class cTab_android_loadingtxt: cTab_RscText
 	idc = IDC_CTAB_LOADINGTXT;
 	style = ST_CENTER;
 	text = "Loading"; //--- ToDo: Localize;
-	x = pxToScreen_X(cTab_GUI_android_MAP_X);
-	y = pxToScreen_Y(cTab_GUI_android_MAP_Y + cTab_GUI_android_OSD_HEADER_H);
-	w = pxToScreen_W(cTab_GUI_android_MAP_W);
-	h = pxToScreen_H(cTab_GUI_android_MAP_H - cTab_GUI_android_OSD_HEADER_H);
+	x = pxToScreen_X(cTab_GUI_android_SCREEN_CONTENT_X);
+	y = pxToScreen_Y(cTab_GUI_android_SCREEN_CONTENT_Y);
+	w = pxToScreen_W(cTab_GUI_android_SCREEN_CONTENT_W);
+	h = pxToScreen_H(cTab_GUI_android_SCREEN_CONTENT_H);
 	colorBackground[] = {0.2,0.431,0.647,1};
 };
 class cTab_android_windowsBG: cTab_RscPicture

@@ -144,10 +144,10 @@ class cTab_Android_dlg {
 		class MESSAGE: cTab_RscControlsGroup
 		{
 			idc = IDC_CTAB_GROUP_MESSAGE;
-			x = pxToScreen_X(cTab_GUI_android_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_android_MAP_W);
-			h = pxToScreen_H(cTab_GUI_android_MAP_H);
+			x = pxToScreen_X(cTab_GUI_android_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_android_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_android_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_android_SCREEN_CONTENT_H);
 			class VScrollbar {};
 			class HScrollbar {};
 			class Scrollbar {};
@@ -213,10 +213,10 @@ class cTab_Android_dlg {
 		class COMPOSE: cTab_RscControlsGroup
 		{
 			idc = IDC_CTAB_GROUP_COMPOSE;
-			x = pxToScreen_X(cTab_GUI_android_MAP_X);
-			y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
-			w = pxToScreen_W(cTab_GUI_android_MAP_W);
-			h = pxToScreen_H(cTab_GUI_android_MAP_H);
+			x = pxToScreen_X(cTab_GUI_android_SCREEN_CONTENT_X);
+			y = pxToScreen_Y(cTab_GUI_android_SCREEN_CONTENT_Y);
+			w = pxToScreen_W(cTab_GUI_android_SCREEN_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_android_SCREEN_CONTENT_H);
 			class VScrollbar {};
 			class HScrollbar {};
 			class Scrollbar {};
