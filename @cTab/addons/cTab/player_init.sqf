@@ -1370,8 +1370,8 @@ cTabGetTime =
 
 };
 
-cTab_msg_Send = 
-{
+cTab_msg_Send = {
+	private ["_return","_display","_plrLBctrl","_msgBodyctrl","_plrList","_indices","_time","_msgTitle","_msgBody","_recip"];
 	disableSerialization;
 	_return = true;
 	_display = uiNamespace getVariable (cTabIfOpen select 1);
