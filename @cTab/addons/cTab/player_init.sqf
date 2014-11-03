@@ -1282,8 +1282,7 @@ cTabUavTakeControl = {
 _return;
 };
 
-cTab_msg_gui_load = 
-{
+cTab_msg_gui_load = {
 	disableSerialization;
 	_return = true;
 	_display = uiNamespace getVariable (cTabIfOpen select 1);
@@ -1329,8 +1328,7 @@ cTab_msg_gui_load =
 	_return;
 };
 
-cTab_msg_get_mailTxt = 
-{
+cTab_msg_get_mailTxt = {
 	disableSerialization;
 	_return = true;
 	_index = _this select 1;
@@ -1339,7 +1337,7 @@ cTab_msg_get_mailTxt =
 	_msgName = (_msgArray select _index) select 0;
 	_msgtxt = (_msgArray select _index) select 1;
 	_msgArray set [_index,[_msgName,_msgtxt,true]];
-	   
+	
 	player setVariable ["ctab_messages",_msgArray];
 	
 	_nop = [] call cTab_msg_gui_load;
@@ -1349,25 +1347,6 @@ cTab_msg_get_mailTxt =
 	_nul = _txtControl ctrlSetText  _msgtxt;
 	
 	_return;
-};
-
-cTabGetTime = 
-{
-	_return = "";
-    _seconds = time;   
-    _hours = floor(_seconds / 3600);
-    _seconds = _seconds - (_hours * 3600);
-    _tensOfMinutes = floor(_seconds / 600);
-    _seconds = _seconds - (_tensOfMinutes * 600);
-    _minutes = floor(_seconds / 60);
-    _seconds = _seconds - (_minutes * 60);
-    _tensOfSeconds = floor(_seconds / 10);
-    _wholeSeconds = floor(_seconds - (_tensOfSeconds * 10));
-
-    _return = format ["%1:%2%3:%4%5", _hours, _tensOfMinutes, _minutes,_tensOfSeconds, _wholeSeconds];
-	
-	_return;
-
 };
 
 cTab_msg_Send = {
@@ -1397,19 +1376,19 @@ cTab_msg_Send = {
 	_return;
 };
 
-["cTab_msg_receive", 
-  { 
-       _msgTitle = _this select 1;
-	   _msgBody = _this select 2;
-	   _msgarry = player getVariable ["ctab_messages",[]];
-	   _msgarry set [count _msgarry,[_msgTitle,_msgBody,false]];
-	   
-	   player setVariable ["ctab_messages",_msgarry];
-	   
-	   if ([player,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then 
-	   {
-	   
+["cTab_msg_receive",
+	{
+		_msgTitle = _this select 1;
+		_msgBody = _this select 2;
+		_msgarry = player getVariable ["ctab_messages",[]];
+		_msgarry pushBack [_msgTitle,_msgBody,false];
+		
+		player setVariable ["ctab_messages",_msgarry];
+		
+		if ([player,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then 
+		{
 			playSound "cTab_phoneVibrate";
+			
 			if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then 
 			{
 				_nop = [] call cTab_msg_gui_load;
@@ -1419,11 +1398,10 @@ cTab_msg_Send = {
 				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; //show
 			};
 		};
-  }
-] call CBA_fnc_addLocalEventHandler; 
+	}
+] call CBA_fnc_addLocalEventHandler;
 	
-cTab_msg_delete_all = 
-{
+cTab_msg_delete_all = {
 	player setVariable ["ctab_messages",[]];
 };
 
