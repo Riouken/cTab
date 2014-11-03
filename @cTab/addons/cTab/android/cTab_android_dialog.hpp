@@ -189,12 +189,12 @@ class cTab_Android_dlg {
 				{
 					idc = IDS_CTAB_MSG_BTNDELETE;
 					text = "Delete"; //--- ToDo: Localize;
-					tooltip = "Delete All Messages";
+					tooltip = "Delete Selected Message(s)";
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_BUTTON_DELETE_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_BUTTON_DELETE_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_BUTTON_W);
 					h = pxToScreen_H(cTab_GUI_android_MESSAGE_BUTTON_H);
-					action = "player setVariable ['ctab_messages',[]];_nop = [] call cTab_msg_gui_load;";
+					action = "['cTab_Android_dlg'] call cTab_fnc_onMsgBtnDelete;";
 				};
 				class toCompose: cTab_RscButton
 				{
