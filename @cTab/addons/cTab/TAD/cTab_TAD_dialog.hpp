@@ -176,7 +176,21 @@ class cTab_TAD_dlg
 			y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB20_Y);
 			w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4);
 		};
-
+		class hookGrid: cTab_TAD_on_screen_hookGrid {};
+		class hookElevation: cTab_TAD_on_screen_hookElevation {};
+		class hookDir: cTab_TAD_on_screen_hookDir {};
+		class hookToggleIconBackground: cTab_TAD_on_screen_hookToggleIconBackground {};
+		class hookToggleIcon: cTab_TAD_on_screen_hookToggleIcon {};
+		class hookToggleText1: cTab_TAD_on_screen_hookToggleText1 {};
+		class hookToggleText2: cTab_TAD_on_screen_hookToggleText2 {};
+		class btnMapTools: cTab_RscButton_TAD_OSB18
+		{
+			idc = -1;
+			action = "['cTab_TAD_dlg'] call cTab_fnc_toggleMapTools;";
+			tooltip = "Toggle Map Tools (F5)";
+		};
+		class on_screen_currentDirection: cTab_TAD_on_screen_currentDirection {};
+		class on_screen_currentElevation: cTab_TAD_on_screen_currentElevation {};
 
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
 		#include <\cTab\cTab_markerMenu_controls.hpp>

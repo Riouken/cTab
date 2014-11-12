@@ -124,7 +124,8 @@ cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 	["mapScale",2],
 	["mapScaleMin",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
-	["mapType","SAT"]
+	["mapType","SAT"],
+	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
 /*
@@ -757,28 +758,37 @@ cTab_fnc_draw_markers = {
 	Parameter 2: Position A
 	Parameter 3: Position B
 	Parameter 4: Mode, 0 = Reference is A, 1 = Reference is B
+	Parameter 5: TAD, TRUE = TAD
 	Returns TRUE
 */
 cTab_fnc_draw_hook = {
-	private ["_display","_cntrlScreen","_pos","_secondPos"]; 
+	private ["_display","_cntrlScreen","_pos","_secondPos","_dirToSecondPos","_dstToSecondPos"]; 
 	_display = _this select 0;
 	_cntrlScreen = _this select 1;
-	if (_this select 4 == 0) then {
-		_pos = _this select 2;
-		_secondPos = _this select 3;
-	} else {
-		_pos = _this select 3;
-		_secondPos = _this select 2;
+	_pos = _this select 2;
+	_secondPos = _this select 3;
+	// draw arrow from current position to map centre
+	_dirToSecondPos = call {
+		if (_this select 4 == 0) exitWith {
+			_cntrlScreen drawArrow [_pos,_secondPos,cTabMicroDAGRhighlightColour];
+			[_pos,_secondPos] call BIS_fnc_dirTo
+		};
+		_cntrlScreen drawArrow [_secondPos,_pos,cTabMicroDAGRhighlightColour];
+		[_secondPos,_pos] call BIS_fnc_dirTo
 	};
-	_dirToSecondPos = [_pos,_secondPos] call BIS_fnc_dirTo;
 	_dstToSecondPos = [_pos,_secondPos] call BIS_fnc_distance2D;
-	(_display displayCtrl IDC_CTAB_OSD_HOOK_GRID) ctrlSetText format ["%1", mapGridPosition _secondPos];
-	(_display displayCtrl IDC_CTAB_OSD_HOOK_ELEVATION) ctrlSetText format ["%1m", round getTerrainHeightASL _secondPos];
-	(_display displayCtrl IDC_CTAB_OSD_HOOK_DIR) ctrlSetText format ["%1 %2",[_dirToSecondPos,3] call CBA_fnc_formatNumber,[_dirToSecondPos] call cTab_fnc_degreeToOctant];
-	(_display displayCtrl IDC_CTAB_OSD_HOOK_DST) ctrlSetText format ["%1km",[_dstToSecondPos / 1000,1,2] call CBA_fnc_formatNumber];
-	
-	// draw arror from current position to map centre on MicroDAGR
-	_cntrlScreen drawArrow [_pos,_secondPos,cTabMicroDAGRhighlightColour];
+	call {
+		// Call this if we are drawing for a TAD
+		if (_this select 5) exitWith {
+			(_display displayCtrl IDC_CTAB_OSD_HOOK_GRID) ctrlSetText format ["%1",mapGridPosition _secondPos];
+			(_display displayCtrl IDC_CTAB_OSD_HOOK_ELEVATION) ctrlSetText format ["%1m",[round getTerrainHeightASL _secondPos,3] call CBA_fnc_formatNumber];
+			(_display displayCtrl IDC_CTAB_OSD_HOOK_DIR) ctrlSetText format ["%1°/%2",[_dirToSecondPos,3] call CBA_fnc_formatNumber,[_dstToSecondPos / 1000,2,1] call CBA_fnc_formatNumber];
+		};
+		(_display displayCtrl IDC_CTAB_OSD_HOOK_GRID) ctrlSetText format ["%1",mapGridPosition _secondPos];
+		(_display displayCtrl IDC_CTAB_OSD_HOOK_ELEVATION) ctrlSetText format ["%1m",round getTerrainHeightASL _secondPos];
+		(_display displayCtrl IDC_CTAB_OSD_HOOK_DIR) ctrlSetText format ["%1° %2",[_dirToSecondPos,3] call CBA_fnc_formatNumber,[_dirToSecondPos] call cTab_fnc_degreeToOctant];
+		(_display displayCtrl IDC_CTAB_OSD_HOOK_DST) ctrlSetText format ["%1km",[_dstToSecondPos / 1000,1,2] call CBA_fnc_formatNumber];
+	};
 	true
 };
 
@@ -803,12 +813,12 @@ cTabOnDrawbft = {
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
 	// update current heading on Tablet
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
 	};
 	
 	true
@@ -835,12 +845,12 @@ cTabOnDrawbftVeh = {
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
 	// update current heading on FBCB2
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
 	};
 	
 	true
@@ -877,6 +887,12 @@ cTabOnDrawbftTAD = {
 	// update grid position on TAD
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
+	// update current heading on TAD
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
+	
+	// update current elevation (ASL) on TAD
+	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),3] call CBA_fnc_formatNumber];
+	
 	true
 };
 
@@ -893,14 +909,28 @@ cTabOnDrawbftTADdialog = {
 	
 	// draw vehicle icon at own location
 	_veh = vehicle player;
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,getPosASL _veh,cTabTADownIconScaledSize,cTabTADownIconScaledSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
+	_playerPos = getPosASL _veh;
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD	
 	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
 	
-	// update grid position of the current map centre on TAD
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition ([_cntrlScreen] call cTab_fnc_ctrlMapCenter)];
+	// update grid position of the current player position
+	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
+	// update current heading on TAD
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
+	
+	// update current elevation (ASL) on TAD
+	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),3] call CBA_fnc_formatNumber];
+	
+	// update hook information
+	call {
+		if (cTabDrawMapTools) exitWith {
+			[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,0,true] call cTab_fnc_draw_hook;
+		};
+		[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,1,true] call cTab_fnc_draw_hook;
+	};
 	true
 };
 
@@ -925,12 +955,12 @@ cTabOnDrawbftAndroid = {
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
 	// update current heading on android
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
 	};
 	
 	true
@@ -962,7 +992,7 @@ cTabOnDrawbftAndroidDsp = {
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
 	// update current heading on android
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	true
@@ -994,7 +1024,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
 	// update current heading on MicroDAGR
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	true
@@ -1023,12 +1053,12 @@ cTabOnDrawbftMicroDAGRdlg = {
 	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
 	
 	// update current heading on MicroDAGR
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1",[_heading,3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
 	};
 	
 	true

@@ -117,12 +117,24 @@ if (count _this == 1) then {
 			cTabDrawMapTools = _x select 1;
 			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 			if (_mode == "BFT") then {
-				{
-					_osdCtrl = _display displayCtrl _x;
-					if (_osdCtrl != controlNull) then {
-						_osdCtrl ctrlShow cTabDrawMapTools;
-					};
-				} count [IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_DIR,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_ELEVATION];
+				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
+					{
+						_osdCtrl = _display displayCtrl _x;
+						if (_osdCtrl != controlNull) then {
+							_osdCtrl ctrlShow cTabDrawMapTools;
+						};
+					} count [IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_DIR,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_ELEVATION];
+				};
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
+				if (_osdCtrl != controlNull) then {
+					_text = if (_x select 1) then {"OWN"} else {"CURS"};
+					_osdCtrl ctrlSetText _text;
+				};
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
+				if (_osdCtrl != controlNull) then {
+					_text = if (_x select 1) then {"CURS"} else {"OWN"};
+					_osdCtrl ctrlSetText _text;
+				};
 			};
 		};
 		// ------------ MENU ------------

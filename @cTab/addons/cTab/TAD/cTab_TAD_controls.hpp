@@ -22,7 +22,7 @@
 #define cTab_GUI_TAD_OSD_EDGE_B (-cTab_GUI_TAD_OSD_MARGIN + cTab_GUI_TAD_MAP_Y + cTab_GUI_TAD_MAP_H)
 
 // On-screen element base width and height
-#define cTab_GUI_TAD_OSD_ELEMENT_STD_W (25)
+#define cTab_GUI_TAD_OSD_ELEMENT_STD_W (26)
 #define cTab_GUI_TAD_OSD_ELEMENT_STD_H (53)
 #define cTab_GUI_TAD_OSD_ELEMENT_MODE_W (38)
 #define cTab_GUI_TAD_OSD_ELEMENT_MODE_H (82)
@@ -647,4 +647,62 @@ class cTab_TAD_background: cTab_RscPicture
 	y = GUI_GRID_Y;
 	w = GUI_GRID_W;
 	h = GUI_GRID_H;
+};
+class cTab_TAD_on_screen_hookGrid: cTab_RscText_TAD
+{
+	idc = IDC_CTAB_OSD_HOOK_GRID;
+	style = ST_CENTER;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB11_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H * 0.5 + cTab_GUI_TAD_OSD_ELEMENT_STD_H * 1);
+	w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 6);
+};
+class cTab_TAD_on_screen_hookElevation: cTab_TAD_on_screen_hookGrid
+{
+	idc = IDC_CTAB_OSD_HOOK_ELEVATION;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB11_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 2);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H * 0.5 + cTab_GUI_TAD_OSD_ELEMENT_STD_H * 2);
+	w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4);
+};
+class cTab_TAD_on_screen_hookDir: cTab_TAD_on_screen_hookGrid
+{
+	idc = IDC_CTAB_OSD_HOOK_DIR;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB11_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 6);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB10_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H * 0.5 + cTab_GUI_TAD_OSD_ELEMENT_STD_H * 0);
+	w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 8);
+};
+class cTab_TAD_on_screen_hookToggleIconBackground: cTab_RscText_TAD
+{
+	idc = -1;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB18_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H	 / 2);
+};
+class cTab_TAD_on_screen_hookToggleIcon: cTab_TAD_upDownArrow
+{
+	idc = -1;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET - cTab_GUI_TAD_OSD_ELEMENT_STD_W);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB18_Y - cTab_GUI_TAD_OSD_ICON_H / 2);
+};
+class cTab_TAD_on_screen_hookToggleText1: cTab_RscText_TAD
+{
+	idc = IDC_CTAB_OSD_HOOK_TGGL1;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB18_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H);
+	w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4);
+};
+class cTab_TAD_on_screen_hookToggleText2: cTab_TAD_on_screen_hookToggleText1
+{
+	idc = IDC_CTAB_OSD_HOOK_TGGL2;
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB18_Y);
+};
+class cTab_TAD_on_screen_currentDirection: cTab_RscText_TAD
+{
+	idc = IDC_CTAB_OSD_DIR_DEGREE;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB14_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4 / 2);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_EDGE_B - cTab_GUI_TAD_OSD_ELEMENT_STD_H * 2);
+	w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4);
+};
+class cTab_TAD_on_screen_currentElevation: cTab_TAD_on_screen_currentDirection
+{
+	idc = IDC_CTAB_OSD_ELEVATION;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB12_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4 / 2);
 };

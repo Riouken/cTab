@@ -143,5 +143,11 @@ class cTab_TAD_dsp
 			y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB20_Y);
 			w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4);
 		};
+		class hookToggleIconBackground: cTab_TAD_on_screen_hookToggleIconBackground {};
+		class hookToggleIcon: cTab_TAD_on_screen_hookToggleIcon {};
+		class hookToggleText1: cTab_TAD_on_screen_hookToggleText1 {};
+		class hookToggleText2: cTab_TAD_on_screen_hookToggleText2 {};
+		class on_screen_currentDirection: cTab_TAD_on_screen_currentDirection {};
+		class on_screen_currentElevation: cTab_TAD_on_screen_currentElevation {};
 	};
 };
