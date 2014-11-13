@@ -228,76 +228,6 @@ cTab_helmetClass_has_HCam = [] + _classNames;
 // add cTab_FBCB2_updatePulse event handler triggered periodically by the server
 ["cTab_FBCB2_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
-/*
-Function that determines if a unit sits in the front-section of a cTab enabled vehicle.
-The front seciton-of a vehilce is defined as:
-- Ground vehicles, everyone in the same compartment as the driver, including the driver.
-  Excluded are people sitting in the cargo / passenger compartment of a Truck or APC
-- Aircraft, pilot and co-pilot / gunner, but not door gunners or any passengers
-Parameter 0: Unit object to check
-Parameter 1: Vehicle object to check against
-Parameter 2: String of device to check for (current options are: "FBCB2" and "TAD")
-Returns: True if unit is in the front-section of a cTab enabled vehicle, false if not
-*/
-cTab_fnc_unitInEnabledVehicleSeat = {
-	private ["_return","_unit","_vehicle","_vehicle","_typeClassList","_coPilotTurret"]; 
-	_return = false;
-	_unit = _this select 0;
-	_vehicle = _this select 1;
-	_type = _this select 2;
-	
-	switch (_type) do {
-	    case "FBCB2": {_typeClassList = cTab_vehicleClass_has_FBCB2;};
-		case "TAD": {_typeClassList = cTab_vehicleClass_has_TAD;};
-		default {_typeClassList = [];};
-	};
-	
-	{
-		if (_vehicle isKindOf _x) exitWith {
-			call {
-				if (_unit == driver _vehicle) exitWith {_return = true;};
-				if (_type == "FBCB2") exitWith {
-					call {
-						_cargoIndex = _vehicle getCargoIndex _unit; // 0-based seat number in cargo, -1 if not in cargo
-						if (_cargoIndex == -1) exitWith {_return = true;}; // if not in cargo, _unit must be gunner or commander
-						_cargoCompartments = getArray (configFile/"CfgVehicles"/typeOf _vehicle/"cargoCompartments");
-						if (count _cargoCompartments > 1) then {
-							// assume the vehicle setup is correct if there is more than one cargo compartment
-							_cargoIsCoDriver = getArray (configFile/"CfgVehicles"/typeOf _vehicle/"cargoIsCoDriver");
-							if (_cargoIndex < count _cargoIsCoDriver - 1) then {_return = true;};
-						} else {
-							// assume the vehicle setup is not correct if there is just one cargo compartment
-							_transportSoldier = getNumber (configFile/"CfgVehicles"/typeOf _vehicle/"transportSoldier");
-							// assume that if a vehicle carries less than 5 passengers, they all sit with the driver
-							If (_transportSoldier < 5) then {_return = true;};
-						};
-					};
-				};
-				if (_type == "TAD") exitWith {
-					call {
-						if (_vehicle isKindOf "kyo_MH47E_base") exitWith {_coPilotTurret = 2};
-						_coPilotTurret = 0; // default
-					};
-					if (_unit == _vehicle turretUnit[_coPilotTurret]) then {_return = true;};
-				};
-			};
-		};
-	} forEach _typeClassList;
-	_return
-};
-
-/*
-Function to determine map center position of given map control
-Parameter 0: Map control
-Returns: 2D world coordinates of map center
-*/
-cTab_fnc_ctrlMapCenter = {
-	_ctrlScreen = _this select 0;
-	_ctrlPos = ctrlPosition _ctrlScreen;
-	_ctrlPosCenter = [(_ctrlPos select 0) + ((_ctrlPos select 2) / 2),(_ctrlPos select 1) + ((_ctrlPos select 3) / 2)];
-	_ctrlScreen ctrlMapScreenToWorld _ctrlPosCenter
-};
-
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
@@ -604,31 +534,6 @@ cTab_fnc_close = {
 };
 
 /*
-Function to retrieve current in-game time in HH:MM format
-No Parameters
-Returns string in format "HH:MM"
-*/
-cTab_fnc_currentTime = {
-	_date = date;
-	_hour = _date select 3;
-	_min = _date select 4;
-	if (_hour < 10) then {_hour = format ["0%1", _hour];};
-	if (_min < 10) then {_min = format ["0%1", _min];};
-	format ["%1:%2", _hour, _min]
-};
-
-/*
-Function to calculate octant from direction
-Parameter 0: Octant in degrees
-Return: String of matching octant
-*/
-cTab_fnc_degreeToOctant = {
-	_dir = _this select 0;
-	_octant = round (_dir / 45);
-	["N ","NE","E ","SE","S ","SW","W ","NW","N "] select _octant
-};
-
-/*
 Function to toggle text next to BFT icons
 Parameter 0: String of uiNamespace variable for which to toggle showIconText for
 Returns TRUE
@@ -704,94 +609,6 @@ cTab_fnc_txt_size_dec = {
 	call cTab_fnc_update_txt_size;
 };
 
-/*
-cTab_fnc_draw_markers = {
-	_cntrlScreen = _this select 0;
-	{
-		private ["_marker","_pos","_type","_size","_icon","_colorType","_color","_brush","_brushType","_shape","_alpha","_dir","_text"];
-		_marker = _x;
-		
-		_pos = getMarkerPos _marker;
-		_type = getMarkerType _marker;
-		_size = getMarkerSize _marker;
-		_icon = getText(configFile/"CfgMarkers"/_type/"Icon");
-		_colorType = getMarkerColor _marker;  
-		if (_icon != "" && {_colorType == "Default"}) then {
-			_color = getArray(configFile/"CfgMarkers"/_type/"color");
-		} else {
-			_color = getArray(configFile/"CfgMarkerColors"/_colorType/"color");
-		};
-		if (typeName (_color select 0) == "STRING") then {
-			_color = [
-				call compile (_color select 0),
-				call compile (_color select 1),
-				call compile (_color select 2),
-				call compile (_color select 3)
-			];
-		};
-		_brushType = markerBrush _marker;
-		_brush = getText(configFile/"CfgMarkerBrushes"/_brushType/"texture");
-		_shape = markerShape _marker;
-		_alpha = markerAlpha _marker;
-		_dir = markerDir _marker;
-		_text = markerText _marker;
-		
-		switch (_shape) do {
-		    case "ICON": {
-		    	_cntrlScreen drawIcon [_icon,_color,_pos,(_size select 0) * cTabIconSize,(_size select 1) * cTabIconSize,_dir,_text,0,cTabTxtSize,"TahomaB"];
-		    };
-		    case "RECTANGLE": {
-		    	_cntrlScreen drawRectangle [_pos,_size select 0,_size select 1,_dir,_color,_brush];
-			};
-			case "ELLIPSE": {
-		    	_cntrlScreen drawEllipse [_pos,_size select 0,_size select 1,_dir,_color,_brush];
-			};
-		};
-	} forEach allMapMarkers;
-};
-*/
-
-/*
-	Function to calculate and draw hook distance, direction, grid and arrow
-	Parameter 0: Display used to write hook direction, distance and grid to
-	Parameter 1: Map control to draw arrow on
-	Parameter 2: Position A
-	Parameter 3: Position B
-	Parameter 4: Mode, 0 = Reference is A, 1 = Reference is B
-	Parameter 5: TAD, TRUE = TAD
-	Returns TRUE
-*/
-cTab_fnc_draw_hook = {
-	private ["_display","_cntrlScreen","_pos","_secondPos","_dirToSecondPos","_dstToSecondPos"]; 
-	_display = _this select 0;
-	_cntrlScreen = _this select 1;
-	_pos = _this select 2;
-	_secondPos = _this select 3;
-	// draw arrow from current position to map centre
-	_dirToSecondPos = call {
-		if (_this select 4 == 0) exitWith {
-			_cntrlScreen drawArrow [_pos,_secondPos,cTabMicroDAGRhighlightColour];
-			[_pos,_secondPos] call BIS_fnc_dirTo
-		};
-		_cntrlScreen drawArrow [_secondPos,_pos,cTabMicroDAGRhighlightColour];
-		[_secondPos,_pos] call BIS_fnc_dirTo
-	};
-	_dstToSecondPos = [_pos,_secondPos] call BIS_fnc_distance2D;
-	call {
-		// Call this if we are drawing for a TAD
-		if (_this select 5) exitWith {
-			(_display displayCtrl IDC_CTAB_OSD_HOOK_GRID) ctrlSetText format ["%1",mapGridPosition _secondPos];
-			(_display displayCtrl IDC_CTAB_OSD_HOOK_ELEVATION) ctrlSetText format ["%1m",[round getTerrainHeightASL _secondPos,3] call CBA_fnc_formatNumber];
-			(_display displayCtrl IDC_CTAB_OSD_HOOK_DIR) ctrlSetText format ["%1°/%2",[_dirToSecondPos,3] call CBA_fnc_formatNumber,[_dstToSecondPos / 1000,2,1] call CBA_fnc_formatNumber];
-		};
-		(_display displayCtrl IDC_CTAB_OSD_HOOK_GRID) ctrlSetText format ["%1",mapGridPosition _secondPos];
-		(_display displayCtrl IDC_CTAB_OSD_HOOK_ELEVATION) ctrlSetText format ["%1m",round getTerrainHeightASL _secondPos];
-		(_display displayCtrl IDC_CTAB_OSD_HOOK_DIR) ctrlSetText format ["%1° %2",[_dirToSecondPos,3] call CBA_fnc_formatNumber,[_dirToSecondPos] call cTab_fnc_degreeToOctant];
-		(_display displayCtrl IDC_CTAB_OSD_HOOK_DST) ctrlSetText format ["%1km",[_dstToSecondPos / 1000,1,2] call CBA_fnc_formatNumber];
-	};
-	true
-};
-
 // This is drawn every frame on the tablet. fnc
 cTabOnDrawbft = {
 	_cntrlScreen = _this select 0;
@@ -818,7 +635,7 @@ cTabOnDrawbft = {
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_drawHook;
 	};
 	
 	true
@@ -850,7 +667,7 @@ cTabOnDrawbftVeh = {
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_drawHook;
 	};
 	
 	true
@@ -927,9 +744,9 @@ cTabOnDrawbftTADdialog = {
 	// update hook information
 	call {
 		if (cTabDrawMapTools) exitWith {
-			[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,0,true] call cTab_fnc_draw_hook;
+			[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,0,true] call cTab_fnc_drawHook;
 		};
-		[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,1,true] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,1,true] call cTab_fnc_drawHook;
 	};
 	true
 };
@@ -960,7 +777,7 @@ cTabOnDrawbftAndroid = {
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_drawHook;
 	};
 	
 	true
@@ -1058,7 +875,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
-		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_draw_hook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_drawHook;
 	};
 	
 	true

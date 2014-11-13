@@ -7,8 +7,13 @@ class CfgFunctions
 			file="cTab\functions";
 			class checkGear{};
 			class createHelmetCam{};
+			class ctrlMapCenter{};
+			class currentTime{};
+			class degreeToOctant{};
 			class deleteUserMarker{};
 			class drawBftMarkers{};
+			class drawHook{};
+			class drawMarkers{};
 			class drawUserMarkers{};
 			class findUserMarker{};
 			class getFromPairs{};
@@ -17,6 +22,7 @@ class CfgFunctions
 			class onIfKeyDown{};
 			class setSettings{};
 			class toggleMapTools{};
+			class unitInEnabledVehicleSeat{};
 			class updateLists{};
 			class updateInterface{};
 		};
