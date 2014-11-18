@@ -89,6 +89,7 @@ cTabSettings = [];
 [cTabSettings,"Tablet",[
 	["mode","DESKTOP"],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["uavCam",""],
 	["hCam",""],
 	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
@@ -259,6 +260,8 @@ call cTab_fnc_update_mapScaleFactor;
 // Base defines.
 cTabUserIconList = [];
 cTabUavViewActive = false;
+cTabUAVcams = [];
+cTabUavScriptHandle = scriptNull;
 cTabCursorOnMap = false;
 cTabMapCursorPos = [0,0];
 
@@ -528,6 +531,7 @@ cTab_fnc_close = {
 		if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
 		call cTabHcamDelCam;
+		[] spawn cTab_fnc_deleteUAVcam;
 		cTabCursorOnMap = false;
 		cTabIfOpen = nil;
 	};
@@ -1052,19 +1056,6 @@ cTabUserIconPush = {
 	true
 };
 
-// fnc to delete cameras after UAV interface is closed.
-cTabUavDelCam = {
-	player cameraEffect ["terminate","back"];
-	_camArray = player getVariable "cTabUAVcams";
-	_targets = _camArray select 2;
-	camDestroy (_camArray select 0);
-	camDestroy (_camArray select 1);
-	{deleteVehicle _x;} forEach _targets;
-	player setVariable ["cTabUAVcams",nil];
-	cTabActUav = nil;
-	true
-};
-
 // fnc to delete cameras after helmet cam interface is closed.
 cTabHcamDelCam = {
 	if (!isNil "cTabHcams") then {
@@ -1078,8 +1069,9 @@ cTabHcamDelCam = {
 };
 
 cTabUavTakeControl = {
-	if (isNil 'cTabActUav') exitWith {false};
-	_controlArray = uavControl cTabActUav;
+	_uav = cTabActUav;
+	if (isNil '_uav') exitWith {false};
+	_controlArray = uavControl _uav;
 	_canControl = true;
 	_return = true;
 	
@@ -1105,11 +1097,11 @@ cTabUavTakeControl = {
 	
 	if (_canControl) then
 	{
-		player remoteControl ((crew cTabActUav) select 1);
-		 cTabActUav switchCamera "Gunner";
+		player remoteControl ((crew _uav) select 1);
+		_uav switchCamera "Gunner";
 		closeDialog 0;
 		cTabUavViewActive = true;
-		[cTabActUav] spawn {
+		[_uav] spawn {
 			_remote = _this select 0;
 			waitUntil {cameraOn != _remote};
 			cTabUavViewActive = false;

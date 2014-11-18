@@ -101,6 +101,16 @@ if (count _this == 1) then {
 				if (_osdCtrl != controlNull) then {_osdCtrl ctrlSetText _targetMapName;};
 			};
 		};
+		// ------------ UAV CAM ------------
+		if (_x select 0 == "uavCam") exitWith {
+			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
+			if (_mode == "UAV") then {
+				_data = _x select 1;
+				if (_data != "") then {
+					[_data,[[0,"rendertarget8"],[1,"rendertarget9"]]] spawn cTab_fnc_createUavCam;
+				};
+			};
+		};
 		// ------------ HCAM ------------
 		if (_x select 0 == "hCam") exitWith {
 			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;

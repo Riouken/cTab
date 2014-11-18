@@ -7,9 +7,11 @@ class CfgFunctions
 			file="cTab\functions";
 			class checkGear{};
 			class createHelmetCam{};
+			class createUavCam{};
 			class ctrlMapCenter{};
 			class currentTime{};
 			class degreeToOctant{};
+			class deleteUAVcam{}
 			class deleteUserMarker{};
 			class drawBftMarkers{};
 			class drawHook{};

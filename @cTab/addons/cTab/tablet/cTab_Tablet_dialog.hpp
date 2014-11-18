@@ -274,12 +274,12 @@ class cTab_Tablet_dlg {
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-					onLBSelChanged = "_nop = _this execVM '\cTab\uav\cTab_gui_uav_cam.sqf';";
+					onLBSelChanged = "['cTab_Tablet_dlg',[['uavCam',(_this select 0) lbData (_this select 1)]]] call cTab_fnc_setSettings;";
 				};
 				class cTabUAVdisplay: cTab_RscPicture
 				{
 					idc = IDC_CTAB_CTABUAVDISPLAY;
-					text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
+					text = "#(argb,512,512,1)r2t(rendertarget8,1.1896551724)";
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_CONTENT_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
@@ -288,7 +288,7 @@ class cTab_Tablet_dlg {
 				class cTabUAV2nddisplay: cTab_RscPicture
 				{
 					idc = IDC_CTAB_CTABUAV2NDDISPLAY;
-					text = "#(argb,512,512,1)r2t(rendertarget8,1.1896551724)";
+					text = "#(argb,512,512,1)r2t(rendertarget9,1.1896551724)";
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_CONTENT_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_B_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
@@ -385,7 +385,7 @@ class cTab_Tablet_dlg {
 					w = pxToScreen_W(cTab_GUI_tablet_MESSAGE_MESSAGETEXT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_MESSAGE_MESSAGETEXT_H);
 					canModify = 0;
-				};			
+				};
 				class composeFrame: cTab_RscFrame
 				{
 					idc = -1;

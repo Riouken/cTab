@@ -64,11 +64,29 @@ call {
 	// ---------- UAV -----------
 	if (_mode == "UAV") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_UAV,IDC_CTAB_MINIMAPBG,IDC_CTAB_CTABUAVMAP];
+		_data = ["cTab_Tablet_dlg","uavCam"] call cTab_fnc_getSettings;
 		_btnActCtrl ctrlSetTooltip "View Optics";
 		_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
 		lbClear _uavListCtrl;
 		// Populate list of UAVs
-		{if (!(crew _x isEqualTo [])) then {_index = _uavListCtrl lbAdd (str _x)};} count allUnitsUav;
+		{
+			if (!(crew _x isEqualTo [])) then {
+				_index = _uavListCtrl lbAdd (str _x);
+				_uavListCtrl lbSetData [_index,str _x];
+			};
+		} count allUnitsUav;
+		lbSort [_uavListCtrl, "ASC"];
+		for "_x" from 0 to (lbSize _uavListCtrl - 1) do {
+			if (_data == _uavListCtrl lbData _x) exitWith {
+				if (lbCurSel _uavListCtrl != _x) then {
+					_uavListCtrl lbSetCurSel _x;
+					[_data,[[0,"rendertarget8"],[1,"rendertarget9"]]] spawn cTab_fnc_createUavCam;
+				};
+			};
+		};
+		if (lbCurSel _uavListCtrl == -1) then {
+			[] spawn cTab_fnc_deleteUAVcam;
+		};
 	};
 	// ---------- HELMET CAM -----------
 	if (_mode == "HCAM") exitWith {
