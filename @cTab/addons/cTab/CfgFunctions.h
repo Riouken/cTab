@@ -11,6 +11,7 @@ class CfgFunctions
 			class ctrlMapCenter{};
 			class currentTime{};
 			class degreeToOctant{};
+			class deleteHelmetCam{};
 			class deleteUAVcam{}
 			class deleteUserMarker{};
 			class drawBftMarkers{};

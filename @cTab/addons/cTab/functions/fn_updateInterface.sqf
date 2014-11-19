@@ -119,7 +119,10 @@ if (count _this == 1) then {
 				if (_mode == "HCAM_FULL") exitWith {"rendertarget13"}
 			};
 			if (!isNil "_renderTarget") then {
-				[_renderTarget,_x select 1] spawn cTab_fnc_createHelmetCam;
+				_data = _x select 1;
+				if (_data != "") then {
+					[_renderTarget,_data] spawn cTab_fnc_createHelmetCam;
+				};
 			};
 		};
 		// ------------ MAP TOOLS ------------

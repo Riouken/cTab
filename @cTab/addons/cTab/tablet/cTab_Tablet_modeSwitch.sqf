@@ -105,9 +105,12 @@ call {
 			if (_data == _hcamListCtrl lbData _x) exitWith {
 				if (lbCurSel _hcamListCtrl != _x) then {
 					_hcamListCtrl lbSetCurSel _x;
+					['rendertarget12',_data] spawn cTab_fnc_createHelmetCam;
 				};
-				['rendertarget12',_data] spawn cTab_fnc_createHelmetCam;
 			};
+		};
+		if (lbCurSel _hcamListCtrl == -1) then {
+			call cTab_fnc_deleteHelmetCam;
 		};
 	};
 	// ---------- MESSAGING -----------

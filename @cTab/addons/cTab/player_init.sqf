@@ -530,7 +530,7 @@ cTab_fnc_close = {
 		};
 		if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
-		call cTabHcamDelCam;
+		call cTab_fnc_deleteHelmetCam;
 		[] spawn cTab_fnc_deleteUAVcam;
 		cTabCursorOnMap = false;
 		cTabIfOpen = nil;
@@ -1053,18 +1053,6 @@ _return;
 cTabUserIconPush = {
 	0 = cTabUserIconList pushBack cTabUserSelIcon;
 	publicVariable "cTabUserIconList";
-	true
-};
-
-// fnc to delete cameras after helmet cam interface is closed.
-cTabHcamDelCam = {
-	if (!isNil "cTabHcams") then {
-		_cam = cTabHcams select 0;
-		_cam cameraEffect ["TERMINATE","BACK"];
-		camDestroy _cam;
-		deleteVehicle (cTabHcams select 1);
-		cTabHcams = nil;
-	};
 	true
 };
 

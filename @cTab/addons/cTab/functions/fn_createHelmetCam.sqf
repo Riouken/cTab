@@ -61,9 +61,9 @@ if (!isNil "cTabHcams") then {
 	_oldCam = cTabHcams select 0;
 	_oldHost = cTabHcams select 2;
 	if (_oldHost isEqualTo _newHost) then {
-		_oldCam cameraEffect ["INTERNAL","BACK",_renderTarget]
+		_oldCam cameraEffect ["INTERNAL","BACK",_renderTarget];
 	} else {
-		_nop = [] call cTabHcamDelCam;
+		_nop = [] call cTab_fnc_deleteHelmetCam;
 		waitUntil {_nop};
 	};
 };
