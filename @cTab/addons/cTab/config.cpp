@@ -79,8 +79,8 @@ class Extended_PostInit_EventHandlers
 	};
 };
 
-#include <cTab_gui_macros.hpp>
-#include <cTab_base_gui_classes.hpp>
+#include "\cTab\shared\cTab_gui_macros.hpp"
+#include "\cTab\shared\cTab_base_gui_classes.hpp"
 
 #include <\cTab\tablet\cTab_Tablet_dialog.hpp>
 #include <\cTab\android\cTab_android_dialog.hpp>
@@ -186,7 +186,7 @@ class CfgNotifications
 class RscTitles
 {
 	titles[]={};
-	#include <\cTab\msg\msg_mail_title.hpp>
+	#include "\cTab\shared\cTab_mail_title.hpp"
 	#include <\cTab\TAD\cTab_TAD_display.hpp>
 	#include <\cTab\microDAGR\cTab_microDAGR_display.hpp>
 	#include <\cTab\android\cTab_android_display.hpp>

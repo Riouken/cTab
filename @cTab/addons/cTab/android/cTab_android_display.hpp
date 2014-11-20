@@ -14,7 +14,7 @@
 #include <\cTab\android\cTab_android_controls.hpp>
 
 #define MENU_sizeEx pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE)
-#include <\cTab\cTab_markerMenu_macros.hpp>
+#include "\cTab\shared\cTab_markerMenu_macros.hpp"
 
 class cTab_Android_dsp {
 	idd = 177383;

@@ -19,7 +19,7 @@
 		[["mapType","SAT"],["mapScale","4"]] call cTab_fnc_updateInterface;
 */
 
-#include "\cTab\cTab_gui_macros.hpp";
+#include "\cTab\shared\cTab_gui_macros.hpp"
 
 private ["_ifName","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_renderTarget"];
 disableSerialization;

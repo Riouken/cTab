@@ -5,8 +5,8 @@
 // You may re-use any of this work as long as you provide credit back to me.
 
 // keys.sqf parses the userconfig
-#include "functions\keys.sqf";
-#include "cTab_gui_macros.hpp";
+#include "functions\keys.sqf"
+#include "\cTab\shared\cTab_gui_macros.hpp"
 
 //prep the arrays that will hold ctab data
 cTabBFTmembers = [];

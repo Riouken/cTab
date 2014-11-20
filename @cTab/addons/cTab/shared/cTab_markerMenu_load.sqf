@@ -7,7 +7,7 @@
 
 disableSerialization;
 
-#include <\cTab\cTab_gui_macros.hpp>
+#include "\cTab\shared\cTab_gui_macros.hpp"
 
 cTabUserSelIcon = [[],"","",500,cTabColorRed,"",""];
 

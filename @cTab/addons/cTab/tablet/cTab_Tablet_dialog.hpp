@@ -14,7 +14,7 @@
 #include <\cTab\tablet\cTab_Tablet_controls.hpp>
 
 #define MENU_sizeEx pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE)
-#include <\cTab\cTab_markerMenu_macros.hpp>
+#include "\cTab\shared\cTab_markerMenu_macros.hpp"
 
 class cTab_Tablet_dlg {
 	idd = 1775154;
@@ -75,7 +75,7 @@ class cTab_Tablet_dlg {
 			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
 			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 			onDraw = "nop = _this call cTabOnDrawbft;";
-			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
+			onMouseButtonDblClick = "_ok = [3300,_this] execVM '\cTab\shared\cTab_markerMenu_load.sqf';";
 			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 			maxSatelliteAlpha = 10000;
 			alphaFadeStartScale = 10;
@@ -450,7 +450,7 @@ class cTab_Tablet_dlg {
 			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 		};
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
-		#include <\cTab\cTab_markerMenu_controls.hpp>
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_RscText

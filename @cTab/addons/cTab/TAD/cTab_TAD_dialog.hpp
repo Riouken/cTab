@@ -8,7 +8,7 @@
 #include <cTab_TAD_controls.hpp>
 
 #define MENU_sizeEx pxToScreen_H(cTab_GUI_TAD_OSD_TEXT_STD_SIZE)
-#include <\cTab\cTab_markerMenu_macros.hpp>
+#include "\cTab\shared\cTab_markerMenu_macros.hpp"
 
 class cTab_TAD_dlg
 {
@@ -25,7 +25,7 @@ class cTab_TAD_dlg
 		{
 			idc = IDC_CTAB_SCREEN;
 			onDraw = "nop = _this call cTabOnDrawbftTADdialog;";
-			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
+			onMouseButtonDblClick = "_ok = [3300,_this] execVM '\cTab\shared\cTab_markerMenu_load.sqf';";
 			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 		};
 		class screenTopo: screen
@@ -37,7 +37,7 @@ class cTab_TAD_dlg
 		{
 			idc = IDC_CTAB_SCREEN_BLACK;
 			onDraw = "nop = _this call cTabOnDrawbftTADdialog;";
-			onMouseButtonDblClick = "_ok = [3300,_this] execVM 'cTab\bft\userload.sqf';";
+			onMouseButtonDblClick = "_ok = [3300,_this] execVM '\cTab\shared\cTab_markerMenu_load.sqf';";
 			onMouseMoving = "cTabCursorOnMap = _this select 3;cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 		};
 	};
@@ -193,6 +193,6 @@ class cTab_TAD_dlg
 		class on_screen_currentElevation: cTab_TAD_on_screen_currentElevation {};
 
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
-		#include <\cTab\cTab_markerMenu_controls.hpp>
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 	};
 };
