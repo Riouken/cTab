@@ -144,6 +144,12 @@ If you wish to override the list of vehicles that have FBCB2 or TAD available, p
     // Only have BWmod helmets with a camera simulate a helmet camera
     cTab_helmetClass_has_HCam = ["BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"];
 
+### Change display name of a vehicle ###
+By default all vehicles will be shown with their group names next to them. This can make it difficult to distinguish multiple vehicles of the same type when they are in the same group. To change that, use the following code in the unit's initialization:
+
+    // Change this vehicle's identification displayed on all cTab Blue Force Trackers to "Fox"
+    this setVariable ["cTab_groupId","Fox",true];
+
 Changelog
 ---------
 ### 2.1.0 ###

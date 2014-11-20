@@ -78,8 +78,18 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 */
 {
 	if ((side _x == cTabSide) && {count (crew _x) > 0} && {_x != vehicle player}) then {
-		_groupID = if (group _x == group player) then {str([_x] call CBA_fnc_getGroupIndex)} else {""};
-		_name = groupID group _x;
+		_groupID = "";
+		_name = "";
+		_customName = _x getVariable ["cTab_groupId",""];
+		call {
+			if !(_customName isEqualTo "") exitWith {
+				_name = _customName;
+			};
+			if (group _x == group player) then {
+				_groupID = str([_x] call CBA_fnc_getGroupIndex)
+			};
+			_name = groupID group _x;
+		};
 		_iconA = "";
 		_iconB = "";
 		call {
