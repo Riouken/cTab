@@ -64,6 +64,21 @@ if (count _this == 1) then {
 				_osdCtrl ctrlSetText format ["%1",(_x select 1) / 2];
 			};
 		};
+		// ------------ MAP WORLD POSITION ------------
+		if (_x select 0 == "mapWorldPos") exitWith {
+			if ([_displayName] call cTab_fnc_isDialog) then {
+				_mapWorldPos = _x select 1;
+				if !(_mapWorldPos isEqualTo []) then {
+					_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+					{
+						_targetMapIDC = _x select 1;
+						_targetMapCtrl = _display displayCtrl _targetMapIDC;
+						_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _targetMapCtrl,_mapWorldPos];
+						ctrlMapAnimCommit _targetMapCtrl;
+					} count _mapTypes;
+				};
+			};
+		};
 		// ------------ MAP TYPE ------------
 		if (_x select 0 == "mapType") exitWith {
 			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;

@@ -88,6 +88,7 @@ cTabSettings = [];
 
 [cTabSettings,"Tablet",[
 	["mode","DESKTOP"],
+	["mapWorldPos",[]],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["uavCam",""],
 	["hCam",""],
@@ -96,6 +97,7 @@ cTabSettings = [];
 
 [cTabSettings,"Android",[
 	["mode","BFT"],
+	["mapWorldPos",[]],
 	["mapScale",0.4],
 	["mapScaleMin",0.1],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
@@ -104,6 +106,7 @@ cTabSettings = [];
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"FBCB2",[
+	["mapWorldPos",[]],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
@@ -122,6 +125,7 @@ cTabTADgroupColour = [255/255, 0/255, 255/255, 1];
 cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 
 [cTabSettings,"TAD",[
+	["mapWorldPos",[]],
 	["mapScale",2],
 	["mapScaleMin",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
@@ -140,6 +144,7 @@ cTabMicroDAGRgroupColour = [25/255, 25/255, 112/255, 1];
 cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 
 [cTabSettings,"MicroDAGR",[
+	["mapWorldPos",[]],
 	["mapScale",0.4],
 	["mapScaleMin",0.1],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
@@ -264,6 +269,7 @@ cTabUAVcams = [];
 cTabUavScriptHandle = scriptNull;
 cTabCursorOnMap = false;
 cTabMapCursorPos = [0,0];
+cTabMapWorldPos = [];
 
 // Initialize all uiNamespace variables
 uiNamespace setVariable ["cTab_Tablet_dlg", displayNull];
@@ -540,6 +546,12 @@ cTab_fnc_close = {
 		[] spawn cTab_fnc_deleteUAVcam;
 		cTabCursorOnMap = false;
 		cTabIfOpen = nil;
+		call {
+			if ([_displayName] call cTab_fnc_isDialog) exitWith {
+				[_displayName,[["mapWorldPos",cTabmapWorldPos]]] call cTab_fnc_setSettings;
+			};
+			[_displayName,[["mapWorldPos",[]]]] call cTab_fnc_setSettings;
+		};
 	};
 };
 
@@ -623,6 +635,8 @@ cTab_fnc_txt_size_dec = {
 cTabOnDrawbft = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
+	
+	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
 
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
@@ -655,6 +669,8 @@ cTabOnDrawbft = {
 cTabOnDrawbftVeh = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
+	
+	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
 	
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
@@ -731,6 +747,8 @@ cTabOnDrawbftTADdialog = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 	
+	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
+	
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,1] call cTab_fnc_drawBftMarkers;
 	
@@ -756,7 +774,7 @@ cTabOnDrawbftTADdialog = {
 		if (cTabDrawMapTools) exitWith {
 			[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,0,true] call cTab_fnc_drawHook;
 		};
-		[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,1,true] call cTab_fnc_drawHook;
+		[_display,_cntrlScreen,_playerPos,cTabMapWorldPos,1,true] call cTab_fnc_drawHook;
 	};
 	true
 };
@@ -765,6 +783,8 @@ cTabOnDrawbftTADdialog = {
 cTabOnDrawbftAndroid = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
+	
+	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
 
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
@@ -861,6 +881,8 @@ cTabOnDrawbftmicroDAGRdsp = {
 cTabOnDrawbftMicroDAGRdlg = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
+	
+	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
 	
 	// current position
 	_veh = vehicle player;
