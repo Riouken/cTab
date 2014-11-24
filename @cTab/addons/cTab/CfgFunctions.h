@@ -22,6 +22,7 @@ class CfgFunctions
 			class getFromPairs{};
 			class getInfMarkerIcon{};
 			class getSettings{};
+			class isDialog{};
 			class onIfKeyDown{};
 			class setSettings{};
 			class toggleMapTools{};

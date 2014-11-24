@@ -296,14 +296,20 @@ Parameter 4: Vehicle we registered the GetOut eventhandler for
 Parameter 5: ID of registered eventhandler for GetOut event
 */
 cTab_fnc_onIfOpen = {
+	_interfaceType = _this select 0;
 	_player = _this select 1;
 	_vehicle = _this select 2;
+	_interfaceName = _this select 3;
 	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
 	if (_vehicle != _player) then {
 		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{call cTab_fnc_close}];
-		cTabIfOpen = [_this select 0,_this select 3,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
+		cTabIfOpen = [_interfaceType,_interfaceName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
 	} else {
-		cTabIfOpen = [_this select 0,_this select 3,_player,_playerKilledEhId,_vehicle,nil];
+		cTabIfOpen = [_interfaceType,_interfaceName,_player,_playerKilledEhId,_vehicle,nil];
+	};
+	// move mouse cursor to the center of the screen if its a dialog
+	if ([_interfaceName] call cTab_fnc_isDialog) then {
+		setMousePosition [0.5,0.5];
 	};
 	call cTab_fnc_updateInterface;
 };
