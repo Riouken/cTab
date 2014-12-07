@@ -29,7 +29,7 @@ class cTab_microDAGR_dsp
 		{
 			onDraw = "nop = _this call cTabOnDrawbftmicroDAGRdsp;";
 			// set initial map scale
-			scaleDefault = "missionNamespace getVariable 'cTabMicroDAGRmapScaleCtrl'";
+			scaleDefault = "missionNamespace getVariable 'cTabMapScale'";
 		};
 		class screenTopo: screen
 		{

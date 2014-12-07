@@ -27,7 +27,7 @@ class cTab_microDAGR_dlg
 				onDraw = "nop = _this call cTabOnDrawbftmicroDAGRdlg;";
 				onMouseMoving = "cTabMapCursorPos = _this select 0 ctrlMapScreenToWorld [_this select 1,_this select 2];";
 				// set initial map scale
-				scaleDefault = "(missionNamespace getVariable 'cTabMicroDAGRmapScaleCtrl') * 0.86 / (safezoneH * 0.8)";
+				scaleDefault = "(missionNamespace getVariable 'cTabMapScale') * 0.86 / (safezoneH * 0.8)";
 			};
 			class screenTopo: screen
 			{

@@ -31,7 +31,7 @@ class cTab_TAD_dsp
 			idc = IDC_CTAB_SCREEN;
 			onDraw = "nop = _this call cTabOnDrawbftTAD;";
 			// set initial map scale
-			scaleDefault = "missionNamespace getVariable 'cTabTADmapScaleCtrl'";
+			scaleDefault = "missionNamespace getVariable 'cTabMapScale'";
 			// hide grid lines
 			colorGrid[] = {0.1,0.1,0.1,0};
 			colorGridMap[] = {0.1,0.1,0.1,0};
@@ -46,7 +46,7 @@ class cTab_TAD_dsp
 			idc = IDC_CTAB_SCREEN_BLACK;
 			onDraw = "nop = _this call cTabOnDrawbftTAD;";
 			// set initial map scale
-			scaleDefault = "missionNamespace getVariable 'cTabTADmapScaleCtrl'";
+			scaleDefault = "missionNamespace getVariable 'cTabMapScale'";
 			// hide grid lines
 			colorGrid[] = {0.1,0.1,0.1,0};
 			colorGridMap[] = {0.1,0.1,0.1,0};

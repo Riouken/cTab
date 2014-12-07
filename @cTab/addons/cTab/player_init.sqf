@@ -89,6 +89,7 @@ cTabSettings = [];
 [cTabSettings,"Tablet",[
 	["mode","DESKTOP"],
 	["mapWorldPos",[]],
+	["mapScale",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["uavCam",""],
 	["hCam",""],
@@ -107,6 +108,7 @@ cTabSettings = [];
 
 [cTabSettings,"FBCB2",[
 	["mapWorldPos",[]],
+	["mapScale",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
@@ -253,15 +255,6 @@ cTabBFTtxt = true;
 // Draw Map Tolls (Hook)
 cTabDrawMapTools = false;
 
-// fnc to pre-Calculate TAD and MicroDAGR map scales
-cTab_fnc_update_mapScaleFactor = {
-	cTabTADmapScaleCtrl = (["cTab_TAD_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
-	cTabMicroDAGRmapScaleCtrl = (["cTab_microDAGR_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
-	cTabAndroidMapScaleCtrl = (["cTab_Android_dsp","mapScale"] call cTab_fnc_getSettings) / cTabMapScaleFactor;
-	true
-};
-call cTab_fnc_update_mapScaleFactor;
-
 // Base defines.
 cTabUserIconList = [];
 cTabUavViewActive = false;
@@ -270,6 +263,7 @@ cTabUavScriptHandle = scriptNull;
 cTabCursorOnMap = false;
 cTabMapCursorPos = [0,0];
 cTabMapWorldPos = [];
+cTabMapScale = 0.5;
 
 // Initialize all uiNamespace variables
 uiNamespace setVariable ["cTab_Tablet_dlg", displayNull];
@@ -480,16 +474,13 @@ Returns FALSE when no action was taken (i.e. no interface open, or unsupported i
 cTab_fnc_onZoomInPressed = {
 	if (isNil "cTabIfOpen") exitWith {false};
 	_displayName = cTabIfOpen select 1;
-	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp","cTab_Android_dsp"]) exitWith {
-		_mapScale = [_displayName,"mapScale"] call cTab_fnc_getSettings;
+	if !([_displayName] call cTab_fnc_isDialog) exitWith {
+		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) / 2;
 		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
-		if (_mapScale / 2 > _mapScaleMin) then {
-			_mapScale = _mapScale / 2;
-		} else {
+		if (_mapScale < _mapScaleMin) then {
 			_mapScale = _mapScaleMin;
 		};
 		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
-		call cTab_fnc_update_mapScaleFactor;
 		true
 	};
 	false
@@ -504,16 +495,13 @@ Returns FALSE when no action was taken (i.e. no interface open, or unsupported i
 cTab_fnc_onZoomOutPressed = {
 	if (isNil "cTabIfOpen") exitWith {false};
 	_displayName = cTabIfOpen select 1;
-	if (_displayName in ["cTab_TAD_dsp","cTab_microDAGR_dsp","cTab_Android_dsp"]) exitWith {
-		_mapScale = [_displayName,"mapScale"] call cTab_fnc_getSettings;
+	if !([_displayName] call cTab_fnc_isDialog) exitWith {
+		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) * 2;
 		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
-		if (_mapScale * 2 < _mapScaleMax) then {
-			_mapScale = _mapScale * 2;
-		} else {
+		if (_mapScale > _mapScaleMax) then {
 			_mapScale = _mapScaleMax;
 		};
 		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
-		call cTab_fnc_update_mapScaleFactor;
 		true
 	};
 	false
@@ -544,14 +532,18 @@ cTab_fnc_close = {
 		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
 		call cTab_fnc_deleteHelmetCam;
 		[] spawn cTab_fnc_deleteUAVcam;
-		cTabCursorOnMap = false;
-		cTabIfOpen = nil;
+		
+		// Save mapWorldPos and mapScale of current interface so it can be restored later
 		call {
 			if ([_displayName] call cTab_fnc_isDialog) exitWith {
-				[_displayName,[["mapWorldPos",cTabmapWorldPos]]] call cTab_fnc_setSettings;
+				_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
+				[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScale",_mapScale]]] call cTab_fnc_setSettings;
 			};
 			[_displayName,[["mapWorldPos",[]]]] call cTab_fnc_setSettings;
 		};
+		
+		cTabCursorOnMap = false;
+		cTabIfOpen = nil;
 	};
 };
 
@@ -637,6 +629,7 @@ cTabOnDrawbft = {
 	_display = ctrlParent _cntrlScreen;
 	
 	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
+	cTabMapScale = ctrlMapScale _cntrlScreen;
 
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
@@ -671,6 +664,7 @@ cTabOnDrawbftVeh = {
 	_display = ctrlParent _cntrlScreen;
 	
 	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
+	cTabMapScale = ctrlMapScale _cntrlScreen;
 	
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
@@ -712,7 +706,7 @@ cTabOnDrawbftTAD = {
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	// change scale of map and centre to player position
-	_cntrlScreen ctrlMapAnimAdd [0, cTabTADmapScaleCtrl, _playerPos];
+	_cntrlScreen ctrlMapAnimAdd [0, cTabMapScale, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
@@ -748,6 +742,7 @@ cTabOnDrawbftTADdialog = {
 	_display = ctrlParent _cntrlScreen;
 	
 	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
+	cTabMapScale = ctrlMapScale _cntrlScreen;
 	
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,1] call cTab_fnc_drawBftMarkers;
@@ -785,6 +780,7 @@ cTabOnDrawbftAndroid = {
 	_display = ctrlParent _cntrlScreen;
 	
 	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
+	cTabMapScale = ctrlMapScale _cntrlScreen;
 
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
@@ -823,7 +819,7 @@ cTabOnDrawbftAndroidDsp = {
 	_heading = direction _veh;
 	
 	// change scale of map and centre to player position
-	_cntrlScreen ctrlMapAnimAdd [0, cTabAndroidMapScaleCtrl, _playerPos];
+	_cntrlScreen ctrlMapAnimAdd [0, cTabMapScale, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
@@ -855,7 +851,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	// change scale of map and centre to player position
-	_cntrlScreen ctrlMapAnimAdd [0, cTabMicroDAGRmapScaleCtrl, _playerPos];
+	_cntrlScreen ctrlMapAnimAdd [0, cTabMapScale, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
@@ -883,6 +879,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_display = ctrlParent _cntrlScreen;
 	
 	cTabMapWorldPos = [_cntrlScreen] call cTab_fnc_ctrlMapCenter;
+	cTabMapScale = ctrlMapScale _cntrlScreen;
 	
 	// current position
 	_veh = vehicle player;

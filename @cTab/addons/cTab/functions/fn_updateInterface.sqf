@@ -58,10 +58,36 @@ if (count _this == 1) then {
 		};
 		// ------------ MAP SCALE ------------
 		if (_x select 0 == "mapScale") exitWith {
+			_mapScaleKm = _x select 1;
+			if ([_displayName] call cTab_fnc_isDialog) then {
+				_mapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
+				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+				{
+					_targetMapIDC = _x select 1;
+					_targetMapCtrl = _display displayCtrl _targetMapIDC;
+					if (ctrlShown _targetMapCtrl) then {
+						_targetMapCtrl ctrlMapAnimAdd [0,_mapScale,[_targetMapCtrl] call cTab_fnc_ctrlMapCenter];
+						ctrlMapAnimCommit _targetMapCtrl;
+						while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
+					};
+				} count _mapTypes;
+			} else {
+				// pre-Calculate map scales
+				_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
+				_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
+				_mapScaleKm = call {
+					if (_mapScaleKm >= _mapScaleMax) exitWith {_mapScaleMax};
+					if (_mapScaleKm <= _mapScaleMin) exitWith {_mapScaleMin};
+					// pick the next best scale that is an even multiple of the minimum map scale... It does tip in favour of the larger scale due to the use of logarithm, so its not perfect
+					_mapScaleMin * 2 ^ round (log (_mapScaleKm / _mapScaleMin) / log (2))
+				};
+				[_displayName,[["mapScale",_mapScaleKm]],false] call cTab_fnc_setSettings;
+				cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
+			};
 			_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
 			if (_osdCtrl != controlNull) then {
 				// divide by 2 because we want to display the radius, not the diameter
-				_osdCtrl ctrlSetText format ["%1",(_x select 1) / 2];
+				_osdCtrl ctrlSetText format ["%1",_mapScaleKm / 2];
 			};
 		};
 		// ------------ MAP WORLD POSITION ------------
@@ -73,8 +99,11 @@ if (count _this == 1) then {
 					{
 						_targetMapIDC = _x select 1;
 						_targetMapCtrl = _display displayCtrl _targetMapIDC;
-						_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _targetMapCtrl,_mapWorldPos];
-						ctrlMapAnimCommit _targetMapCtrl;
+						if (ctrlShown _targetMapCtrl) then {
+							_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _targetMapCtrl,_mapWorldPos];
+							ctrlMapAnimCommit _targetMapCtrl;
+							while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
+						};
 					} count _mapTypes;
 				};
 			};

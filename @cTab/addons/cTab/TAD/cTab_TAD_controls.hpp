@@ -250,7 +250,7 @@ class cTab_TAD_RscMapControl: cTab_RscMapControl
 	// allow to zoom out further (defines the maximum map scale, usually 1)
 	scaleMax = 1000;
 	// set initial map scale
-	scaleDefault = "(missionNamespace getVariable 'cTabTADmapScaleCtrl') * 0.86 / (safezoneH * 0.8)";
+	scaleDefault = "(missionNamespace getVariable 'cTabMapScale') * 0.86 / (safezoneH * 0.8)";
 	// turn on satellite map information (defines the map scale of when to switch to topographical)
 	maxSatelliteAlpha = 10000;
 	alphaFadeStartScale = 10;
