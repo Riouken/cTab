@@ -10,6 +10,9 @@
 	Parameters:
 		0: STRING - Name of uiNamespace display / dialog variable
 		1: ARRAY  - Property pair(s) to write in the form of [["propertyName",propertyValue],[...]]
+		
+		(Optional)
+		2: BOOLEAN - If set to false, do not update interface 
  	
  	Returns:
  		BOOLEAN - If settings could be stored
@@ -60,6 +63,8 @@ _combinedPropertiesUpdate = [];
 // Finally, call an interface update for the updated properties, but only if the currently interface uses the same property group, if not, pass changed common properties only.
 if (!isNil "cTabIfOpen") then {
 	call {
+		_updateInterface = _this select 2;
+		if (!isNil "_updateInterface" && {!_updateInterface}) exitWith {};
 		if ((([cTabDisplayPropertyGroups,cTabIfOpen select 1] call cTab_fnc_getFromPairs) == _propertyGroupName) && {count _combinedPropertiesUpdate > 0}) exitWith {
 			[_combinedPropertiesUpdate] call cTab_fnc_updateInterface;
 		};
