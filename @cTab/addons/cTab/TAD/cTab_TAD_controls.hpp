@@ -706,3 +706,13 @@ class cTab_TAD_on_screen_currentElevation: cTab_TAD_on_screen_currentDirection
 	idc = IDC_CTAB_OSD_ELEVATION;
 	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB12_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4 / 2);
 };
+class cTab_TAD_loadingtxt: cTab_RscText_TAD
+{
+	idc = IDC_CTAB_LOADINGTXT;
+	style = ST_CENTER;
+	text = "Loading"; //--- ToDo: Localize;
+	x = pxToScreen_X(cTab_GUI_TAD_MAP_X);
+	y = pxToScreen_Y(cTab_GUI_TAD_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_TAD_MAP_W);
+	h = pxToScreen_H(cTab_GUI_TAD_MAP_H);
+};

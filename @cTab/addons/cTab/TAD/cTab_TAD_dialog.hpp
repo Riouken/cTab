@@ -194,5 +194,8 @@ class cTab_TAD_dlg
 
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
 		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
+
+		// ---------- LOADING ------------
+		class loadingtxt: cTab_TAD_loadingtxt {};
 	};
 };
