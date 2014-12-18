@@ -27,12 +27,26 @@ disableSerialization;
 if (isNil "cTabIfOpen") exitWith {};
 _displayName = cTabIfOpen select 1;
 _display = uiNamespace getVariable _displayName;
+_interfaceInit = false;
+_loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
+_targetMapCtrl = controlNull;
+_targetMapScale = nil;
+_targetMapWorldPos = nil;
+
+_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 
 if (count _this == 1) then {
 	_settings = _this select 0;
 } else {
 	// Retrieve all settings for the currently open interface
 	_settings = [_displayName] call cTab_fnc_getSettings;
+	_interfaceInit = true;
+	
+	// show "Loading" control to hide all the action while its going on
+	if (!isNull _loadingCtrl) then {
+		_loadingCtrl ctrlShow true;
+		while {!ctrlShown _loadingCtrl} do {};
+	};
 };
 
 {
@@ -51,103 +65,95 @@ if (count _this == 1) then {
 		// ------------ SHOW ICON TEXT ------------
 		if (_x select 0 == "showIconText") exitWith {
 			_osdCtrl = _display displayCtrl IDC_CTAB_OSD_TXT_TGGL;
-			if (_osdCtrl != controlNull) then {
+			if (!isNull _osdCtrl) then {
 				_text = if (_x select 1) then {"ON"} else {"OFF"};
 				_osdCtrl ctrlSetText _text;
 			};
 		};
 		// ------------ MAP SCALE ------------
 		if (_x select 0 == "mapScale") exitWith {
-			_mapScaleKm = _x select 1;
-			if ([_displayName] call cTab_fnc_isDialog) then {
-				_mapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
-				_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-				{
-					_targetMapIDC = _x select 1;
-					_targetMapCtrl = _display displayCtrl _targetMapIDC;
-					if (ctrlShown _targetMapCtrl) then {
-						_targetMapCtrl ctrlMapAnimAdd [0,_mapScale,[_targetMapCtrl] call cTab_fnc_ctrlMapCenter];
-						ctrlMapAnimCommit _targetMapCtrl;
-						while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
+			if (_mode == "BFT") then {
+				_mapScaleKm = _x select 1;
+				if ([_displayName] call cTab_fnc_isDialog) then {
+					_targetMapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
+				} else {
+					// pre-Calculate map scales
+					_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
+					_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
+					_mapScaleKm = call {
+						if (_mapScaleKm >= _mapScaleMax) exitWith {_mapScaleMax};
+						if (_mapScaleKm <= _mapScaleMin) exitWith {_mapScaleMin};
+						// pick the next best scale that is an even multiple of the minimum map scale... It does tip in favour of the larger scale due to the use of logarithm, so its not perfect
+						_mapScaleMin * 2 ^ round (log (_mapScaleKm / _mapScaleMin) / log (2))
 					};
-				} count _mapTypes;
-			} else {
-				// pre-Calculate map scales
-				_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
-				_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
-				_mapScaleKm = call {
-					if (_mapScaleKm >= _mapScaleMax) exitWith {_mapScaleMax};
-					if (_mapScaleKm <= _mapScaleMin) exitWith {_mapScaleMin};
-					// pick the next best scale that is an even multiple of the minimum map scale... It does tip in favour of the larger scale due to the use of logarithm, so its not perfect
-					_mapScaleMin * 2 ^ round (log (_mapScaleKm / _mapScaleMin) / log (2))
+					if (_mapScaleKm != (_x select 1)) then {
+						[_displayName,[["mapScale",_mapScaleKm]],false] call cTab_fnc_setSettings;
+					};
+					cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
 				};
-				[_displayName,[["mapScale",_mapScaleKm]],false] call cTab_fnc_setSettings;
-				cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
-			};
-			_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
-			if (_osdCtrl != controlNull) then {
-				// divide by 2 because we want to display the radius, not the diameter
-				_osdCtrl ctrlSetText format ["%1",_mapScaleKm / 2];
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
+				if (!isNull _osdCtrl) then {
+					// divide by 2 because we want to display the radius, not the diameter
+					_osdCtrl ctrlSetText format ["%1",_mapScaleKm / 2];
+				};
 			};
 		};
 		// ------------ MAP WORLD POSITION ------------
 		if (_x select 0 == "mapWorldPos") exitWith {
-			if ([_displayName] call cTab_fnc_isDialog) then {
-				_mapWorldPos = _x select 1;
-				if !(_mapWorldPos isEqualTo []) then {
-					_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
-					{
-						_targetMapIDC = _x select 1;
-						_targetMapCtrl = _display displayCtrl _targetMapIDC;
-						if (ctrlShown _targetMapCtrl) then {
-							_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _targetMapCtrl,_mapWorldPos];
-							ctrlMapAnimCommit _targetMapCtrl;
-							while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
-						};
-					} count _mapTypes;
+			if (_mode == "BFT") then {
+				if ([_displayName] call cTab_fnc_isDialog) then {
+					_mapWorldPos = _x select 1;
+					if !(_mapWorldPos isEqualTo []) then {
+						_targetMapWorldPos = _mapWorldPos;
+					};
 				};
 			};
 		};
 		// ------------ MAP TYPE ------------
 		if (_x select 0 == "mapType") exitWith {
-			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 			_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
 			if ((count _mapTypes > 1) && (_mode == "BFT")) then {
 				_targetMapName = _x select 1;
 				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
 				_targetMapCtrl = _display displayCtrl _targetMapIDC;
-				_previousMapCtrl = controlNull;
-				{
-					_previousMapIDC = _x select 1;
-					_previousMapCtrl = _display displayCtrl _previousMapIDC;
-					if (ctrlShown _previousMapCtrl) exitWith {};
+				
+				if (!_interfaceInit && {[_displayName] call cTab_fnc_isDialog}) then {
 					_previousMapCtrl = controlNull;
-				} count _mapTypes;
-				// See if _targetMapCtrl is already being shown
-				if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
-					// Update _targetMapCtrl to scale and position of _previousMapCtrl
-					_targetMapCtrl ctrlMapAnimAdd [0,ctrlMapScale _previousMapCtrl,[_previousMapCtrl] call cTab_fnc_ctrlMapCenter];
-					ctrlMapAnimCommit _targetMapCtrl;
-					// Show _targetMapCtrl
-					_targetMapCtrl ctrlShow true;
-					_targetMapCtrl ctrlCommit 0;
+					{
+						_previousMapIDC = _x select 1;
+						_previousMapCtrl = _display displayCtrl _previousMapIDC;
+						if (ctrlShown _previousMapCtrl) exitWith {};
+						_previousMapCtrl = controlNull;
+					} count _mapTypes;
+					// See if _targetMapCtrl is already being shown
+					if ((!ctrlShown _targetMapCtrl) && (_targetMapCtrl != _previousMapCtrl)) then {
+						// Update _targetMapCtrl to scale and position of _previousMapCtrl
+						if (isNil "_targetMapScale") then {_targetMapScale = ctrlMapScale _previousMapCtrl;};
+						if (isNil "_targetMapWorldPos") then {_targetMapWorldPos = [_previousMapCtrl] call cTab_fnc_ctrlMapCenter};
+					};
 				};
-				// Hide all other map types
+				
+				// Hide all unwanted map types
 				{
 					if (_x select 0 != _targetMapName) then {
-						_previousMapCtrl = _display displayCtrl (_x select 1);
-						_previousMapCtrl ctrlShow false;
-						_previousMapCtrl ctrlCommit 0;
+						(_display displayCtrl (_x select 1)) ctrlShow false;
 					};
 				} count _mapTypes;
+				
 				// Update OSD element if it exists
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_TGGL;
-				if (_osdCtrl != controlNull) then {_osdCtrl ctrlSetText _targetMapName;};
+				if (!isNull _osdCtrl) then {_osdCtrl ctrlSetText _targetMapName;};
+				
+				// show correct map contorl
+				if (!ctrlShown _targetMapCtrl) then {
+					_targetMapCtrl ctrlShow true;
+					// wait until map control is shown, otherwise we can get in trouble with ctrlMapAnimCommit later on, depending on timing
+					while {!ctrlShown _targetMapCtrl} do {};
+				};
 			};
 		};
 		// ------------ UAV CAM ------------
 		if (_x select 0 == "uavCam") exitWith {
-			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 			if (_mode == "UAV") then {
 				_data = _x select 1;
 				if (_data != "") then {
@@ -157,7 +163,6 @@ if (count _this == 1) then {
 		};
 		// ------------ HCAM ------------
 		if (_x select 0 == "hCam") exitWith {
-			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 			_renderTarget = call {
 				if (_mode == "HCAM") exitWith {"rendertarget12"};
 				if (_mode == "HCAM_FULL") exitWith {"rendertarget13"}
@@ -172,23 +177,22 @@ if (count _this == 1) then {
 		// ------------ MAP TOOLS ------------
 		if (_x select 0 == "mapTools") exitWith {
 			cTabDrawMapTools = _x select 1;
-			_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
 			if (_mode == "BFT") then {
 				if !(_displayName in ["cTab_TAD_dlg","cTab_TAD_dsp"]) then {
 					{
 						_osdCtrl = _display displayCtrl _x;
-						if (_osdCtrl != controlNull) then {
+						if (!isNull _osdCtrl) then {
 							_osdCtrl ctrlShow cTabDrawMapTools;
 						};
 					} count [IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_DIR,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_ELEVATION];
 				};
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL1;
-				if (_osdCtrl != controlNull) then {
+				if (!isNull _osdCtrl) then {
 					_text = if (_x select 1) then {"OWN"} else {"CURS"};
 					_osdCtrl ctrlSetText _text;
 				};
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_HOOK_TGGL2;
-				if (_osdCtrl != controlNull) then {
+				if (!isNull _osdCtrl) then {
 					_text = if (_x select 1) then {"CURS"} else {"OWN"};
 					_osdCtrl ctrlSetText _text;
 				};
@@ -197,8 +201,7 @@ if (count _this == 1) then {
 		// ------------ MENU ------------
 		if (_x select 0 == "showMenu") exitWith {
 			_osdCtrl = _display displayCtrl IDC_CTAB_GROUP_MENU;
-			if (_osdCtrl != controlNull) then {
-				_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
+			if (!isNull _osdCtrl) then {
 				if (_mode == "BFT") then {
 					_osdCtrl ctrlShow (_x select 1);
 				};
@@ -207,5 +210,33 @@ if (count _this == 1) then {
 		// ----------------------------------
 	};
 } forEach _settings;
+
+// update scale and world position if we have to. If so, fill in the blanks and make the changes
+if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
+	if (!isNull _targetMapCtrl) then {
+		_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
+		_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+		_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
+		_targetMapCtrl = _display displayCtrl _targetMapIDC;
+	};
+	
+	if (ctrlShown _targetMapCtrl) then {
+		if (isNil "_targetMapScale") then {
+			_targetMapScale = ctrlMapScale _targetMapCtrl;
+		};
+		if (isNil "_targetMapWorldPos") then {
+			_targetMapWorldPos = [_targetMapCtrl] call cTab_fnc_ctrlMapCenter;
+		};
+		_targetMapCtrl ctrlMapAnimAdd [0,_targetMapScale,_targetMapWorldPos];
+		ctrlMapAnimCommit _targetMapCtrl;
+		while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
+	};
+};
+
+// now hide the "Loading" control since we are done
+if (_interfaceInit && {!isNull _loadingCtrl}) then {
+	_loadingCtrl ctrlShow false;
+	while {ctrlShown _loadingCtrl} do {};
+};
 
 true
