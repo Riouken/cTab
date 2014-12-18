@@ -537,9 +537,9 @@ cTab_fnc_close = {
 		call {
 			if ([_displayName] call cTab_fnc_isDialog) exitWith {
 				_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-				[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScale",_mapScale]]] call cTab_fnc_setSettings;
+				[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScale",_mapScale]],false] call cTab_fnc_setSettings;
 			};
-			[_displayName,[["mapWorldPos",[]]]] call cTab_fnc_setSettings;
+			[_displayName,[["mapWorldPos",[]]],false] call cTab_fnc_setSettings;
 		};
 		
 		cTabCursorOnMap = false;
