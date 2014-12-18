@@ -10,10 +10,11 @@ disableSerialization;
 
 cTabUserPos = [];
 
-_display = (uiNamespace getVariable "cTab_Tablet_dlg");
+_displayName = _this select 0;
+_display = (uiNamespace getVariable _displayName);
 
-ctrlShow [IDC_CTAB_LOADINGTXT,true];
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
+_loadingCtrl ctrlShow true;
 waitUntil {ctrlShown _loadingCtrl};
 
 _btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
@@ -37,7 +38,7 @@ _displayItems = [
 ];
 _displayItemsToShow = [];
 
-_mode = _this select 0;
+_mode = _this select 1;
 
 call {
 	// ---------- DESKTOP -----------
@@ -48,13 +49,13 @@ call {
 	};
 	// ---------- BFT -----------
 	if (_mode == "BFT") exitWith {
-		_mapTypes = ["cTab_Tablet_dlg","mapTypes"] call cTab_fnc_getSettings;
-		_mapType = ["cTab_Tablet_dlg","mapType"] call cTab_fnc_getSettings;
+		_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+		_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
 		_displayItemsToShow = [_mapIDC];
 		
-		_mapTools = ["cTab_Tablet_dlg","mapTools"] call cTab_fnc_getSettings;
+		_mapTools = [_displayName,"mapTools"] call cTab_fnc_getSettings;
 		if (_mapTools) then {
 			_displayItemsToShow = _displayItemsToShow + [IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_ELEVATION,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_DIR];
 		};
@@ -64,7 +65,7 @@ call {
 	// ---------- UAV -----------
 	if (_mode == "UAV") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_UAV,IDC_CTAB_MINIMAPBG,IDC_CTAB_CTABUAVMAP];
-		_data = ["cTab_Tablet_dlg","uavCam"] call cTab_fnc_getSettings;
+		_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
 		_btnActCtrl ctrlSetTooltip "View Optics";
 		_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
 		lbClear _uavListCtrl;
@@ -91,7 +92,7 @@ call {
 	// ---------- HELMET CAM -----------
 	if (_mode == "HCAM") exitWith {
 		_displayItemsToShow = [IDC_CTAB_GROUP_HCAM,IDC_CTAB_MINIMAPBG,IDC_CTAB_CTABHCAMMAP];
-		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_getSettings;
+		_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
 		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
 		// Populate list of HCAMs
@@ -122,7 +123,7 @@ call {
 	// ---------- FULLSCREEN HCAM -----------
 	if (_mode == "HCAM_FULL") exitWith {
 		_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
-		_data = ["cTab_Tablet_dlg","hCam"] call cTab_fnc_getSettings;
+		_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
 		_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 		['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
 	};
@@ -131,4 +132,6 @@ call {
 // hide every _displayItems not in _displayItemsToShow
 {ctrlShow [_x,_x in _displayItemsToShow];} count _displayItems;
 
-ctrlShow [IDC_CTAB_LOADINGTXT,false];
+_loadingCtrl ctrlShow false;
+waitUntil {!ctrlShown _loadingCtrl};
+true

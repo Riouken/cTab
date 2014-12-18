@@ -10,10 +10,11 @@ disableSerialization;
 
 cTabUserPos = [];
 
-_display = (uiNamespace getVariable "cTab_Android_dlg");
+_displayName = _this select 0;
+_display = (uiNamespace getVariable _displayName);
 
-ctrlShow [IDC_CTAB_LOADINGTXT,true];
 _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
+_loadingCtrl ctrlShow true;
 waitUntil {ctrlShown _loadingCtrl};
 
 _displayItems = [
@@ -30,23 +31,23 @@ _displayItems = [
 ];
 _displayItemsToShow = [];
 
-_mode = _this select 0;
+_mode = _this select 1;
 
 call {
 	// ---------- BFT -----------
 	if (_mode == "BFT") exitWith {
-		_mapTypes = ["cTab_Android_dlg","mapTypes"] call cTab_fnc_getSettings;
-		_mapType = ["cTab_Android_dlg","mapType"] call cTab_fnc_getSettings;
+		_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+		_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
 		_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
 		
 		_displayItemsToShow pushBack _mapIDC;
 		
-		_mapTools = ["cTab_Android_dlg","mapTools"] call cTab_fnc_getSettings;
+		_mapTools = [_displayName,"mapTools"] call cTab_fnc_getSettings;
 		if (_mapTools) then {
 			{0 = _displayItemsToShow pushBack _x} count [IDC_CTAB_OSD_HOOK_GRID,IDC_CTAB_OSD_HOOK_ELEVATION,IDC_CTAB_OSD_HOOK_DST,IDC_CTAB_OSD_HOOK_DIR];
 		};
 		
-		_showMenu = ["cTab_Android_dlg","showMenu"] call cTab_fnc_getSettings;
+		_showMenu = [_displayName,"showMenu"] call cTab_fnc_getSettings;
 		if (_showMenu) then	{
 			_displayItemsToShow pushBack IDC_CTAB_GROUP_MENU;
 		};
@@ -67,4 +68,6 @@ call {
 // hide every _displayItems not in _displayItemsToShow
 {ctrlShow [_x,_x in _displayItemsToShow];} count _displayItems;
 
-ctrlShow [IDC_CTAB_LOADINGTXT,false];
+_loadingCtrl ctrlShow false;
+waitUntil {!ctrlShown _loadingCtrl};
+true

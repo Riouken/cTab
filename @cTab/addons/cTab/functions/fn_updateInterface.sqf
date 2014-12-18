@@ -39,13 +39,13 @@ if (count _this == 1) then {
 	call {
 		// ------------ MODE ------------
 		if (_x select 0 == "mode") exitWith {
-			call {
-				if (_displayName == "cTab_Tablet_dlg") exitWith {
-					_null = [_x select 1] execVM "\cTab\tablet\cTab_Tablet_modeSwitch.sqf";
-				};
-				if (_displayName == "cTab_Android_dlg") exitWith {
-					_null = [_x select 1] execVM "\cTab\android\cTab_android_modeSwitch.sqf";
-				};
+			_modeSwitchScript = call {
+				if (_displayName == "cTab_Tablet_dlg") exitWith {"\cTab\tablet\cTab_Tablet_modeSwitch.sqf"};
+				if (_displayName == "cTab_Android_dlg") exitWith {"\cTab\android\cTab_android_modeSwitch.sqf"};
+				""
+			};
+			if (_modeSwitchScript != "") then {
+				_null = [_displayName,_x select 1] execVM _modeSwitchScript;
 			};
 		};
 		// ------------ SHOW ICON TEXT ------------
