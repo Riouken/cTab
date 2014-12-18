@@ -1082,8 +1082,8 @@ cTabUserIconPush = {
 };
 
 cTabUavTakeControl = {
+	if (isNil 'cTabActUav') exitWith {false};
 	_uav = cTabActUav;
-	if (isNil '_uav') exitWith {false};
 	_controlArray = uavControl _uav;
 	_canControl = true;
 	_return = true;
