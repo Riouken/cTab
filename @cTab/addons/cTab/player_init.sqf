@@ -354,6 +354,7 @@ cTab_fnc_onIfMainPressed = {
 	};
 	
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
+		cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
 		nul = [0,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_display_start.sqf";
 		true
 	};
@@ -421,6 +422,7 @@ cTab_fnc_onIfSecondaryPressed = {
 			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 				nul = [1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
 			};
+			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
 			nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
 		};
 		true
@@ -857,7 +859,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	ctrlMapAnimCommit _cntrlScreen;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen,2] call cTab_fnc_drawBftMarkers;
+	[_cntrlScreen,cTabMicroDAGRmode] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -889,7 +891,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	_heading = direction _veh;
 	
 	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
-	[_cntrlScreen,2] call cTab_fnc_drawBftMarkers;
+	[_cntrlScreen,cTabMicroDAGRmode] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
