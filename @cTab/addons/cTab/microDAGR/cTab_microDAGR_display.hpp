@@ -1,8 +1,5 @@
-#define GUI_MARGIN_X	(0.05)
+#define GUI_MARGIN_X	(-0.05)
 #define GUI_MARGIN_Y	(0.2)
-#define GUI_MAP_W	(0.55)
-#define GUI_MAP_H	(0.5625)
-#define GUI_SCREEN_Y_OFFSET	(0.0085)
 #define GUI_microDAGR_W	(0.86)
 #define GUI_microDAGR_H	(0.86)
 
