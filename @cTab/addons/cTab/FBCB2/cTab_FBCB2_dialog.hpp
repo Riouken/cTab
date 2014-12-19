@@ -105,5 +105,8 @@ class cTab_FBCB2_dlg {
 		class hookDir: cTab_FBCB2_on_screen_hookDir {};
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
 		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
+
+		// ---------- LOADING ------------
+		class loadingtxt: cTab_FBCB2_loadingtxt {};
 	};
 };

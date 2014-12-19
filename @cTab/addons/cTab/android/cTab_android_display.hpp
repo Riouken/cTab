@@ -48,5 +48,8 @@ class cTab_Android_dsp {
 		class dirDegree: cTab_android_on_screen_dirDegree {};
 		class grid: cTab_android_on_screen_grid {};
 		class dirOctant: cTab_android_on_screen_dirOctant {};
+
+		// ---------- LOADING ------------
+		class loadingtxt: cTab_android_loadingtxt {};
 	};
 };

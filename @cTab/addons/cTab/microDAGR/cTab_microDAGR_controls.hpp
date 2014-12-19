@@ -18,6 +18,12 @@
 #define cTab_GUI_microDAGR_OSD_HEADER_H (94)
 #define cTab_GUI_microDAGR_OSD_FOOTER_H (cTab_GUI_microDAGR_OSD_HEADER_H)
 
+// Screen content (the stuff that changes, so map area - header and footer)
+#define cTab_GUI_microDAGR_SCREEN_CONTENT_X (cTab_GUI_microDAGR_MAP_X)
+#define cTab_GUI_microDAGR_SCREEN_CONTENT_Y (cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_OSD_HEADER_H)
+#define cTab_GUI_microDAGR_SCREEN_CONTENT_W (cTab_GUI_microDAGR_MAP_W)
+#define cTab_GUI_microDAGR_SCREEN_CONTENT_H (cTab_GUI_microDAGR_MAP_H - cTab_GUI_microDAGR_OSD_HEADER_H - cTab_GUI_microDAGR_OSD_FOOTER_H)
+
 // On-screen edge positions (left, right, top, bottom)
 #define cTab_GUI_microDAGR_OSD_MARGIN (24)
 #define cTab_GUI_microDAGR_OSD_EDGE_L (cTab_GUI_microDAGR_OSD_MARGIN + cTab_GUI_microDAGR_MAP_X)
@@ -107,10 +113,10 @@ class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 {
 	idc = IDC_CTAB_SCREEN;
 	text = "#(argb,8,8,3)color(1,1,1,1)";
-	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
-	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_OSD_HEADER_H);
-	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
-	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H - cTab_GUI_microDAGR_OSD_HEADER_H - cTab_GUI_microDAGR_OSD_FOOTER_H);
+	x = pxToScreen_X(cTab_GUI_microDAGR_SCREEN_CONTENT_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_SCREEN_CONTENT_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_SCREEN_CONTENT_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_SCREEN_CONTENT_H);
 	//type = CT_MAP;
 	// allow to zoom out further (defines the maximum map scale, usually 1)
 	scaleMax = 1000;
@@ -274,4 +280,14 @@ class cTab_microDAGR_on_screen_hookDir: cTab_microDAGR_on_screen_hookGrid
 {
 	idc = IDC_CTAB_OSD_HOOK_DIR;
 	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_B - cTab_GUI_microDAGR_OSD_MARGIN - cTab_GUI_microDAGR_OSD_ELEMENT_STD_H);
+};
+class cTab_microDAGR_loadingtxt: cTab_RscText_microDAGR
+{
+	idc = IDC_CTAB_LOADINGTXT;
+	style = ST_CENTER;
+	text = "Loading"; //--- ToDo: Localize;
+	x = pxToScreen_X(cTab_GUI_microDAGR_SCREEN_CONTENT_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_SCREEN_CONTENT_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_SCREEN_CONTENT_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_SCREEN_CONTENT_H);
 };

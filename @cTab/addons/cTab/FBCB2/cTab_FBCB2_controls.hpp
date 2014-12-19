@@ -283,3 +283,13 @@ class cTab_FBCB2_on_screen_hookDir: cTab_FBCB2_on_screen_hookGrid
 	idc = IDC_CTAB_OSD_HOOK_DIR;
 	y = pxToScreen_Y(cTab_GUI_FBCB2_OSD_EDGE_B - cTab_GUI_FBCB2_OSD_MARGIN - cTab_GUI_FBCB2_OSD_ELEMENT_STD_H);
 };
+class cTab_FBCB2_loadingtxt: cTab_RscText_FBCB2
+{
+	idc = IDC_CTAB_LOADINGTXT;
+	style = ST_CENTER;
+	text = "Loading"; //--- ToDo: Localize;
+	x = pxToScreen_X(cTab_GUI_FBCB2_SCREEN_CONTENT_X);
+	y = pxToScreen_Y(cTab_GUI_FBCB2_SCREEN_CONTENT_Y);
+	w = pxToScreen_W(cTab_GUI_FBCB2_SCREEN_CONTENT_W);
+	h = pxToScreen_H(cTab_GUI_FBCB2_SCREEN_CONTENT_H);
+};

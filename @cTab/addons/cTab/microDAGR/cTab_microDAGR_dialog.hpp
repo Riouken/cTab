@@ -67,5 +67,8 @@ class cTab_microDAGR_dlg
 		{
 			action = "['cTab_microDAGR_dlg'] call cTab_fnc_toggleMapTools;";
 		};
+
+		// ---------- LOADING ------------
+		class loadingtxt: cTab_microDAGR_loadingtxt {};
 	};
 };

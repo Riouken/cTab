@@ -50,5 +50,8 @@ class cTab_microDAGR_dsp
 		class grid: cTab_microDAGR_on_screen_grid {};
 		class dirOctant: cTab_microDAGR_on_screen_dirOctant {};
 		class background: cTab_microDAGR_background {};
+
+		// ---------- LOADING ------------
+		class loadingtxt: cTab_microDAGR_loadingtxt {};
 	};
 };
