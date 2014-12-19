@@ -5,6 +5,7 @@ class CfgFunctions
 		class Functions
 		{
 			file="cTab\functions";
+			class centerMapOnPlayerPosition{};
 			class checkGear{};
 			class createHelmetCam{};
 			class createUavCam{};
@@ -12,7 +13,7 @@ class CfgFunctions
 			class currentTime{};
 			class degreeToOctant{};
 			class deleteHelmetCam{};
-			class deleteUAVcam{}
+			class deleteUAVcam{};
 			class deleteUserMarker{};
 			class drawBftMarkers{};
 			class drawHook{};
