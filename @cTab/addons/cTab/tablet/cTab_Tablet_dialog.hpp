@@ -145,6 +145,12 @@ class cTab_Tablet_dlg {
 			tooltip = "Toggle Map Textures (F6)";
 			action = "['cTab_Tablet_dlg'] call cTab_fnc_mapType_toggle;";
 		};
+		class btnF7: cTab_Tablet_btnTrackpad
+		{
+			idc = -1;
+			action = "['cTab_Tablet_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
+			tooltip = "Center Map On Current Position (F7)";
+		};
 		class btnMain: cTab_Tablet_btnHome
 		{
 			idc = IDC_CTAB_BTNMAIN;

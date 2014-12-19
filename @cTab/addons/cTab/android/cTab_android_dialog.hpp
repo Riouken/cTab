@@ -138,6 +138,14 @@ class cTab_Android_dlg {
 					tooltip = "Toggle Map Textures (F6)";
 					action = "['cTab_Android_dlg'] call cTab_fnc_mapType_toggle;";
 				};
+				class btnF7: btnTextonoff
+				{
+					idc = -1;
+					y = pxToMenu_Y(cTab_GUI_android_OSD_MENU_ELEMENT_Y(6));
+					text = "Center Map";
+					action = "['cTab_Android_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
+					tooltip = "Center Map On Current Position (F7)";
+				};
 			};
 		};
 		// ---------- MESSAGING READ -----------

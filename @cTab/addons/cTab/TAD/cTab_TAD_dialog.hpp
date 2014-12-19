@@ -191,6 +191,13 @@ class cTab_TAD_dlg
 		};
 		class on_screen_currentDirection: cTab_TAD_on_screen_currentDirection {};
 		class on_screen_currentElevation: cTab_TAD_on_screen_currentElevation {};
+		class btnF7: cTab_RscButton_TAD_OSB19
+		{
+			idc = -1;
+			action = "['cTab_TAD_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
+			tooltip = "Center Map On Current Position (F7)";
+		};
+		class on_screen_centerMapText: cTab_TAD_on_screen_centerMapText {};
 
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
 		#include "\cTab\shared\cTab_markerMenu_controls.hpp"

@@ -174,11 +174,10 @@ class cTab_microDAGR_cursor: cTab_RscPicture
 	h = pxToScreen_H(128 / 33 * cTab_GUI_microDAGR_CURSOR);
 	colorText[] = COLOR_NEON_GREEN;
 };
-class cTab_microDAGR_pwrbtn: cTab_RscButton_microDAGR_LeftBtn
+class cTab_microDAGR_btnF7: cTab_RscButton_microDAGR_LeftBtn
 {
-	idc = IDC_CTAB_BTNMAIN;
-	action = "closeDialog 0;";
-	tooltip = "Close Interface";
+	idc = -1;
+	tooltip = "Center Map On Current Position (F7)";
 };
 class cTab_microDAGR_btnbrtpls: cTab_RscButton_microDAGR_RightUp
 {

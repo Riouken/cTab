@@ -56,6 +56,10 @@ if (_dikCode == 64 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg","cT
 	[_displayName] call cTab_fnc_mapType_toggle;
 	true
 };
+if (_dikCode == 65 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg","cTab_TAD_dlg","cTab_microDAGR_dlg","cTab_FBCB2_dlg"]}) exitWith { // F7
+	[_displayName] call cTab_fnc_centerMapOnPlayerPosition;
+	true
+};
 if (_dikCode == 211 && {cTabCursorOnMap}) exitWith { // DELETE
 	_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
 	_currentMapType = [_displayName,"mapType"] call cTab_fnc_getSettings;

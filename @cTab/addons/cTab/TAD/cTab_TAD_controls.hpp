@@ -706,6 +706,14 @@ class cTab_TAD_on_screen_currentElevation: cTab_TAD_on_screen_currentDirection
 	idc = IDC_CTAB_OSD_ELEVATION;
 	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB12_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4 / 2);
 };
+class cTab_TAD_on_screen_centerMapText: cTab_RscText_TAD
+{
+	idc = -1;
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_L + cTab_GUI_TAD_OSD_OSB_TEXT_OFFSET);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_OSB19_Y - cTab_GUI_TAD_OSD_ELEMENT_STD_H / 2);
+	w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 3);
+	text = "CTR";
+};
 class cTab_TAD_loadingtxt: cTab_RscText_TAD
 {
 	idc = IDC_CTAB_LOADINGTXT;

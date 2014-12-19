@@ -48,7 +48,6 @@ class cTab_microDAGR_dlg
 		class grid: cTab_microDAGR_on_screen_grid {};
 		class dirOctant: cTab_microDAGR_on_screen_dirOctant {};
 		class background: cTab_microDAGR_background {};
-		class pwrbtn: cTab_microDAGR_pwrbtn {};
 		class btnbrtpls: cTab_microDAGR_btnbrtpls {};
 		class btnbrtmns: cTab_microDAGR_btnbrtmns {};
 		class btnfunction: cTab_microDAGR_btnfunction
@@ -66,6 +65,10 @@ class cTab_microDAGR_dlg
 		class btnMapTools: cTab_microDAGR_btnMapTools
 		{
 			action = "['cTab_microDAGR_dlg'] call cTab_fnc_toggleMapTools;";
+		};
+		class btnF7: cTab_microDAGR_btnF7
+		{
+			action = "['cTab_microDAGR_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
 		};
 
 		// ---------- LOADING ------------

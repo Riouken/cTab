@@ -99,6 +99,12 @@ class cTab_FBCB2_dlg {
 			tooltip = "Toggle Map Textures";
 			action = "['cTab_FBCB2_dlg'] call cTab_fnc_mapType_toggle;";
 		};
+		class btnF7: cTab_FBCB2_btnF7
+		{
+			idc = -1;
+			action = "['cTab_FBCB2_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
+			tooltip = "Center Map On Current Position (F7)";
+		};
 		class hookGrid: cTab_FBCB2_on_screen_hookGrid {};
 		class hookElevation: cTab_FBCB2_on_screen_hookElevation {};
 		class hookDst: cTab_FBCB2_on_screen_hookDst {};

@@ -146,6 +146,7 @@ class cTab_TAD_dsp
 		class hookToggleText2: cTab_TAD_on_screen_hookToggleText2 {};
 		class on_screen_currentDirection: cTab_TAD_on_screen_currentDirection {};
 		class on_screen_currentElevation: cTab_TAD_on_screen_currentElevation {};
+		class on_screen_centerMapText: cTab_TAD_on_screen_centerMapText {};
 
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_TAD_loadingtxt {};
