@@ -14,7 +14,7 @@ class cTab_TAD_dlg
 {
 	idd = 1755424;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_TAD_dlg', (_this select 0)];nul = [] execVM '\cTab\TAD\cTab_TAD_dialog_onload.sqf';";
+	onLoad = "uiNamespace setVariable ['cTab_TAD_dlg', (_this select 0)];";
 	onUnload = "uiNamespace setVariable ['cTab_TAD_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};

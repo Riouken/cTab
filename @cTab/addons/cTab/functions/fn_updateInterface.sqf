@@ -21,7 +21,7 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_ifName","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_renderTarget"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {};
@@ -33,15 +33,19 @@ _targetMapCtrl = controlNull;
 _targetMapScale = nil;
 _targetMapWorldPos = nil;
 
-_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
-
 if (count _this == 1) then {
 	_settings = _this select 0;
 } else {
 	// Retrieve all settings for the currently open interface
 	_settings = [_displayName] call cTab_fnc_getSettings;
 	_interfaceInit = true;
-	
+};
+
+_mode = [_settings,"mode"] call cTab_fnc_getFromPairs;
+if (isNil "_mode") then {
+	_mode = [_displayName,"mode"] call cTab_fnc_getSettings;
+	_loadingCtrl = displayNull;
+} else {
 	// show "Loading" control to hide all the action while its going on
 	if (!isNull _loadingCtrl) then {
 		_loadingCtrl ctrlShow true;
@@ -53,13 +57,161 @@ if (count _this == 1) then {
 	call {
 		// ------------ MODE ------------
 		if (_x select 0 == "mode") exitWith {
-			_modeSwitchScript = call {
-				if (_displayName == "cTab_Tablet_dlg") exitWith {"\cTab\tablet\cTab_Tablet_modeSwitch.sqf"};
-				if (_displayName == "cTab_Android_dlg") exitWith {"\cTab\android\cTab_android_modeSwitch.sqf"};
-				""
+			cTabUserPos = [];
+			
+			_displayItems = call {				
+				if (_displayName == "cTab_Tablet_dlg") exitWith {
+					[3300,3301,3302,3303,3304,3305,3306,
+					IDC_CTAB_GROUP_DESKTOP,
+					IDC_CTAB_GROUP_UAV,
+					IDC_CTAB_GROUP_HCAM,
+					IDC_CTAB_GROUP_MESSAGE,
+					IDC_CTAB_MINIMAPBG,
+					IDC_CTAB_CTABHCAMMAP,
+					IDC_CTAB_CTABUAVMAP,
+					IDC_CTAB_SCREEN,
+					IDC_CTAB_SCREEN_TOPO,
+					IDC_CTAB_HCAM_FULL,
+					IDC_CTAB_OSD_HOOK_GRID,
+					IDC_CTAB_OSD_HOOK_ELEVATION,
+					IDC_CTAB_OSD_HOOK_DST,
+					IDC_CTAB_OSD_HOOK_DIR]
+				};
+				if (_displayName == "cTab_Android_dlg") exitWith {
+					[3300,3301,3302,3303,3304,3305,3306,
+					IDC_CTAB_GROUP_MENU,
+					IDC_CTAB_GROUP_MESSAGE,
+					IDC_CTAB_GROUP_COMPOSE,
+					IDC_CTAB_SCREEN,
+					IDC_CTAB_SCREEN_TOPO,
+					IDC_CTAB_OSD_HOOK_GRID,
+					IDC_CTAB_OSD_HOOK_ELEVATION,
+					IDC_CTAB_OSD_HOOK_DST,
+					IDC_CTAB_OSD_HOOK_DIR]
+				};
+				if ([_displayName] call cTab_fnc_isDialog) exitWith {
+					[3300,3301,3302,3303,3304,3305,3306]
+				};
+				[] // default
 			};
-			if (_modeSwitchScript != "") then {
-				_null = [_displayName,_x select 1] execVM _modeSwitchScript;
+			if !(_displayItems isEqualTo []) then {
+				_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
+				_displayItemsToShow = [];
+				
+				call {
+					// ---------- DESKTOP -----------
+					if (_mode == "DESKTOP") exitWith {
+						_displayItemsToShow pushback IDC_CTAB_GROUP_DESKTOP;
+						_btnActCtrl ctrlSetText "";
+						_btnActCtrl ctrlSetTooltip "";
+					};
+					// ---------- BFT -----------
+					if (_mode == "BFT") exitWith {
+						_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
+						_mapType = [_displayName,"mapType"] call cTab_fnc_getSettings;
+						_mapIDC = [_mapTypes,_mapType] call cTab_fnc_getFromPairs;
+						
+						_displayItemsToShow pushBack _mapIDC;
+						
+						_mapTools = [_displayName,"mapTools"] call cTab_fnc_getSettings;
+						if (!isNil "_mapTools" && {_mapTools}) then {
+							_displayItemsToShow = _displayItemsToShow + [
+								IDC_CTAB_OSD_HOOK_GRID,
+								IDC_CTAB_OSD_HOOK_ELEVATION,
+								IDC_CTAB_OSD_HOOK_DST,
+								IDC_CTAB_OSD_HOOK_DIR
+							];
+						};
+						
+						_showMenu = [_displayName,"showMenu"] call cTab_fnc_getSettings;
+						if (!isNil "_showMenu" && {_showMenu}) then	{
+							_displayItemsToShow pushBack IDC_CTAB_GROUP_MENU;
+						};
+						
+						_btnActCtrl ctrlSetTooltip "";
+					};
+					// ---------- UAV -----------
+					if (_mode == "UAV") exitWith {
+						_displayItemsToShow = [
+							IDC_CTAB_GROUP_UAV,
+							IDC_CTAB_MINIMAPBG,
+							IDC_CTAB_CTABUAVMAP
+						];
+						_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
+						_btnActCtrl ctrlSetTooltip "View Optics";
+						_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
+						lbClear _uavListCtrl;
+						// Populate list of UAVs
+						{
+							if (!(crew _x isEqualTo [])) then {
+								_index = _uavListCtrl lbAdd (str _x);
+								_uavListCtrl lbSetData [_index,str _x];
+							};
+						} count allUnitsUav;
+						lbSort [_uavListCtrl, "ASC"];
+						for "_x" from 0 to (lbSize _uavListCtrl - 1) do {
+							if (_data == _uavListCtrl lbData _x) exitWith {
+								if (lbCurSel _uavListCtrl != _x) then {
+									_uavListCtrl lbSetCurSel _x;
+									[_data,[[0,"rendertarget8"],[1,"rendertarget9"]]] spawn cTab_fnc_createUavCam;
+								};
+							};
+						};
+						if (lbCurSel _uavListCtrl == -1) then {
+							[] spawn cTab_fnc_deleteUAVcam;
+						};
+					};
+					// ---------- HELMET CAM -----------
+					if (_mode == "HCAM") exitWith {
+						_displayItemsToShow = [
+							IDC_CTAB_GROUP_HCAM,
+							IDC_CTAB_MINIMAPBG,
+							IDC_CTAB_CTABHCAMMAP
+						];
+						_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
+						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+						_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
+						// Populate list of HCAMs
+						lbClear _hcamListCtrl;
+						{
+							_index = _hcamListCtrl lbAdd format ["%2 (%1:%3)",groupId group _x,name _x,[_x] call CBA_fnc_getGroupIndex];
+							_hcamListCtrl lbSetData [_index,str _x];
+						} count cTabHcamlist;
+						lbSort [_hcamListCtrl, "ASC"];
+						for "_x" from 0 to (lbSize _hcamListCtrl - 1) do {
+							if (_data == _hcamListCtrl lbData _x) exitWith {
+								if (lbCurSel _hcamListCtrl != _x) then {
+									_hcamListCtrl lbSetCurSel _x;
+									['rendertarget12',_data] spawn cTab_fnc_createHelmetCam;
+								};
+							};
+						};
+						if (lbCurSel _hcamListCtrl == -1) then {
+							call cTab_fnc_deleteHelmetCam;
+						};
+					};
+					// ---------- MESSAGING -----------
+					if (_mode == "MESSAGE") exitWith {
+						_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
+						call cTab_msg_gui_load;
+						cTabRscLayerMailNotification cutText ["", "PLAIN"];
+					};
+					// ---------- MESSAGING COMPOSE -----------
+					if (_mode == "COMPOSE") exitWith {
+						_displayItemsToShow pushBack IDC_CTAB_GROUP_COMPOSE;
+						call cTab_msg_gui_load;
+					};
+					// ---------- FULLSCREEN HELMET CAM -----------
+					if (_mode == "HCAM_FULL") exitWith {
+						_displayItemsToShow = [IDC_CTAB_HCAM_FULL];
+						_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
+						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
+						['rendertarget13',_data] spawn cTab_fnc_createHelmetCam;
+					};
+				};
+				
+				// hide every _displayItems not in _displayItemsToShow
+				{ctrlShow [_x,_x in _displayItemsToShow];} count _displayItems;
 			};
 		};
 		// ------------ SHOW ICON TEXT ------------
@@ -234,7 +386,7 @@ if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
 };
 
 // now hide the "Loading" control since we are done
-if (_interfaceInit && {!isNull _loadingCtrl}) then {
+if (!isNull _loadingCtrl) then {
 	_loadingCtrl ctrlShow false;
 	while {ctrlShown _loadingCtrl} do {};
 };
