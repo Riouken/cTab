@@ -89,7 +89,7 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_DST,
 					IDC_CTAB_OSD_HOOK_DIR]
 				};
-				if ([_displayName] call cTab_fnc_isDialog) exitWith {
+				if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
 					[3300,3301,3302,3303,3304,3305,3306]
 				};
 				[] // default
