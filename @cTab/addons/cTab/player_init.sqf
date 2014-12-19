@@ -35,6 +35,7 @@ if (_mapSize == 0) then {
 	switch (worldName) do {
 		case "Altis": {_mapSize = 30720};
 		case "Bootcamp_ACR": {_mapSize = 3840}; //Bukovina
+		case "Bornholm" : {_mapSize = 22528}; //Bornholm
 		case "Chernarus": {_mapSize = 15360};
 		case "Desert_E": {_mapSize = 2048}; //Desert
 		case "fallujah": {_mapSize = 10240}; //Fallujah
@@ -43,6 +44,7 @@ if (_mapSize == 0) then {
 		case "j198_ftb": {_mapSize = 7168}; //Ft. Benning - US Army Infantry School
 		case "mbg_celle2": {_mapSize = 12288}; //Celle 2
 		case "Mountains_ACR": {_mapSize = 6400}; //Takistan Mountains
+		case "namalsk": {_mapSize = 12800}; //Namalsk
 		case "Porto": {_mapSize = 5120}; //Porto
 		case "ProvingGrounds_PMC": {_mapSize = 2048}; //Proving Grounds
 		case "Sara": {_mapSize = 20480}; //Sahrani
