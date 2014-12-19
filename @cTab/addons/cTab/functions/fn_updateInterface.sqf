@@ -16,7 +16,7 @@
 		BOOLEAN - Always true
  	
  	Example:
-		[["mapType","SAT"],["mapScale","4"]] call cTab_fnc_updateInterface;
+		[[["mapType","SAT"],["mapScale","4"]]] call cTab_fnc_updateInterface;
 */
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
@@ -365,7 +365,7 @@ if (isNil "_mode") then {
 
 // update scale and world position if we have to. If so, fill in the blanks and make the changes
 if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
-	if (!isNull _targetMapCtrl) then {
+	if (isNull _targetMapCtrl) then {
 		_targetMapName = [_displayName,"mapType"] call cTab_fnc_getSettings;
 		_mapTypes = [_displayName,"mapTypes"] call cTab_fnc_getSettings;
 		_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
