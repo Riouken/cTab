@@ -324,6 +324,7 @@ Returns TRUE when action was taken (interface opened or closed)
 Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
 */
 cTab_fnc_onIfMainPressed = {
+	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
@@ -336,6 +337,7 @@ cTab_fnc_onIfMainPressed = {
 		true
 	};
 	if !(isNil "cTabIfOpen") then {
+		_previousInterface = cTabIfOpen select 1;
 		// close Secondary / Tertiary
 		call cTab_fnc_close;
 	};
@@ -343,30 +345,36 @@ cTab_fnc_onIfMainPressed = {
 	_vehicle = vehicle _player;
 	
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-		nul = [0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_display_start.sqf";
-		true
+		if (_previousInterface != "cTab_TAD_dsp") then {
+			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+			[0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_display_start.sqf";
+			true
+		} else {false};
 	};
-	
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-		nul = [0,_player,_vehicle] execVM "cTab\android\cTab_android_display_start.sqf";
-		true
+		if (_previousInterface != "cTab_Android_dsp") then {
+			[0,_player,_vehicle] execVM "cTab\android\cTab_android_display_start.sqf";
+			true
+		} else {false};
 	};
-	
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
-		cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-		nul = [0,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_display_start.sqf";
-		true
+		if (_previousInterface != "cTab_microDAGR_dsp") then {
+			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
+			[0,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_display_start.sqf";
+			true
+		} else {false};
 	};
-	
-	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-		nul = [0,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
-		true
-	};
-	
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		nul = [0,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
-		true
+		if (_previousInterface != "cTab_FBCB2_dlg") then {
+			[0,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
+			true
+		} else {false};
+	};
+	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
+		if (_previousInterface != "cTab_Tablet_dlg") then {
+			[0,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			true
+		} else {false};
 	};
 	
 	false
@@ -380,6 +388,7 @@ Returns TRUE when action was taken (interface opened or closed)
 Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
 */
 cTab_fnc_onIfSecondaryPressed = {
+	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
@@ -392,40 +401,43 @@ cTab_fnc_onIfSecondaryPressed = {
 		true
 	};
 	if !(isNil "cTabIfOpen") then {
+		_previousInterface = cTabIfOpen select 1;
 		// close Main / Tertiary
 		call cTab_fnc_close;
 	};
 	_player = player;
 	_vehicle = vehicle _player;
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-		nul = [1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
-		true
+		if (_previousInterface != "cTab_TAD_dlg") then {
+			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+			[1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+			true
+		} else {false};
+	};
+	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+		if (_previousInterface != "cTab_FBCB2_dlg") then {
+			[1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
+			true
+		} else {false};
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-		call {
-			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
-			};
-			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
-			};
-			nul = [1,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
-		};
-		true
+		if (_previousInterface != "cTab_Android_dlg") then {
+			[1,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
+			true
+		} else {false};
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
-		call {
-			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
-			};
-			if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-				nul = [1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
-			};
+		if (_previousInterface != "cTab_microDAGR_dlg") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			nul = [1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
-		};
-		true
+			[1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
+			true
+		} else {false};
+	};
+	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
+		if (_previousInterface != "cTab_Tablet_dlg") then {
+			[1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			true
+		} else {false};
 	};
 	false
 };
@@ -438,6 +450,7 @@ Returns TRUE when action was taken (interface opened or closed)
 Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
 */
 cTab_fnc_onIfTertiaryPressed = {
+	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
@@ -450,21 +463,43 @@ cTab_fnc_onIfTertiaryPressed = {
 		true
 	};
 	if !(isNil "cTabIfOpen") then {
+		_previousInterface = cTabIfOpen select 1;
 		// close Main / Secondary
 		call cTab_fnc_close;
 	};
 	_player = player;
 	_vehicle = vehicle _player;
+	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
+		if (_previousInterface != "cTab_Tablet_dlg") then {
+			[2,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			true
+		} else {false};
+	};
+	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
+		if (_previousInterface != "cTab_Android_dlg") then {
+			[2,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
+			true
+		} else {false};
+	};
+	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
+		if (_previousInterface != "cTab_microDAGR_dlg") then {
+			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
+			[2,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
+			true
+		} else {false};
+	};
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		call {	
-			if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-				nul = [2,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
-			};
-			if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-				nul = [2,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
-			};
-		};
-		true
+		if (_previousInterface != "cTab_TAD_dlg") then {
+			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
+			[2,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+			true
+		} else {false};
+	};
+	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
+		if (_previousInterface != "cTab_FBCB2_dlg") then {
+			[2,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
+			true
+		} else {false};
 	};
 	false
 };
