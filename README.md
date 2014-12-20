@@ -169,7 +169,7 @@ Changelog
 * Message receive notification has been made a lot less intrusive, both visually (now a small white envelope icon on the right side of the screen) and audibly (a humming sound similar to that of a mobile phone vibrating)
 * The "delete messages" function will now only delete selected messages (instead of all)
 * Added "small" version to Android interface, so you can now keep it visible while navigating
-* Reworked Tablet user interface
+* Reworked Tablet user interface, switching modes feels a lot more natural now
 * Reworked UAV camera positions, gunner and driver camera will now reflect what the UAV gunner and driver actually sees. Gunner camera now uses FLIR (white/hot) mode.
 * Lists of UAVs and helmet cameras are now alphabetically sorted
 * Reworked helmet "full-screen" view to only occupy the whole screen of the Tablet instead of the whole screen
@@ -198,6 +198,7 @@ Changelog
 * Changed BFT list generation and display functions to help de-clutter everyone's view. For example transports will no longer show overlayed icons for other units with cTab equipment that are mounted. Instead, the names of groups and the group indices of units from your own group will be displayed to the left of the transport's icon.
 * The arrow on the inner TAD range circle (that used to show north) will now rotate with the direction of the aircraft to help show the current direction of travel
 * Excluded static weapons from showing up on BFT
+* Added ability to define custom names for vehicles via the mission or scripts
 
 ### 2.0.1 ###
 * Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions
