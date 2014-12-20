@@ -157,6 +157,7 @@ Changelog
 ### 2.1.0 ###
 * Added MicroDAGR hand-held GPS.
   It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
+  Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
 * Enabled support for CBA Keybinding system to make key bind changes more user friendly and changeable without a restart. Userconfig settings now define the default keybinds.
 * Helmet Cam item no longer occupies the radio slot when added to inventory. This is to prevent complications with TFAR.
