@@ -9,7 +9,7 @@ Thanks to
 + LCpl C. Johnston - Technical advisor
 + LCpl Schwanke - Technical advisor
 + Knobee - Documentation
-+ Raspu - TAD, Android and MicroDAGR model
++ Raspu - TAD, Android and MicroDAGR background graphics and 3D models
 + Killzone_Kid - for his many excellent tutorials
 + Everyone else in the 15th MEU SOC and C-L-F for help with support and testing.
 
@@ -23,7 +23,7 @@ Features
 + Tracks all crewed Bluefor Military vehicles
 + Tracks any dismounted troops with the proper equipment
 + Android based Blue Force Tracker
-+ MicroDAGR handheld GPS with Blue Force Tracking
++ MicroDAGR hand-held GPS with Blue Force Tracking
 + Commanders Tablet can view live UAV streams
 + Commanders Tablet can view live Helmet Cam streams
 + Vehicle mounted FBCB2 interface, Blue Force Tracking
@@ -37,7 +37,7 @@ Known Issues
   [*BIS issue with command, please vote for a fix*](http://feedback.arma3.com/view.php?id=11577)
 + If your are viewing yourself from the UAV or Helmet Cam in PiP screen, your textures can bug on your unit
 + Even though items go into the GPS slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
-+ Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H` in the userconfig. This seems to only happen sometimes, sofar mostly for players playing Zeus.
++ Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This seems to only happen sometimes, so far mostly for players playing Zeus.
 + Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
 
 Required
@@ -61,12 +61,13 @@ The keys folder is for the server key.
 How to configure
 ----------------
 ### Key Bindings ###
+Key Bindings can now be configured via the CBA Keybinding system available to you from the configure controls screen once you are in game.
 You can reconfigure the default keys in the configuration file, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. The file can be edited in Notepad or any other text editor. These are the default key bindings:
 
 | Keys | Action |
 | --- | --- |
-| `H` | This key is used to open and close whatever cTab device is available to you. It can also be used to close UAV and Helmet Cam views. |
-| `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you, currently only available when in one of the pilot seats of an aircraft (TAD) or when otherwise equipped with a MicroDAGR. |
+| `H` | This key is used to open and close whatever cTab device is available to you, showing the "small" version where available. It can also be used to close UAV view. |
+| `CTRL` + `H` | Opens and closes the secondary view mode of the cTab device available to you. This would usually be the "large" version. |
 | `ALT` + `H` | Opens and closes an alternative cTab device that you may have available (i.e. when a pilot carrying a tablet, this will open the tablet). |
 | `LEFT DOUBLE-CLICK` |  Opens dialog to place markers at mouse cursor location. Not available on MicroDAGR |
 | `DEL` |  Deletes the highlighted user placed marker under your cursor. |
@@ -76,12 +77,13 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | `F4` |  Change to Message mode on tablet. |
 | `F5` |  Toggles map tools (grid/elevation/range/direction to mouse cursor). |
 | `F6` |  Toggles map mode (satellite/topographical/black). |
-| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD and MicroDAGR. |
-| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD and MicroDAGR. |
-| `ESC` | Closes all interactive cTab devices (i.e. all but the "small" TAD) as well as the UAV and Helmet Cam views. |
+| `F7` |  Center map on current position. |
+| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD, MicroDAGR and Android. |
+| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD, MicroDAGR and Android. |
+| `ESC` | Closes all interactive cTab devices (i.e. all but the "small" variants) as well as the UAV view. |
 
 ### Define vehicle types that have FBCB2 or TAD available ###
-To configure the list of vehicle types that have FBCB2 or TAD available, edit the `cTab_vehicleClass_has_FBCB2` and `cTab_vehicleClass_has_TAD` arrays in the configuration file on the server, wich can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`.
+To configure the list of vehicle types that have FBCB2 or TAD available, edit the `cTab_vehicleClass_has_FBCB2` and `cTab_vehicleClass_has_TAD` arrays in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`.
 
     class cTab_settings {
         cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"};
@@ -89,7 +91,7 @@ To configure the list of vehicle types that have FBCB2 or TAD available, edit th
     };
 
 ### Define helmet classes with enabled helmet camera ###
-To configure the list of helmet classes that enable helmet cameras, edit the `cTab_helmetClass_has_HCam` array in the configuration file on the server, wich can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
+To configure the list of helmet classes that enable helmet cameras, edit the `cTab_helmetClass_has_HCam` array in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
 
     class cTab_settings {
         cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"};
@@ -116,7 +118,7 @@ Place this in the initialisation of a soldier:
 
     this addItem "ItemcTab";
 
-Note: This will add the item to the actual inventory, but not assign it to the GPS slot. The unit will have to have enough space in its inventory to fit the item, otherwise it won't be assigned. `addItem` assigns the item to the next best inventory container that fits the item, in the order of uniform, vest and backpack. The Tablet (`itemcTab`) for example won't fit in most uniforms, so there has to be space in either the vest or backpack. Use `addItemToBackpack` to add the item directly to the unit's backpack and `addItemToVest` to directly assign it to the vest. To assign an item directly to the GPS slot (it has no space restrictons, but will still count towards the unit's total load), use ´linkItem´ instead.
+Note: This will add the item to the actual inventory, but not assign it to the GPS slot. The unit will have to have enough space in its inventory to fit the item, otherwise it won't be assigned. `addItem` assigns the item to the next best inventory container that fits the item, in the order of uniform, vest and backpack. The Tablet (`itemcTab`) for example won't fit in most uniforms, so there has to be space in either the vest or backpack. Use `addItemToBackpack` to add the item directly to the unit's backpack and `addItemToVest` to directly assign it to the vest. To assign an item directly to the GPS slot (it has no space restrictions, but will still count towards the unit's total load), use ´linkItem´ instead.
 
 This will for example assign the MicroDAGR to the GPS slot and place the Tablet into the unit's backpack:
 
@@ -153,23 +155,48 @@ By default all vehicles will be shown with their group names next to them. This 
 Changelog
 ---------
 ### 2.1.0 ###
-* Added MicroDAGR handheld GPS.
-  It features a self-centering small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
+* Added MicroDAGR hand-held GPS.
+  It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
-* Enabled support for CBA Keybinding system to make key bind changes more user friendly and changable without a restart. Userconfig settings now define the default keybinds.
+* Enabled support for CBA Keybinding system to make key bind changes more user friendly and changeable without a restart. Userconfig settings now define the default keybinds.
 * Helmet Cam item no longer occupies the radio slot when added to inventory. This is to prevent complications with TFAR.
 * Changed weight of all items to be close to their real-world equivalents (before everything did weight 45g)
 * Updated Android background graphic and added 3D model (for when you drop it on the ground)
+* Completely reworked Android user interface
+* Added messaging to Android interface
+* Sent messages are now kept with the list of received messages
+* Message receive notification has been made a lot less intrusive, both visually (now a small white envelope icon on the right side of the screen) and audibly (a humming sound similar to that of a mobile phone vibrating)
+* The "delete messages" function will now only delete selected messages (instead of all)
+* Added "small" version to Android interface, so you can now keep it visible while navigating
+* Reworked Tablet user interface
+* Reworked UAV camera positions, gunner and driver camera will now reflect what the UAV gunner and driver actually sees. Gunner camera now uses FLIR (white/hot) mode.
+* Lists of UAVs and helmet cameras are now alphabetically sorted
+* Reworked helmet "full-screen" view to only occupy the whole screen of the Tablet instead of the whole screen
 * Added ability to remove marker at mouse cursor position. The marker currently under the cursor will be highlighted and removed upon pressing DEL (delete on your keyboard).
 * Players sitting in the back of the trucks (HMTT and Tempest by default) now no longer have access to the vehicle based FBCB2
 * Workaround for left-door gunner having access to the TAD instead of the co-pilot in Konyo's Boeing/SOAR MH-47E
-* Tablet is now restored to last mode of operation operation (BFT,UAV,...) on open
-* Added switch (F6) to toggle map modes (satellite, topographical, black) on the "large" versions of the devices that have them (currently Tablet, TAD and MicroDAGR)
-* Added switch (OSB20) to toggle map on TAD between satellite, topographical and black modes
+* All interfaces are now restored to last mode of operation operation (BFT,Messaging,...) on open
+* All interfaces will now restore last map position and zoom level on open
+* Added topographical map mode to all devices
+* Added black map mode to TAD
+* Added switch (F6) to toggle map modes (satellite, topographical, black) via the "large" versions of the devices (the "small" versions will use the same setting)
+* Added switch (F7) to center map on current player position
+* Added current in-game time to all interfaces
+* Added current grid location as well as current heading in degrees and octant to all interfaces
 * Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
+* Added new marker types for infantry (AT and MG) and wheeled MRAPs/APCs
 * Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)
-* Added TAD compatibility (for correct map scale) for the following maps: Rahmadi, Takistan Mountains, Porto, Sahrani, United Sahrani, Southern Sahrani
-* Added map tools (can be toggled using F6) that show grid and elevation at mouse cursor as well as distance and direction from the current positon to the mouse cursor positon.
+* Added a "Copy Grid" entry to the map double-click dialog, copying the grid location of the clicked location to the clipboard
+* Added map tools (can be toggled using F5) that show grid and elevation at mouse cursor as well as distance and direction from the current position to the mouse cursor position.
+* Island sizes are now dynamically detected, no more waiting on islands being supported
+* Tweaked map visuals to be easier to read
+* General performance tweaks
+* Added new keybinding (ALT + H) to allow access to alternative interface (i.e. to get access to the Tablet that is being carried while in one of the pilot seats of a helicopter)
+* Infantry carrying a cTab device in your own group will now show with a smaller infantry icon that points in the direction of the unit as well as the index of that unit within the group (instead of a square infantry symbol with the full group ID). To anyone outside this group, there will only be a single icon shown for the group at the position of the group's leader (if equipped with a cTab device, otherwise the next unit in line).
+* Infantry groups will now automatically show the group strength with dots above the icon
+* Changed BFT list generation and display functions to help de-clutter everyone's view. For example transports will no longer show overlayed icons for other units with cTab equipment that are mounted. Instead, the names of groups and the group indices of units from your own group will be displayed to the left of the transport's icon.
+* The arrow on the inner TAD range circle (that used to show north) will now rotate with the direction of the aircraft to help show the current direction of travel
+* Excluded static weapons from showing up on BFT
 
 ### 2.0.1 ###
 * Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions
