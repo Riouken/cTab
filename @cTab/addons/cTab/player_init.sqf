@@ -75,9 +75,7 @@ cTabSettings = [];
 
 [cTabSettings,"COMMON",[
 	["mode","BFT"],
-	["showIconText",true],
-	["mapTypes",[["SAT",IDC_CTAB_SCREEN]]],
-	["mapType","SAT"]
+	["mapScaleMin",0.1],
 	["mapScaleMax",2 ^ round(sqrt(2666 * cTabMapScaleFactor / 1024))]
 ]] call BIS_fnc_setToPairs;
 
@@ -86,9 +84,11 @@ cTabSettings = [];
 
 [cTabSettings,"Tablet",[
 	["mode","DESKTOP"],
+	["showIconText",true],
 	["mapWorldPos",[]],
 	["mapScale",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapType","SAT"],
 	["uavCam",""],
 	["hCam",""],
 	["mapTools",true]
@@ -96,18 +96,21 @@ cTabSettings = [];
 
 [cTabSettings,"Android",[
 	["mode","BFT"],
+	["showIconText",true],
 	["mapWorldPos",[]],
 	["mapScale",0.4],
-	["mapScaleMin",0.1],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapType","SAT"],
 	["showMenu",false],
 	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"FBCB2",[
 	["mapWorldPos",[]],
+	["showIconText",true],
 	["mapScale",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapType","SAT"],
 	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
@@ -126,6 +129,7 @@ cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 
 [cTabSettings,"TAD",[
 	["mapWorldPos",[]],
+	["showIconText",true],
 	["mapScale",2],
 	["mapScaleMin",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
@@ -145,9 +149,10 @@ cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 
 [cTabSettings,"MicroDAGR",[
 	["mapWorldPos",[]],
+	["showIconText",true],
 	["mapScale",0.4],
-	["mapScaleMin",0.1],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
+	["mapType","SAT"],
 	["mapTools",true]
 ]] call BIS_fnc_setToPairs;
 
