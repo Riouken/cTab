@@ -21,46 +21,42 @@ cTabrscLayer = ["cTab"] call BIS_fnc_rscLayer;
 cTabRscLayerMailNotification = ["cTab_mailNotification"] call BIS_fnc_rscLayer;
 
 /*
- figure out the scaling factor based on the map being played
- on Stratis we have a map scaling factor of 3.125 km per ctrlMapScale
- Stratis map size is 8192 (Altis is 30720)
- 8192 / 3.125 = 2621.44
- Divide the actual mapSize by this factor to obtain the scaling factor
- It seems to work fine
- Unfortunately the map size is not configured properly for some custom maps,
- so these have to be hard-coded until that changes.
+Figure out the scaling factor based on the current map (island) being played
+Requires the scale of the map control to be at 0.001
 */
-_mapSize = (getNumber (configFile>>"CfgWorlds">>worldName>>"mapSize"));
-if (_mapSize == 0) then {
-	switch (worldName) do {
-		case "Altis": {_mapSize = 30720};
-		case "Bootcamp_ACR": {_mapSize = 3840}; //Bukovina
-		case "Bornholm" : {_mapSize = 22528}; //Bornholm
-		case "Chernarus": {_mapSize = 15360};
-		case "Desert_E": {_mapSize = 2048}; //Desert
-		case "fallujah": {_mapSize = 10240}; //Fallujah
-		case "fata": {_mapSize = 10240}; //PR FATA
-		case "Intro": {_mapSize = 5120}; //Rahmadi
-		case "j198_ftb": {_mapSize = 7168}; //Ft. Benning - US Army Infantry School
-		case "mbg_celle2": {_mapSize = 12288}; //Celle 2
-		case "Mountains_ACR": {_mapSize = 6400}; //Takistan Mountains
-		case "namalsk": {_mapSize = 12800}; //Namalsk
-		case "Porto": {_mapSize = 5120}; //Porto
-		case "ProvingGrounds_PMC": {_mapSize = 2048}; //Proving Grounds
-		case "Sara": {_mapSize = 20480}; //Sahrani
-		case "Sara_dbe1": {_mapSize = 20480}; //United Sahrani
-		case "SaraLite": {_mapSize = 10240}; //Southern Sahrani
-		case "Shapur_BAF": {_mapSize = 2048}; //Shapur
-		case "Stratis": {_mapSize = 8192};
-		case "Takistan": {_mapSize = 12800};
-		case "utes": {_mapSize = 5120}; //Utes
-		case "VR": {_mapSize = 8192}; //Virtual Reality
-		case "Woodland_ACR": {_mapSize = 7680}; //Bystrica
-		case "Zargabad": {_mapSize = 8192};
-		default {_mapSize = 8192};
-	};
+call {
+	private ["_displayName","_display","_mapCtrl","_mapScreenPos","_mapScreenX_left","_mapScreenH","_mapScreenY_top","_mapScreenY_middle","_mapWorldY_top","_mapWorldY_middle"];
+	
+	_displayName = "cTab_mapSize_dsp";
+	cTabrscLayer cutRsc [_displayName,"PLAIN",0, false];
+	while {isNull (uiNamespace getVariable _displayName)} do {};
+	_display = uiNamespace getVariable _displayName;
+	_mapCtrl = _display displayCtrl 1110;
+
+	// get the screen postition of _mapCtrl as [x, y, w, h]
+	_mapScreenPos = ctrlPosition _mapCtrl;
+
+	// Find the screen coordinate for the left side
+	_mapScreenX_left = _mapScreenPos select 0;
+	// Find the screen height
+	_mapScreenH	= _mapScreenPos select 3;
+	// Find the screen coordinate for top Y 
+	_mapScreenY_top = _mapScreenPos select 1;
+	// Find the screen coordinate for middle Y 
+	_mapScreenY_middle = _mapScreenY_top + _mapScreenH / 2;
+
+	// Get world coordinate for top Y in meters
+	_mapWorldY_top = (_mapCtrl ctrlMapScreenToWorld [_mapScreenX_left,_mapScreenY_top]) select 1;
+	// Get world coordinate for middle Y in meters
+	_mapWorldY_middle = (_mapCtrl ctrlMapScreenToWorld [_mapScreenX_left,_mapScreenY_middle]) select 1;
+
+	// calculate the difference between top and middle world coordinates, devide by the screen height and return
+	cTabMapScaleFactor = (abs(_mapWorldY_middle - _mapWorldY_top)) / _mapScreenH;
+
+	_display closeDisplay 0;
+	uiNamespace setVariable [_displayName, displayNull];
 };
-cTabMapScaleFactor = _mapSize / 2621.44;
+
 cTabMapScaleUAV = 0.8 / cTabMapScaleFactor;
 cTabMapScaleHCam = 0.3 / cTabMapScaleFactor;
 
@@ -80,9 +76,9 @@ cTabSettings = [];
 [cTabSettings,"COMMON",[
 	["mode","BFT"],
 	["showIconText",true],
-	["mapScaleMax",2 ^ round(sqrt(_mapSize / 1024))],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN]]],
 	["mapType","SAT"]
+	["mapScaleMax",2 ^ round(sqrt(2666 * cTabMapScaleFactor / 1024))]
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"Main",[

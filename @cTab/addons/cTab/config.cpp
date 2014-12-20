@@ -186,6 +186,7 @@ class CfgNotifications
 class RscTitles
 {
 	titles[]={};
+	#include "\cTab\shared\cTab_mapSize_title.hpp"
 	#include "\cTab\shared\cTab_mail_title.hpp"
 	#include <\cTab\TAD\cTab_TAD_display.hpp>
 	#include <\cTab\microDAGR\cTab_microDAGR_display.hpp>
