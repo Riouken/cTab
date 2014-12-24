@@ -5,6 +5,7 @@ class CfgFunctions
 		class Functions
 		{
 			file="cTab\functions";
+			class addUserMarker{};
 			class centerMapOnPlayerPosition{};
 			class checkGear{};
 			class createHelmetCam{};
@@ -22,6 +23,7 @@ class CfgFunctions
 			class findUserMarker{};
 			class getFromPairs{};
 			class getInfMarkerIcon{};
+			class getPlayerSides{};
 			class getSettings{};
 			class isDialog{};
 			class onIfKeyDown{};
@@ -30,6 +32,7 @@ class CfgFunctions
 			class unitInEnabledVehicleSeat{};
 			class updateLists{};
 			class updateInterface{};
+			class updateUserMarkerList{};
 		};
 	};
 };

@@ -31,7 +31,7 @@ _data = _this select 0;
 // see if given UAV name is still in the list of valid UAVs
 {
 	if (_data == str _x) exitWith {_uav = _x;};
-} count allUnitsUav;
+} count cTabUAVlist;
 
 // exit if requested UAV could not be found
 if (isNull _uav) exitWith {false};

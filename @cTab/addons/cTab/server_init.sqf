@@ -34,6 +34,6 @@ publicVariable "cTab_helmetClass_has_HCam_server";
 	
 	while {true} do {
 		["cTab_FBCB2_updatePulse"] call CBA_fnc_globalEvent;
-		sleep 10;
+		sleep 30;
 	};
 };

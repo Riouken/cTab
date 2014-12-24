@@ -17,12 +17,18 @@
 		_deleted = [5] call cTab_fnc_deleteUserMarker;
 */
 
-private["_markerIndex"];
+private["_markerIndex","_playerEncryptionKey","_cTabUserMarkerListString","_cTabUserMarkerList"];
 
 _markerIndex = _this select 0;
-if (_markerIndex >= 0 && count cTabUserIconList > _markerIndex) exitWith {
-	cTabUserIconList deleteAt _markerIndex;
-	publicVariable "cTabUserIconList";
+_playerEncryptionKey = missionNamespace getVariable format ["cTab_encryptionKey_%1",side cTab_player];
+_cTabUserMarkerListString = format ["cTab_userMarkerList_%1",_playerEncryptionKey];
+_cTabUserMarkerList = missionNamespace getVariable [_cTabUserMarkerListString,[]];
+
+if (_markerIndex >= 0 && count _cTabUserMarkerList > _markerIndex) exitWith {
+	_cTabUserMarkerList deleteAt _markerIndex;
+	publicVariable _cTabUserMarkerListString;
+	call cTab_fnc_updateUserMarkerList;
+	
 	true
 };
 

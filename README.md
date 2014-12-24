@@ -124,13 +124,20 @@ This will for example assign the MicroDAGR to the GPS slot and place the Tablet 
 
     this linkItem "ItemMicroDAGR";this addItemToBackpack "ItemcTab";
 
-### Set cTab side ###
-If you wish to use cTab on a different side than Bluefore, put this at the **TOP** of your `init.sqf`:
+### Set cTab side-specific encryption keys ###
+If you whish multiple factions to share cTab data, you will have to set their encryption keys to be the same. These are the variables that hold the encryption keys with their default values:
 
-    cTabSide = east;
+    cTab_encryptionKey_west = "bluefor";
+    cTab_encryptionKey_east = "opfor";
+    cTab_encryptionKey_guer = "independent";
+    cTab_encryptionKey_civ = "civilian";
 
-Change `east` to what ever side you wish to have cTab available on (i.e. `guer`).
-You can only have cTab available for one side. If you want cTab available on the west side or NATO then you do not need to include this.
+So if you want to have for example OPFOR and GUER share cTab data, put this at the **TOP** of your `init.sqf`:
+
+    // set GUER encryption key to be the same as the default BLUEFOR encryption key
+    cTab_encryptionKey_guer = "bluefor";
+
+Note: If GUER is set to be friendly with either WEST or EAST, GUER will by default have the same encryption key as the friendly faction. Set `cTab_encryptionKey_guer` to override.
 
 ### Override vehicle types that have FBCB2 or TAD available ###
 If you wish to override the list of vehicles that have FBCB2 or TAD available, put this at the **TOP** of your `init.sqf`:

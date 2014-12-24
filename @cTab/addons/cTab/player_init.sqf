@@ -8,13 +8,45 @@
 #include "functions\keys.sqf"
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-//prep the arrays that will hold ctab data
-cTabBFTmembers = [];
-cTabBFTgroups = [];
-cTabBFTvehicles = [];
-cTabHcamlist = [];
+// Set up side specific encryption keys
+if (isNil "cTab_encryptionKey_west") then {
+	cTab_encryptionKey_west = "bluefor";
+};
+if (isNil "cTab_encryptionKey_east") then {
+	cTab_encryptionKey_east = "opfor";
+};
+if (isNil "cTab_encryptionKey_guer") then {
+	cTab_encryptionKey_guer = call {
+		if (([west,resistance] call BIS_fnc_areFriendly) and {!([east,resistance] call BIS_fnc_areFriendly)}) exitWith {
+			"bluefor"
+		};
+		if (([east,resistance] call BIS_fnc_areFriendly) and {!([west,resistance] call BIS_fnc_areFriendly)}) exitWith {
+			"opfor"
+		};
+		"independent"
+	};
+};
+if (isNil "cTab_encryptionKey_civ") then {
+	cTab_encryptionKey_civ = "civilian";
+};
 
-if (isnil ("cTabSide")) then {cTabSide = west;}; 
+// set current player object in cTab_player and run a check on every frame to see if there is a change
+cTab_player = objNull;
+["cTab_checkForPlayerChange", "onEachFrame", {
+	if !(cTab_player isEqualTo (missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player])) then {
+		cTab_player = missionNamespace getVariable ["BIS_fnc_moduleRemoteControl_unit",player];
+		// close any interface that might still be open
+		call cTab_fnc_close;
+		//prep the arrays that will hold ctab data
+		cTabBFTmembers = [];
+		cTabBFTgroups = [];
+		cTabBFTvehicles = [];
+		cTabUAVlist = [];
+		cTabHcamlist = [];
+		call cTab_fnc_updateLists;
+		call cTab_fnc_updateUserMarkerList;
+	};
+}] call BIS_fnc_addStackedEventHandler;
 
 // Get a rsc layer for for our displays
 cTabrscLayer = ["cTab"] call BIS_fnc_rscLayer;
@@ -239,6 +271,18 @@ cTab_helmetClass_has_HCam = [] + _classNames;
 // add cTab_FBCB2_updatePulse event handler triggered periodically by the server
 ["cTab_FBCB2_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
+// add event handlers for when user markers get updated
+_usedEncryptionKeys = [];
+{
+	_encryptionKey = missionNamespace getVariable format ["cTab_encryptionKey_%1",_x];
+	if !(_encryptionKey in _usedEncryptionKeys) then {
+		_listName = format ["cTab_userMarkerList_%1",_encryptionKey];
+		_listName addPublicVariableEventHandler {cTab_fnc_updateUserMarkerList};
+		if (isNil _listName) then {missionNamespace setVariable [_listname,[]]};
+		0 = _usedEncryptionKeys pushBack _encryptionKey;
+	};
+} count ["west","east","guer","civ"];
+
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
@@ -259,7 +303,6 @@ cTabBFTtxt = true;
 cTabDrawMapTools = false;
 
 // Base defines.
-cTabUserIconList = [];
 cTabUavViewActive = false;
 cTabUAVcams = [];
 cTabUavScriptHandle = scriptNull;
@@ -342,7 +385,7 @@ cTab_fnc_onIfMainPressed = {
 		// close Secondary / Tertiary
 		call cTab_fnc_close;
 	};
-	_player = player;
+	_player = cTab_player;
 	_vehicle = vehicle _player;
 	
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
@@ -406,7 +449,7 @@ cTab_fnc_onIfSecondaryPressed = {
 		// close Main / Tertiary
 		call cTab_fnc_close;
 	};
-	_player = player;
+	_player = cTab_player;
 	_vehicle = vehicle _player;
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dlg") then {
@@ -468,7 +511,7 @@ cTab_fnc_onIfTertiaryPressed = {
 		// close Main / Secondary
 		call cTab_fnc_close;
 	};
-	_player = player;
+	_player = cTab_player;
 	_vehicle = vehicle _player;
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
@@ -675,7 +718,7 @@ cTabOnDrawbft = {
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -710,7 +753,7 @@ cTabOnDrawbftVeh = {
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -742,7 +785,7 @@ cTabOnDrawbftTAD = {
 	_display = ctrlParent _cntrlScreen;
 	
 	// current position
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	// change scale of map and centre to player position
@@ -788,7 +831,7 @@ cTabOnDrawbftTADdialog = {
 	[_cntrlScreen,1] call cTab_fnc_drawBftMarkers;
 	
 	// draw vehicle icon at own location
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
@@ -826,7 +869,7 @@ cTabOnDrawbftAndroid = {
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
@@ -854,7 +897,7 @@ cTabOnDrawbftAndroidDsp = {
 	_cntrlScreen = _this select 0;
 	_display = ctrlParent _cntrlScreen;
 	
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	
@@ -887,7 +930,7 @@ cTabOnDrawbftmicroDAGRdsp = {
 	_display = ctrlParent _cntrlScreen;
 	
 	// current position
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	// change scale of map and centre to player position
@@ -922,7 +965,7 @@ cTabOnDrawbftMicroDAGRdlg = {
 	cTabMapScale = ctrlMapScale _cntrlScreen;
 	
 	// current position
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	
@@ -963,7 +1006,7 @@ cTabOnDrawUAV = {
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw icon at own location
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL _veh,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// draw icon at UAV location
@@ -987,7 +1030,7 @@ cTabOnDrawHCam = {
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw icon at own location
-	_veh = vehicle player;
+	_veh = vehicle cTab_player;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL _veh,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// draw icon at helmet cam location
@@ -1114,13 +1157,6 @@ _return;
 
 };
 
-// fnc to push out data from the user placed icon to all clents.
-cTabUserIconPush = {
-	0 = cTabUserIconList pushBack cTabUserSelIcon;
-	publicVariable "cTabUserIconList";
-	true
-};
-
 cTabUavTakeControl = {
 	if (isNil 'cTabActUav') exitWith {false};
 	_uav = cTabActUav;
@@ -1178,6 +1214,7 @@ cTab_msg_gui_load = {
 	lbClear _msgControl;
 	lbClear _plrlistControl;
 	_plrList = playableUnits;
+	_validSides = call cTab_fnc_getPlayerSides;
 	
 	// turn this on for testing, otherwise not really usefull, since sending to an AI controlled, but switchable unit will send the message to the player himself
 	/*if (count _plrList < 1) then { _plrList = switchableUnits;};*/
@@ -1198,7 +1235,7 @@ cTab_msg_gui_load = {
 	} count _msgarry;
 	
 	{
-		if ((_x != player) && ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear)) then {
+		if ((side _x in _validSides) && {_x != cTab_player} && ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear)) then {
 			_index = _plrlistControl lbAdd name _x;
 			_plrlistControl lbSetData [_index,str _x];
 		};

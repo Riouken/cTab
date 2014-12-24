@@ -24,7 +24,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [4,cTabColorRed];Nop = [11] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [4,cTabColorRed];[11] call cTabUsrMenuSelect;";
 		};
 		class medbtn: cTab_MenuItem
 		{
@@ -35,7 +35,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [4,cTabColorGreen];Nop = [21] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [4,cTabColorGreen];[21] call cTabUsrMenuSelect;";
 		};
 		class genbtn: cTab_MenuItem
 		{
@@ -46,7 +46,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [4,cTabColorBlue];Nop = [31] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [4,cTabColorBlue];[31] call cTabUsrMenuSelect;";
 		};
 		class copyGrid: cTab_MenuItem
 		{
@@ -57,7 +57,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "copyToClipboard ('#' + mapGridPosition (cTabUserSelIcon select 0));Nop = [0] call cTabUsrMenuSelect;";
+			action = "copyToClipboard ('#' + mapGridPosition (cTabUserSelIcon select 0));[0] call cTabUsrMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -68,7 +68,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [0] call cTabUsrMenuSelect;";
+			action = "[0] call cTabUsrMenuSelect;";
 		};
 	};
 };
@@ -99,7 +99,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_inf.paa'];Nop = [12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_inf.paa'];[12] call cTabUsrMenuSelect;";
 		};
 		class mecinfbtn: cTab_MenuItem
 		{
@@ -110,7 +110,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_mech_inf.paa'];Nop = [12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_mech_inf.paa'];[12] call cTabUsrMenuSelect;";
 		};
 
 		class motrinfbtn: cTab_MenuItem
@@ -122,7 +122,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_motor_inf.paa'];Nop = [12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_motor_inf.paa'];[12] call cTabUsrMenuSelect;";
 		};
 		class amrbtn: cTab_MenuItem
 		{
@@ -133,7 +133,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_armor.paa'];Nop = [12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_armor.paa'];[12] call cTabUsrMenuSelect;";
 		};
 		class helibtn: cTab_MenuItem
 		{
@@ -144,7 +144,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_air.paa'];Nop = [12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_air.paa'];[12] call cTabUsrMenuSelect;";
 		};
 		class plnbtn: cTab_MenuItem
 		{
@@ -155,7 +155,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_plane.paa'];Nop = [12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_plane.paa'];[12] call cTabUsrMenuSelect;";
 		};
 		class uknbtn: cTab_MenuItem
 		{
@@ -166,7 +166,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_unknown.paa'];Nop = [12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\o_unknown.paa'];[12] call cTabUsrMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -177,7 +177,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [0] call cTabUsrMenuSelect;";
+			action = "[0] call cTabUsrMenuSelect;";
 		};
 	};
 };
@@ -208,7 +208,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [14] call cTabUsrMenuSelect;";
+			action = "[14] call cTabUsrMenuSelect;";
 		};
 		class patbtn: cTab_MenuItem
 		{
@@ -219,7 +219,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_0.paa'];[13] call cTabUsrMenuSelect;";
 		};
 		class sqdbtn: cTab_MenuItem
 		{
@@ -230,7 +230,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_1.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_1.paa'];[13] call cTabUsrMenuSelect;";
 		};
 		class sctbtn: cTab_MenuItem
 		{
@@ -241,7 +241,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_2.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_2.paa'];[13] call cTabUsrMenuSelect;";
 		};
 		class pltnbtn: cTab_MenuItem
 		{
@@ -252,7 +252,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_3.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,'\A3\ui_f\data\map\markers\nato\group_3.paa'];[13] call cTabUsrMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -263,7 +263,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [0] call cTabUsrMenuSelect;";
+			action = "[0] call cTabUsrMenuSelect;";
 		};
 	};
 };
@@ -295,7 +295,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,0];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,0];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class nebtn: cTab_MenuItem
 		{
@@ -306,7 +306,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,45];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,45];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class ebtn: cTab_MenuItem
 		{
@@ -317,7 +317,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,90];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,90];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class sebtn: cTab_MenuItem
 		{
@@ -328,7 +328,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,135];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,135];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class sbtn: cTab_MenuItem
 		{
@@ -339,7 +339,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,180];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,180];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class swbtn: cTab_MenuItem
 		{
@@ -350,7 +350,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,225];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,225];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class wbtn: cTab_MenuItem
 		{
@@ -361,7 +361,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,270];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,270];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class RscText_1022: cTab_MenuItem
 		{
@@ -372,7 +372,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,315];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,315];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class RscText_1023: cTab_MenuItem
 		{
@@ -383,7 +383,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,500];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,500];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class stnbtn: cTab_MenuItem
 		{
@@ -394,7 +394,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,700];nop = [] call cTabUserIconPush;Nop = [10] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,700];call cTab_fnc_addUserMarker;[10] call cTabUsrMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -405,7 +405,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [0] call cTabUsrMenuSelect;";
+			action = "[0] call cTabUsrMenuSelect;";
 		};
 	};
 };
@@ -436,7 +436,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_rifle.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_rifle.paa'];[13] call cTabUsrMenuSelect;";
 		};
 		class lmg_btn: cTab_MenuItem
 		{
@@ -447,7 +447,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_mg.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_mg.paa'];[13] call cTabUsrMenuSelect;";
 		};
 		class at_btn: cTab_MenuItem
 		{
@@ -458,7 +458,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_at.paa'];Nop = [13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\cTab\img\o_inf_at.paa'];[13] call cTabUsrMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -469,7 +469,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [0] call cTabUsrMenuSelect;";
+			action = "[0] call cTabUsrMenuSelect;";
 		};
 	};
 };
@@ -500,7 +500,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\join_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\join_CA.paa'];call cTab_fnc_addUserMarker;[20] call cTabUsrMenuSelect;";
 		};
 		class ccpbtn: cTab_MenuItem
 		{
@@ -511,7 +511,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\circle_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\circle_CA.paa'];call cTab_fnc_addUserMarker;[20] call cTabUsrMenuSelect;";
 		};
 		class basbtn: cTab_MenuItem
 		{
@@ -522,7 +522,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\mapcontrol\Hospital_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\mapcontrol\Hospital_CA.paa'];call cTab_fnc_addUserMarker;[20] call cTabUsrMenuSelect;";
 		};
 		class mcibtn: cTab_MenuItem
 		{
@@ -533,7 +533,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\warning_CA.paa'];nop = [] call cTabUserIconPush;Nop = [20] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\warning_CA.paa'];call cTab_fnc_addUserMarker;[20] call cTabUsrMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -544,7 +544,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [0] call cTabUsrMenuSelect;";
+			action = "[0] call cTabUsrMenuSelect;";
 		};
 	};
 };
@@ -575,7 +575,7 @@ class GenSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\b_hq.paa'];nop = [] call cTabUserIconPush;Nop = [30] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\nato\b_hq.paa'];call cTab_fnc_addUserMarker;[30] call cTabUsrMenuSelect;";
 		};
 		class lzbtn: cTab_MenuItem
 		{
@@ -586,7 +586,7 @@ class GenSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\end_CA.paa'];nop = [] call cTabUserIconPush;Nop = [30] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,'\A3\ui_f\data\map\markers\military\end_CA.paa'];call cTab_fnc_addUserMarker;[30] call cTabUsrMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -597,7 +597,7 @@ class GenSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "Nop = [0] call cTabUsrMenuSelect;";
+			action = "[0] call cTabUsrMenuSelect;";
 		};
 	};
 };
