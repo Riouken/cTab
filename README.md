@@ -62,6 +62,10 @@ How to configure
 ----------------
 ### Key Bindings ###
 Key Bindings can now be configured via the CBA Keybinding system available to you from the configure controls screen once you are in game.
+
+    CONFIGURE > CONTROLS > CONFIGURE ADDONS
+    Select "cTab" from the ADDON dropdown
+
 You can reconfigure the default keys in the configuration file, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. The file can be edited in Notepad or any other text editor. These are the default key bindings:
 
 | Keys | Action |
