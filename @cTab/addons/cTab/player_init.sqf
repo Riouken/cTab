@@ -8,6 +8,10 @@
 #include "functions\keys.sqf"
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
+// Get a rsc layer for for our displays
+cTabRscLayer = ["cTab"] call BIS_fnc_rscLayer;
+cTabRscLayerMailNotification = ["cTab_mailNotification"] call BIS_fnc_rscLayer;
+
 // Set up side specific encryption keys
 if (isNil "cTab_encryptionKey_west") then {
 	cTab_encryptionKey_west = "bluefor";
@@ -50,10 +54,6 @@ cTab_player = objNull;
 	};
 }] call BIS_fnc_addStackedEventHandler;
 
-// Get a rsc layer for for our displays
-cTabrscLayer = ["cTab"] call BIS_fnc_rscLayer;
-cTabRscLayerMailNotification = ["cTab_mailNotification"] call BIS_fnc_rscLayer;
-
 /*
 Figure out the scaling factor based on the current map (island) being played
 Requires the scale of the map control to be at 0.001
@@ -62,7 +62,7 @@ call {
 	private ["_displayName","_display","_mapCtrl","_mapScreenPos","_mapScreenX_left","_mapScreenH","_mapScreenY_top","_mapScreenY_middle","_mapWorldY_top","_mapWorldY_middle"];
 	
 	_displayName = "cTab_mapSize_dsp";
-	cTabrscLayer cutRsc [_displayName,"PLAIN",0, false];
+	cTabRscLayer cutRsc [_displayName,"PLAIN",0, false];
 	while {isNull (uiNamespace getVariable _displayName)} do {};
 	_display = uiNamespace getVariable _displayName;
 	_mapCtrl = _display displayCtrl 1110;
