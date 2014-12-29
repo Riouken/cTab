@@ -34,6 +34,6 @@ _maxDistance = _searchPos distanceSqr [(_searchPos select 0) + _targetRadius,(_s
 		_maxDistance = _distance;
 		_return = _forEachIndex;
 	};
-} forEach cTabUserIconList;
+} forEach cTabUserMarkerList;
 
 _return

@@ -147,7 +147,7 @@ if (isNil "_mode") then {
 								_index = _uavListCtrl lbAdd (str _x);
 								_uavListCtrl lbSetData [_index,str _x];
 							};
-						} count allUnitsUav;
+						} count cTabUAVlist;
 						lbSort [_uavListCtrl, "ASC"];
 						for "_x" from 0 to (lbSize _uavListCtrl - 1) do {
 							if (_data == _uavListCtrl lbData _x) exitWith {

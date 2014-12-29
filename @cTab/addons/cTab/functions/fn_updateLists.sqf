@@ -1,15 +1,16 @@
 /*
- 	Name: cTab_fnc_updateLists
- 	
- 	Author(s):
+	Name: cTab_fnc_updateLists
+	
+	Author(s):
 		Gundy, Riouken
 
- 	Description:
+	Description:
 		Update lists of cTab units and vehicles
 		Lists updated:
 			cTabBFTmembers
 			cTabBFTgroups
 			cTabBFTvehicles
+			cTabUAVlist
 			cTabHcamlist
 		
 		List format (all except cTabHcamlist):
@@ -18,33 +19,38 @@
 			Index 2: Path to icon B (either group size or wingmen)
 			Index 3: Text to display
 			Index 4: String of group index
-
 	
 	Parameters:
 		NONE
- 	
- 	Returns:
+	
+	Returns:
 		BOOLEAN - Always TRUE
- 	
- 	Example:
+	
+	Example:
 		call cTab_fnc_updateLists;
 */
 
-private ["_cTabBFTmembers","_cTabBFTgroups","_cTabBFTvehicles","_cTabHcamlist"];
+private ["_cTabBFTmembers","_cTabBFTgroups","_cTabBFTvehicles","_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup"];
 
 _cTabBFTmembers = []; // members of player's group
 _cTabBFTgroups = []; // other groups
 _cTabBFTvehicles = []; // all vehicles
+_cTabUAVlist =  []; // all remote controllable UAVs
 _cTabHcamlist = [];  // units with a helmet cam
+
+_validSides = call cTab_fnc_getPlayerSides;
+
+_playerVehicle = vehicle cTab_player;
+_playerGroup = group cTab_player;
 
 /*
 cTabBFTmembers --- GROUP MEMBERS
 */
 {
-	if ((_x != player) && {[_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear}) then {
+	if ((_x != cTab_player) && {[_x,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_checkGear}) then {
 		0 = _cTabBFTmembers pushBack [_x,_x call cTab_fnc_getInfMarkerIcon,"",name _x,str([_x] call CBA_fnc_getGroupIndex)];
 	};
-} count units player;
+} count units cTab_player;
 
 /*
 cTabBFTgroups --- GROUPS
@@ -52,7 +58,7 @@ Groups on our side that player is not a member of. Use the leader for positionin
 Else, search through the group and use the first member we find equipped with a Tablet or Android for positioning.
 */
 {
-	if ((side _x == cTabSide) && {_x != group player}) then {
+	if ((side _x in _validSides) && {_x != _playerGroup}) then {
 		_leader = objNull;
 		call {
 			if ([leader _x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) exitWith {_leader = leader _x;};
@@ -77,7 +83,7 @@ cTabBFTvehicles --- VEHICLES
 Vehciles on our side, that are not empty and that player is not sitting in.
 */
 {
-	if ((side _x == cTabSide) && {count (crew _x) > 0} && {_x != vehicle player}) then {
+	if ((side _x in _validSides) && {count (crew _x) > 0} && {_x != _playerVehicle}) then {
 		_groupID = "";
 		_name = "";
 		_customName = _x getVariable ["cTab_groupId",""];
@@ -85,7 +91,7 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 			if !(_customName isEqualTo "") exitWith {
 				_name = _customName;
 			};
-			if (group _x == group player) then {
+			if (group _x == _playerGroup) then {
 				_groupID = str([_x] call CBA_fnc_getGroupIndex)
 			};
 			_name = groupID group _x;
@@ -120,11 +126,20 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 } count vehicles;
 
 /*
+cTabUAVlist --- UAVs
+*/
+{
+	if (side _x in _validSides) then {
+		0 = _cTabUAVlist pushBack _x;
+	};
+} count allUnitsUav;
+
+/*
 cTabHcamlist --- HELMET CAMS
 Units on our side, that are no the player and have either helmets that have been specified to include a helmet cam, or ItemCTabHCAM in their inventory.
 */
 {
-	if ((side _x == cTabSide) && {_x != player}) then {
+	if ((side _x in _validSides) && {_x != cTab_player}) then {
 		if (headgear _x in cTab_helmetClass_has_HCam || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
 			0 = _cTabHcamlist pushBack _x;
 		};
@@ -135,6 +150,7 @@ Units on our side, that are no the player and have either helmets that have been
 cTabBFTmembers = [] + _cTabBFTmembers;
 cTabBFTgroups = [] + _cTabBFTgroups;
 cTabBFTvehicles = [] + _cTabBFTvehicles;
+cTabUAVlist = [] + _cTabUAVlist;
 cTabHcamlist = [] + _cTabHcamlist;
 
 true
