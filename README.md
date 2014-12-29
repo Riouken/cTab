@@ -166,6 +166,9 @@ By default all vehicles will be shown with their group names next to them. This 
 Changelog
 ---------
 ### 2.1.0 ###
+* Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
+* Provided encryption keys that can be set by the mission designer to allow or disallow cTab data to be shared.
+* Improved Zeus support when remote controlling AI
 * Added MicroDAGR hand-held GPS.
   It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
   Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).
