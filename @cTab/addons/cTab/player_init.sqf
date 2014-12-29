@@ -45,6 +45,8 @@ cTab_player = objNull;
 		cTabHcamlist = [];
 		call cTab_fnc_updateLists;
 		call cTab_fnc_updateUserMarkerList;
+		// remove msg notification
+		cTabRscLayerMailNotification cutText ["", "PLAIN"];
 	};
 }] call BIS_fnc_addStackedEventHandler;
 
@@ -272,6 +274,7 @@ cTab_helmetClass_has_HCam = [] + _classNames;
 ["cTab_FBCB2_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
 // add event handlers for when user markers get updated
+// Not ideal since this doesn't change if encryption keys get changed on the fly
 _usedEncryptionKeys = [];
 {
 	_encryptionKey = missionNamespace getVariable format ["cTab_encryptionKey_%1",_x];
@@ -1208,7 +1211,8 @@ cTab_msg_gui_load = {
 	disableSerialization;
 	_return = true;
 	_display = uiNamespace getVariable (cTabIfOpen select 1);
-	_msgarry = player getVariable ["ctab_messages",[]];
+	_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
+	_msgArray = cTab_player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
 	_msgControl = _display displayCtrl IDC_CTAB_MSG_LIST;
 	_plrlistControl = _display displayCtrl IDC_CTAB_MSG_RECIPIENTS;
 	lbClear _msgControl;
@@ -1232,14 +1236,16 @@ cTab_msg_gui_load = {
 		_index = _msgControl lbAdd _title;
 		_msgControl lbSetPicture [_index,_img];
 		_msgControl lbSetTooltip [_index,_title];
-	} count _msgarry;
+	} count _msgArray;
 	
 	{
-		if ((side _x in _validSides) && {_x != cTab_player} && ([_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear)) then {
+		if ((side _x in _validSides) && {_x != cTab_player} && {isPlayer _x} && {[_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear}) then {
 			_index = _plrlistControl lbAdd name _x;
 			_plrlistControl lbSetData [_index,str _x];
 		};
 	} count _plrList;
+	
+	lbSort [_plrlistControl, "ASC"];
 	
 	_return;
 };
@@ -1249,13 +1255,14 @@ cTab_msg_get_mailTxt = {
 	_return = true;
 	_index = _this select 1;
 	_display = uiNamespace getVariable (cTabIfOpen select 1);
-	_msgArray = player getVariable ["ctab_messages",[]];
+	_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
+	_msgArray = cTab_player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
 	_msgName = (_msgArray select _index) select 0;
 	_msgtxt = (_msgArray select _index) select 1;
 	_msgState = (_msgArray select _index) select 2;
 	if (_msgState == 0) then {
 		_msgArray set [_index,[_msgName,_msgtxt,1]];
-		player setVariable ["ctab_messages",_msgArray];
+		cTab_player setVariable [format ["cTab_messages_%1",_playerEncryptionKey],_msgArray];
 	};
 	
 	_nop = [] call cTab_msg_gui_load;
@@ -1268,10 +1275,11 @@ cTab_msg_get_mailTxt = {
 };
 
 cTab_msg_Send = {
-	private ["_return","_display","_plrLBctrl","_msgBodyctrl","_plrList","_indices","_time","_msgTitle","_msgBody","_recip","_recipientNames","_msgarry"];
+	private ["_return","_display","_plrLBctrl","_msgBodyctrl","_plrList","_indices","_time","_msgTitle","_msgBody","_recip","_recipientNames","_msgArray","_playerEncryptionKey"];
 	disableSerialization;
 	_return = true;
 	_display = uiNamespace getVariable (cTabIfOpen select 1);
+	_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
 	_plrLBctrl = _display displayCtrl IDC_CTAB_MSG_RECIPIENTS;
 	_msgBodyctrl = _display displayCtrl IDC_CTAB_MSG_COMPOSE;
 	_plrList = (uiNamespace getVariable "cTab_msg_playerList");
@@ -1281,7 +1289,7 @@ cTab_msg_Send = {
 	if (_indices isEqualTo []) exitWith {false};
 	
 	_time = call cTab_fnc_currentTime;
-	_msgTitle = format ["%1 - %2",_time,name player];
+	_msgTitle = format ["%1 - %2",_time,name cTab_player];
 	_msgBody = ctrlText _msgBodyctrl;
 	if (_msgBody isEqualTo "") exitWith {false};
 	_recipientNames = "";
@@ -1300,12 +1308,13 @@ cTab_msg_Send = {
 				_recipientNames = format ["%1; %2",_recipientNames,name _recip];
 			};
 			
-			["cTab_msg_receive", [_recip,_msgTitle,_msgBody]] call CBA_fnc_whereLocalEvent;
+			["cTab_msg_receive",[_recip,_msgTitle,_msgBody,_playerEncryptionKey]] call CBA_fnc_whereLocalEvent;
 		};
 	} forEach _indices;
 	
-	_msgarry = player getVariable ["ctab_messages",[]];
-	_msgarry pushBack [format ["%1 - %2",_time,_recipientNames],_msgBody,2];
+	_msgArray = cTab_player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
+	_msgArray pushBack [format ["%1 - %2",_time,_recipientNames],_msgBody,2];
+	cTab_player setVariable [format ["cTab_messages_%1",_playerEncryptionKey],_msgArray];
 	
 	if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then {
 		call cTab_msg_gui_load;
@@ -1316,14 +1325,17 @@ cTab_msg_Send = {
 
 ["cTab_msg_receive",
 	{
+		_msgRecipient = _this select 0;
 		_msgTitle = _this select 1;
 		_msgBody = _this select 2;
-		_msgarry = player getVariable ["ctab_messages",[]];
-		_msgarry pushBack [_msgTitle,_msgBody,0];
+		_msgEncryptionKey = _this select 3;
+		_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
+		_msgArray = _msgRecipient getVariable [format ["cTab_messages_%1",_msgEncryptionKey],[]];
+		_msgArray pushBack [_msgTitle,_msgBody,0];
 		
-		player setVariable ["ctab_messages",_msgarry];
+		_msgRecipient setVariable [format ["cTab_messages_%1",_msgEncryptionKey],_msgArray];
 		
-		if ([player,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear) then 
+		if (_msgRecipient == cTab_player && {_playerEncryptionKey == _msgEncryptionKey} && {[cTab_player,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear}) then 
 		{
 			playSound "cTab_phoneVibrate";
 			
@@ -1340,7 +1352,8 @@ cTab_msg_Send = {
 ] call CBA_fnc_addLocalEventHandler;
 	
 cTab_msg_delete_all = {
-	player setVariable ["ctab_messages",[]];
+	_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
+	cTab_player setVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
 };
 
 /*
@@ -1370,13 +1383,14 @@ cTab_fnc_onMsgBtnDelete = {
 	_msgLbSelection = lbSelection _msgLbCtrl;
 	
 	if (count _msgLbSelection == 0) exitWith {false};
-	_msgArray = player getVariable ["ctab_messages",[]];
+	_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
+	_msgArray = cTab_player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
 	
 	// run through the selection backwards as otherwise the indices won't match anymore
 	for "_i" from (count _msgLbSelection) to 0 step -1 do {
 		_msgArray deleteAt (_msgLbSelection select _i);
 	};
-	player setVariable ["ctab_messages",_msgArray];
+	cTab_player setVariable [format ["cTab_messages_%1",_playerEncryptionKey],_msgArray];
 	
 	_msgTextCtrl = _display displayCtrl IDC_CTAB_MSG_CONTENT;
 	_msgTextCtrl ctrlSetText "No Message Selected";

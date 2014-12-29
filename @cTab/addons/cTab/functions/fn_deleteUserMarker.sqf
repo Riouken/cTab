@@ -20,7 +20,7 @@
 private["_markerIndex","_playerEncryptionKey","_cTabUserMarkerListString","_cTabUserMarkerList"];
 
 _markerIndex = _this select 0;
-_playerEncryptionKey = missionNamespace getVariable format ["cTab_encryptionKey_%1",side cTab_player];
+_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
 _cTabUserMarkerListString = format ["cTab_userMarkerList_%1",_playerEncryptionKey];
 _cTabUserMarkerList = missionNamespace getVariable [_cTabUserMarkerListString,[]];
 

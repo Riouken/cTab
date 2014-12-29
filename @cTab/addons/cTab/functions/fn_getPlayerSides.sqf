@@ -20,7 +20,7 @@
 private ["_return","_playerEncryptionKey"];
 
 _return = [];
-_playerEncryptionKey = missionNamespace getVariable format ["cTab_encryptionKey_%1",cTab_player call BIS_fnc_objectSide];
+_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
 
 if (cTab_encryptionKey_west == _playerEncryptionKey) then {_return pushBack west};
 if (cTab_encryptionKey_east == _playerEncryptionKey) then {_return pushBack east};

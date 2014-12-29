@@ -23,6 +23,7 @@ class CfgFunctions
 			class findUserMarker{};
 			class getFromPairs{};
 			class getInfMarkerIcon{};
+			class getPlayerEncryptionKey{};
 			class getPlayerSides{};
 			class getSettings{};
 			class isDialog{};

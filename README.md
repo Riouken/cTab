@@ -137,7 +137,7 @@ So if you want to have for example OPFOR and GUER share cTab data, put this at t
     // set GUER encryption key to be the same as the default BLUEFOR encryption key
     cTab_encryptionKey_guer = "bluefor";
 
-Note: If GUER is set to be friendly with either WEST or EAST, GUER will by default have the same encryption key as the friendly faction. Set `cTab_encryptionKey_guer = "independent";` to override.
+Note: If `GUER` is set to be friendly with either `WEST` or `EAST`, `GUER` will by default have the same encryption key as the friendly faction. Set `cTab_encryptionKey_guer = "independent";` to override.
 
 ### Override vehicle types that have FBCB2 or TAD available ###
 If you wish to override the list of vehicles that have FBCB2 or TAD available, put this at the **TOP** of your `init.sqf`:
