@@ -270,8 +270,8 @@ _classNames = [];
 } forEach _classNames;
 cTab_helmetClass_has_HCam = [] + _classNames;
 
-// add cTab_FBCB2_updatePulse event handler triggered periodically by the server
-["cTab_FBCB2_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
+// add cTab_updatePulse event handler triggered periodically by the server
+["cTab_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
 // add event handlers for when user markers get updated
 // Not ideal since this doesn't change if encryption keys get changed on the fly
