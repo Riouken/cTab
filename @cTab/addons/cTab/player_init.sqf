@@ -836,7 +836,8 @@ cTabOnDrawbftTADdialog = {
 	// draw vehicle icon at own location
 	_veh = vehicle cTab_player;
 	_playerPos = getPosASL _veh;
-	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
+	_heading = direction _veh;
+	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// update time on TAD	
 	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
@@ -853,7 +854,7 @@ cTabOnDrawbftTADdialog = {
 	// update hook information
 	call {
 		if (cTabDrawMapTools) exitWith {
-			[_display,_cntrlScreen,_playerPos,[_cntrlScreen] call cTab_fnc_ctrlMapCenter,0,true] call cTab_fnc_drawHook;
+			[_display,_cntrlScreen,_playerPos,cTabMapWorldPos,0,true] call cTab_fnc_drawHook;
 		};
 		[_display,_cntrlScreen,_playerPos,cTabMapWorldPos,1,true] call cTab_fnc_drawHook;
 	};
