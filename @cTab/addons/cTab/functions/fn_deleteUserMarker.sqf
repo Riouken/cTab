@@ -26,6 +26,7 @@ _cTabUserMarkerList = missionNamespace getVariable [_cTabUserMarkerListString,[]
 
 if (_markerIndex >= 0 && count _cTabUserMarkerList > _markerIndex) exitWith {
 	_cTabUserMarkerList deleteAt _markerIndex;
+	missionNamespace setVariable [_cTabUserMarkerListString,_cTabUserMarkerList];
 	publicVariable _cTabUserMarkerListString;
 	call cTab_fnc_updateUserMarkerList;
 	

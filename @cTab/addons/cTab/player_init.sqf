@@ -280,8 +280,8 @@ _usedEncryptionKeys = [];
 	_encryptionKey = missionNamespace getVariable format ["cTab_encryptionKey_%1",_x];
 	if !(_encryptionKey in _usedEncryptionKeys) then {
 		_listName = format ["cTab_userMarkerList_%1",_encryptionKey];
-		_listName addPublicVariableEventHandler {cTab_fnc_updateUserMarkerList};
-		if (isNil _listName) then {missionNamespace setVariable [_listname,[]]};
+		if (isNil _listName) then {missionNamespace setVariable [_listName,[]]};
+		_listName addPublicVariableEventHandler {call cTab_fnc_updateUserMarkerList};
 		0 = _usedEncryptionKeys pushBack _encryptionKey;
 	};
 } count ["west","east","guer","civ"];

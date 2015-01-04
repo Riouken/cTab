@@ -33,6 +33,7 @@ _cTabUserMarkerListString = format ["cTab_userMarkerList_%1",_playerEncryptionKe
 _cTabUserMarkerList = missionNamespace getVariable [_cTabUserMarkerListString,[]];
 
 0 = _cTabUserMarkerList pushBack cTabUserSelIcon;
+missionNamespace setVariable [_cTabUserMarkerListString,_cTabUserMarkerList];
 publicVariable _cTabUserMarkerListString;
 call cTab_fnc_updateUserMarkerList;
 
