@@ -81,20 +81,23 @@ if (_mode != 2) then {
 		_veh = vehicle (_x select 0);
 		
 		call {
+			// See if the group leader's vehicle is in the list of drawn vehicles
 			_vehIndex = _vehicles find _veh;
 			
+			// Only do this if the vehicle has not been drawn yet, or the player is sitting in the same vehicle as the group leader
 			if (_vehIndex != -1 || {_veh == _playerVehicle}) exitWith {
 				if (_drawText) then {
 					// we want to draw text and the group leader is in a vehicle that has already been drawn
 					_text = _x select 3;
-					if ((cTabBFTvehicles select _vehIndex select 3) != _text) then {
+					// _vehIndex == -1 means that the player sits in the vehicle
+					if (_vehIndex == -1 || {(groupID group _veh) != _text}) then {
 						// group name is not the same as that of the vehicle the leader is sitting in
 						_mountedIndex = _mountedLabels find _veh;
 						if (_mountedIndex != -1) then {
 							_mountedLabels set [_mountedIndex + 1,(_mountedLabels select (_mountedIndex + 1)) + "/" + (_text)];
 						} else {
-							_mountedLabels pushBack _veh;
-							_mountedLabels pushBack _text;
+							0 = _mountedLabels pushBack _veh;
+							0 = _mountedLabels pushBack _text;
 						};
 					};
 				};
