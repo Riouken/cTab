@@ -1321,6 +1321,8 @@ cTab_msg_Send = {
 		call cTab_msg_gui_load;
 	};
 	
+	playSound "cTab_mailSent";
+	
 	_return;
 };
 

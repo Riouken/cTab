@@ -243,4 +243,9 @@ class CfgSounds
 		// subtitle delay in seconds, subtitle text 
 		titles[] = {};
 	};
+	class cTab_mailSent
+	{
+		sound[] = {"\cTab\sounds\mailSent.wss",1,1};
+		titles[] = {};
+	};
 };
