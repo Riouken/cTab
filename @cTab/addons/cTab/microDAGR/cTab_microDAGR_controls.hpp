@@ -48,11 +48,6 @@
 // On-screen map centre cursor
 #define cTab_GUI_microDAGR_CURSOR (38)
 
-// define colours
-#define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
-#define COLOR_BLACK {0,0,0,1}
-#define COLOR_WHITE {1,1,1,1}
-
 class cTab_microDAGR_header: cTab_RscPicture
 {
 	idc = -1;
@@ -106,7 +101,7 @@ class cTab_RscText_microDAGR: cTab_RscText
 	font = GUI_FONT_MONO;
 	colorText[] = COLOR_WHITE;
 	sizeEx = pxToScreen_H(cTab_GUI_microDAGR_OSD_TEXT_STD_SIZE);
-	colorBackground[] = COLOR_BLACK;
+	colorBackground[] = COLOR_TRANSPARENT;
 	shadow = 0;
 };
 class cTab_microDAGR_RscMapControl: cTab_RscMapControl
@@ -289,4 +284,5 @@ class cTab_microDAGR_loadingtxt: cTab_RscText_microDAGR
 	y = pxToScreen_Y(cTab_GUI_microDAGR_SCREEN_CONTENT_Y);
 	w = pxToScreen_W(cTab_GUI_microDAGR_SCREEN_CONTENT_W);
 	h = pxToScreen_H(cTab_GUI_microDAGR_SCREEN_CONTENT_H);
+	colorBackground[] = COLOR_TRANSPARENT;
 };

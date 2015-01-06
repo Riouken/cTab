@@ -468,7 +468,7 @@ class cTab_Tablet_dlg {
 			y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y);
 			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
 			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
-			colorBackground[] = {0.2,0.431,0.647,1};
+			colorBackground[] = COLOR_LIGHT_BLUE;
 		};
 	};
 };

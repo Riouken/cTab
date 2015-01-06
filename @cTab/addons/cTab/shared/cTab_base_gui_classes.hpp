@@ -109,6 +109,13 @@
 #define GUI_FONT_CODE			LucidaConsoleB
 #define GUI_FONT_SYSTEM			TahomaB
 
+// Colors
+#define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
+#define COLOR_BLACK {0,0,0,1}
+#define COLOR_WHITE {1,1,1,1}
+#define COLOR_LIGHT_BLUE {0.2,0.431,0.647,1}
+#define COLOR_TRANSPARENT {0,0,0,0}
+
 ///////////////////////////////////////////////////////////////////////////
 /// Base Classes
 ///////////////////////////////////////////////////////////////////////////
