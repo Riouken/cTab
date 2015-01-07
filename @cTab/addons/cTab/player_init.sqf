@@ -367,7 +367,7 @@ cTab_fnc_onIfOpen = {
 	
 	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
 	if (_vehicle != _player) then {
-		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{call cTab_fnc_close}];
+		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{if (_this select 2 == cTab_player) then {call cTab_fnc_close}}];
 		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
 	} else {
 		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,nil];
