@@ -327,13 +327,15 @@ uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
 
+cTabIfOpenStart = false;
+
 /*
 Function handling post dialog / display load handling (register event handlers)
 Parameter 0: Interface type, 0 = Main, 1 = Secondary
-Parameter 1: Unit to register killed eventhandler for
-Parameter 2: Vehicle to register GetOut eventhandler for
-Parameter 3: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
-No return
+Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
+Parameter 2: Unit to register killed eventhandler for
+Parameter 3: Vehicle to register GetOut eventhandler for
+Returns: TRUE
 
 This function will define cTabIfOpen, using the following format:
 Parameter 0: Interface type, 0 = Main, 1 = Secondary
@@ -345,22 +347,36 @@ Parameter 4: Vehicle we registered the GetOut eventhandler for
 Parameter 5: ID of registered eventhandler for GetOut event
 */
 cTab_fnc_onIfOpen = {
+	if (cTabIfOpenStart || (!isNil "cTabIfOpen")) exitWith {false};
+	cTabIfOpenStart = true;
+	
 	_interfaceType = _this select 0;
-	_player = _this select 1;
-	_vehicle = _this select 2;
-	_interfaceName = _this select 3;
+	_displayName = _this select 1;
+	_player = _this select 2;
+	_vehicle = _this select 3;
+	
+	if ([_displayName] call cTab_fnc_isDialog) then {
+		closeDialog 0;
+		waitUntil {!dialog};
+		createDialog _displayName;
+		waitUntil {dialog};
+	} else {
+		cTabRscLayer cutRsc [_displayName,"PLAIN",0, false];
+		waitUntil {!isNull (uiNamespace getVariable _displayName)};
+	};
+	
 	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
 	if (_vehicle != _player) then {
 		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{call cTab_fnc_close}];
-		cTabIfOpen = [_interfaceType,_interfaceName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
+		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
 	} else {
-		cTabIfOpen = [_interfaceType,_interfaceName,_player,_playerKilledEhId,_vehicle,nil];
+		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,nil];
 	};
-	// move mouse cursor to the center of the screen if its a dialog
-	if ([_interfaceName] call cTab_fnc_isDialog) then {
-		setMousePosition [0.5,0.5];
-	};
+	
 	call cTab_fnc_updateInterface;
+	cTabIfOpenStart = false;
+	
+	true
 };
 
 /*
@@ -371,6 +387,7 @@ Returns TRUE when action was taken (interface opened or closed)
 Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
 */
 cTab_fnc_onIfMainPressed = {
+	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
@@ -394,32 +411,33 @@ cTab_fnc_onIfMainPressed = {
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dsp") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			[0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_display_start.sqf";
+			//[0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_display_start.sqf";
+			[0,"cTab_TAD_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dsp") then {
-			[0,_player,_vehicle] execVM "cTab\android\cTab_android_display_start.sqf";
+			[0,"cTab_Android_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dsp") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			[0,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_display_start.sqf";
+			[0,"cTab_microDAGR_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			[0,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
+			[0,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			[0,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			[0,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
@@ -435,6 +453,7 @@ Returns TRUE when action was taken (interface opened or closed)
 Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
 */
 cTab_fnc_onIfSecondaryPressed = {
+	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
@@ -457,32 +476,32 @@ cTab_fnc_onIfSecondaryPressed = {
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dlg") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			[1,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+			[1,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			[1,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
+			[1,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dlg") then {
-			[1,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
+			[1,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dlg") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			[1,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
+			[1,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			[1,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			[1,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
@@ -497,6 +516,7 @@ Returns TRUE when action was taken (interface opened or closed)
 Returns FALSE when no action was taken (i.e. player has no cTab device / is not in cTab enabled vehicle)
 */
 cTab_fnc_onIfTertiaryPressed = {
+	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
@@ -518,33 +538,33 @@ cTab_fnc_onIfTertiaryPressed = {
 	_vehicle = vehicle _player;
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			[2,_player,_vehicle] execVM "cTab\tablet\cTab_Tablet_dialog_start.sqf";
+			[2,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dlg") then {
-			[2,_player,_vehicle] execVM "cTab\android\cTab_android_dialog_start.sqf";
+			[2,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dlg") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			[2,_player,_vehicle] execVM "cTab\microDAGR\cTab_microDAGR_dialog_start.sqf";
+			[2,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dlg") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			[2,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_dialog_start.sqf";
+			[2,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			[2,_player,_vehicle] execVM "cTab\FBCB2\cTab_FBCB2_dialog_start.sqf";
+			[2,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
 	};
@@ -558,7 +578,7 @@ Returns TRUE when action was taken
 Returns FALSE when no action was taken (i.e. no interface open, or unsupported interface)
 */
 cTab_fnc_onZoomInPressed = {
-	if (isNil "cTabIfOpen") exitWith {false};
+	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if !([_displayName] call cTab_fnc_isDialog) exitWith {
 		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) / 2;
@@ -579,7 +599,7 @@ Returns TRUE when action was taken
 Returns FALSE when no action was taken (i.e. no interface open, or unsupported interface)
 */
 cTab_fnc_onZoomOutPressed = {
-	if (isNil "cTabIfOpen") exitWith {false};
+	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if !([_displayName] call cTab_fnc_isDialog) exitWith {
 		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) * 2;
@@ -600,37 +620,40 @@ No Parameters.
 No Return.
 */
 cTab_fnc_close = {
-	if (!isNil "cTabIfOpen") then {
-		// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
-		_ifType = cTabIfOpen select 0;
-		_displayName = cTabIfOpen select 1;
-		_player = cTabIfOpen select 2;
-		_playerKilledEhId = cTabIfOpen select 3;
-		_vehicle = cTabIfOpen select 4;
-		_vehicleGetOutEhId = cTabIfOpen select 5;
+	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
 		
-		_display = uiNamespace getVariable _displayName;
-		if (!isNil "_display") then {
-			_display closeDisplay 0;
-			uiNamespace setVariable [_displayName, displayNull];
-		};
-		if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
-		if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
-		call cTab_fnc_deleteHelmetCam;
-		[] spawn cTab_fnc_deleteUAVcam;
-		
-		// Save mapWorldPos and mapScale of current interface so it can be restored later
-		call {
-			if ([_displayName] call cTab_fnc_isDialog) exitWith {
-				_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-				[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScale",_mapScale]],false] call cTab_fnc_setSettings;
-			};
-			[_displayName,[["mapWorldPos",[]]],false] call cTab_fnc_setSettings;
-		};
-		
-		cTabCursorOnMap = false;
-		cTabIfOpen = nil;
+	// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
+	_ifType = cTabIfOpen select 0;
+	_displayName = cTabIfOpen select 1;
+	_player = cTabIfOpen select 2;
+	_playerKilledEhId = cTabIfOpen select 3;
+	_vehicle = cTabIfOpen select 4;
+	_vehicleGetOutEhId = cTabIfOpen select 5;
+	
+	_display = uiNamespace getVariable _displayName;
+	if (!isNil "_display") then {
+		_display closeDisplay 0;
+		uiNamespace setVariable [_displayName, displayNull];
 	};
+	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
+	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
+	call cTab_fnc_deleteHelmetCam;
+	[] spawn cTab_fnc_deleteUAVcam;
+	
+	// Save mapWorldPos and mapScale of current interface so it can be restored later
+	call {
+		if ([_displayName] call cTab_fnc_isDialog) exitWith {
+			_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
+			[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScale",_mapScale]],false] call cTab_fnc_setSettings;
+		};
+		[_displayName,[["mapWorldPos",[]]],false] call cTab_fnc_setSettings;
+	};
+	
+	cTabCursorOnMap = false;
+	cTabIfOpen = nil;
+	cTabIfOpenStart = false;
+	
+	true
 };
 
 /*
