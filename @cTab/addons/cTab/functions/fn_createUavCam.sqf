@@ -67,7 +67,7 @@ _uavCams = _this select 1;
 		call {
 			if (_seat == 1) exitWith {
 				_renderTarget setPiPEffect [2]; // IR mode
-				_cam camSetFov 0.3; // set zoom
+				_cam camSetFov 0.1; // set zoom
 			};
 			_cam camSetFov 0.5; // set default zoom
 		};
