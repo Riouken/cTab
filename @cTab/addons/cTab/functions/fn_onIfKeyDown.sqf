@@ -66,7 +66,8 @@ if (_dikCode == 211 && {cTabCursorOnMap}) exitWith { // DELETE
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
 	_ctrlScreen = _display displayCtrl (_mapTypes select _currentMapTypeIndex select 1);
 	_markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
-	[_markerIndex] call cTab_fnc_deleteUserMarker
+	['cTab_deleteUserMarker',[call cTab_fnc_getPlayerEncryptionKey,_markerIndex]] call CBA_fnc_clientToServerEvent;
+	true
 };
 
 false

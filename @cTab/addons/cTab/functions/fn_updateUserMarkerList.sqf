@@ -25,11 +25,10 @@
 		call cTab_fnc_updateUserMarkerList;
 */
 
-private ["_playerEncryptionKey","_cTabUserMarkerListString"];
+private ["_playerEncryptionKey"];
 
 _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
-_cTabUserMarkerListString = format ["cTab_userMarkerList_%1",_playerEncryptionKey];
 
-cTabUserMarkerList = missionNamespace getVariable [_cTabUserMarkerListString,[]];
+cTabUserMarkerList = [cTab_userMarkerLists,_playerEncryptionKey,[]] call cTab_fnc_getFromPairs;
 
 true

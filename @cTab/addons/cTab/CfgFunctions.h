@@ -5,6 +5,7 @@ class CfgFunctions
 		class Functions
 		{
 			file="cTab\functions";
+			class addToPairs{};
 			class addUserMarker{};
 			class centerMapOnPlayerPosition{};
 			class checkGear{};
@@ -29,6 +30,7 @@ class CfgFunctions
 			class isDialog{};
 			class onIfKeyDown{};
 			class setSettings{};
+			class setToPairs{};
 			class toggleMapTools{};
 			class unitInEnabledVehicleSeat{};
 			class updateLists{};

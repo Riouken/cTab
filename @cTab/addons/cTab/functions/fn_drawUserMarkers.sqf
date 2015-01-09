@@ -26,17 +26,18 @@
 		[_ctrlScreen] call cTab_fnc_drawUserMarkers;
 */
 
-private ["_ctrlScreen","_arrowLength","_pos","_secondPos","_texture1","_texture2","_dir","_color","_text","_align","_cursorMarkerIndex"];
+private ["_ctrlScreen","_arrowLength","_pos","_secondPos","_texture1","_texture2","_dir","_color","_text","_align","_cursorMarkerIndex","_markerData"];
 
 _ctrlScreen = _this select 0;
 _arrowLength = cTabUserMarkerArrowSize * ctrlMapScale _ctrlScreen;
 _cursorMarkerIndex = if (_this select 1) then {[_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker} else {-1};
 {
-	_pos = _x select 0;
-	_texture1 = _x select 1;
-	_texture2 = _x select 2;
-	_dir = _x select 3;
-	_color = if (_forEachIndex != _cursorMarkerIndex) then {_x select 4} else {cTabTADhighlightColour};
+	_markerData = _x select 1;
+	_pos = _markerData select 0;
+	_texture1 = _markerData select 1;
+	_texture2 = _markerData select 2;
+	_dir = _markerData select 3;
+	_color = if (_x select 0 != _cursorMarkerIndex) then {_markerData select 4} else {cTabTADhighlightColour};
 	_text = "";
 	_align = "right";
 	if ((_dir > 0) && (_dir < 180)) then {_align = "left"};
@@ -44,11 +45,11 @@ _cursorMarkerIndex = if (_this select 1) then {[_ctrlScreen,cTabMapCursorPos] ca
 		_secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
 		_ctrlScreen drawArrow [_pos, _secondPos, _color];
 	};
-	if (cTabBFTtxt) then {_text = _x select 5;};
+	if (cTabBFTtxt) then {_text = _markerData select 5;};
 	_ctrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB",_align];
 	if (_texture2 != "") then {
 		_ctrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 	};
-} forEach cTabUserMarkerList;
+} count cTabUserMarkerList;
 
 true

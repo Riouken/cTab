@@ -29,11 +29,11 @@ _maxDistance = _searchPos distanceSqr [(_searchPos select 0) + _targetRadius,(_s
 
 // find closest user marker within _maxDistance
 {
-	_distance = _searchPos distanceSqr (_x select 0);
+	_distance = _searchPos distanceSqr (_x select 1 select 0);
 	if (_distance <= _maxDistance) then {
 		_maxDistance = _distance;
-		_return = _forEachIndex;
+		_return = _x select 0;
 	};
-} forEach cTabUserMarkerList;
+} count cTabUserMarkerList;
 
 _return

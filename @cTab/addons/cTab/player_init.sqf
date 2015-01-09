@@ -273,18 +273,9 @@ cTab_helmetClass_has_HCam = [] + _classNames;
 // add cTab_updatePulse event handler triggered periodically by the server
 ["cTab_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
-// add event handlers for when user markers get updated
-// Not ideal since this doesn't change if encryption keys get changed on the fly
-_usedEncryptionKeys = [];
-{
-	_encryptionKey = missionNamespace getVariable format ["cTab_encryptionKey_%1",_x];
-	if !(_encryptionKey in _usedEncryptionKeys) then {
-		_listName = format ["cTab_userMarkerList_%1",_encryptionKey];
-		if (isNil _listName) then {missionNamespace setVariable [_listName,[]]};
-		_listName addPublicVariableEventHandler {call cTab_fnc_updateUserMarkerList};
-		0 = _usedEncryptionKeys pushBack _encryptionKey;
-	};
-} count ["west","east","guer","civ"];
+// add event handler for when user markers get updated
+"cTab_userMarkerLists" addPublicVariableEventHandler {call cTab_fnc_updateUserMarkerList};
+
 
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
@@ -1091,97 +1082,45 @@ cTabOnDrawHCam = {
 
 // fnc for user menu opperation.
 cTabUsrMenuSelect = {
+	private ["_type","_displayName","_display","_idcToShow","_control"];
+	
 	disableSerialization;
 	_type = _this select 0;
-	_dlg = cTabIfOpen select 1;
-	_display = (uiNamespace getVariable _dlg);
-	_return = True;
+	_displayName = cTabIfOpen select 1;
+	_display = (uiNamespace getVariable _displayName);
 	
-	switch (_type) do
-	{
-		case 0:
-		{
-			{ctrlShow [_x, False];} forEach [3300,3301,3302,3303,3304,3305,3306,3307];
-		};
-		
-		case 11:
-		{
-			ctrlShow [3300, False];
-			_control = _display displayCtrl 3301;
-			ctrlShow [3301, True];
-			_control ctrlSetPosition cTabUserPos;
-			_control ctrlCommit 0;
-		};
-
-		case 12:
-		{
-			ctrlShow [3301, False];		
-			_control = _display displayCtrl 3303;
-			ctrlShow [3303, True];
-			_control ctrlSetPosition cTabUserPos;
-			_control ctrlCommit 0;
-		};
-		
-		case 13:
-		{
-			ctrlShow [3303, False];
-			ctrlShow [3307, False];
-			_control = _display displayCtrl 3304;
-			ctrlShow [3304, True];
-			_control ctrlSetPosition cTabUserPos;
-			_control ctrlCommit 0;
-		};
-		
-		case 14:
-		{
-			if (cTabUserSelIcon select 1 != "\A3\ui_f\data\map\markers\nato\o_inf.paa") exitWith {
-				cTabUserSelIcon set [2,""];
-				[13] call cTabUsrMenuSelect;
-			};
-			ctrlShow [3303, False];
-			_control = _display displayCtrl 3307;
-			ctrlShow [3307, True];
-			_control ctrlSetPosition cTabUserPos;
-			_control ctrlCommit 0;
-		};
-		
-		case 10:
-		{
-			ctrlShow [3304, False];
-		};
-		
-		case 21:
-		{
-			ctrlShow [3300, False];
-			_control = _display displayCtrl 3305;
-			ctrlShow [3305, True];
-			_control ctrlSetPosition cTabUserPos;
-			_control ctrlCommit 0;
-		};
-		
-		case 20:
-		{
-			ctrlShow [3305, False];
-		};
-		
-		case 31:
-		{
-			ctrlShow [3300, False];
-			_control = _display displayCtrl 3306;
-			ctrlShow [3306, True];
-			_control ctrlSetPosition cTabUserPos;
-			_control ctrlCommit 0;
-		};
-			
-		case 30:
-		{
-			ctrlShow [3306, False];
-		};			
-				
+	// send cTabUserSelIcon to server
+	if (_type == 1) then {
+		['cTab_addUserMarker',[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon]] call CBA_fnc_clientToServerEvent;
 	};
-
-_return;
-
+	
+	_idcToShow = call {
+		if (_type == 11) exitWith {3301};
+		if (_type == 12) exitWith {3303};
+		if (_type == 13) exitWith {3304};
+		if (_type == 14) exitWith {
+			if (cTabUserSelIcon select 1 != "\A3\ui_f\data\map\markers\nato\o_inf.paa") then {
+				cTabUserSelIcon set [2,""];
+				3304
+			} else {3307};
+		};
+		if (_type == 21) exitWith {3305};
+		if (_type == 31) exitWith {3306};
+		0
+	};
+	
+	// Hide all menu controls
+	{ctrlShow [_x,false];} count [3300,3301,3302,3303,3304,3305,3306,3307];
+	
+	// Bring the menu control we want to show into position and show it
+	if (_idcToShow != 0) then {
+		_control = _display displayCtrl _idcToShow;
+		_control ctrlSetPosition cTabUserPos;
+		_control ctrlCommit 0;
+		_control ctrlShow true;
+	};
+	
+	true
 };
 
 cTabUavTakeControl = {

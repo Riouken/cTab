@@ -1,11 +1,11 @@
 /*
-	Name: cTab_fnc_broadcastUserMarkerList
+	Name: cTab_fnc_addUserMarkerList
 	
 	Author(s):
 		Gundy
 
 	Description:
-		Add a new user marker to the list and broadcast it
+		Add a new user marker to the list and broadcast it. This function is called on the server.
 		
 		List format:
 			Index 0: ARRAY  - marker position
@@ -17,24 +17,27 @@
 			Index 6: STRING - marker time
 	
 	Parameters:
-		NONE
+		0: STRING - Encryption Key for this marker
+		1: ARRAY  - markerData
 	
 	Returns:
 		BOOLEAN - Always TRUE
 	
 	Example:
-		call cTab_fnc_broadcastUserMarkerList;
+		["bluefor",[[1714.35,5716.82,0],"\cTab\img\o_inf_rifle.paa","",700,[0.5,0,0,1],"12:00",""]]call cTab_fnc_addUserMarkerList;
 */
 
-private ["_playerEncryptionKey","_cTabUserMarkerListString","_cTabUserMarkerList"];
+private ["_encryptionKey","_newIndex"];
 
-_playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
-_cTabUserMarkerListString = format ["cTab_userMarkerList_%1",_playerEncryptionKey];
-_cTabUserMarkerList = missionNamespace getVariable [_cTabUserMarkerListString,[]];
+_encryptionKey = _this select 0;
+_newIndex = [cTab_userMarkerIndices,_encryptionKey,1] call cTab_fnc_addToPairs;
 
-0 = _cTabUserMarkerList pushBack cTabUserSelIcon;
-missionNamespace setVariable [_cTabUserMarkerListString,_cTabUserMarkerList];
-publicVariable _cTabUserMarkerListString;
-call cTab_fnc_updateUserMarkerList;
+[cTab_userMarkerLists,_encryptionKey,[[_newIndex,_this select 1]]] call cTab_fnc_addToPairs;
+
+// Push the updated marker list out to all clients
+publicVariable "cTab_userMarkerLists";
+
+// If this got called on a client, make sure the list is updated
+if (hasInterface) then {call cTab_fnc_updateUserMarkerList};
 
 true
