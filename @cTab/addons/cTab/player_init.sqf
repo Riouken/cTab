@@ -1091,6 +1091,7 @@ cTabUsrMenuSelect = {
 	
 	// send cTabUserSelIcon to server
 	if (_type == 1) then {
+		cTabUserMarkerList pushBack [-1,cTabUserSelIcon call cTab_fnc_translateUserMarker];
 		['cTab_addUserMarker',[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon]] call CBA_fnc_clientToServerEvent;
 	};
 	
@@ -1099,8 +1100,8 @@ cTabUsrMenuSelect = {
 		if (_type == 12) exitWith {3303};
 		if (_type == 13) exitWith {3304};
 		if (_type == 14) exitWith {
-			if (cTabUserSelIcon select 1 != "\A3\ui_f\data\map\markers\nato\o_inf.paa") then {
-				cTabUserSelIcon set [2,""];
+			if (cTabUserSelIcon select 1 != 0) then {
+				cTabUserSelIcon set [2,0];
 				3304
 			} else {3307};
 		};

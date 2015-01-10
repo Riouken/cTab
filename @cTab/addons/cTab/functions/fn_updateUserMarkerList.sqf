@@ -5,16 +5,8 @@
 		Gundy
 
 	Description:
-		Update lists of user markers
+		Update lists of user markers by finding extracting all the user markers with the right encryption key and then translate the marker data in to a format so that it can be drawn quicker.
 		
-		List format:
-			Index 0: ARRAY  - marker position
-			Index 1: STRING - path to marker icon
-			Index 2: STRING - path to marker size icon
-			Index 3: STRING - direction of reported movement
-			Index 4: ARRAY  - marker color
-			Index 5: STRING - marker time
-	
 	Parameters:
 		NONE
 	
@@ -25,10 +17,15 @@
 		call cTab_fnc_updateUserMarkerList;
 */
 
-private ["_playerEncryptionKey"];
+private ["_playerEncryptionKey","_tempList"];
 
 _playerEncryptionKey = call cTab_fnc_getPlayerEncryptionKey;
 
-cTabUserMarkerList = [cTab_userMarkerLists,_playerEncryptionKey,[]] call cTab_fnc_getFromPairs;
+_tempList = [];
+{
+	0 = _tempList pushBack [_x select 0,_x select 1 call cTab_fnc_translateUserMarker];
+} count ([cTab_userMarkerLists,_playerEncryptionKey,[]] call cTab_fnc_getFromPairs);
+
+cTabUserMarkerList = _tempList;
 
 true

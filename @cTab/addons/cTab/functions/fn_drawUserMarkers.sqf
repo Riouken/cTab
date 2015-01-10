@@ -14,6 +14,7 @@
 			Index 3: STRING - direction of reported movement
 			Index 4: ARRAY  - marker color
 			Index 5: STRING - marker time
+			Index 6: STRING - text alignment
 	
 	Parameters:
 		0: OBJECT  - Map control to draw BFT icons on
@@ -39,14 +40,12 @@ _cursorMarkerIndex = if (_this select 1) then {[_ctrlScreen,cTabMapCursorPos] ca
 	_dir = _markerData select 3;
 	_color = if (_x select 0 != _cursorMarkerIndex) then {_markerData select 4} else {cTabTADhighlightColour};
 	_text = "";
-	_align = "right";
-	if ((_dir > 0) && (_dir < 180)) then {_align = "left"};
 	if (_dir < 360) then {
 		_secondPos = [_pos,_arrowLength,_dir] call BIS_fnc_relPos;
 		_ctrlScreen drawArrow [_pos, _secondPos, _color];
 	};
 	if (cTabBFTtxt) then {_text = _markerData select 5;};
-	_ctrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB",_align];
+	_ctrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB",_markerData select 6];
 	if (_texture2 != "") then {
 		_ctrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
 	};

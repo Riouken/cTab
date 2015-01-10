@@ -32,6 +32,7 @@ class CfgFunctions
 			class setSettings{};
 			class setToPairs{};
 			class toggleMapTools{};
+			class translateUserMarker{};
 			class unitInEnabledVehicleSeat{};
 			class updateLists{};
 			class updateInterface{};

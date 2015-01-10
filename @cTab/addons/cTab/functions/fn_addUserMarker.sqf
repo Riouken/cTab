@@ -6,15 +6,6 @@
 
 	Description:
 		Add a new user marker to the list and broadcast it. This function is called on the server.
-		
-		List format:
-			Index 0: ARRAY  - marker position
-			Index 1: STRING - path to marker icon
-			Index 2: STRING - path to marker size icon
-			Index 3: STRING - direction of reported movement
-			Index 4: ARRAY  - marker color
-			Index 5: STRING - marker time
-			Index 6: STRING - marker time
 	
 	Parameters:
 		0: STRING - Encryption Key for this marker
@@ -24,7 +15,7 @@
 		BOOLEAN - Always TRUE
 	
 	Example:
-		["bluefor",[[1714.35,5716.82,0],"\cTab\img\o_inf_rifle.paa","",700,[0.5,0,0,1],"12:00",""]]call cTab_fnc_addUserMarkerList;
+		["bluefor",[[1714.35,5716.82],0,0,0,"12:00"]]call cTab_fnc_addUserMarkerList;
 */
 
 private ["_encryptionKey","_newIndex"];
