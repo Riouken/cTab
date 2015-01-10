@@ -39,7 +39,7 @@ cTab_userMarkerIndices = [];
 	sleep .1;
 	
 	while {true} do {
-		["cTab_updatePulse"] call CBA_fnc_remoteEvent;
+		["cTab_updatePulse"] call CBA_fnc_globalEvent;
 		sleep 30;
 	};
 };
