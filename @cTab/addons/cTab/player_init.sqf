@@ -1089,25 +1089,28 @@ cTabUsrMenuSelect = {
 	_displayName = cTabIfOpen select 1;
 	_display = (uiNamespace getVariable _displayName);
 	
-	// send cTabUserSelIcon to server
-	if (_type == 1) then {
-		cTabUserMarkerList pushBack [-1,cTabUserSelIcon call cTab_fnc_translateUserMarker];
-		['cTab_addUserMarker',[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon]] call CBA_fnc_clientToServerEvent;
-	};
+	_idcToShow = 0;
 	
-	_idcToShow = call {
-		if (_type == 11) exitWith {3301};
-		if (_type == 12) exitWith {3303};
-		if (_type == 13) exitWith {3304};
-		if (_type == 14) exitWith {
-			if (cTabUserSelIcon select 1 != 0) then {
-				cTabUserSelIcon set [2,0];
-				3304
-			} else {3307};
+	call {
+		// send cTabUserSelIcon to server
+		if (_type == 1) exitWith {
+			cTabUserMarkerList pushBack [-1,cTabUserSelIcon call cTab_fnc_translateUserMarker];
+			['cTab_addUserMarker',[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon]] call CBA_fnc_clientToServerEvent;
 		};
-		if (_type == 21) exitWith {3305};
-		if (_type == 31) exitWith {3306};
-		0
+		
+		_idcToShow = call {
+			if (_type == 11) exitWith {3301};
+			if (_type == 12) exitWith {3303};
+			if (_type == 13) exitWith {3304};
+			if (_type == 14) exitWith {
+				if (cTabUserSelIcon select 1 != 0) then {
+					cTabUserSelIcon set [2,0];
+					3304
+				} else {3307};
+			};
+			if (_type == 21) exitWith {3305};
+			if (_type == 31) exitWith {3306};
+		};
 	};
 	
 	// Hide all menu controls
