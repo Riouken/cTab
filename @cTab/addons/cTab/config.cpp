@@ -10,12 +10,12 @@
 #define MAJOR 2
 #define MINOR 1
 #define PATCHLVL 0
-#define BUILD 1
+#define BUILD 5
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 #define REQUIRED_VERSION 1.0
 #include "\x\cba\addons\main\script_macros_common.hpp"
-#define AUTHOR "Riouken & Gundy"
+#define AUTHOR "Gundy, Riouken, Raspu"
 
 
 class CfgPatches
@@ -29,7 +29,7 @@ class CfgPatches
 			versionDesc = "cTab";
 			versionAct = "";
 			VERSION_CONFIG;
-			author[] = {"Riouken","Gundy"};
+			author[] = {"Gundy","Riouken","Raspu"};
 			authorUrl = "https://github.com/Riouken/cTab";
 		};
 };
@@ -106,7 +106,6 @@ class CfgWeapons
 	};
 	
 	class ItemAndroid: ItemcTab {
-		author = "Raspu";
 		descriptionshort = "GD300 Rugged Wearable Computer";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "GD300 Android";
@@ -114,11 +113,11 @@ class CfgWeapons
 		model = "\ctab\data\itemAndroid.p3d";
 		class ItemInfo {
 			mass = 5;
-		};	
+		};
+		author = AUTHOR;
 	};
 
 	class ItemMicroDAGR: ItemcTab {
-		author = "Raspu";
 		descriptionshort = "HNV-2930 Micro Defense Advanced GPS Receiver";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Android Based BFT";
 		displayname = "MicroDAGR";
@@ -126,7 +125,8 @@ class CfgWeapons
 		model = "\ctab\data\itemMicroDAGR.p3d";
 		class ItemInfo {
 			mass = 6;
-		};	
+		};
+		author = AUTHOR;
 	};
 	
 	class ItemcTabHCam: ItemCore {
@@ -139,6 +139,7 @@ class CfgWeapons
 			mass = 4;
 			type = 201;
 		};
+		author = AUTHOR;
 	};	
 };
 
@@ -241,6 +242,11 @@ class CfgSounds
 		// filename, volume, pitch
 		sound[] = {"\cTab\sounds\phoneVibrate.wss",1,1};
 		// subtitle delay in seconds, subtitle text 
+		titles[] = {};
+	};
+	class cTab_mailSent
+	{
+		sound[] = {"\cTab\sounds\mailSent.wss",1,1};
 		titles[] = {};
 	};
 };

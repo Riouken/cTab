@@ -115,11 +115,6 @@
 #define pxToMenu_X(PIXEL) (((PIXEL) - cTab_GUI_android_OSD_MENU_X) / GUI_GRID_PX_W * GUI_GRID_W)
 #define pxToMenu_Y(PIXEL) (((PIXEL) - cTab_GUI_android_OSD_MENU_Y) / GUI_GRID_PX_H * GUI_GRID_H)
 
-// define colours
-#define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
-#define COLOR_BLACK {0,0,0,1}
-#define COLOR_WHITE {1,1,1,1}
-
 class cTab_RscText_Android: cTab_RscText
 {
 	style = ST_CENTER;
@@ -128,7 +123,7 @@ class cTab_RscText_Android: cTab_RscText
 	font = GUI_FONT_MONO;
 	colorText[] = COLOR_WHITE;
 	sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE);
-	colorBackground[] = {0,0,0,0};
+	colorBackground[] = COLOR_TRANSPARENT;
 	shadow = 0;
 };
 class cTab_android_RscMapControl: cTab_RscMapControl
@@ -306,7 +301,7 @@ class cTab_android_loadingtxt: cTab_RscText
 	y = pxToScreen_Y(cTab_GUI_android_SCREEN_CONTENT_Y);
 	w = pxToScreen_W(cTab_GUI_android_SCREEN_CONTENT_W);
 	h = pxToScreen_H(cTab_GUI_android_SCREEN_CONTENT_H);
-	colorBackground[] = {0.2,0.431,0.647,1};
+	colorBackground[] = COLOR_LIGHT_BLUE;
 };
 class cTab_android_windowsBG: cTab_RscPicture
 {

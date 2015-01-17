@@ -150,11 +150,6 @@
 // On-screen map centre cursor
 #define cTab_GUI_tablet_CURSOR (38)
 
-// define colours
-#define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
-#define COLOR_BLACK {0,0,0,1}
-#define COLOR_WHITE {1,1,1,1}
-
 class cTab_RscText_Tablet: cTab_RscText
 {
 	style = ST_CENTER;
@@ -163,7 +158,7 @@ class cTab_RscText_Tablet: cTab_RscText
 	font = GUI_FONT_MONO;
 	colorText[] = COLOR_WHITE;
 	sizeEx = pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE);
-	colorBackground[] = {0,0,0,0};
+	colorBackground[] = COLOR_TRANSPARENT;
 	shadow = 0;
 };
 class cTab_Tablet_background: cTab_RscPicture

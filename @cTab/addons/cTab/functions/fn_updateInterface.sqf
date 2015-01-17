@@ -21,10 +21,10 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog"];
 disableSerialization;
 
-if (isNil "cTabIfOpen") exitWith {};
+if (isNil "cTabIfOpen") exitWith {false};
 _displayName = cTabIfOpen select 1;
 _display = uiNamespace getVariable _displayName;
 _interfaceInit = false;
@@ -32,6 +32,7 @@ _loadingCtrl = _display displayCtrl IDC_CTAB_LOADINGTXT;
 _targetMapCtrl = controlNull;
 _targetMapScale = nil;
 _targetMapWorldPos = nil;
+_isDialog = [_displayName] call cTab_fnc_isDialog;
 
 if (count _this == 1) then {
 	_settings = _this select 0;
@@ -147,7 +148,7 @@ if (isNil "_mode") then {
 								_index = _uavListCtrl lbAdd (str _x);
 								_uavListCtrl lbSetData [_index,str _x];
 							};
-						} count allUnitsUav;
+						} count cTabUAVlist;
 						lbSort [_uavListCtrl, "ASC"];
 						for "_x" from 0 to (lbSize _uavListCtrl - 1) do {
 							if (_data == _uavListCtrl lbData _x) exitWith {
@@ -226,7 +227,7 @@ if (isNil "_mode") then {
 		if (_x select 0 == "mapScale") exitWith {
 			if (_mode == "BFT") then {
 				_mapScaleKm = _x select 1;
-				if ([_displayName] call cTab_fnc_isDialog) then {
+				if (_isDialog) then {
 					_targetMapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
 				} else {
 					// pre-Calculate map scales
@@ -253,7 +254,7 @@ if (isNil "_mode") then {
 		// ------------ MAP WORLD POSITION ------------
 		if (_x select 0 == "mapWorldPos") exitWith {
 			if (_mode == "BFT") then {
-				if ([_displayName] call cTab_fnc_isDialog) then {
+				if (_isDialog) then {
 					_mapWorldPos = _x select 1;
 					if !(_mapWorldPos isEqualTo []) then {
 						_targetMapWorldPos = _mapWorldPos;
@@ -269,7 +270,7 @@ if (isNil "_mode") then {
 				_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
 				_targetMapCtrl = _display displayCtrl _targetMapIDC;
 				
-				if (!_interfaceInit && {[_displayName] call cTab_fnc_isDialog}) then {
+				if (!_interfaceInit && _isDialog) then {
 					_previousMapCtrl = controlNull;
 					{
 						_previousMapIDC = _x select 1;
@@ -384,6 +385,9 @@ if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
 		while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
 	};
 };
+
+// move mouse cursor to the center of the screen if its a dialog
+if (_interfaceInit && _isDialog) then {setMousePosition [0.5,0.5];};
 
 // now hide the "Loading" control since we are done
 if (!isNull _loadingCtrl) then {

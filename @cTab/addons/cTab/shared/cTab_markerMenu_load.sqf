@@ -9,7 +9,7 @@ disableSerialization;
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-cTabUserSelIcon = [[],"","",500,cTabColorRed,"",""];
+cTabUserSelIcon = [[],0,0,0,""];
 
 _mainPop = _this select 0;
 _sendingCtrlArry = _this select 1;
@@ -27,10 +27,10 @@ _ypos = _sendingCtrlArry select 3;
 cTabUserPos = [_xpos,_ypos];
 
 _tempWorldPos = _cntrlScreen  posScreenToWorld [_xpos,_ypos];
-cTabUserSelIcon set [0,_tempWorldPos];
+cTabUserSelIcon set [0,[_tempWorldPos select 0,_tempWorldPos select 1]];
 
 _time = call cTab_fnc_currentTime;
-cTabUserSelIcon set [5,_time];
+cTabUserSelIcon set [4,_time];
 
 _mainPopup ctrlShow True;
 _mainPopup ctrlSetPosition [_xpos, _ypos];

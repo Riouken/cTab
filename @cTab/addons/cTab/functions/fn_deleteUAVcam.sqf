@@ -21,7 +21,7 @@
 		[false] spawn cTab_fnc_deleteUAVcam;
 */
 
-private ["_seatsToDelete","_uavCamData","_cam"];
+private ["_seatsToDelete","_uavCamData","_cam","_terminate"];
 
 _terminate = if (count _this == 1) then {_this select 0} else {true};
 

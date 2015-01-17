@@ -19,6 +19,6 @@
 
 private [];
 
-[_this select 0,[["mapWorldPos",getPosASL vehicle player]],true,true] call cTab_fnc_setSettings;
+[_this select 0,[["mapWorldPos",getPosASL vehicle cTab_player]],true,true] call cTab_fnc_setSettings;
 
 true

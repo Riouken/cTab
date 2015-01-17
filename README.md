@@ -62,6 +62,10 @@ How to configure
 ----------------
 ### Key Bindings ###
 Key Bindings can now be configured via the CBA Keybinding system available to you from the configure controls screen once you are in game.
+
+    CONFIGURE > CONTROLS > CONFIGURE ADDONS
+    Select "cTab" from the ADDON dropdown
+
 You can reconfigure the default keys in the configuration file, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. The file can be edited in Notepad or any other text editor. These are the default key bindings:
 
 | Keys | Action |
@@ -124,13 +128,20 @@ This will for example assign the MicroDAGR to the GPS slot and place the Tablet 
 
     this linkItem "ItemMicroDAGR";this addItemToBackpack "ItemcTab";
 
-### Set cTab side ###
-If you wish to use cTab on a different side than Bluefore, put this at the **TOP** of your `init.sqf`:
+### Set cTab side-specific encryption keys ###
+If you wish multiple factions to share cTab data, you will have to set their encryption keys to be the same. These are the variables that hold the encryption keys with their default values:
 
-    cTabSide = east;
+    cTab_encryptionKey_west = "bluefor";
+    cTab_encryptionKey_east = "opfor";
+    cTab_encryptionKey_guer = "independent";
+    cTab_encryptionKey_civ = "civilian";
 
-Change `east` to what ever side you wish to have cTab available on (i.e. `guer`).
-You can only have cTab available for one side. If you want cTab available on the west side or NATO then you do not need to include this.
+So if you want to have for example OPFOR and GUER share cTab data, put this at the **TOP** of your `init.sqf`:
+
+    // set GUER encryption key to be the same as the default BLUEFOR encryption key
+    cTab_encryptionKey_guer = "bluefor";
+
+Note: If `GUER` is set to be friendly with either `WEST` or `EAST`, `GUER` will by default have the same encryption key as the friendly faction. Set `cTab_encryptionKey_guer = "independent";` to override.
 
 ### Override vehicle types that have FBCB2 or TAD available ###
 If you wish to override the list of vehicles that have FBCB2 or TAD available, put this at the **TOP** of your `init.sqf`:
@@ -146,8 +157,14 @@ If you wish to override the list of vehicles that have FBCB2 or TAD available, p
     // Only have BWmod helmets with a camera simulate a helmet camera
     cTab_helmetClass_has_HCam = ["BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"];
 
+### Change display name of a group ###
+Groups are displayed on cTab devices with their groupIDs. To define custom groupIDs, add the following code to the group leader's initialization:
+
+    // Change the unit's groupID to "Red Devils"
+    this setGroupId ["Red Devils"];
+
 ### Change display name of a vehicle ###
-By default all vehicles will be shown with their group names next to them. This can make it difficult to distinguish multiple vehicles of the same type when they are in the same group. To change that, use the following code in the unit's initialization:
+By default all vehicles will be shown with their group names next to them. This can make it difficult to distinguish multiple vehicles of the same type when they are in the same group. To change that, use the following code in the vehicle's initialization:
 
     // Change this vehicle's identification displayed on all cTab Blue Force Trackers to "Fox"
     this setVariable ["cTab_groupId","Fox",true];
@@ -155,6 +172,9 @@ By default all vehicles will be shown with their group names next to them. This 
 Changelog
 ---------
 ### 2.1.0 ###
+* Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
+* Provided encryption keys that can be set by the mission designer to allow or disallow cTab data to be shared.
+* Improved Zeus support when remote controlling AI
 * Added MicroDAGR hand-held GPS.
   It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
   Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).
@@ -169,7 +189,7 @@ Changelog
 * Message receive notification has been made a lot less intrusive, both visually (now a small white envelope icon on the right side of the screen) and audibly (a humming sound similar to that of a mobile phone vibrating)
 * The "delete messages" function will now only delete selected messages (instead of all)
 * Added "small" version to Android interface, so you can now keep it visible while navigating
-* Reworked Tablet user interface
+* Reworked Tablet user interface, switching modes feels a lot more natural now
 * Reworked UAV camera positions, gunner and driver camera will now reflect what the UAV gunner and driver actually sees. Gunner camera now uses FLIR (white/hot) mode.
 * Lists of UAVs and helmet cameras are now alphabetically sorted
 * Reworked helmet "full-screen" view to only occupy the whole screen of the Tablet instead of the whole screen
@@ -187,7 +207,6 @@ Changelog
 * Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
 * Added new marker types for infantry (AT and MG) and wheeled MRAPs/APCs
 * Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)
-* Added a "Copy Grid" entry to the map double-click dialog, copying the grid location of the clicked location to the clipboard
 * Added map tools (can be toggled using F5) that show grid and elevation at mouse cursor as well as distance and direction from the current position to the mouse cursor position.
 * Island sizes are now dynamically detected, no more waiting on islands being supported
 * Tweaked map visuals to be easier to read
@@ -198,6 +217,7 @@ Changelog
 * Changed BFT list generation and display functions to help de-clutter everyone's view. For example transports will no longer show overlayed icons for other units with cTab equipment that are mounted. Instead, the names of groups and the group indices of units from your own group will be displayed to the left of the transport's icon.
 * The arrow on the inner TAD range circle (that used to show north) will now rotate with the direction of the aircraft to help show the current direction of travel
 * Excluded static weapons from showing up on BFT
+* Added ability to define custom names for vehicles via the mission or scripts
 
 ### 2.0.1 ###
 * Fixed "_chk_all_items" script error that could appear during Zeus (and probably other) missions

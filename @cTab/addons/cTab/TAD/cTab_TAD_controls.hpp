@@ -72,11 +72,6 @@
 #define cTab_GUI_TAD_OSD_OSB19_Y (cTab_GUI_TAD_OSD_OSB07_Y)
 #define cTab_GUI_TAD_OSD_OSB20_Y (cTab_GUI_TAD_OSD_OSB06_Y)
 
-// define colours
-#define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
-#define COLOR_BLACK {0,0,0,1}
-#define COLOR_WHITE {1,1,1,1}
-
 class cTab_RscButton_TAD_OSB: cTab_RscButtonInv
 {
 	w = pxToScreen_W(134);

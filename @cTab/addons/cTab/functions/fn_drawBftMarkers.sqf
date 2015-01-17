@@ -26,12 +26,13 @@
 		[_ctrlScreen,0] call cTab_fnc_drawBftMarkers;
 */
 
-private ["_ctrlScreen","_mode","_veh","_iconB","_text","_groupID","_pos","_vehicles","_vehIndex","_mountedLabels","_mountedIndex","_drawText"];
+private ["_ctrlScreen","_mode","_veh","_iconB","_text","_groupID","_pos","_vehicles","_vehIndex","_mountedLabels","_mountedIndex","_drawText","_playerVehicle","_playerGroup"];
 
 _ctrlScreen = _this select 0;
 _mode = _this select 1;
 _vehicles = [];
-_playerVehicle = vehicle player;
+_playerVehicle = vehicle cTab_player;
+_playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
 
@@ -62,11 +63,11 @@ if (_mode != 2) then {
 			};
 			// Draw on anything but TAD
 			call {
-				if (_veh != vehicle player) exitWith {
+				if (_veh != _playerVehicle) exitWith {
 					// player is not sitting in this vehicle
 					_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
 				};
-				if (group _veh != group player) then {
+				if (group _veh != _playerGroup) then {
 					// player is not in the same group as this vehicle
 					_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
 				};
@@ -80,20 +81,23 @@ if (_mode != 2) then {
 		_veh = vehicle (_x select 0);
 		
 		call {
+			// See if the group leader's vehicle is in the list of drawn vehicles
 			_vehIndex = _vehicles find _veh;
 			
+			// Only do this if the vehicle has not been drawn yet, or the player is sitting in the same vehicle as the group leader
 			if (_vehIndex != -1 || {_veh == _playerVehicle}) exitWith {
 				if (_drawText) then {
 					// we want to draw text and the group leader is in a vehicle that has already been drawn
 					_text = _x select 3;
-					if ((cTabBFTvehicles select _vehIndex select 3) != _text) then {
+					// _vehIndex == -1 means that the player sits in the vehicle
+					if (_vehIndex == -1 || {(groupID group _veh) != _text}) then {
 						// group name is not the same as that of the vehicle the leader is sitting in
 						_mountedIndex = _mountedLabels find _veh;
 						if (_mountedIndex != -1) then {
 							_mountedLabels set [_mountedIndex + 1,(_mountedLabels select (_mountedIndex + 1)) + "/" + (_text)];
 						} else {
-							_mountedLabels pushBack _veh;
-							_mountedLabels pushBack _text;
+							0 = _mountedLabels pushBack _veh;
+							0 = _mountedLabels pushBack _text;
 						};
 					};
 				};
@@ -133,7 +137,7 @@ if (_mode != 2) then {
 				if  (_drawText) then {
 					0 = _mountedLabels pushBack (_x select 4);
 				};
-				if (_veh != vehicle player) then {
+				if (_veh != _playerVehicle) then {
 					_ctrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabColorBlue,getPosASL _veh,cTabIconSize,cTabIconSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
 				};
 			};

@@ -98,11 +98,6 @@
 // On-screen map centre cursor
 #define cTab_GUI_FBCB2_CURSOR (76)
 
-// define colours
-#define COLOR_NEON_GREEN {57/255,255/255,20/255,1}
-#define COLOR_BLACK {0,0,0,1}
-#define COLOR_WHITE {1,1,1,1}
-
 class cTab_RscText_FBCB2: cTab_RscText
 {
 	style = ST_CENTER;
@@ -111,7 +106,7 @@ class cTab_RscText_FBCB2: cTab_RscText
 	font = GUI_FONT_MONO;
 	colorText[] = COLOR_WHITE;
 	sizeEx = pxToScreen_H(cTab_GUI_FBCB2_OSD_TEXT_STD_SIZE);
-	colorBackground[] = {0,0,0,0};
+	colorBackground[] = COLOR_TRANSPARENT;
 	shadow = 0;
 };
 class cTab_FBCB2_background: cTab_RscPicture
@@ -292,4 +287,5 @@ class cTab_FBCB2_loadingtxt: cTab_RscText_FBCB2
 	y = pxToScreen_Y(cTab_GUI_FBCB2_SCREEN_CONTENT_Y);
 	w = pxToScreen_W(cTab_GUI_FBCB2_SCREEN_CONTENT_W);
 	h = pxToScreen_H(cTab_GUI_FBCB2_SCREEN_CONTENT_H);
+	colorBackground[] = COLOR_BLACK;
 };

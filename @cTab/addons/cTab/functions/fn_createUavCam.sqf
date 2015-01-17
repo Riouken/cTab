@@ -31,7 +31,7 @@ _data = _this select 0;
 // see if given UAV name is still in the list of valid UAVs
 {
 	if (_data == str _x) exitWith {_uav = _x;};
-} count allUnitsUav;
+} count cTabUAVlist;
 
 // exit if requested UAV could not be found
 if (isNull _uav) exitWith {false};
@@ -67,7 +67,7 @@ _uavCams = _this select 1;
 		call {
 			if (_seat == 1) exitWith {
 				_renderTarget setPiPEffect [2]; // IR mode
-				_cam camSetFov 0.3; // set zoom
+				_cam camSetFov 0.1; // set zoom
 			};
 			_cam camSetFov 0.5; // set default zoom
 		};

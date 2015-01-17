@@ -28,12 +28,18 @@ if (isArray (ConfigFile >> "cTab_settings" >> "cTab_helmetClass_has_HCam")) then
 };
 publicVariable "cTab_helmetClass_has_HCam_server";
 
+cTab_userMarkerLists = [];
+cTab_userMarkerIndices = [];
+
+["cTab_addUserMarker",cTab_fnc_addUserMarker] call CBA_fnc_addClientToServerEventhandler;
+["cTab_deleteUserMarker",cTab_fnc_deleteUserMarker] call  CBA_fnc_addClientToServerEventhandler;
+
 [] spawn {
 	waituntil {time > 0};
 	sleep .1;
 	
 	while {true} do {
-		["cTab_FBCB2_updatePulse"] call CBA_fnc_globalEvent;
-		sleep 10;
+		["cTab_updatePulse"] call CBA_fnc_globalEvent;
+		sleep 30;
 	};
 };
