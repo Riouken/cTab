@@ -1082,7 +1082,7 @@ cTabOnDrawHCam = {
 
 // fnc for user menu opperation.
 cTabUsrMenuSelect = {
-	private ["_type","_displayName","_display","_idcToShow","_control"];
+	private ["_type","_displayName","_display","_idcToShow","_control","_uav"];
 	
 	disableSerialization;
 	_type = _this select 0;
@@ -1098,6 +1098,20 @@ cTabUsrMenuSelect = {
 			['cTab_addUserMarker',[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon]] call CBA_fnc_clientToServerEvent;
 		};
 		
+		// Lock UAV cam to clicked position
+		if (_type == 2) exitWith {
+			_uav = objNull;
+			_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
+			// see if given UAV name is still in the list of valid UAVs
+			{
+				if (_data == str _x) exitWith {_uav = _x;};
+			} count cTabUAVlist;
+			if !(isNull _uav) then {
+				_camPos = cTabUserSelIcon select 0;
+				_uav lockCameraTo [_camPos + [getTerrainHeightASL _camPos],[0]];
+			};
+		};
+	
 		_idcToShow = call {
 			if (_type == 11) exitWith {3301};
 			if (_type == 12) exitWith {3303};
