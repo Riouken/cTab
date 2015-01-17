@@ -188,7 +188,7 @@ if (isNil "_mode") then {
 							};
 						};
 						if (lbCurSel _hcamListCtrl == -1) then {
-							call cTab_fnc_deleteHelmetCam;
+							[] spawn cTab_fnc_deleteHelmetCam;
 						};
 					};
 					// ---------- MESSAGING -----------

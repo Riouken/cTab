@@ -300,6 +300,7 @@ cTabDrawMapTools = false;
 cTabUavViewActive = false;
 cTabUAVcams = [];
 cTabUavScriptHandle = scriptNull;
+cTabHcamScriptHandle = scriptNull;
 cTabCursorOnMap = false;
 cTabMapCursorPos = [0,0];
 cTabMapWorldPos = [];
@@ -628,7 +629,7 @@ cTab_fnc_close = {
 	};
 	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
-	call cTab_fnc_deleteHelmetCam;
+	[] spawn cTab_fnc_deleteHelmetCam;
 	[] spawn cTab_fnc_deleteUAVcam;
 	
 	// Save mapWorldPos and mapScale of current interface so it can be restored later

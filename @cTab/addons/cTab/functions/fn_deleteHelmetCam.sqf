@@ -8,7 +8,7 @@
 		Delete helmet camera
 	
 	Parameters:
-		NONE
+		0: BOOLEAN (optional) - Terminate, FALSE if camera update script should not be terminated
 	
 	Returns:
 		BOOLEAN - TRUE
@@ -19,6 +19,17 @@
 */
 
 private ["_cam"];
+
+_terminate = if (count _this == 1) then {_this select 0} else {true};
+
+// terminate camera update script
+if (_terminate) then {
+	if (!scriptDone cTabHcamScriptHandle) then {
+		terminate cTabHcamScriptHandle;
+		waitUntil {scriptDone cTabHcamScriptHandle};
+		systemChat str ["terminated"];
+	};
+};
 
 if (!isNil "cTabHcams") then {
 	_cam = cTabHcams select 0;
