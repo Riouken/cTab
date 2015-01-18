@@ -37,6 +37,7 @@ class CfgFunctions
 			class updateLists{};
 			class updateInterface{};
 			class updateUserMarkerList{};
+			class userMenuSelect{};
 		};
 	};
 };

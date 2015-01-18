@@ -24,7 +24,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[11] call cTabUsrMenuSelect;";
+			action = "[11] call cTab_fnc_userMenuSelect;";
 		};
 		class medbtn: cTab_MenuItem
 		{
@@ -35,7 +35,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[21] call cTabUsrMenuSelect;";
+			action = "[21] call cTab_fnc_userMenuSelect;";
 		};
 		class genbtn: cTab_MenuItem
 		{
@@ -46,7 +46,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[31] call cTabUsrMenuSelect;";
+			action = "[31] call cTab_fnc_userMenuSelect;";
 		};
 		class lockUavCam: cTab_MenuItem
 		{
@@ -58,7 +58,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[2] call cTabUsrMenuSelect;";
+			action = "[2] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -69,7 +69,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[0] call cTabUsrMenuSelect;";
+			action = "[0] call cTab_fnc_userMenuSelect;";
 		};
 	};
 };
@@ -100,7 +100,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,0];[12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,0];[12] call cTab_fnc_userMenuSelect;";
 		};
 		class mecinfbtn: cTab_MenuItem
 		{
@@ -112,7 +112,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,1];[12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,1];[12] call cTab_fnc_userMenuSelect;";
 		};
 
 		class motrinfbtn: cTab_MenuItem
@@ -125,7 +125,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,2];[12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,2];[12] call cTab_fnc_userMenuSelect;";
 		};
 		class amrbtn: cTab_MenuItem
 		{
@@ -136,7 +136,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,3];[12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,3];[12] call cTab_fnc_userMenuSelect;";
 		};
 		class helibtn: cTab_MenuItem
 		{
@@ -147,7 +147,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,4];[12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,4];[12] call cTab_fnc_userMenuSelect;";
 		};
 		class plnbtn: cTab_MenuItem
 		{
@@ -158,7 +158,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,5];[12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,5];[12] call cTab_fnc_userMenuSelect;";
 		};
 		class uknbtn: cTab_MenuItem
 		{
@@ -169,7 +169,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,6];[12] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,6];[12] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -180,7 +180,7 @@ class EnemySub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[0] call cTabUsrMenuSelect;";
+			action = "[0] call cTab_fnc_userMenuSelect;";
 		};
 	};
 };
@@ -211,7 +211,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[14] call cTabUsrMenuSelect;";
+			action = "[14] call cTab_fnc_userMenuSelect;";
 		};
 		class patbtn: cTab_MenuItem
 		{
@@ -222,7 +222,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,1];[13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,1];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class sqdbtn: cTab_MenuItem
 		{
@@ -233,7 +233,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,2];[13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,2];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class sctbtn: cTab_MenuItem
 		{
@@ -244,7 +244,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,3];[13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,3];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class pltnbtn: cTab_MenuItem
 		{
@@ -255,7 +255,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [2,4];[13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [2,4];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -266,7 +266,7 @@ class EnemySub2: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[0] call cTabUsrMenuSelect;";
+			action = "[0] call cTab_fnc_userMenuSelect;";
 		};
 	};
 };
@@ -297,7 +297,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[1] call cTabUsrMenuSelect;";
+			action = "[1] call cTab_fnc_userMenuSelect;";
 		};
 		class nthbtn: cTab_MenuItem
 		{
@@ -308,7 +308,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,1];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,1];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class nebtn: cTab_MenuItem
 		{
@@ -318,7 +318,7 @@ class EnemySub3: cTab_RscControlsGroup
 			y = MENU_elementY(3);
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,2];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,2];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class ebtn: cTab_MenuItem
 		{
@@ -329,7 +329,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,3];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,3];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class sebtn: cTab_MenuItem
 		{
@@ -340,7 +340,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,4];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,4];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class sbtn: cTab_MenuItem
 		{
@@ -351,7 +351,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,5];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,5];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class swbtn: cTab_MenuItem
 		{
@@ -362,7 +362,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,6];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,6];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class wbtn: cTab_MenuItem
 		{
@@ -373,7 +373,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,7];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,7];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class RscText_1022: cTab_MenuItem
 		{
@@ -384,7 +384,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [3,8];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [3,8];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -395,7 +395,7 @@ class EnemySub3: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[0] call cTabUsrMenuSelect;";
+			action = "[0] call cTab_fnc_userMenuSelect;";
 		};
 	};
 };
@@ -426,7 +426,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,7];[13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,7];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class lmg_btn: cTab_MenuItem
 		{
@@ -437,7 +437,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,8];[13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,8];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class at_btn: cTab_MenuItem
 		{
@@ -448,7 +448,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,9];[13] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,9];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -459,7 +459,7 @@ class EnemySub4: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[0] call cTabUsrMenuSelect;";
+			action = "[0] call cTab_fnc_userMenuSelect;";
 		};
 	};
 };
@@ -490,7 +490,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,20];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,20];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class ccpbtn: cTab_MenuItem
 		{
@@ -502,7 +502,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,21];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,21];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class basbtn: cTab_MenuItem
 		{
@@ -514,7 +514,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,22];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,22];[1] call cTab_fnc_userMenuSelect;";
 		};
 		// Mass Casualty Incident
 		class mcibtn: cTab_MenuItem
@@ -527,7 +527,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,23];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,23];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -538,7 +538,7 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[0] call cTabUsrMenuSelect;";
+			action = "[0] call cTab_fnc_userMenuSelect;";
 		};
 	};
 };
@@ -570,7 +570,7 @@ class GenSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,30];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,30];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class lzbtn: cTab_MenuItem
 		{
@@ -582,7 +582,7 @@ class GenSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "cTabUserSelIcon set [1,31];[1] call cTabUsrMenuSelect;";
+			action = "cTabUserSelIcon set [1,31];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
@@ -593,7 +593,7 @@ class GenSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
-			action = "[0] call cTabUsrMenuSelect;";
+			action = "[0] call cTab_fnc_userMenuSelect;";
 		};
 	};
 };
