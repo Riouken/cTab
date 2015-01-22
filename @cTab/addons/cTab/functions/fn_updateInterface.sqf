@@ -67,9 +67,6 @@ if (isNil "_mode") then {
 					IDC_CTAB_GROUP_UAV,
 					IDC_CTAB_GROUP_HCAM,
 					IDC_CTAB_GROUP_MESSAGE,
-					IDC_CTAB_MINIMAPBG,
-					IDC_CTAB_CTABHCAMMAP,
-					IDC_CTAB_CTABUAVMAP,
 					IDC_CTAB_SCREEN,
 					IDC_CTAB_SCREEN_TOPO,
 					IDC_CTAB_HCAM_FULL,
@@ -134,9 +131,7 @@ if (isNil "_mode") then {
 					// ---------- UAV -----------
 					if (_mode == "UAV") exitWith {
 						_displayItemsToShow = [
-							IDC_CTAB_GROUP_UAV,
-							IDC_CTAB_MINIMAPBG,
-							IDC_CTAB_CTABUAVMAP
+							IDC_CTAB_GROUP_UAV
 						];
 						_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
 						_btnActCtrl ctrlSetTooltip "View Optics";
@@ -165,9 +160,7 @@ if (isNil "_mode") then {
 					// ---------- HELMET CAM -----------
 					if (_mode == "HCAM") exitWith {
 						_displayItemsToShow = [
-							IDC_CTAB_GROUP_HCAM,
-							IDC_CTAB_MINIMAPBG,
-							IDC_CTAB_CTABHCAMMAP
+							IDC_CTAB_GROUP_HCAM
 						];
 						_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
 						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
