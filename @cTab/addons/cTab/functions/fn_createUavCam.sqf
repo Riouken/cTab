@@ -23,7 +23,7 @@
 		[str _uavVehicle,[[0,"rendertarget8"],[1,"rendertarget9"]]] call cTab_fnc_createUavCam;
 */
 
-private ["_renderTarget","_data","_seat","_uav","_uavCams","_seatName","_camPosMemPt","_camDirMemPt","_cam","_eventHandler"];
+private ["_renderTarget","_data","_seat","_uav","_uavCams","_seatName","_camPosMemPt","_camDirMemPt","_cam"];
 
 _uav = objNull;
 _data = _this select 0;
@@ -77,20 +77,17 @@ _uavCams = _this select 1;
 
 // set up event handler
 if !(cTabUAVcams isEqualTo []) exitWith {
-	if (scriptDone cTabUavScriptHandle) then {
-		// use spawn instead of addMissionEventHandler until http://feedback.arma3.com/view.php?id=21737 gets fixed
-		cTabUavScriptHandle = [] spawn {
-			while {true} do {
-				{
-					if !(isNil "_x") then {
-						_uav = _x select 0;
-						_cam = _x select 2;
-						_dir = (_uav selectionPosition (_x select 3)) vectorFromTo (_uav selectionPosition (_x select 4));
-						_cam setVectorDirAndUp [_dir,_dir vectorCrossProduct [-(_dir select 1), _dir select 0, 0]];
-					};
-				} forEach cTabUAVcams;
-			};
-		};
+	if (isNil "cTabUavEventHandle") then {
+		cTabUavEventHandle = addMissionEventHandler ["Draw3D",{
+			{
+				if !(isNil "_x") then {
+					_uav = _x select 0;
+					_cam = _x select 2;
+					_dir = (_uav selectionPosition (_x select 3)) vectorFromTo (_uav selectionPosition (_x select 4));
+					_cam setVectorDirAndUp [_dir,_dir vectorCrossProduct [-(_dir select 1), _dir select 0, 0]];
+				};
+			} count cTabUAVcams;
+		}];
 	};
 	cTabActUav = _uav;
 	true

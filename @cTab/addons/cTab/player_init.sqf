@@ -300,7 +300,6 @@ cTabDrawMapTools = false;
 // Base defines.
 cTabUavViewActive = false;
 cTabUAVcams = [];
-cTabUavScriptHandle = scriptNull;
 cTabCursorOnMap = false;
 cTabMapCursorPos = [0,0];
 cTabMapWorldPos = [];

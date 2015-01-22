@@ -27,9 +27,9 @@ _terminate = if (count _this == 1) then {_this select 0} else {true};
 
 // terminate camera direction update script
 if (_terminate) then {
-	if (!scriptDone cTabUavScriptHandle) then {
-		terminate cTabUavScriptHandle;
-		waitUntil {scriptDone cTabUavScriptHandle};
+	if (!isNil "cTabUavEventHandle") then {
+		removeMissionEventHandler ["Draw3D",cTabUavEventHandle];
+		cTabUavEventHandle = nil;
 	};
 };
 
