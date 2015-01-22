@@ -62,7 +62,7 @@ if (isNil "_mode") then {
 			
 			_displayItems = call {				
 				if (_displayName == "cTab_Tablet_dlg") exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,
+					[3300,3301,3302,3303,3304,3305,3306,3307,
 					IDC_CTAB_GROUP_DESKTOP,
 					IDC_CTAB_GROUP_UAV,
 					IDC_CTAB_GROUP_HCAM,
@@ -79,7 +79,7 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_DIR]
 				};
 				if (_displayName == "cTab_Android_dlg") exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,
+					[3300,3301,3302,3303,3304,3305,3306,3307,
 					IDC_CTAB_GROUP_MENU,
 					IDC_CTAB_GROUP_MESSAGE,
 					IDC_CTAB_GROUP_COMPOSE,
@@ -91,7 +91,7 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_DIR]
 				};
 				if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
-					[3300,3301,3302,3303,3304,3305,3306]
+					[3300,3301,3302,3303,3304,3305,3306,3307]
 				};
 				[] // default
 			};
