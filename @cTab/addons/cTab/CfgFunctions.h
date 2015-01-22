@@ -29,6 +29,7 @@ class CfgFunctions
 			class getSettings{};
 			class getUserMarkerList{};
 			class isDialog{};
+			class lockUavCamTo{}
 			class onIfKeyDown{};
 			class setSettings{};
 			class setToPairs{};

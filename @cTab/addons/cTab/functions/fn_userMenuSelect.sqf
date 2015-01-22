@@ -18,7 +18,7 @@
 		[1] call cTab_fnc_userMenuSelect;
 */
 
-private ["_type","_displayName","_display","_idcToShow","_control","_uav","_data","_camPos"];
+private ["_type","_displayName","_display","_idcToShow","_control"];
 
 disableSerialization;
 
@@ -36,16 +36,7 @@ call {
 	
 	// Lock UAV cam to clicked position
 	if (_type == 2) exitWith {
-		_uav = objNull;
-		_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
-		// see if given UAV name is still in the list of valid UAVs
-		{
-			if (_data == str _x) exitWith {_uav = _x;};
-		} count cTabUAVlist;
-		if !(isNull _uav) then {
-			_camPos = cTabUserSelIcon select 0;
-			_uav lockCameraTo [_camPos + [getTerrainHeightASL _camPos],[0]];
-		};
+		[cTabUserSelIcon select 0] call cTab_fnc_lockUavCamTo;
 	};
 
 	_idcToShow = call {
