@@ -1,10 +1,15 @@
 class MainSubmenu: cTab_RscControlsGroup
 {
+	#ifndef cTab_IS_TABLET
+		#define cTab_MENU_MAX_ELEMENTS 4
+	#else
+		#define cTab_MENU_MAX_ELEMENTS 5
+	#endif
 	idc = 3300;
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(5);
+	h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 	class controls
 	{
 		class mainbg: cTab_IGUIBack
@@ -13,7 +18,7 @@ class MainSubmenu: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(5);
+			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
 		class op4btn: cTab_MenuItem
 		{
@@ -48,24 +53,26 @@ class MainSubmenu: cTab_RscControlsGroup
 			sizeEx = MENU_sizeEx;
 			action = "[31] call cTab_fnc_userMenuSelect;";
 		};
-		class lockUavCam: cTab_MenuItem
-		{
-			idc = -1;
-			text = "Lock UAV Cam"; //--- ToDo: Localize;
-			toolTip = "Lock UAV Cam to this position, a UAV has to be previously selected";
-			x = 0;
-			y = MENU_elementY(4);
-			w = MENU_W;
-			h = MENU_elementH;
-			sizeEx = MENU_sizeEx;
-			action = "[2] call cTab_fnc_userMenuSelect;";
-		};
+		#ifdef cTab_IS_TABLET
+			class lockUavCam: cTab_MenuItem
+			{
+				idc = -1;
+				text = "Lock UAV Cam"; //--- ToDo: Localize;
+				toolTip = "Lock UAV Cam to this position, a UAV has to be previously selected";
+				x = 0;
+				y = MENU_elementY(4);
+				w = MENU_W;
+				h = MENU_elementH;
+				sizeEx = MENU_sizeEx;
+				action = "[2] call cTab_fnc_userMenuSelect;";
+			};
+		#endif
 		class exit: cTab_MenuExit
 		{
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementY(5);
+			y = MENU_elementY(cTab_MENU_MAX_ELEMENTS);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
@@ -76,11 +83,12 @@ class MainSubmenu: cTab_RscControlsGroup
 
 class EnemySub1: cTab_RscControlsGroup
 {
+	#define cTab_MENU_MAX_ELEMENTS 8
 	idc = 3301;
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(8);
+	h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 	class controls
 	{
 		class IGUIBack_2201: cTab_IGUIBack
@@ -89,7 +97,7 @@ class EnemySub1: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(8);
+			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
 		class infbtn: cTab_MenuItem
 		{
@@ -176,7 +184,7 @@ class EnemySub1: cTab_RscControlsGroup
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementY(8);
+			y = MENU_elementY(cTab_MENU_MAX_ELEMENTS);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
@@ -187,11 +195,12 @@ class EnemySub1: cTab_RscControlsGroup
 
 class EnemySub2: cTab_RscControlsGroup
 {
+	#define cTab_MENU_MAX_ELEMENTS 6
 	idc = 3303;
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(6);
+	h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 	class controls
 	{
 		class IGUIBack_2202: cTab_IGUIBack
@@ -200,7 +209,7 @@ class EnemySub2: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(6);
+			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
 		class ftbtn: cTab_MenuItem
 		{
@@ -262,7 +271,7 @@ class EnemySub2: cTab_RscControlsGroup
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementY(6);
+			y = MENU_elementY(cTab_MENU_MAX_ELEMENTS);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
@@ -273,11 +282,12 @@ class EnemySub2: cTab_RscControlsGroup
 
 class EnemySub3: cTab_RscControlsGroup
 {
+	#define cTab_MENU_MAX_ELEMENTS 10
 	idc = 3304;
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(10);
+	h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 	class controls
 	{
 		class IGUIBack_2203: cTab_IGUIBack
@@ -286,7 +296,7 @@ class EnemySub3: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(10);
+			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
 		class stnbtn: cTab_MenuItem
 		{
@@ -391,7 +401,7 @@ class EnemySub3: cTab_RscControlsGroup
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementY(10);
+			y = MENU_elementY(cTab_MENU_MAX_ELEMENTS);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
@@ -402,11 +412,12 @@ class EnemySub3: cTab_RscControlsGroup
 
 class EnemySub4: cTab_RscControlsGroup
 {
+	#define cTab_MENU_MAX_ELEMENTS 4
 	idc = 3307;
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(4);
+	h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 	class controls
 	{
 		class IGUIBack_2202: cTab_IGUIBack
@@ -415,7 +426,7 @@ class EnemySub4: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(4);
+			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
 		class rifle_btn: cTab_MenuItem
 		{
@@ -455,7 +466,7 @@ class EnemySub4: cTab_RscControlsGroup
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementY(4);
+			y = MENU_elementY(cTab_MENU_MAX_ELEMENTS);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
@@ -466,11 +477,12 @@ class EnemySub4: cTab_RscControlsGroup
 
 class CasulSub1: cTab_RscControlsGroup
 {
+	#define cTab_MENU_MAX_ELEMENTS 5
 	idc = 3305;
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(5);
+	h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 	class controls
 	{
 		class IGUIBack_2204: cTab_IGUIBack
@@ -479,7 +491,7 @@ class CasulSub1: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(5);
+			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
 		class casltybtn: cTab_MenuItem
 		{
@@ -534,7 +546,7 @@ class CasulSub1: cTab_RscControlsGroup
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementY(5);
+			y = MENU_elementY(cTab_MENU_MAX_ELEMENTS);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
@@ -545,11 +557,12 @@ class CasulSub1: cTab_RscControlsGroup
 
 class GenSub1: cTab_RscControlsGroup
 {
+	#define cTab_MENU_MAX_ELEMENTS 3
 	idc = 3306;
 	x = MENU_X;
 	y = MENU_Y;
 	w = MENU_W;
-	h = MENU_H(3);
+	h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 	class controls
 	{
 		class IGUIBack_2205: cTab_IGUIBack
@@ -558,7 +571,7 @@ class GenSub1: cTab_RscControlsGroup
 			x = 0;
 			y = 0;
 			w = MENU_W;
-			h = MENU_H(3);
+			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
 		class hqbtn: cTab_MenuItem
 		{
@@ -589,7 +602,7 @@ class GenSub1: cTab_RscControlsGroup
 			idc = -1;
 			text = "Exit"; //--- ToDo: Localize;
 			x = 0;
-			y = MENU_elementY(3);
+			y = MENU_elementY(cTab_MENU_MAX_ELEMENTS);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;

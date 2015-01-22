@@ -456,7 +456,9 @@ class cTab_Tablet_dlg {
 			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 		};
 		//### Secondary Map Pop up	------------------------------------------------------------------------------------------------------
+		#define cTab_IS_TABLET
 		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
+		#undef cTab_IS_TABLET
 
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_RscText
