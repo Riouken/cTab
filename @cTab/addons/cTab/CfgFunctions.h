@@ -27,6 +27,7 @@ class CfgFunctions
 			class getPlayerEncryptionKey{};
 			class getPlayerSides{};
 			class getSettings{};
+			class getUserMarkerList{};
 			class isDialog{};
 			class onIfKeyDown{};
 			class setSettings{};

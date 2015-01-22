@@ -12,6 +12,11 @@
 cTabRscLayer = ["cTab"] call BIS_fnc_rscLayer;
 cTabRscLayerMailNotification = ["cTab_mailNotification"] call BIS_fnc_rscLayer;
 
+// Set up user markers
+cTab_userMarkerTransactionId = -1;
+cTab_userMarkerLists = [];
+[] call cTab_fnc_getUserMarkerList;
+
 // Set up side specific encryption keys
 if (isNil "cTab_encryptionKey_west") then {
 	cTab_encryptionKey_west = "bluefor";
@@ -272,10 +277,6 @@ cTab_helmetClass_has_HCam = [] + _classNames;
 
 // add cTab_updatePulse event handler triggered periodically by the server
 ["cTab_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
-
-// add event handler for when user markers get updated
-"cTab_userMarkerLists" addPublicVariableEventHandler {call cTab_fnc_updateUserMarkerList};
-
 
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {

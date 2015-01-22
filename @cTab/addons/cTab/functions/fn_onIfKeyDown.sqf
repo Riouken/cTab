@@ -22,7 +22,7 @@
 		[_display,_dikCode,_shiftKey,_ctrlKey,_altKey] call cTab_fnc_onIfKeyDown;
 */
 
-private["_display","_handled","_dikCode","_shiftKey","_ctrlKey","_altKey","_displayName","_mapTypes","_currentMapType","_currentMapTypeIndex","_ctrlScreen","_markerIndex","_removeIndex"];
+private["_display","_handled","_dikCode","_shiftKey","_ctrlKey","_altKey","_displayName","_mapTypes","_currentMapType","_currentMapTypeIndex","_ctrlScreen","_markerIndex"];
 
 _display = _this select 0;
 _displayName = cTabIfOpen select 1;
@@ -66,14 +66,9 @@ if (_dikCode == 211 && {cTabCursorOnMap}) exitWith { // DELETE
 	_currentMapTypeIndex = [_mapTypes,_currentMapType] call BIS_fnc_findInPairs;
 	_ctrlScreen = _display displayCtrl (_mapTypes select _currentMapTypeIndex select 1);
 	_markerIndex = [_ctrlScreen,cTabMapCursorPos] call cTab_fnc_findUserMarker;
-	_removeIndex = -1;
-	{
-		if (_x select 0 == _markerIndex) exitWith {_removeIndex = _forEachIndex};
-	} forEach cTabUserMarkerList;
-	if (_removeIndex != -1) then {
-		0 = cTabUserMarkerList deleteAt _removeIndex;
+	if (_markerIndex != -1) then {
+		[call cTab_fnc_getPlayerEncryptionKey,_markerIndex] call cTab_fnc_deleteUserMarker;
 	};
-	['cTab_deleteUserMarker',[call cTab_fnc_getPlayerEncryptionKey,_markerIndex]] call CBA_fnc_clientToServerEvent;
 	true
 };
 

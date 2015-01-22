@@ -29,10 +29,7 @@ if (isArray (ConfigFile >> "cTab_settings" >> "cTab_helmetClass_has_HCam")) then
 publicVariable "cTab_helmetClass_has_HCam_server";
 
 cTab_userMarkerLists = [];
-cTab_userMarkerIndices = [];
-
-["cTab_addUserMarker",cTab_fnc_addUserMarker] call CBA_fnc_addClientToServerEventhandler;
-["cTab_deleteUserMarker",cTab_fnc_deleteUserMarker] call  CBA_fnc_addClientToServerEventhandler;
+cTab_userMarkerTransactionId = -1;
 
 [] spawn {
 	waituntil {time > 0};

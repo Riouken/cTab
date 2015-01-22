@@ -31,8 +31,7 @@ _idcToShow = 0;
 call {
 	// send cTabUserSelIcon to server
 	if (_type == 1) exitWith {
-		cTabUserMarkerList pushBack [-1,cTabUserSelIcon call cTab_fnc_translateUserMarker];
-		['cTab_addUserMarker',[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon]] call CBA_fnc_clientToServerEvent;
+		[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon] call cTab_fnc_addUserMarker;
 	};
 	
 	// Lock UAV cam to clicked position
