@@ -295,6 +295,7 @@ class cTab_Tablet_dlg {
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
 					onDraw = "nop = _this call cTabOnDrawUAV;";
+					onMouseButtonDblClick = "_clickPos = (_this select 0) posScreenToWorld [_this select 2,_this select 3]; [[_clickPos select 0,_clickPos select 1]] call cTab_fnc_lockUavCamTo;";
 				};
 			};
 		};
