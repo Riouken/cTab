@@ -19,24 +19,24 @@ cTab_userMarkerLists = [];
 
 // Set up side specific encryption keys
 if (isNil "cTab_encryptionKey_west") then {
-	cTab_encryptionKey_west = "bluefor";
+	cTab_encryptionKey_west = "b";
 };
 if (isNil "cTab_encryptionKey_east") then {
-	cTab_encryptionKey_east = "opfor";
+	cTab_encryptionKey_east = "o";
 };
 if (isNil "cTab_encryptionKey_guer") then {
 	cTab_encryptionKey_guer = call {
 		if (([west,resistance] call BIS_fnc_areFriendly) and {!([east,resistance] call BIS_fnc_areFriendly)}) exitWith {
-			"bluefor"
+			"b"
 		};
 		if (([east,resistance] call BIS_fnc_areFriendly) and {!([west,resistance] call BIS_fnc_areFriendly)}) exitWith {
-			"opfor"
+			"o"
 		};
-		"independent"
+		"i"
 	};
 };
 if (isNil "cTab_encryptionKey_civ") then {
-	cTab_encryptionKey_civ = "civilian";
+	cTab_encryptionKey_civ = "c";
 };
 
 // set current player object in cTab_player and run a check on every frame to see if there is a change
