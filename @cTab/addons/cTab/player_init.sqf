@@ -384,6 +384,7 @@ cTab_fnc_onIfMainPressed = {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
 		cTabUavViewActive = false;
+		call cTab_fnc_onIfTertiaryPressed;
 		true
 	};
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) exitWith {
@@ -450,6 +451,7 @@ cTab_fnc_onIfSecondaryPressed = {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
 		cTabUavViewActive = false;
+		call cTab_fnc_onIfTertiaryPressed;
 		true
 	};
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) exitWith {
@@ -509,7 +511,7 @@ Returns FALSE when no action was taken (i.e. player has no cTab device / is not 
 cTab_fnc_onIfTertiaryPressed = {
 	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
-	if (cTabUavViewActive) exitWith {
+	if (cTabUavViewActive) then {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
 		cTabUavViewActive = false;
