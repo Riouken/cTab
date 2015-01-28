@@ -46,6 +46,26 @@ class cTab_Tablet_dlg {
 			w = pxToScreen_W(cTab_GUI_tablet_TASKBAR_W);
 			h = pxToScreen_H(cTab_GUI_tablet_TASKBAR_H);
 		};
+		class MiniMapBG: cTab_Tablet_window_back_BL
+		{
+			idc = IDC_CTAB_MINIMAPBG;
+		};
+		class cTabUavMap: cTab_RscMapControl
+		{
+			idc = IDC_CTAB_CTABUAVMAP;
+			text = "#(argb,8,8,3)color(1,1,1,1)";
+			x = pxToScreen_X(cTab_GUI_tablet_WINDOW_CONTENT_L_X);
+			y = pxToScreen_Y(cTab_GUI_tablet_WINDOW_CONTENT_B_Y);
+			w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
+			h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
+			onDraw = "nop = _this call cTabOnDrawUAV;";
+			onMouseButtonDblClick = "";
+		};
+		class cTabHcamMap: cTabUavMap
+		{
+			idc = IDC_CTAB_CTABHCAMMAP;
+			onDraw = "nop = _this call cTabOnDrawHCam;";
+		};
 		class screen: cTab_RscMapControl
 		{
 			idc = IDC_CTAB_SCREEN;
@@ -253,12 +273,6 @@ class cTab_Tablet_dlg {
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_B_Y);
 				};
-				class UAVMiniMapBG: cTab_Tablet_window_back_BL
-				{
-					idc = IDC_CTAB_MINIMAPBG;
-					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_L_X);
-					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_B_Y);
-				};
 				class cTabUAVlist: cTab_RscListbox
 				{
 					idc = IDC_CTAB_CTABUAVLIST;
@@ -285,17 +299,6 @@ class cTab_Tablet_dlg {
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_B_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-				};
-				class cTabUavMap: cTab_RscMapControl
-				{
-					idc = IDC_CTAB_CTABUAVMAP;
-					text = "#(argb,8,8,3)color(1,1,1,1)";
-					x = pxToScreen_X(cTab_GUI_tablet_WINDOW_CONTENT_L_X);
-					y = pxToScreen_Y(cTab_GUI_tablet_WINDOW_CONTENT_B_Y);
-					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
-					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-					onDraw = "nop = _this call cTabOnDrawUAV;";
-					onMouseButtonDblClick = "_clickPos = (_this select 0) posScreenToWorld [_this select 2,_this select 3]; [[_clickPos select 0,_clickPos select 1]] call cTab_fnc_lockUavCamTo;";
 				};
 			};
 		};
@@ -324,12 +327,6 @@ class cTab_Tablet_dlg {
 					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_R_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_T_Y);
 				};
-				class HcamMiniMapBG: cTab_Tablet_window_back_BL
-				{
-					idc = IDC_CTAB_MINIMAPBG;
-					x = pxToGroup_X(cTab_GUI_tablet_WINDOW_BACK_L_X);
-					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_BACK_B_Y);
-				};
 				class cTabHcamList: cTab_RscListbox
 				{
 					idc = IDC_CTAB_CTABHCAMLIST;
@@ -347,16 +344,6 @@ class cTab_Tablet_dlg {
 					y = pxToGroup_Y(cTab_GUI_tablet_WINDOW_CONTENT_T_Y);
 					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
 					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-				};
-				class cTabHcamMap: cTab_RscMapControl
-				{
-					idc = IDC_CTAB_CTABHCAMMAP;
-					text = "#(argb,8,8,3)color(1,1,1,1)";
-					x = pxToScreen_X(cTab_GUI_tablet_WINDOW_CONTENT_L_X);
-					y = pxToScreen_Y(cTab_GUI_tablet_WINDOW_CONTENT_B_Y);
-					w = pxToScreen_W(cTab_GUI_tablet_WINDOW_CONTENT_W);
-					h = pxToScreen_H(cTab_GUI_tablet_WINDOW_CONTENT_H);
-					onDraw = "nop = _this call cTabOnDrawHCam;";
 				};
 			};
 		};

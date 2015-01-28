@@ -193,7 +193,7 @@ Changelog
 * Added "small" version to Android interface, so you can now keep it visible while navigating
 * Reworked Tablet user interface, switching modes feels a lot more natural now
 * Reworked UAV camera positions, gunner and driver camera will now reflect what the UAV gunner and driver actually sees. Gunner camera now uses FLIR (white/hot) mode.
-* Added function to lock the currently selected UAV gunner's camera to the location double-clicked on the map (double-click on UAV mini map, or select from double-click menu on BFT map). This is only available to the tablet.
+* Added function to lock the currently selected UAV gunner's camera to the location double-clicked on the map (select from double-click menu on BFT map). This is only available to the tablet.
 * Lists of UAVs and helmet cameras are now alphabetically sorted
 * Reworked helmet "full-screen" view to only occupy the whole screen of the Tablet instead of the whole screen
 * Added ability to remove marker at mouse cursor position. The marker currently under the cursor will be highlighted and removed upon pressing DEL (delete on your keyboard).
