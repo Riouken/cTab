@@ -114,6 +114,7 @@ In the meantime, edit the `cTab_TAD_coPilot_turret` array in the configuration f
     };
 
 Each individual vehicle type is configured as `{"vehicleClassName",turretNo}`. Use `-1` as the turret number if there is no co-pilot seat or you don't want anyone but the pilot to have access to the TAD. The list is checked starting with the first element until a match is found.
+One way to figure out the correct turret number is to place the vehicle in question in the editor, seat yourself in the co-pilot's seat, hit `ESC` and type `assignedVehicleRole player` into one of the watch input boxes. The result is the turret number you are looking for.
 
 Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
 
