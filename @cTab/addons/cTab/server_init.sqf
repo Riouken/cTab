@@ -28,6 +28,23 @@ if (isArray (ConfigFile >> "cTab_settings" >> "cTab_helmetClass_has_HCam")) then
 };
 publicVariable "cTab_helmetClass_has_HCam_server";
 
+// define vehicles that have a non-standard co-pilot seat (turret) and broadcast it
+if (isArray (ConfigFile >> "cTab_settings" >> "cTab_TAD_coPilot_turret")) then {
+	cTab_TAD_coPilot_turret_server = getArray (ConfigFile >> "cTab_settings" >> "cTab_TAD_coPilot_turret");
+} else {
+	cTab_TAD_coPilot_turret_server = [
+		["kyo_MH47E_base",2],
+		["RHS_UH60M_MEV",0],
+		["RHS_UH60M",2],
+		["RHS_CH_47F",2],
+		["CH_47F",2],
+		["UH1H",-1], // no co-pilot
+		["UH1Y",2],
+		["UH60M_US_base",-1] // no co-pilot
+	];
+};
+publicVariable "cTab_TAD_coPilot_turret_server";
+
 cTab_userMarkerLists = [];
 cTab_userMarkerTransactionId = -1;
 

@@ -94,14 +94,37 @@ To configure the list of vehicle types that have FBCB2 or TAD available, edit th
         cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
     };
 
+Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
+
+### Define TAD-enabled vehicle types with non-standard co-pilot seat positions
+Some vehicles (for the most part helicopters with door-gunners that use imported A2 assets), are not set up with their co-pilot seat in the turret [0] position as is the norm for vanilla A3 helicopters. The result is that you won't get the TAD to show up in the co-pilot seat, but in one of the door-gunner seats instead. Please ask those asset developers to correct this since multiple mods are affected by this (for example TFAR as of this writing).
+In the meantime, edit the `cTab_TAD_coPilot_turret` array in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
+
+    class cTab_settings {
+        cTab_TAD_coPilot_turret[] = {
+            {"kyo_MH47E_base",2},
+            {"RHS_UH60M_MEV",0}, // set this class first since it is inheriting from RHS_UH60M
+            {"RHS_UH60M",2},
+            {"RHS_CH_47F",2},
+            {"CH_47F",2},
+            {"UH1H",-1}, // no co-pilot
+            {"UH1Y",2},
+            {"UH60M_US_base",-1} // no co-pilot
+        };
+    };
+
+Each individual vehicle type is configured as `{"vehicleClassName",turretNo}`. Use `-1` as the turret number if there is no co-pilot seat or you don't want anyone but the pilot to have access to the TAD. The list is checked starting with the first element until a match is found.
+
+Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
+
 ### Define helmet classes with enabled helmet camera ###
 To configure the list of helmet classes that enable helmet cameras, edit the `cTab_helmetClass_has_HCam` array in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
 
     class cTab_settings {
-        cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"};
-        cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
         cTab_helmetClass_has_HCam = {"H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"};
     };
+
+Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
 
 For Mission Makers
 ------------------
@@ -181,6 +204,7 @@ Changelog
   It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
   Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
+* Added configurable server-side list for co-pilot seat positions for TAD enabled vehicles to workaround some 3rd party vehicles not using the standard turret [0] for the co-pilot seat
 * Enabled support for CBA Keybinding system to make key bind changes more user friendly and changeable without a restart. Userconfig settings now define the default keybinds.
 * Helmet Cam item no longer occupies the radio slot when added to inventory. This is to prevent complications with TFAR.
 * Changed weight of all items to be close to their real-world equivalents (before everything did weight 45g)
@@ -199,7 +223,6 @@ Changelog
 * Added ability to remove marker at mouse cursor position. The marker currently under the cursor will be highlighted and removed upon pressing DEL (delete on your keyboard).
 * Made significant improvements to marker network synchronization. Instead of having an individual client manipulate the list of markers and then send it to every other client, a marker addition / deletion request will now be sent to the server and the server will inform all clients of the change by sending just what has changed.
 * Players sitting in the back of the trucks (HMTT and Tempest by default) now no longer have access to the vehicle based FBCB2
-* Workaround for left-door gunner having access to the TAD instead of the co-pilot in Konyo's Boeing/SOAR MH-47E
 * All interfaces are now restored to last mode of operation operation (BFT,Messaging,...) on open
 * All interfaces will now restore last map position and zoom level on open
 * Added topographical map mode to all devices

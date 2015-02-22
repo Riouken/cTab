@@ -57,11 +57,14 @@ switch (_type) do {
 				};
 			};
 			if (_type == "TAD") exitWith {
-				call {
-					if (_vehicle isKindOf "kyo_MH47E_base") exitWith {_coPilotTurret = 2};
-					_coPilotTurret = 0; // default
-				};
-				if (_unit == _vehicle turretUnit[_coPilotTurret]) then {_return = true;};
+				_coPilotTurret = 0; // default co-pilot turret
+				
+				// step through list of provided special cases where the co-pilot turret is non-standard
+				{
+					if (_vehicle isKindOf (_x select 0)) exitWith {_coPilotTurret = _x select 1};
+				} count cTab_TAD_coPilot_turret;
+				
+				if (_coPilotTurret >= 0 && {_unit == _vehicle turretUnit[_coPilotTurret]}) then {_return = true;};
 			};
 		};
 	};

@@ -275,6 +275,24 @@ _classNames = [];
 } forEach _classNames;
 cTab_helmetClass_has_HCam = [] + _classNames;
 
+// define vehicles that have a non-standard co-pilot seat (turret)
+if (isNil "cTab_TAD_coPilot_turret") then {
+	if (!isNil "cTab_TAD_coPilot_turret_server") then {
+		cTab_TAD_coPilot_turret = cTab_TAD_coPilot_turret_server;
+	} else {
+		cTab_TAD_coPilot_turret = [
+			["kyo_MH47E_base",2],
+			["RHS_UH60M_MEV",0],
+			["RHS_UH60M",2],
+			["RHS_CH_47F",2],
+			["CH_47F",2],
+			["UH1H",-1], // no co-pilot
+			["UH1Y",2],
+			["UH60M_US_base",-1] // no co-pilot
+		];
+	};
+};
+
 // add cTab_updatePulse event handler triggered periodically by the server
 ["cTab_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
