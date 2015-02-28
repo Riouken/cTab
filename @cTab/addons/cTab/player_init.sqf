@@ -125,7 +125,8 @@ cTabSettings = [];
 	["mode","DESKTOP"],
 	["showIconText",true],
 	["mapWorldPos",[]],
-	["mapScale",2],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["uavCam",""],
@@ -137,7 +138,8 @@ cTabSettings = [];
 	["mode","BFT"],
 	["showIconText",true],
 	["mapWorldPos",[]],
-	["mapScale",0.4],
+	["mapScaleDsp",0.4],
+	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["showMenu",false],
@@ -147,7 +149,8 @@ cTabSettings = [];
 [cTabSettings,"FBCB2",[
 	["mapWorldPos",[]],
 	["showIconText",true],
-	["mapScale",2],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["mapTools",true]
@@ -169,7 +172,8 @@ cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 [cTabSettings,"TAD",[
 	["mapWorldPos",[]],
 	["showIconText",true],
-	["mapScale",2],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
 	["mapScaleMin",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
 	["mapType","SAT"],
@@ -189,7 +193,8 @@ cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 [cTabSettings,"MicroDAGR",[
 	["mapWorldPos",[]],
 	["showIconText",true],
-	["mapScale",0.4],
+	["mapScaleDsp",0.4],
+	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["mapTools",true]
@@ -336,57 +341,8 @@ uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
 
+// cTabIfOpenStart will be set to true while interface is starting and prevent further open attempts
 cTabIfOpenStart = false;
-
-/*
-Function handling post dialog / display load handling (register event handlers)
-Parameter 0: Interface type, 0 = Main, 1 = Secondary
-Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
-Parameter 2: Unit to register killed eventhandler for
-Parameter 3: Vehicle to register GetOut eventhandler for
-Returns: TRUE
-
-This function will define cTabIfOpen, using the following format:
-Parameter 0: Interface type, 0 = Main, 1 = Secondary
-Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
-Parameter 2: Unit we registered the killed eventhandler for
-Parameter 3: ID of registered eventhandler for killed event
-Optional (only if unit is in a vehicle):
-Parameter 4: Vehicle we registered the GetOut eventhandler for
-Parameter 5: ID of registered eventhandler for GetOut event
-*/
-cTab_fnc_onIfOpen = {
-	if (cTabIfOpenStart || (!isNil "cTabIfOpen")) exitWith {false};
-	cTabIfOpenStart = true;
-	
-	_interfaceType = _this select 0;
-	_displayName = _this select 1;
-	_player = _this select 2;
-	_vehicle = _this select 3;
-	
-	if ([_displayName] call cTab_fnc_isDialog) then {
-		closeDialog 0;
-		waitUntil {!dialog};
-		createDialog _displayName;
-		waitUntil {dialog};
-	} else {
-		cTabRscLayer cutRsc [_displayName,"PLAIN",0, false];
-		waitUntil {!isNull (uiNamespace getVariable _displayName)};
-	};
-	
-	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
-	if (_vehicle != _player) then {
-		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{if (_this select 2 == cTab_player) then {call cTab_fnc_close}}];
-		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
-	} else {
-		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,nil];
-	};
-	
-	call cTab_fnc_updateInterface;
-	cTabIfOpenStart = false;
-	
-	true
-};
 
 /*
 Function handling IF_Main keydown event
@@ -592,12 +548,12 @@ cTab_fnc_onZoomInPressed = {
 	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if !([_displayName] call cTab_fnc_isDialog) exitWith {
-		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) / 2;
+		_mapScale = ([_displayName,"mapScaleDsp"] call cTab_fnc_getSettings) / 2;
 		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
 		if (_mapScale < _mapScaleMin) then {
 			_mapScale = _mapScaleMin;
 		};
-		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
+		_mapScale = [_displayName,[["mapScaleDsp",_mapScale]]] call cTab_fnc_setSettings;
 		true
 	};
 	false
@@ -613,58 +569,15 @@ cTab_fnc_onZoomOutPressed = {
 	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if !([_displayName] call cTab_fnc_isDialog) exitWith {
-		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) * 2;
+		_mapScale = ([_displayName,"mapScaleDsp"] call cTab_fnc_getSettings) * 2;
 		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
 		if (_mapScale > _mapScaleMax) then {
 			_mapScale = _mapScaleMax;
 		};
-		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
+		_mapScale = [_displayName,[["mapScaleDsp",_mapScale]]] call cTab_fnc_setSettings;
 		true
 	};
 	false
-};
-
-/*
-Function to close cTab interface
-This function will close the currently open interface and remove any previously registered eventhandlers.
-No Parameters.
-No Return.
-*/
-cTab_fnc_close = {
-	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
-		
-	// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
-	_ifType = cTabIfOpen select 0;
-	_displayName = cTabIfOpen select 1;
-	_player = cTabIfOpen select 2;
-	_playerKilledEhId = cTabIfOpen select 3;
-	_vehicle = cTabIfOpen select 4;
-	_vehicleGetOutEhId = cTabIfOpen select 5;
-	
-	_display = uiNamespace getVariable _displayName;
-	if (!isNil "_display") then {
-		_display closeDisplay 0;
-		uiNamespace setVariable [_displayName, displayNull];
-	};
-	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
-	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
-	call cTab_fnc_deleteHelmetCam;
-	[] spawn cTab_fnc_deleteUAVcam;
-	
-	// Save mapWorldPos and mapScale of current interface so it can be restored later
-	call {
-		if ([_displayName] call cTab_fnc_isDialog) exitWith {
-			_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-			[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScale",_mapScale]],false] call cTab_fnc_setSettings;
-		};
-		[_displayName,[["mapWorldPos",[]]],false] call cTab_fnc_setSettings;
-	};
-	
-	cTabCursorOnMap = false;
-	cTabIfOpen = nil;
-	cTabIfOpenStart = false;
-	
-	true
 };
 
 /*

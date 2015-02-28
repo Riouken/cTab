@@ -9,6 +9,7 @@ class CfgFunctions
 			class addUserMarker{};
 			class centerMapOnPlayerPosition{};
 			class checkGear{};
+			class close{};
 			class createHelmetCam{};
 			class createUavCam{};
 			class ctrlMapCenter{};
@@ -31,6 +32,7 @@ class CfgFunctions
 			class isDialog{};
 			class lockUavCamTo{}
 			class onIfKeyDown{};
+			class onIfOpen{};
 			class setSettings{};
 			class setToPairs{};
 			class toggleMapTools{};
