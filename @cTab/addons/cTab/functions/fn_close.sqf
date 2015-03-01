@@ -17,23 +17,7 @@
 		call cTab_fnc_close
 */
 
-if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
-
-// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
-_ifType = cTabIfOpen select 0;
-_displayName = cTabIfOpen select 1;
-_player = cTabIfOpen select 2;
-_playerKilledEhId = cTabIfOpen select 3;
-_vehicle = cTabIfOpen select 4;
-_vehicleGetOutEhId = cTabIfOpen select 5;
-
-_display = uiNamespace getVariable _displayName;
-if (!isNil "_display") then {
-	_display closeDisplay 0;
-	uiNamespace setVariable [_displayName, displayNull];
-};
-if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
-if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
+// remove helmet and UAV cameras
 call cTab_fnc_deleteHelmetCam;
 [] spawn cTab_fnc_deleteUAVcam;
 
@@ -43,8 +27,27 @@ if ([_displayName] call cTab_fnc_isDialog) then {
 	[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
 };
 
+if !(isNil "cTabIfOpen") then {
+	// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
+	_ifType = cTabIfOpen select 0;
+	_displayName = cTabIfOpen select 1;
+	_player = cTabIfOpen select 2;
+	_playerKilledEhId = cTabIfOpen select 3;
+	_vehicle = cTabIfOpen select 4;
+	_vehicleGetOutEhId = cTabIfOpen select 5;
+
+	_display = uiNamespace getVariable _displayName;
+	if (!isNil "_display") then {
+		_display closeDisplay 0;
+		uiNamespace setVariable [_displayName, displayNull];
+	};
+	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
+	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
+	
+	cTabIfOpen = nil;
+};
+
 cTabCursorOnMap = false;
-cTabIfOpen = nil;
 cTabIfOpenStart = false;
 
 true
