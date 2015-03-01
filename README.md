@@ -233,7 +233,7 @@ Changelog
 * Added current in-game time to all interfaces
 * Added current grid location as well as current heading in degrees and octant to all interfaces
 * Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
-* Added new marker types for infantry (AT and MG) and wheeled MRAPs/APCs
+* Added new marker types for infantry (Rifle, AT, MG), static weapons (MG, AT, AA, Mortar) and wheeled MRAPs/APCs
 * Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)
 * Added map tools (can be toggled using F5) that show grid and elevation at mouse cursor as well as distance and direction from the current position to the mouse cursor position.
 * Island sizes are now dynamically detected, no more waiting on islands being supported

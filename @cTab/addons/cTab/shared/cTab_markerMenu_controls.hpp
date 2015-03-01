@@ -412,7 +412,7 @@ class EnemySub3: cTab_RscControlsGroup
 
 class EnemySub4: cTab_RscControlsGroup
 {
-	#define cTab_MENU_MAX_ELEMENTS 4
+	#define cTab_MENU_MAX_ELEMENTS 8
 	idc = 3307;
 	x = MENU_X;
 	y = MENU_Y;
@@ -430,7 +430,7 @@ class EnemySub4: cTab_RscControlsGroup
 		};
 		class rifle_btn: cTab_MenuItem
 		{
-			idc = IDC_USRMN_FTBTN;
+			idc = -1;
 			text = "Rifle"; //--- ToDo: Localize;
 			x = 0;
 			y = MENU_elementY(1);
@@ -441,7 +441,7 @@ class EnemySub4: cTab_RscControlsGroup
 		};
 		class lmg_btn: cTab_MenuItem
 		{
-			idc = IDC_USRMN_PATBTN;
+			idc = -1;
 			text = "MG"; //--- ToDo: Localize;
 			x = 0;
 			y = MENU_elementY(2);
@@ -452,7 +452,7 @@ class EnemySub4: cTab_RscControlsGroup
 		};
 		class at_btn: cTab_MenuItem
 		{
-			idc = IDC_USRMN_SQDBTN;
+			idc = -1;
 			text = "AT"; //--- ToDo: Localize;
 			x = 0;
 			y = MENU_elementY(3);
@@ -460,6 +460,50 @@ class EnemySub4: cTab_RscControlsGroup
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
 			action = "cTabUserSelIcon set [1,9];[13] call cTab_fnc_userMenuSelect;";
+		};
+		class mmg_btn: cTab_MenuItem
+		{
+			idc = -1;
+			text = "Static MG"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementY(4);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,10];[13] call cTab_fnc_userMenuSelect;";
+		};
+		class mat_btn: cTab_MenuItem
+		{
+			idc = -1;
+			text = "Static AT"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementY(5);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,11];[13] call cTab_fnc_userMenuSelect;";
+		};
+		class aa_btn: cTab_MenuItem
+		{
+			idc = -1;
+			text = "Static AA"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementY(6);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,13];[13] call cTab_fnc_userMenuSelect;";
+		};
+		class mmortar_btn: cTab_MenuItem
+		{
+			idc = -1;
+			text = "Mortar"; //--- ToDo: Localize;
+			x = 0;
+			y = MENU_elementY(7);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,12];[13] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
