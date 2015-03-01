@@ -244,6 +244,7 @@ Changelog
 * Infantry groups will now automatically show the group strength with dots above the icon
 * Changed BFT list generation and display functions to help de-clutter everyone's view. For example transports will no longer show overlayed icons for other units with cTab equipment that are mounted. Instead, the names of groups and the group indices of units from your own group will be displayed to the left of the transport's icon.
 * The arrow on the inner TAD range circle (that used to show north) will now rotate with the direction of the aircraft to help show the current direction of travel
+* Made large TAD interface movable
 * Excluded static weapons from showing up on BFT
 * Added ability to define custom names for vehicles via the mission or scripts
 
