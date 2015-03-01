@@ -699,7 +699,8 @@ class cTab_TAD_on_screen_currentDirection: cTab_RscText_TAD
 class cTab_TAD_on_screen_currentElevation: cTab_TAD_on_screen_currentDirection
 {
 	idc = IDC_CTAB_OSD_ELEVATION;
-	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB12_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 4 / 2);
+	x = pxToScreen_X(cTab_GUI_TAD_OSD_OSB12_X - cTab_GUI_TAD_OSD_ELEMENT_STD_W * 5 / 2);
+	w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_STD_W * 5);
 };
 class cTab_TAD_on_screen_centerMapText: cTab_RscText_TAD
 {

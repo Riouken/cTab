@@ -761,7 +761,7 @@ cTabOnDrawbftTAD = {
 	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	
 	// update current elevation (ASL) on TAD
-	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),4] call CBA_fnc_formatNumber];
 	
 	true
 };
@@ -796,7 +796,7 @@ cTabOnDrawbftTADdialog = {
 	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 	
 	// update current elevation (ASL) on TAD
-	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),3] call CBA_fnc_formatNumber];
+	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),4] call CBA_fnc_formatNumber];
 	
 	// update hook information
 	call {
