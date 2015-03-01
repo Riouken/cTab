@@ -286,3 +286,31 @@ class cTab_microDAGR_loadingtxt: cTab_RscText_microDAGR
 	h = pxToScreen_H(cTab_GUI_microDAGR_SCREEN_CONTENT_H);
 	colorBackground[] = COLOR_TRANSPARENT;
 };
+
+// Define areas around the screen as interaction areas to allow screen movement
+class cTab_microDAGR_movingHandle_T: cTab_RscText_microDAGR
+{
+	idc = -1;
+	moving = 1;
+	colorBackground[] = COLOR_TRANSPARENT;
+	x = pxToScreen_X(0);
+	y = pxToScreen_Y(0);
+	w = pxToScreen_W(GUI_GRID_PX_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_Y);
+};
+class cTab_microDAGR_movingHandle_B: cTab_microDAGR_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H);
+	h = pxToScreen_H(GUI_GRID_PX_H - (cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H));
+};
+class cTab_microDAGR_movingHandle_L: cTab_microDAGR_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_X);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H);
+};
+class cTab_microDAGR_movingHandle_R: cTab_microDAGR_movingHandle_L
+{
+	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W);
+	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W));
+};

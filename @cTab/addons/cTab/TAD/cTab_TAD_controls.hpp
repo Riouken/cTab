@@ -720,3 +720,31 @@ class cTab_TAD_loadingtxt: cTab_RscText_TAD
 	w = pxToScreen_W(cTab_GUI_TAD_MAP_W);
 	h = pxToScreen_H(cTab_GUI_TAD_MAP_H);
 };
+
+// Define areas around the screen as interaction areas to allow screen movement
+class cTab_TAD_movingHandle_T: cTab_RscText_TAD
+{
+	idc = -1;
+	moving = 1;
+	colorBackground[] = COLOR_TRANSPARENT;
+	x = pxToScreen_X(0);
+	y = pxToScreen_Y(0);
+	w = pxToScreen_W(GUI_GRID_PX_W);
+	h = pxToScreen_H(cTab_GUI_TAD_MAP_Y);
+};
+class cTab_TAD_movingHandle_B: cTab_TAD_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_TAD_MAP_Y + cTab_GUI_TAD_MAP_H);
+	h = pxToScreen_H(GUI_GRID_PX_H - (cTab_GUI_TAD_MAP_Y + cTab_GUI_TAD_MAP_H));
+};
+class cTab_TAD_movingHandle_L: cTab_TAD_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_TAD_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_TAD_MAP_X);
+	h = pxToScreen_H(cTab_GUI_TAD_MAP_H);
+};
+class cTab_TAD_movingHandle_R: cTab_TAD_movingHandle_L
+{
+	x = pxToScreen_X(cTab_GUI_TAD_MAP_X + cTab_GUI_TAD_MAP_W);
+	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_TAD_MAP_X + cTab_GUI_TAD_MAP_W));
+};
