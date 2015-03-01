@@ -37,7 +37,7 @@ Known Issues
   [*BIS issue with command, please vote for a fix*](http://feedback.arma3.com/view.php?id=11577)
 + If your are viewing yourself from the UAV or Helmet Cam in PiP screen, your textures can bug on your unit
 + Even though items go into the GPS slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
-+ Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This seems to only happen sometimes, so far mostly for players playing Zeus.
++ Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This used to be an issue with Zeus but has been resolved as of cTab version 2.1. There might be other such cases though.
 + Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
 
 Required
@@ -201,6 +201,7 @@ Changelog
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
 * Provided encryption keys that can be set by the mission designer to allow or disallow cTab data to be shared.
 * Improved Zeus support when remote controlling AI
+* cTab can now be operated as Zeus even with default keybinding `H`
 * Added MicroDAGR hand-held GPS.
   It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
   Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).

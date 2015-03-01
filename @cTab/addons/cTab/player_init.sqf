@@ -1011,6 +1011,20 @@ cTabOnDrawHCam = {
 		["cTab","Zoom In",{call cTab_fnc_onZoomInPressed},[201,true,true,false]] call cba_fnc_registerKeybind;
 		["cTab","Zoom Out",{call cTab_fnc_onZoomOutPressed},[209,true,true,false]] call cba_fnc_registerKeybind;
 	};
+	
+	// if player is curator (ZEUS), setup key handlers
+	waitUntil {sleep 0.1;!(isNull player)};
+	sleep 2;
+	if (player in (call BIS_fnc_listCuratorPlayers)) then {	
+		[] spawn {
+			while {true} do {
+				waitUntil {sleep 0.1;!(isNull (findDisplay 312))};			
+				(findDisplay 312) displayAddEventHandler ["KeyDown","[_this,'keydown'] call cTab_fnc_processCuratorKey"];
+				(findDisplay 312) displayAddEventHandler ["KeyUp","[_this,'keyup'] call cTab_fnc_processCuratorKey"];
+				waitUntil {sleep 0.1;isNull (findDisplay 312)};
+			};
+		};
+	};
 };
 
 cTabUavTakeControl = {

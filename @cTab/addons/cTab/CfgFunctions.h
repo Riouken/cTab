@@ -33,6 +33,7 @@ class CfgFunctions
 			class lockUavCamTo{}
 			class onIfKeyDown{};
 			class onIfOpen{};
+			class processCuratorKey{};
 			class setSettings{};
 			class setToPairs{};
 			class toggleMapTools{};
