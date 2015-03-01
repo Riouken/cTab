@@ -159,7 +159,7 @@ if (isNil "_mode") then {
 							};
 						};
 						if (lbCurSel _uavListCtrl == -1) then {
-							[] spawn cTab_fnc_deleteUAVcam;
+							[true] call cTab_fnc_deleteUAVcam;
 						};
 					};
 					// ---------- HELMET CAM -----------
