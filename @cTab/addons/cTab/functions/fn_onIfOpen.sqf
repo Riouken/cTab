@@ -26,7 +26,7 @@
 	
 	Example:
 		// open TAD display as main interface type
-		[0,"cTab_TAD_dsp",player,vehicle player] spawn cTab_fnc_onIfOpen;
+		cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",player,vehicle player] spawn cTab_fnc_onIfOpen;
 */
 
 private ["_interfaceType","_displayName","_player","_vehicle","_playerKilledEhId","_vehicleGetOutEhId"];

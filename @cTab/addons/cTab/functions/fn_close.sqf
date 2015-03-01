@@ -19,6 +19,9 @@
 
 private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_vehicle","_vehicleGetOutEhId"];
 
+// see if onIfOpen is still being executed and terminate it if thats the case
+if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
+
 // remove helmet and UAV cameras
 call cTab_fnc_deleteHelmetCam;
 [true] call cTab_fnc_deleteUAVcam;
