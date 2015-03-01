@@ -17,15 +17,11 @@
 		call cTab_fnc_close
 */
 
+private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_vehicle","_vehicleGetOutEhId"];
+
 // remove helmet and UAV cameras
 call cTab_fnc_deleteHelmetCam;
 [] spawn cTab_fnc_deleteUAVcam;
-
-// Save mapWorldPos and mapScaleDlg of current dialog so it can be restored later
-if ([_displayName] call cTab_fnc_isDialog) then {
-	_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-	[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
-};
 
 if !(isNil "cTabIfOpen") then {
 	// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
@@ -43,6 +39,12 @@ if !(isNil "cTabIfOpen") then {
 	};
 	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
+	
+	// Save mapWorldPos and mapScaleDlg of current dialog so it can be restored later
+	if ([_displayName] call cTab_fnc_isDialog) then {
+		_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
+		[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScaleDlg",_mapScale]],false] call cTab_fnc_setSettings;
+	};
 	
 	cTabIfOpen = nil;
 };

@@ -29,6 +29,8 @@
 		[0,"cTab_TAD_dsp",player,vehicle player] spawn cTab_fnc_onIfOpen;
 */
 
+private ["_interfaceType","_displayName","_player","_vehicle","_playerKilledEhId","_vehicleGetOutEhId"];
+
 if (cTabIfOpenStart || (!isNil "cTabIfOpen")) exitWith {false};
 cTabIfOpenStart = true;
 
