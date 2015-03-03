@@ -45,6 +45,10 @@ class cTab_TAD_dlg
 	class controls
 	{
 		class background: cTab_TAD_Background{};
+		class movingHandle_T: cTab_TAD_movingHandle_T{};
+		class movingHandle_B: cTab_TAD_movingHandle_B{};
+		class movingHandle_L: cTab_TAD_movingHandle_L{};
+		class movingHandle_R: cTab_TAD_movingHandle_R{};
 		class cursor: cTab_RscPicture
 		{
 			idc = -1;

@@ -48,6 +48,10 @@ class cTab_microDAGR_dlg
 		class grid: cTab_microDAGR_on_screen_grid {};
 		class dirOctant: cTab_microDAGR_on_screen_dirOctant {};
 		class background: cTab_microDAGR_background {};
+		class movingHandle_T: cTab_microDAGR_movingHandle_T{};
+		class movingHandle_B: cTab_microDAGR_movingHandle_B{};
+		class movingHandle_L: cTab_microDAGR_movingHandle_L{};
+		class movingHandle_R: cTab_microDAGR_movingHandle_R{};
 		class btnbrtpls: cTab_microDAGR_btnbrtpls {};
 		class btnbrtmns: cTab_microDAGR_btnbrtmns {};
 		class btnfunction: cTab_microDAGR_btnfunction

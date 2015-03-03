@@ -16,7 +16,7 @@
 		BOOLEAN - Always true
  	
  	Example:
-		[[["mapType","SAT"],["mapScale","4"]]] call cTab_fnc_updateInterface;
+		[[["mapType","SAT"],["mapScaleDsp","4"]]] call cTab_fnc_updateInterface;
 */
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
@@ -62,7 +62,7 @@ if (isNil "_mode") then {
 			
 			_displayItems = call {				
 				if (_displayName == "cTab_Tablet_dlg") exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,
+					[3300,3301,3302,3303,3304,3305,3306,3307,
 					IDC_CTAB_GROUP_DESKTOP,
 					IDC_CTAB_GROUP_UAV,
 					IDC_CTAB_GROUP_HCAM,
@@ -79,7 +79,7 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_DIR]
 				};
 				if (_displayName == "cTab_Android_dlg") exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,
+					[3300,3301,3302,3303,3304,3305,3306,3307,
 					IDC_CTAB_GROUP_MENU,
 					IDC_CTAB_GROUP_MESSAGE,
 					IDC_CTAB_GROUP_COMPOSE,
@@ -91,7 +91,7 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_DIR]
 				};
 				if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
-					[3300,3301,3302,3303,3304,3305,3306]
+					[3300,3301,3302,3303,3304,3305,3306,3307]
 				};
 				[] // default
 			};
@@ -159,7 +159,7 @@ if (isNil "_mode") then {
 							};
 						};
 						if (lbCurSel _uavListCtrl == -1) then {
-							[] spawn cTab_fnc_deleteUAVcam;
+							[true] call cTab_fnc_deleteUAVcam;
 						};
 					};
 					// ---------- HELMET CAM -----------
@@ -223,27 +223,37 @@ if (isNil "_mode") then {
 				_osdCtrl ctrlSetText _text;
 			};
 		};
-		// ------------ MAP SCALE ------------
-		if (_x select 0 == "mapScale") exitWith {
-			if (_mode == "BFT") then {
+		// ------------ MAP SCALE DSP------------
+		if (_x select 0 == "mapScaleDsp") exitWith {
+			if (_mode == "BFT" && !_isDialog) then {
 				_mapScaleKm = _x select 1;
-				if (_isDialog) then {
-					_targetMapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
-				} else {
-					// pre-Calculate map scales
-					_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
-					_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
-					_mapScaleKm = call {
-						if (_mapScaleKm >= _mapScaleMax) exitWith {_mapScaleMax};
-						if (_mapScaleKm <= _mapScaleMin) exitWith {_mapScaleMin};
-						// pick the next best scale that is an even multiple of the minimum map scale... It does tip in favour of the larger scale due to the use of logarithm, so its not perfect
-						_mapScaleMin * 2 ^ round (log (_mapScaleKm / _mapScaleMin) / log (2))
-					};
-					if (_mapScaleKm != (_x select 1)) then {
-						[_displayName,[["mapScale",_mapScaleKm]],false] call cTab_fnc_setSettings;
-					};
-					cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
+				// pre-Calculate map scales
+				_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
+				_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
+				_mapScaleKm = call {
+					if (_mapScaleKm >= _mapScaleMax) exitWith {_mapScaleMax};
+					if (_mapScaleKm <= _mapScaleMin) exitWith {_mapScaleMin};
+					// pick the next best scale that is an even multiple of the minimum map scale... It does tip in favour of the larger scale due to the use of logarithm, so its not perfect
+					_mapScaleMin * 2 ^ round (log (_mapScaleKm / _mapScaleMin) / log (2))
 				};
+				if (_mapScaleKm != (_x select 1)) then {
+					[_displayName,[["mapScaleDsp",_mapScaleKm]],false] call cTab_fnc_setSettings;
+				};
+				cTabMapScale = _mapScaleKm / cTabMapScaleFactor;
+				
+				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
+				if (!isNull _osdCtrl) then {
+					// divide by 2 because we want to display the radius, not the diameter
+					_osdCtrl ctrlSetText format ["%1",_mapScaleKm / 2];
+				};
+			};
+		};
+		// ------------ MAP SCALE DLG------------
+		if (_x select 0 == "mapScaleDlg") exitWith {
+			if (_mode == "BFT" && _isDialog) then {
+				_mapScaleKm = _x select 1;
+				_targetMapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
+				
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
 				if (!isNull _osdCtrl) then {
 					// divide by 2 because we want to display the radius, not the diameter

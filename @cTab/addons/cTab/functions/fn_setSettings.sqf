@@ -19,13 +19,13 @@
  		BOOLEAN - If settings could be stored
  	
  	Example:
-		["cTab_Tablet_dlg",[["mapType","SAT"],["mapScale","4"]]] call cTab_fnc_setSettings;
+		["cTab_Tablet_dlg",[["mapType","SAT"],["mapScaleDsp","4"]]] call cTab_fnc_setSettings;
 		
 		// Update mapWorldPos and update the interface even if the value has not changed
 		["cTab_Tablet_dlg",[["mapWorldPos",getPosASL vehicle player]],true,true] call cTab_fnc_setSettings;
 		
 		// Update mapWorldPos and mapScale, but do not update the interface
-		["cTab_Tablet_dlg",[["mapWorldPos",getPosASL vehicle player],["mapScale","2"]],false] call cTab_fnc_setSettings;
+		["cTab_Tablet_dlg",[["mapWorldPos",getPosASL vehicle player],["mapScaleDsp","2"]],false] call cTab_fnc_setSettings;
 */
 
 private ["_propertyGroupName","_commonProperties","_groupProperties","_properties","_commonPropertiesUpdate","_combinedPropertiesUpdate","_key","_value","_currentValue","_updateInterface","_forceInterfaceUpdate"];

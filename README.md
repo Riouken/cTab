@@ -37,7 +37,7 @@ Known Issues
   [*BIS issue with command, please vote for a fix*](http://feedback.arma3.com/view.php?id=11577)
 + If your are viewing yourself from the UAV or Helmet Cam in PiP screen, your textures can bug on your unit
 + Even though items go into the GPS slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
-+ Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This seems to only happen sometimes, so far mostly for players playing Zeus.
++ Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This used to be an issue with Zeus but has been resolved as of cTab version 2.1. There might be other such cases though.
 + Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
 
 Required
@@ -94,14 +94,38 @@ To configure the list of vehicle types that have FBCB2 or TAD available, edit th
         cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
     };
 
+Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
+
+### Define TAD-enabled vehicle types with non-standard co-pilot seat positions
+Some vehicles (for the most part helicopters with door-gunners that use imported A2 assets), are not set up with their co-pilot seat in the turret [0] position as is the norm for vanilla A3 helicopters. The result is that you won't get the TAD to show up in the co-pilot seat, but in one of the door-gunner seats instead. Please ask those asset developers to correct this since multiple mods are affected by this (for example TFAR as of this writing).
+In the meantime, edit the `cTab_TAD_coPilot_turret` array in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
+
+    class cTab_settings {
+        cTab_TAD_coPilot_turret[] = {
+            {"kyo_MH47E_base",2},
+            {"RHS_UH60M_MEV",0}, // set this class first since it is inheriting from RHS_UH60M
+            {"RHS_UH60M",2},
+            {"RHS_CH_47F",2},
+            {"CH_47F",2},
+            {"UH1H",-1}, // no co-pilot
+            {"UH1Y",2},
+            {"UH60M_US_base",-1} // no co-pilot
+        };
+    };
+
+Each individual vehicle type is configured as `{"vehicleClassName",turretNo}`. Use `-1` as the turret number if there is no co-pilot seat or you don't want anyone but the pilot to have access to the TAD. The list is checked starting with the first element until a match is found.
+One way to figure out the correct turret number is to place the vehicle in question in the editor, seat yourself in the co-pilot's seat, hit `ESC` and type `assignedVehicleRole player` into one of the watch input boxes. The result is the turret number you are looking for.
+
+Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
+
 ### Define helmet classes with enabled helmet camera ###
 To configure the list of helmet classes that enable helmet cameras, edit the `cTab_helmetClass_has_HCam` array in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
 
     class cTab_settings {
-        cTab_vehicleClass_has_FBCB2[] = {"MRAP_01_base_F","MRAP_02_base_F","MRAP_03_base_F","Wheeled_APC_F","Tank","Truck_01_base_F","Truck_03_base_F"};
-        cTab_vehicleClass_has_TAD[] = {"Helicopter","Plane"};
         cTab_helmetClass_has_HCam = {"H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"};
     };
+
+Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
 
 For Mission Makers
 ------------------
@@ -131,17 +155,19 @@ This will for example assign the MicroDAGR to the GPS slot and place the Tablet 
 ### Set cTab side-specific encryption keys ###
 If you wish multiple factions to share cTab data, you will have to set their encryption keys to be the same. These are the variables that hold the encryption keys with their default values:
 
-    cTab_encryptionKey_west = "bluefor";
-    cTab_encryptionKey_east = "opfor";
-    cTab_encryptionKey_guer = "independent";
-    cTab_encryptionKey_civ = "civilian";
+    cTab_encryptionKey_west = "b";
+    cTab_encryptionKey_east = "o";
+    cTab_encryptionKey_guer = "i";
+    cTab_encryptionKey_civ = "c";
+
+Note: It is advised to keep the encryption keys as short as possible since some actions use them to exchange data across the network, so by keeping them short, there is less data exchanged.
 
 So if you want to have for example OPFOR and GUER share cTab data, put this at the **TOP** of your `init.sqf`:
 
     // set GUER encryption key to be the same as the default BLUEFOR encryption key
-    cTab_encryptionKey_guer = "bluefor";
+    cTab_encryptionKey_guer = "b";
 
-Note: If `GUER` is set to be friendly with either `WEST` or `EAST`, `GUER` will by default have the same encryption key as the friendly faction. Set `cTab_encryptionKey_guer = "independent";` to override.
+Note: If `GUER` is set to be friendly with either `WEST` or `EAST`, `GUER` will by default have the same encryption key as the friendly faction. Set `cTab_encryptionKey_guer = "i";` to override.
 
 ### Override vehicle types that have FBCB2 or TAD available ###
 If you wish to override the list of vehicles that have FBCB2 or TAD available, put this at the **TOP** of your `init.sqf`:
@@ -175,10 +201,12 @@ Changelog
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
 * Provided encryption keys that can be set by the mission designer to allow or disallow cTab data to be shared.
 * Improved Zeus support when remote controlling AI
+* cTab can now be operated as Zeus even with default keybinding `H`
 * Added MicroDAGR hand-held GPS.
   It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
   Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
+* Added configurable server-side list for co-pilot seat positions for TAD enabled vehicles to workaround some 3rd party vehicles not using the standard turret [0] for the co-pilot seat
 * Enabled support for CBA Keybinding system to make key bind changes more user friendly and changeable without a restart. Userconfig settings now define the default keybinds.
 * Helmet Cam item no longer occupies the radio slot when added to inventory. This is to prevent complications with TFAR.
 * Changed weight of all items to be close to their real-world equivalents (before everything did weight 45g)
@@ -191,11 +219,12 @@ Changelog
 * Added "small" version to Android interface, so you can now keep it visible while navigating
 * Reworked Tablet user interface, switching modes feels a lot more natural now
 * Reworked UAV camera positions, gunner and driver camera will now reflect what the UAV gunner and driver actually sees. Gunner camera now uses FLIR (white/hot) mode.
+* Added function to lock the currently selected UAV gunner's camera to the location double-clicked on the map (select from double-click menu on BFT map). This is only available to the tablet.
 * Lists of UAVs and helmet cameras are now alphabetically sorted
 * Reworked helmet "full-screen" view to only occupy the whole screen of the Tablet instead of the whole screen
 * Added ability to remove marker at mouse cursor position. The marker currently under the cursor will be highlighted and removed upon pressing DEL (delete on your keyboard).
+* Made significant improvements to marker network synchronization. Instead of having an individual client manipulate the list of markers and then send it to every other client, a marker addition / deletion request will now be sent to the server and the server will inform all clients of the change by sending just what has changed.
 * Players sitting in the back of the trucks (HMTT and Tempest by default) now no longer have access to the vehicle based FBCB2
-* Workaround for left-door gunner having access to the TAD instead of the co-pilot in Konyo's Boeing/SOAR MH-47E
 * All interfaces are now restored to last mode of operation operation (BFT,Messaging,...) on open
 * All interfaces will now restore last map position and zoom level on open
 * Added topographical map mode to all devices
@@ -205,7 +234,7 @@ Changelog
 * Added current in-game time to all interfaces
 * Added current grid location as well as current heading in degrees and octant to all interfaces
 * Greatly enhanced user placed map markers to properly scale when zooming the map (including the directional arrow and group size denominators) as well as making sure the directional arrow does not interfere with the time-stamps
-* Added new marker types for infantry (AT and MG) and wheeled MRAPs/APCs
+* Added new marker types for infantry (Rifle, AT, MG), static weapons (MG, AT, AA, Mortar) and wheeled MRAPs/APCs
 * Added an "Exit" menu entry to the map double-click dialog (the one you place map markers with)
 * Added map tools (can be toggled using F5) that show grid and elevation at mouse cursor as well as distance and direction from the current position to the mouse cursor position.
 * Island sizes are now dynamically detected, no more waiting on islands being supported
@@ -216,6 +245,7 @@ Changelog
 * Infantry groups will now automatically show the group strength with dots above the icon
 * Changed BFT list generation and display functions to help de-clutter everyone's view. For example transports will no longer show overlayed icons for other units with cTab equipment that are mounted. Instead, the names of groups and the group indices of units from your own group will be displayed to the left of the transport's icon.
 * The arrow on the inner TAD range circle (that used to show north) will now rotate with the direction of the aircraft to help show the current direction of travel
+* Made large TAD interface movable
 * Excluded static weapons from showing up on BFT
 * Added ability to define custom names for vehicles via the mission or scripts
 
@@ -251,4 +281,6 @@ Changelog
 Download / Links
 ----------------
 [Armaholic](http://www.armaholic.com/page.php?id=22992)
+[ArmA World](http://armaworld.de/threads/156-cTab-Commander-s-Tablet)
+[withSix](http://play.withsix.com/Arma-3/mods/4KfaixFS4xGnygAVF72WTA/Commander's-Tablet-FBCB2-Bluforce-Tracker-UAV-and-Helmetcam-Interface)
 [GitHub](https://github.com/Riouken/cTab)

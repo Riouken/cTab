@@ -18,7 +18,7 @@
 
 class cTab_Android_dlg {
 	idd = 177382;
-	movingEnable = false;
+	movingEnable = true;
 	onLoad = "uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];";
 	onUnload = "uiNamespace setVariable ['cTab_Android_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
@@ -42,6 +42,10 @@ class cTab_Android_dlg {
 	class controls
 	{
 		class background: cTab_android_background {};
+		class movingHandle_T: cTab_android_movingHandle_T{};
+		class movingHandle_B: cTab_android_movingHandle_B{};
+		class movingHandle_L: cTab_android_movingHandle_L{};
+		class movingHandle_R: cTab_android_movingHandle_R{};
 		class btnMenu: cTab_android_btnMenu
 		{
 			idc = IDC_CTAB_BTNFN;
