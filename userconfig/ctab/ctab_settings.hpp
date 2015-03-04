@@ -7,18 +7,6 @@ class cTab_settings {
 
 	// define helmet classes that are equipped with a helmet cam
 	cTab_helmetClass_has_HCam[] = {"H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"};
-
-	// define vehicle classes that have non-standard co-pilot seats
-	cTab_TAD_coPilot_turret[] = {
-		{"kyo_MH47E_base",2},
-		{"RHS_UH60M_MEV",0}, // set this class first since it is inheriting from RHS_UH60M
-		{"RHS_UH60M",2},
-		{"RHS_CH_47F",2},
-		{"CH_47F",2},
-		{"UH1H",-1}, // no co-pilot
-		{"UH1Y",2},
-		{"UH60M_US_base",-1} // no co-pilot
-	};
 };
 
 // define the default key setup; can be altered in-game using CBA's keybinding system

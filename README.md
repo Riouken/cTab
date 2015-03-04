@@ -96,28 +96,6 @@ To configure the list of vehicle types that have FBCB2 or TAD available, edit th
 
 Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
 
-### Define TAD-enabled vehicle types with non-standard co-pilot seat positions
-Some vehicles (for the most part helicopters with door-gunners that use imported A2 assets), are not set up with their co-pilot seat in the turret [0] position as is the norm for vanilla A3 helicopters. The result is that you won't get the TAD to show up in the co-pilot seat, but in one of the door-gunner seats instead. Please ask those asset developers to correct this since multiple mods are affected by this (for example TFAR as of this writing).
-In the meantime, edit the `cTab_TAD_coPilot_turret` array in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
-
-    class cTab_settings {
-        cTab_TAD_coPilot_turret[] = {
-            {"kyo_MH47E_base",2},
-            {"RHS_UH60M_MEV",0}, // set this class first since it is inheriting from RHS_UH60M
-            {"RHS_UH60M",2},
-            {"RHS_CH_47F",2},
-            {"CH_47F",2},
-            {"UH1H",-1}, // no co-pilot
-            {"UH1Y",2},
-            {"UH60M_US_base",-1} // no co-pilot
-        };
-    };
-
-Each individual vehicle type is configured as `{"vehicleClassName",turretNo}`. Use `-1` as the turret number if there is no co-pilot seat or you don't want anyone but the pilot to have access to the TAD. The list is checked starting with the first element until a match is found.
-One way to figure out the correct turret number is to place the vehicle in question in the editor, seat yourself in the co-pilot's seat, hit `ESC` and type `assignedVehicleRole player` into one of the watch input boxes. The result is the turret number you are looking for.
-
-Note: This is a server-side setting, i.e. whatever is set on the client-side userconfig will be overridden by the userconfig on the server.
-
 ### Define helmet classes with enabled helmet camera ###
 To configure the list of helmet classes that enable helmet cameras, edit the `cTab_helmetClass_has_HCam` array in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`. It needs to be within the class `cTab_settings` (same area as above).
 
@@ -206,7 +184,7 @@ Changelog
   It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
   Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
-* Added configurable server-side list for co-pilot seat positions for TAD enabled vehicles to workaround some 3rd party vehicles not using the standard turret [0] for the co-pilot seat
+* Improved co-pilot seat detection for helicopters as previously the TAD could not be accessed when in the co-pilot seat of some community provided helicopters
 * Enabled support for CBA Keybinding system to make key bind changes more user friendly and changeable without a restart. Userconfig settings now define the default keybinds.
 * Helmet Cam item no longer occupies the radio slot when added to inventory. This is to prevent complications with TFAR.
 * Changed weight of all items to be close to their real-world equivalents (before everything did weight 45g)
