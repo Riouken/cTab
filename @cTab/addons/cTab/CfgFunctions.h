@@ -23,6 +23,7 @@ class CfgFunctions
 			class drawMarkers{};
 			class drawUserMarkers{};
 			class findUserMarker{};
+			class getCopilot{};
 			class getFromPairs{};
 			class getInfMarkerIcon{};
 			class getPlayerEncryptionKey{};

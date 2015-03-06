@@ -22,7 +22,7 @@
 		_playerHasCtabItem = [player,["ItemcTab","ItemAndroid","ItemMicroDAGR"]] call cTab_fnc_unitInEnabledVehicleSeat;
 */
 
-private ["_return","_unit","_vehicle","_type","_typeClassList","_cargoIndex","_cargoCompartments","_transportSoldier","_coPilotTurret"];
+private ["_return","_unit","_vehicle","_type","_typeClassList","_cargoIndex","_cargoCompartments","_cargoIsCoDriver","_transportSoldier"];
 
 _return = false;
 _unit = _this select 0;
@@ -57,20 +57,7 @@ switch (_type) do {
 				};
 			};
 			if (_type == "TAD") then {
-				call {
-					if (_vehicle isKindOf "Helicopter") exitWith {
-						// see if the unit sits in a turret, if so get the config entry "isCopilot" for that turret to determine if the unit is a co-pilot
-						_assignedVehicleRole = assignedVehicleRole _unit;
-						if (_assignedVehicleRole select 0 == "Turret") then {
-							_turretConfigPath = [_vehicle, _assignedVehicleRole select 1] call CBA_fnc_getTurret;
-							_isCopilot = getNumber (_turretConfigPath/"isCopilot");
-							if (_isCopilot == 1) then {_return = true};
-						};
-					};
-					
-					// otherwise this is not a helicopter and we assume that the co-pilot is in the first turret
-					if (_unit == _vehicle turretUnit [0]) then {_return = true};
-				};
+				if (_unit == _vehicle call cTab_fnc_getCopilot) then {_return = true};
 			};
 		};
 	};
