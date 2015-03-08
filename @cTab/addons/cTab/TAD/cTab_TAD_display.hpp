@@ -19,7 +19,7 @@ class cTab_TAD_dsp
 	duration = 10e10;
 	fadeIn = 0;
 	fadeOut = 0;
-	onLoad = "uiNamespace setVariable ['cTab_TAD_dsp', (_this select 0)];";
+	onLoad = "((_this select 0) displayCtrl 1200) ctrlSetText ('cTab_TAD_dsp' call cTab_fnc_getBackground);uiNamespace setVariable ['cTab_TAD_dsp', (_this select 0)];";
 	class controlsBackground
 	{
 		class mapBackground: cTab_TAD_Map_Background{};
@@ -52,7 +52,9 @@ class cTab_TAD_dsp
 
 	class controls
 	{
-		class background: cTab_TAD_Background{};
+		/*
+			### OSD GUI controls ###
+		*/
 		class on_screen_mode: cTab_RscText_TAD
 		{
 			idc = IDC_CTAB_OSD_MAP_SCALE;
@@ -148,7 +150,14 @@ class cTab_TAD_dsp
 		class on_screen_currentElevation: cTab_TAD_on_screen_currentElevation {};
 		class on_screen_centerMapText: cTab_TAD_on_screen_centerMapText {};
 
+		/*
+			### Overlays ###
+		*/
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_TAD_loadingtxt {};
+		// ---------- BRIGHTNESS ------------
+		class brightness: cTab_TAD_brightness {};
+		// ---------- BACKGROUND ------------
+		class background: cTab_TAD_background{};
 	};
 };

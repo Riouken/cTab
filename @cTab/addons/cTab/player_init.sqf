@@ -177,7 +177,9 @@ cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 	["mapScaleMin",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
 	["mapType","SAT"],
-	["mapTools",true]
+	["mapTools",true],
+	["nightMode",0],
+	["brightness",0.8]
 ]] call BIS_fnc_setToPairs;
 
 /*
@@ -633,6 +635,55 @@ cTab_fnc_mode_toggle = {
 		};
 	};
 	[_displayName,[["mode",_mode]]] call cTab_fnc_setSettings;
+	true
+};
+
+/*
+Function to toggle night mode
+Parameter 0: String of uiNamespace variable for which to toggle nightMode for
+Returns TRUE
+*/
+cTab_fnc_toggleNightMode = {
+	_displayName = _this select 0;
+	_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
+	
+	if (_nightMode != 2) then {
+		if (_nightMode == 0) then {_nightMode = 1} else {_nightMode = 0};
+		[_displayName,[["nightMode",_nightMode]]] call cTab_fnc_setSettings;
+	};
+	
+	true
+};
+
+/*
+Function to increase brightness
+Parameter 0: String of uiNamespace variable for which to increase brightness for
+Returns TRUE
+*/
+cTab_fnc_incBrightness = {
+	_displayName = _this select 0;
+	_brightness = [_displayName,"brightness"] call cTab_fnc_getSettings;
+	_brightness = _brightness + 0.1;
+	// make sure brightness is not larger than 1
+	if (_brightness > 1) then {_brightness = 1};
+	[_displayName,[["brightness",_brightness]]] call cTab_fnc_setSettings;
+	
+	true
+};
+
+/*
+Function to decrease brightness
+Parameter 0: String of uiNamespace variable for which to decreas brightness for
+Returns TRUE
+*/
+cTab_fnc_decBrightness = {
+	_displayName = _this select 0;
+	_brightness = [_displayName,"brightness"] call cTab_fnc_getSettings;
+	_brightness = _brightness - 0.1;
+	// make sure brightness is not larger than 0.5
+	if (_brightness < 0.5) then {_brightness = 0.5};
+	[_displayName,[["brightness",_brightness]]] call cTab_fnc_setSettings;
+	
 	true
 };
 

@@ -3,16 +3,16 @@
 #define GUI_GRID_PX_H 2048 // hight in pixels
 
 // Base bacros to convert pixel space to screen space
-#define pxToScreen_X(PIXEL) (PIXEL) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X
-#define pxToScreen_Y(PIXEL) (PIXEL) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y
-#define pxToScreen_W(PIXEL) (PIXEL) / GUI_GRID_PX_W * GUI_GRID_W
-#define pxToScreen_H(PIXEL) (PIXEL) / GUI_GRID_PX_H * GUI_GRID_H
+#define pxToScreen_X(PIXEL) ((PIXEL) / GUI_GRID_PX_W * GUI_GRID_W + GUI_GRID_X)
+#define pxToScreen_Y(PIXEL) ((PIXEL) / GUI_GRID_PX_H * GUI_GRID_H + GUI_GRID_Y)
+#define pxToScreen_W(PIXEL) ((PIXEL) / GUI_GRID_PX_W * GUI_GRID_W)
+#define pxToScreen_H(PIXEL) ((PIXEL) / GUI_GRID_PX_H * GUI_GRID_H)
 
 // Map position within background, pixel based
-#define cTab_GUI_TAD_MAP_X (371)
-#define cTab_GUI_TAD_MAP_Y (378)
-#define cTab_GUI_TAD_MAP_W (1306)
-#define cTab_GUI_TAD_MAP_H (1328)
+#define cTab_GUI_TAD_MAP_X (359)
+#define cTab_GUI_TAD_MAP_Y (371)
+#define cTab_GUI_TAD_MAP_W (1330)
+#define cTab_GUI_TAD_MAP_H (1345)
 
 // On-screen edge positions (left, right, top, bottom)
 #define cTab_GUI_TAD_OSD_MARGIN (24)
@@ -637,7 +637,7 @@ class cTab_TAD_Map_Background: cTab_RscText
 class cTab_TAD_background: cTab_RscPicture
 {
 	idc = IDC_CTAB_BACKGROUND;
-	text = "\cTab\img\TAD_background_ca.paa";
+	text = "";
 	x = GUI_GRID_X;
 	y = GUI_GRID_Y;
 	w = GUI_GRID_W;
@@ -747,4 +747,15 @@ class cTab_TAD_movingHandle_R: cTab_TAD_movingHandle_L
 {
 	x = pxToScreen_X(cTab_GUI_TAD_MAP_X + cTab_GUI_TAD_MAP_W);
 	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_TAD_MAP_X + cTab_GUI_TAD_MAP_W));
+};
+
+// transparent control that gets placed on top of the GUI to adjust brightness
+class cTab_TAD_brightness: cTab_RscText_TAD
+{
+	idc = IDC_CTAB_BIGHTNESS;
+	x = pxToScreen_X(cTab_GUI_TAD_MAP_X);
+	y = pxToScreen_Y(cTab_GUI_TAD_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_TAD_MAP_W);
+	h = pxToScreen_H(cTab_GUI_TAD_MAP_H);
+	colorBackground[] = COLOR_TRANSPARENT;
 };

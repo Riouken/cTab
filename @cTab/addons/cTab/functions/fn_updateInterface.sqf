@@ -21,7 +21,7 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -56,6 +56,35 @@ if (isNil "_mode") then {
 
 {
 	call {
+		// ------------ BRIGHTNESS ------------
+		// Value ranges from 0 to 1, 0 being off and 1 being full brightness
+		if (_x select 0 == "brightness") exitWith {
+			_osdCtrl = _display displayCtrl IDC_CTAB_BIGHTNESS;
+			if (!isNull _osdCtrl) then {
+				_brightness = _x select 1;
+				_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
+				// if we are running night mode, lower the brightness proportionally
+				if (!isNil "_nightMode") then {
+					if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {_brightness = _brightness * 0.7};
+				};
+				_osdCtrl ctrlSetBackgroundColor [0,0,0,1 - _brightness];
+			};
+		};
+		
+		// ------------ NIGHT MODE ------------
+		// 0 = day mode, 1 = night mode, 2 = automatic
+		if (_x select 0 == "nightMode") exitWith {
+			// no need for adjustment on interface init as this is set during onLoad already
+			if (!_interfaceInit) then {
+				_background = _displayName call cTab_fnc_getBackground;
+				if (_background != "") then {
+					(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
+				};
+				// call brightness adjustment
+				[[["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings]]] call cTab_fnc_updateInterface;
+			};
+		};
+		
 		// ------------ MODE ------------
 		if (_x select 0 == "mode") exitWith {
 			cTabUserPos = [];
