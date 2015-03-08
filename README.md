@@ -46,11 +46,18 @@ Required
 
 Media
 -----
-![Tablet UAV screen](http://imagizer.imageshack.us/a/img802/7273/uhhi.jpg)
-![Vehicle FBCB2](http://imagizer.imageshack.us/a/img28/5193/cauf.jpg)
-[![TAD small](http://imagizer.imageshack.us/v2/280x200q90/746/UTTp2B.jpg)](http://imageshack.com/f/kqUTTp2Bj)
-[![TAD large](http://imagizer.imageshack.us/v2/280x200q90/909/P8FrUz.jpg)](http://imageshack.com/f/p9P8FrUzj)
-[![cTab release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
+[![Tablet BFT](http://i.imgur.com/hKVHT6Sm.jpg)](http://i.imgur.com/hKVHT6S.jpg)
+[![Tablet UAV](http://i.imgur.com/CzQ0HhUm.jpg)](http://i.imgur.com/CzQ0HhU.jpg)
+[![Vehicle FBCB2](http://i.imgur.com/bjarZTqm.jpg)](http://i.imgur.com/bjarZTq.jpg)
+[![TAD small](http://i.imgur.com/ngtjm2Dm.jpg)](http://i.imgur.com/ngtjm2D.jpg)
+[![TAD large](http://i.imgur.com/Rt9IVQ2m.jpg)](http://i.imgur.com/Rt9IVQ2.jpg)
+[![Android small](http://i.imgur.com/0lOIuvem.jpg)](http://i.imgur.com/0lOIuve.jpg)
+[![Android large](http://i.imgur.com/g6frBhdm.jpg)](http://i.imgur.com/g6frBhd.jpg)
+[![Android large topo](http://i.imgur.com/2RpXNyDm.jpg)](http://i.imgur.com/2RpXNyD.jpg)
+[![MicroDAGR small](http://i.imgur.com/ZoQjPMXm.jpg)](http://i.imgur.com/ZoQjPMX.jpg)
+[![MicroDAGR large](http://i.imgur.com/vEuteq0m.jpg)](http://i.imgur.com/vEuteq0.jpg)
+[![3D Models](http://i.imgur.com/ZPWtwkSm.jpg)](http://i.imgur.com/ZPWtwkS.jpg)
+[![cTab 1.0 release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
 
 Install
 -------
@@ -181,8 +188,8 @@ Changelog
 * Improved Zeus support when remote controlling AI
 * cTab can now be operated as Zeus even with default keybinding `H`
 * Added MicroDAGR hand-held GPS.
-  It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be zoomed in and out using the `Zoom_In` and `Zoom_Out` keys.
-  Only units with a cTab device in your own group are displayed, unless you have "connected" it to a tablet (i.e. you are carrying one).
+  It features a self-centring small view mode that can be kept visible while navigating and a large view mode that allows for user interaction. The small view mode can be kept open while navigating and zoomed in and out using the `Zoom_In` and `Zoom_Out` keys. Only units with a cTab device in your own group are displayed.
+  The MicroDAGR can also operate as a companion device to the Tablet (i.e. you are carrying both) and in that case the MicroDAGR will show you the same BFT data as your Tablet.
 * Added configurable server-side list of helmets that define the presence of a helmet camera, defaulting to vanilla ArmA 3 and BWmod helmet models with a camera.
 * Improved co-pilot seat detection for helicopters as previously the TAD could not be accessed when in the co-pilot seat of some community provided helicopters
 * Enabled support for CBA Keybinding system to make key bind changes more user friendly and changeable without a restart. Userconfig settings now define the default keybinds.
