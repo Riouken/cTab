@@ -353,13 +353,15 @@ cTab_fnc_onIfMainPressed = {
 		// close Secondary / Tertiary
 		call cTab_fnc_close;
 	};
+	
+	// see if onIfOpen is still being executed and terminate it if thats the case
+	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
+	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
-	
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dsp") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			//[0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_display_start.sqf";
 			cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
 		};
 		true
@@ -420,6 +422,10 @@ cTab_fnc_onIfSecondaryPressed = {
 		// close Main / Tertiary
 		call cTab_fnc_close;
 	};
+	
+	// see if onIfOpen is still being executed and terminate it if thats the case
+	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
+	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
@@ -483,6 +489,10 @@ cTab_fnc_onIfTertiaryPressed = {
 		// close Main / Secondary
 		call cTab_fnc_close;
 	};
+	
+	// see if onIfOpen is still being executed and terminate it if thats the case
+	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
+	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
