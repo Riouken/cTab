@@ -267,5 +267,6 @@ Download / Links
 ----------------
 [Armaholic](http://www.armaholic.com/page.php?id=22992)
 [ArmA World](http://armaworld.de/threads/156-cTab-Commander-s-Tablet)
-[withSix](http://play.withsix.com/Arma-3/mods/4KfaixFS4xGnygAVF72WTA/Commander's-Tablet-FBCB2-Bluforce-Tracker-UAV-and-Helmetcam-Interface)
+[withSix](http://play.withsix.com/Arma-3/mods/4KfaixFS4xGnygAVF72WTA)
+[BI Forum](http://forums.bistudio.com/showthread.php?166488)
 [GitHub](https://github.com/Riouken/cTab)
