@@ -8,9 +8,9 @@
 #define PREFIX cTab
 #define COMPONENT main
 #define MAJOR 2
-#define MINOR 1
+#define MINOR 2
 #define PATCHLVL 0
-#define BUILD 9
+#define BUILD 0
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 #define REQUIRED_VERSION 1.0
