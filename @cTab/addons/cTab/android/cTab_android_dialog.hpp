@@ -19,7 +19,7 @@
 class cTab_Android_dlg {
 	idd = 177382;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];";
+	onLoad = "((_this select 0) displayCtrl 1200) ctrlSetText ('cTab_Android_dlg' call cTab_fnc_getBackground);uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];";
 	onUnload = "uiNamespace setVariable ['cTab_Android_dlg', displayNull];call cTab_fnc_close;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
@@ -41,29 +41,9 @@ class cTab_Android_dlg {
 
 	class controls
 	{
-		class background: cTab_android_background {};
-		class movingHandle_T: cTab_android_movingHandle_T{};
-		class movingHandle_B: cTab_android_movingHandle_B{};
-		class movingHandle_L: cTab_android_movingHandle_L{};
-		class movingHandle_R: cTab_android_movingHandle_R{};
-		class btnMenu: cTab_android_btnMenu
-		{
-			idc = IDC_CTAB_BTNFN;
-			action = "['cTab_Android_dlg'] call cTab_fnc_showMenu_toggle;";
-			tooltip = "Map Options";
-		};
-		class btnPower: cTab_android_btnPower
-		{
-			idc = IDC_CTAB_BTNOFF;
-			action = "closeDialog 0;";
-			tooltip = "Close Interface";
-		};
-		class btnHome: cTab_android_btnHome
-		{
-			idc = IDC_CTAB_BTNF1;
-			action = "['cTab_Android_dlg'] call cTab_fnc_mode_toggle;";
-			tooltip = "Toggle Map (F1) / Messages (F4)";
-		};
+		/*
+			### OSD GUI controls ###
+		*/
 		class header: cTab_android_header {};
 		class battery: cTab_android_on_screen_battery {};
 		class time: cTab_android_on_screen_time {};
@@ -291,7 +271,41 @@ class cTab_Android_dlg {
 		// User Placed markers
 		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 
+		/*
+			### Overlays ###
+		*/
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_android_loadingtxt {};
+		// ---------- BRIGHTNESS ------------
+		class brightness: cTab_android_brightness {};
+		// ---------- BACKGROUND ------------
+		class background: cTab_android_background {};
+		// ---------- MOVING HANDLEs ------------
+		class movingHandle_T: cTab_android_movingHandle_T{};
+		class movingHandle_B: cTab_android_movingHandle_B{};
+		class movingHandle_L: cTab_android_movingHandle_L{};
+		class movingHandle_R: cTab_android_movingHandle_R{};
+
+		/*
+			### PHYSICAL BUTTONS ###
+		*/
+		class btnMenu: cTab_android_btnMenu
+		{
+			idc = IDC_CTAB_BTNFN;
+			action = "['cTab_Android_dlg'] call cTab_fnc_showMenu_toggle;";
+			tooltip = "Map Options";
+		};
+		class btnPower: cTab_android_btnPower
+		{
+			idc = IDC_CTAB_BTNOFF;
+			action = "closeDialog 0;";
+			tooltip = "Close Interface";
+		};
+		class btnHome: cTab_android_btnHome
+		{
+			idc = IDC_CTAB_BTNF1;
+			action = "['cTab_Android_dlg'] call cTab_fnc_mode_toggle;";
+			tooltip = "Toggle Map (F1) / Messages (F4)";
+		};
 	};
 };

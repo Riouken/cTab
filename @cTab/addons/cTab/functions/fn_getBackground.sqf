@@ -29,9 +29,12 @@ call {
 		_backgroundDay = "\cTab\img\TAD_background_ca.paa";
 		_backgroundNight = "\cTab\img\TAD_background_night_ca.paa";
 	};
-	/*if (_this == "cTab_Tablet_dlg") exitWith {};
-	if (_this in ["cTab_Android_dsp","cTab_Android_dlg"]) exitWith {};
-	if (_this == "cTab_FBCB2_dlg") exitWith {};
+	//if (_this == "cTab_Tablet_dlg") exitWith {};
+	if (_this in ["cTab_Android_dsp","cTab_Android_dlg"]) exitWith {
+		_backgroundDay = "\cTab\img\android_background_ca.paa";
+		_backgroundNight = "\cTab\img\android_background_night_ca.paa";
+	};
+	/*if (_this == "cTab_FBCB2_dlg") exitWith {};
 	if (_this in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {};*/
 };
 

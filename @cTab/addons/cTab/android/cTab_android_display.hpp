@@ -21,7 +21,7 @@ class cTab_Android_dsp {
 	duration = 10e10;
 	fadeIn = 0;
 	fadeOut = 0;
-	onLoad = "uiNamespace setVariable ['cTab_Android_dsp', (_this select 0)];";
+	onLoad = "((_this select 0) displayCtrl 1200) ctrlSetText ('cTab_Android_dsp' call cTab_fnc_getBackground);uiNamespace setVariable ['cTab_Android_dsp', (_this select 0)];";
 	objects[] = {};
 	class controlsBackground
 	{
@@ -39,7 +39,9 @@ class cTab_Android_dsp {
 
 	class controls
 	{
-		class background: cTab_android_background {};
+		/*
+			### OSD GUI controls ###
+		*/
 		class header: cTab_android_header {};
 		class battery: cTab_android_on_screen_battery {};
 		class time: cTab_android_on_screen_time {};
@@ -49,7 +51,14 @@ class cTab_Android_dsp {
 		class grid: cTab_android_on_screen_grid {};
 		class dirOctant: cTab_android_on_screen_dirOctant {};
 
+		/*
+			### Overlays ###
+		*/
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_android_loadingtxt {};
+		// ---------- BRIGHTNESS ------------
+		class brightness: cTab_android_brightness {};
+		// ---------- BACKGROUND ------------
+		class background: cTab_android_background {};
 	};
 };
