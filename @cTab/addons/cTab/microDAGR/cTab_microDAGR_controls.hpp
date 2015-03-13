@@ -150,7 +150,7 @@ class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 class cTab_microDAGR_background: cTab_RscPicture
 {
 	idc = IDC_CTAB_BACKGROUND;
-	text = "\cTab\img\microDAGR_background_ca.paa";
+	text = ""; // will be set during onLoad event
 	x = GUI_GRID_X;
 	y = GUI_GRID_Y;
 	w = GUI_GRID_W;
@@ -313,4 +313,15 @@ class cTab_microDAGR_movingHandle_R: cTab_microDAGR_movingHandle_L
 {
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W);
 	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W));
+};
+
+// transparent control that gets placed on top of the GUI to adjust brightness
+class cTab_microDAGR_brightness: cTab_RscText_microDAGR
+{
+	idc = IDC_CTAB_BIGHTNESS;
+	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H);
+	colorBackground[] = COLOR_TRANSPARENT;
 };

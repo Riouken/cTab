@@ -34,8 +34,11 @@ call {
 		_backgroundDay = "\cTab\img\android_background_ca.paa";
 		_backgroundNight = "\cTab\img\android_background_night_ca.paa";
 	};
-	/*if (_this == "cTab_FBCB2_dlg") exitWith {};
-	if (_this in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {};*/
+	//if (_this == "cTab_FBCB2_dlg") exitWith {};
+	if (_this in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
+		_backgroundDay = "\cTab\img\microDAGR_background_ca.paa";
+		_backgroundNight = "\cTab\img\microDAGR_background_night_ca.paa";
+	};
 };
 
 if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {_backgroundNight} else {_backgroundDay};

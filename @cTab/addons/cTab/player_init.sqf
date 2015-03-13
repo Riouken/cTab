@@ -201,7 +201,9 @@ cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
-	["mapTools",true]
+	["mapTools",true],
+	["nightMode",2],
+	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.

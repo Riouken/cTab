@@ -208,6 +208,7 @@ Changelog
 ---------
 ### 2.2.0 ###
 * Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left)
+* Added night mode to Android and MicroDAGR (switches automatically based on light conditions outside)
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 
 ### 2.1.0 ###
