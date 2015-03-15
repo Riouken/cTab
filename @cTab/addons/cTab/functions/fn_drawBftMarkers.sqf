@@ -47,13 +47,14 @@ if (_mode != 2) then {
 		_pos = getPosASL _veh;
 		
 		call {
-			if (_mode == 1 && {_iconB != ""}) exitWith {
+			if (_mode == 1 && {_iconB != "" && {_veh != _playerVehicle}}) exitWith {
 				// Drawing on TAD && vehicle is an air contact
-				if (_groupID != "") then {
-					// air contact is in our group
-					_ctrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
-					_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupID,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
-				} else {
+				call {
+					if (_groupID != "") exitWith {
+						// air contact is in our group
+						_ctrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
+						_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupID,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
+					};
 					// air contact is _not_ in our group
 					_ctrlScreen drawIcon [_iconB,cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
 					if (_drawText) then {
@@ -154,7 +155,9 @@ if (_mode != 2) then {
 if (_drawText && !(_mountedLabels isEqualTo [])) then {
 	for "_i" from 0 to (count _mountedLabels - 2) step 2 do {
 		_veh = _mountedLabels select _i;
-		_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,getPosASL _veh,cTabIconSize,cTabIconSize,0,_mountedLabels select (_i + 1),0,cTabTxtSize,"TahomaB","left"];
+		if (_veh != _playerVehicle) then {
+			_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,getPosASL _veh,cTabIconSize,cTabIconSize,0,_mountedLabels select (_i + 1),0,cTabTxtSize,"TahomaB","left"];
+		};
 	};
 };
 
