@@ -368,32 +368,32 @@ cTab_fnc_onIfMainPressed = {
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dsp") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dsp") then {
-			cTabOnIfOpenScriptHandler = [0,"cTab_Android_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_Android_dsp",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dsp") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			cTabOnIfOpenScriptHandler = [0,"cTab_microDAGR_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_microDAGR_dsp",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			cTabOnIfOpenScriptHandler = [0,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			cTabOnIfOpenScriptHandler = [0,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
@@ -437,32 +437,32 @@ cTab_fnc_onIfSecondaryPressed = {
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dlg") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			cTabOnIfOpenScriptHandler = [1,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			cTabOnIfOpenScriptHandler = [1,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dlg") then {
-			cTabOnIfOpenScriptHandler = [1,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dlg") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			cTabOnIfOpenScriptHandler = [1,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			cTabOnIfOpenScriptHandler = [1,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
@@ -503,33 +503,33 @@ cTab_fnc_onIfTertiaryPressed = {
 	_vehicle = vehicle _player;
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			cTabOnIfOpenScriptHandler = [2,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dlg") then {
-			cTabOnIfOpenScriptHandler = [2,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dlg") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			cTabOnIfOpenScriptHandler = [2,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dlg") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			cTabOnIfOpenScriptHandler = [2,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			cTabOnIfOpenScriptHandler = [2,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};

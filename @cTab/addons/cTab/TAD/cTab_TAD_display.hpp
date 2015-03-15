@@ -19,7 +19,7 @@ class cTab_TAD_dsp
 	duration = 10e10;
 	fadeIn = 0;
 	fadeOut = 0;
-	onLoad = "((_this select 0) displayCtrl 1200) ctrlSetText ('cTab_TAD_dsp' call cTab_fnc_getBackground);uiNamespace setVariable ['cTab_TAD_dsp', (_this select 0)];";
+	onLoad = "_this call cTab_fnc_onIfOpen;";
 	class controlsBackground
 	{
 		class mapBackground: cTab_TAD_Map_Background {};

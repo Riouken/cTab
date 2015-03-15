@@ -19,8 +19,8 @@
 class cTab_Android_dlg {
 	idd = 177382;
 	movingEnable = true;
-	onLoad = "((_this select 0) displayCtrl 1200) ctrlSetText ('cTab_Android_dlg' call cTab_fnc_getBackground);uiNamespace setVariable ['cTab_Android_dlg', (_this select 0)];";
-	onUnload = "uiNamespace setVariable ['cTab_Android_dlg', displayNull];call cTab_fnc_close;";
+	onLoad = "_this call cTab_fnc_onIfOpen;";
+	onUnload = "[] call cTab_fnc_onIfclose;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground

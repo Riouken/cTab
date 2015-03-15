@@ -23,7 +23,6 @@ class CfgFunctions
 			class drawMarkers{};
 			class drawUserMarkers{};
 			class findUserMarker{};
-			class getBackground{};
 			class getCopilot{};
 			class getFromPairs{};
 			class getInfMarkerIcon{};
@@ -34,7 +33,9 @@ class CfgFunctions
 			class isDialog{};
 			class lockUavCamTo{}
 			class onIfKeyDown{};
+			class onIfClose{};
 			class onIfOpen{};
+			class open{};
 			class processCuratorKey{};
 			class setSettings{};
 			class setToPairs{};

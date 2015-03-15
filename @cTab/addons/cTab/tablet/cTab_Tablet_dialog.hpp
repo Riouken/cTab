@@ -19,8 +19,8 @@
 class cTab_Tablet_dlg {
 	idd = 1775154;
 	movingEnable = true;
-	onLoad = "uiNamespace setVariable ['cTab_Tablet_dlg', (_this select 0)];";
-	onUnload = "uiNamespace setVariable ['cTab_Tablet_dlg', displayNull];call cTab_fnc_close;";
+	onLoad = "_this call cTab_fnc_onIfOpen;";
+	onUnload = "[] call cTab_fnc_onIfclose;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground {

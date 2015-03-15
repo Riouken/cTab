@@ -14,8 +14,8 @@ class cTab_TAD_dlg
 {
 	idd = 1755424;
 	movingEnable = true;
-	onLoad = "((_this select 0) displayCtrl 1200) ctrlSetText ('cTab_TAD_dlg' call cTab_fnc_getBackground);uiNamespace setVariable ['cTab_TAD_dlg', (_this select 0)];";
-	onUnload = "uiNamespace setVariable ['cTab_TAD_dlg', displayNull];call cTab_fnc_close;";
+	onLoad = "_this call cTab_fnc_onIfOpen;";
+	onUnload = "[] call cTab_fnc_onIfclose;";
 	onKeyDown = "_this call cTab_fnc_onIfKeyDown;";
 	objects[] = {};
 	class controlsBackground

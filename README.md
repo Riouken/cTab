@@ -9,7 +9,7 @@ Thanks to
 + LCpl C. Johnston - Technical advisor
 + LCpl Schwanke - Technical advisor
 + Knobee - Documentation
-+ Raspu - TAD, Android and MicroDAGR background graphics and 3D models
++ Raspu - TAD, Android and MicroDAGR day / night mode interface graphics and 3D models
 + Killzone_Kid - for his many excellent tutorials
 + Everyone else in the 15th MEU SOC and C-L-F for help with support and testing.
 

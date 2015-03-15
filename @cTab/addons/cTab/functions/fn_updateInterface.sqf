@@ -74,14 +74,27 @@ if (isNil "_mode") then {
 		// ------------ NIGHT MODE ------------
 		// 0 = day mode, 1 = night mode, 2 = automatic
 		if (_x select 0 == "nightMode") exitWith {
-			// no need for adjustment on interface init as this is set during onLoad already
-			if (!_interfaceInit) then {
-				_background = _displayName call cTab_fnc_getBackground;
-				if (_background != "") then {
-					(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
+			_nightMode = _x select 1;
+			// transform nightMode into boolean
+			_nightMode = if (_nightMode == 1 || {_nightMode == 2 && (sunOrMoon < 0.2)}) then {true} else {false};
+			_background = call {
+				if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) exitWith {
+					if (_nightMode) then {"\cTab\img\TAD_background_night_ca.paa"} else {"\cTab\img\TAD_background_ca.paa"};
 				};
-				// call brightness adjustment
-				[[["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings]]] call cTab_fnc_updateInterface;
+				if (_displayName in ["cTab_Android_dsp","cTab_Android_dlg"]) exitWith {
+					if (_nightMode) then {"\cTab\img\android_background_night_ca.paa"} else {"\cTab\img\android_background_ca.paa"};
+				};
+				if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
+					if (_nightMode) then {"\cTab\img\microDAGR_background_night_ca.paa"} else {"\cTab\img\microDAGR_background_ca.paa"};
+				};
+				""
+			};
+			if (_background != "") then {
+				(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
+				// call brightness adjustment if this is outside of interface init
+				if (!_interfaceInit) then {
+					[[["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings]]] call cTab_fnc_updateInterface;
+				};
 			};
 		};
 		
@@ -159,6 +172,16 @@ if (isNil "_mode") then {
 						};
 						
 						_btnActCtrl ctrlSetTooltip "";
+						
+						// update scale and world position when not on interface init
+						if (!_interfaceInit) then {
+							if (_isDialog) then {
+								[[
+									["mapScaleDlg",[_displayName,"mapScaleDlg"] call cTab_fnc_getSettings],
+									["mapWorldPos",[_displayName,"mapWorldPos"] call cTab_fnc_getSettings]
+								]] call cTab_fnc_updateInterface;
+							};
+						};
 					};
 					// ---------- UAV -----------
 					if (_mode == "UAV") exitWith {
@@ -241,7 +264,7 @@ if (isNil "_mode") then {
 				};
 				
 				// hide every _displayItems not in _displayItemsToShow
-				{ctrlShow [_x,_x in _displayItemsToShow];} count _displayItems;
+				{(_display displayCtrl _x) ctrlShow (_x in _displayItemsToShow)} count _displayItems;
 			};
 		};
 		// ------------ SHOW ICON TEXT ------------
@@ -282,12 +305,6 @@ if (isNil "_mode") then {
 			if (_mode == "BFT" && _isDialog) then {
 				_mapScaleKm = _x select 1;
 				_targetMapScale = _mapScaleKm / cTabMapScaleFactor * 0.86 / (safezoneH * 0.8);
-				
-				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
-				if (!isNull _osdCtrl) then {
-					// divide by 2 because we want to display the radius, not the diameter
-					_osdCtrl ctrlSetText format ["%1",_mapScaleKm / 2];
-				};
 			};
 		};
 		// ------------ MAP WORLD POSITION ------------
@@ -411,18 +428,15 @@ if ((!isNil "_targetMapScale") || (!isNil "_targetMapWorldPos")) then {
 		_targetMapIDC = [_mapTypes,_targetMapName] call cTab_fnc_getFromPairs;
 		_targetMapCtrl = _display displayCtrl _targetMapIDC;
 	};
-	
-	if (ctrlShown _targetMapCtrl) then {
-		if (isNil "_targetMapScale") then {
-			_targetMapScale = ctrlMapScale _targetMapCtrl;
-		};
-		if (isNil "_targetMapWorldPos") then {
-			_targetMapWorldPos = [_targetMapCtrl] call cTab_fnc_ctrlMapCenter;
-		};
-		_targetMapCtrl ctrlMapAnimAdd [0,_targetMapScale,_targetMapWorldPos];
-		ctrlMapAnimCommit _targetMapCtrl;
-		while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
+	if (isNil "_targetMapScale") then {
+		_targetMapScale = ctrlMapScale _targetMapCtrl;
 	};
+	if (isNil "_targetMapWorldPos") then {
+		_targetMapWorldPos = [_targetMapCtrl] call cTab_fnc_ctrlMapCenter;
+	};
+	_targetMapCtrl ctrlMapAnimAdd [0,_targetMapScale,_targetMapWorldPos];
+	ctrlMapAnimCommit _targetMapCtrl;
+	while {!(ctrlMapAnimDone _targetMapCtrl)} do {};
 };
 
 // move mouse cursor to the center of the screen if its a dialog
