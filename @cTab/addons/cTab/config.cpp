@@ -9,8 +9,8 @@
 #define COMPONENT main
 #define MAJOR 2
 #define MINOR 1
-#define PATCHLVL 0
-#define BUILD 9
+#define PATCHLVL 1
+#define BUILD 10
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
 #define REQUIRED_VERSION 1.0
