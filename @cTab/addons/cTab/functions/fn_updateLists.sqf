@@ -136,10 +136,10 @@ cTabUAVlist --- UAVs
 
 /*
 cTabHcamlist --- HELMET CAMS
-Units on our side, that are no the player and have either helmets that have been specified to include a helmet cam, or ItemCTabHCAM in their inventory.
+Units on our side, that have either helmets that have been specified to include a helmet cam, or ItemCTabHCAM in their inventory.
 */
 {
-	if ((side _x in _validSides) && {_x != cTab_player}) then {
+	if (side _x in _validSides) then {
 		if (headgear _x in cTab_helmetClass_has_HCam || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
 			0 = _cTabHcamlist pushBack _x;
 		};
