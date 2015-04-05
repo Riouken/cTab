@@ -182,6 +182,9 @@ By default all vehicles will be shown with their group names next to them. This 
 
 Changelog
 ---------
+### 2.1.1 ###
+* Prevent TAD from being accessible when using a parachute
+
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
 * Provided encryption keys that can be set by the mission designer to allow or disallow cTab data to be shared.
