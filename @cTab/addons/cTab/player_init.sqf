@@ -339,6 +339,7 @@ cTab_fnc_onIfMainPressed = {
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
+		selectPlayer cTab_player;
 		cTabUavViewActive = false;
 		call cTab_fnc_onIfTertiaryPressed;
 		true
@@ -408,6 +409,7 @@ cTab_fnc_onIfSecondaryPressed = {
 	if (cTabUavViewActive) exitWith {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
+		selectPlayer cTab_player;
 		cTabUavViewActive = false;
 		call cTab_fnc_onIfTertiaryPressed;
 		true
@@ -476,6 +478,7 @@ cTab_fnc_onIfTertiaryPressed = {
 	if (cTabUavViewActive) then {
 		objNull remoteControl ((crew cTabActUav) select 1);
 		player switchCamera 'internal';
+		selectPlayer cTab_player;
 		cTabUavViewActive = false;
 		true
 	};
