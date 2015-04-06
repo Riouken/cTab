@@ -31,11 +31,13 @@ if !(isNil "cTabIfOpen") then {
 	_playerKilledEhId = cTabIfOpen select 3;
 	_vehicle = cTabIfOpen select 4;
 	_vehicleGetOutEhId = cTabIfOpen select 5;
+	_draw3dEhId = cTabIfOpen select 6;
 	
 	uiNamespace setVariable [_displayName, displayNull];
 	
 	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
 	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
+	if (!isNil "_draw3dEhId") then {removeMissionEventHandler ["Draw3D",_draw3dEhId]};
 	
 	// don't call this part if we are closing down before setup has finished
 	if (!cTabIfOpenStart) then {

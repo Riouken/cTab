@@ -14,6 +14,7 @@
 			Parameter 3: ID of registered eventhandler for killed event
 			Parameter 4: Vehicle we registered the GetOut eventhandler for (even if no EH is registered)
 			Parameter 5: ID of registered eventhandler for GetOut event (nil if no EH is registered)
+			Parameter 6: ID of registered eventhandler for Draw3D event (nil if no EH is registered)
 	
 	Parameters:
 		0: INTEGER - Interface type, 0 = Main, 1 = Secondary
@@ -29,6 +30,8 @@
 		cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",player,vehicle player] spawn cTab_fnc_open;
 */
 
+#include "\cTab\shared\cTab_gui_macros.hpp"
+
 private ["_interfaceType","_displayName","_player","_vehicle","_playerKilledEhId","_vehicleGetOutEhId"];
 
 if (cTabIfOpenStart || (!isNil "cTabIfOpen")) exitWith {false};
@@ -41,7 +44,7 @@ _vehicle = _this select 3;
 
 cTabIfOpen = [_interfaceType,_displayName,_player,
 	_player addEventHandler ["killed",{[] call cTab_fnc_close}]
-,_vehicle,nil];
+,_vehicle,nil,nil];
 
 if (_vehicle != _player) then {
 	cTabIfOpen set [5,
@@ -57,6 +60,46 @@ if ([_displayName] call cTab_fnc_isDialog) then {
 } else {
 	cTabRscLayer cutRsc [_displayName,"PLAIN",0, false];
 	waitUntil {!isNull (uiNamespace getVariable _displayName)};
+};
+
+// Set up event handler to update display header / footer
+if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) then {
+	cTabIfOpen set [6,
+		addMissionEventHandler ["Draw3D",{
+			_display = uiNamespace getVariable (cTabIfOpen select 1);
+			_veh = vehicle cTab_player;
+			_playerPos = getPosASL _veh;
+		
+			// update time
+			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+			
+			// update grid position
+			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
+			
+			// update current heading
+			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[direction _veh,3] call CBA_fnc_formatNumber];
+			
+			// update current elevation (ASL) on TAD
+			(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),4] call CBA_fnc_formatNumber];
+		}]
+	];
+} else {
+	cTabIfOpen set [6,
+		addMissionEventHandler ["Draw3D",{
+			_display = uiNamespace getVariable (cTabIfOpen select 1);
+			_veh = vehicle cTab_player;
+			_heading = direction _veh;
+			// update time
+			(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
+			
+			// update grid position
+			(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition getPosASL _veh];
+			
+			// update current heading
+			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
+			(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
+		}]
+	];
 };
 
 cTabIfOpenStart = false;
