@@ -1027,46 +1027,27 @@ cTabUavTakeControl = {
 	_uav = cTabActUav;
 	_controlArray = uavControl _uav;
 	_canControl = true;
-	_return = true;
 	
-	if (count _controlArray > 0) then 
-	{
-		if (_controlArray select 1 == "GUNNER") then
-			{
-				_canControl = false;
-			};
-	};	
-	
-	if (count _controlArray > 2) then 
-	{	
-		if (_controlArray select 1 == "GUNNER") then
-			{
-				_canControl = false;
-			};
-		if (_controlArray select 3 == "GUNNER") then
-			{
-				_canControl = false;
-			};	
+	for "_i" from 1 to (count _controlArray - 1) step +2 do {
+		if (_controlArray select _i == "GUNNER") exitWith {
+			_canControl = false;
+		};
 	};
 	
-	if (_canControl) then
-	{
+	if (_canControl) then {
+		[] call cTab_fnc_close;
 		player remoteControl ((crew _uav) select 1);
 		_uav switchCamera "Gunner";
-		closeDialog 0;
 		cTabUavViewActive = true;
-		[_uav] spawn {
-			_remote = _this select 0;
-			waitUntil {cameraOn != _remote};
+		_uav spawn {
+			waitUntil {cameraOn != _this};
 			cTabUavViewActive = false;
 		};
-	}else
-	{
-	
-		["cTabUavNotAval",["Unable to access the UAV stream... Another user is streaming"]] call BIS_fnc_showNotification;
-	
+	} else {
+		["cTabUavNotAval",["Another user has control, no control given"]] call BIS_fnc_showNotification;
 	};
-_return;
+	
+	true
 };
 
 cTab_msg_gui_load = {
