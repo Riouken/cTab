@@ -175,7 +175,7 @@ cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 	["showIconText",true],
 	["mapScaleDsp",2],
 	["mapScaleDlg",2],
-	["mapScaleMin",2],
+	["mapScaleMin",1],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
 	["mapType","SAT"],
 	["mapTools",true]

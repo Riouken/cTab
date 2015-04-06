@@ -21,7 +21,7 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -244,7 +244,12 @@ if (isNil "_mode") then {
 				_osdCtrl = _display displayCtrl IDC_CTAB_OSD_MAP_SCALE;
 				if (!isNull _osdCtrl) then {
 					// divide by 2 because we want to display the radius, not the diameter
-					_osdCtrl ctrlSetText format ["%1",_mapScaleKm / 2];
+					_mapScaleTxt = if (_mapScaleKm > 1) then {
+							_mapScaleKm / 2
+					} else {
+						[_mapScaleKm / 2,0,1] call CBA_fnc_formatNumber
+					};
+					_osdCtrl ctrlSetText format ["%1",_mapScaleTxt];	
 				};
 			};
 		};

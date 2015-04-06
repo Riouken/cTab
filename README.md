@@ -185,6 +185,7 @@ Changelog
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)
 * Prevent TAD from being accessible when using a parachute
+* Added 500m zoom-level to small TAD
 
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
