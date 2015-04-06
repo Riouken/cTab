@@ -9,7 +9,7 @@ Thanks to
 + LCpl C. Johnston - Technical advisor
 + LCpl Schwanke - Technical advisor
 + Knobee - Documentation
-+ Raspu - TAD, Android and MicroDAGR day / night mode interface graphics and 3D models
++ Raspu - Tablet, TAD, Android and MicroDAGR day / night mode interface graphics and 3D models
 + Killzone_Kid - for his many excellent tutorials
 + Everyone else in the 15th MEU SOC and C-L-F for help with support and testing.
 
@@ -210,6 +210,7 @@ Changelog
 * Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left)
 * Added night mode to Android and MicroDAGR (switches automatically based on light conditions outside)
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
+* Replaced tablet model with new model made by Raspu
 
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
