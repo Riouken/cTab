@@ -292,7 +292,7 @@ class cTab_android_on_screen_hookDir: cTab_android_on_screen_hookGrid
 	idc = IDC_CTAB_OSD_HOOK_DIR;
 	y = pxToScreen_Y(cTab_GUI_android_OSD_EDGE_B - cTab_GUI_android_OSD_MARGIN - cTab_GUI_android_OSD_ELEMENT_STD_H);
 };
-class cTab_android_loadingtxt: cTab_RscText
+class cTab_android_loadingtxt: cTab_RscText_android
 {
 	idc = IDC_CTAB_LOADINGTXT;
 	style = ST_CENTER;
