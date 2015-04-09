@@ -56,7 +56,6 @@ Media
 [![Android large topo](http://i.imgur.com/2RpXNyDm.jpg)](http://i.imgur.com/2RpXNyD.jpg)
 [![MicroDAGR small](http://i.imgur.com/ZoQjPMXm.jpg)](http://i.imgur.com/ZoQjPMX.jpg)
 [![MicroDAGR large](http://i.imgur.com/vEuteq0m.jpg)](http://i.imgur.com/vEuteq0.jpg)
-[![3D Models](http://i.imgur.com/ZPWtwkSm.jpg)](http://i.imgur.com/ZPWtwkS.jpg)
 [![cTab 1.0 release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
 
 Install
@@ -186,6 +185,8 @@ Changelog
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)
 * Prevent TAD from being accessible when using a parachute
 * Added 500m zoom-level to small TAD
+* Fixed player's camera breaking when exiting UAV full screen view while in a vehicle
+* Added own helmet cam back into the list of accessible helmet cams (to reduce confusion)
 
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
