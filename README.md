@@ -183,6 +183,7 @@ By default all vehicles will be shown with their group names next to them. This 
 Changelog
 ---------
 ### 2.1.1 ###
+* Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)
 * Prevent TAD from being accessible when using a parachute
 
 ### 2.1.0 ###
