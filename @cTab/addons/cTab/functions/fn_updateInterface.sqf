@@ -145,7 +145,7 @@ if (isNil "_mode") then {
 						// Populate list of UAVs
 						{
 							if (!(crew _x isEqualTo [])) then {
-								_index = _uavListCtrl lbAdd (str _x);
+								_index = _uavListCtrl lbAdd format ["%1:%2",groupId group _x,[_x] call CBA_fnc_getGroupIndex];
 								_uavListCtrl lbSetData [_index,str _x];
 							};
 						} count cTabUAVlist;
