@@ -1020,34 +1020,6 @@ cTabOnDrawHCam = {
 	};
 };
 
-cTabUavTakeControl = {
-	if (isNil 'cTabActUav') exitWith {false};
-	_uav = cTabActUav;
-	_controlArray = uavControl _uav;
-	_canControl = true;
-	
-	for "_i" from 1 to (count _controlArray - 1) step +2 do {
-		if (_controlArray select _i == "GUNNER") exitWith {
-			_canControl = false;
-		};
-	};
-	
-	if (_canControl) then {
-		[] call cTab_fnc_close;
-		player remoteControl ((crew _uav) select 1);
-		_uav switchCamera "Gunner";
-		cTabUavViewActive = true;
-		_uav spawn {
-			waitUntil {cameraOn != _this};
-			cTabUavViewActive = false;
-		};
-	} else {
-		["cTabUavNotAval",["Another user has control, no control given"]] call BIS_fnc_showNotification;
-	};
-	
-	true
-};
-
 cTab_msg_gui_load = {
 	disableSerialization;
 	_return = true;
@@ -1207,7 +1179,7 @@ Returns TRUE
 cTab_Tablet_btnACT = {
 	_mode = ["cTab_Tablet_dlg","mode"] call cTab_fnc_getSettings;
 	call {
-		if (_mode == "UAV") exitWith {_nop = [] call cTabUavTakeControl;};
+		if (_mode == "UAV") exitWith {[] call cTab_fnc_remoteControlUav;};
 		if (_mode == "HCAM") exitWith {["cTab_Tablet_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_setSettings;};
 		if (_mode == "HCAM_FULL") exitWith {["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_setSettings;};
 	};

@@ -35,6 +35,7 @@ class CfgFunctions
 			class onIfKeyDown{};
 			class onIfOpen{};
 			class processCuratorKey{};
+			class remoteControlUav{};
 			class setSettings{};
 			class setToPairs{};
 			class toggleMapTools{};

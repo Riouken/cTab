@@ -187,6 +187,8 @@ Changelog
 * Prevent TAD from being accessible when using a parachute
 * Added 500m zoom-level to small TAD
 * Fixed player's camera breaking when exiting UAV full screen view while in a vehicle
+* Fixed control of new target designator turrets (introduced with marksman DLC) from the Tablet's UAV screen
+* Immediately terminate UAV cameras if UAV is distroyed
 * Added own helmet cam back into the list of accessible helmet cams (to reduce confusion)
 
 ### 2.1.0 ###
