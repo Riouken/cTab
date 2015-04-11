@@ -39,6 +39,7 @@ Known Issues
 + Even though items go into the GPS slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
 + Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This used to be an issue with Zeus but has been resolved as of cTab version 2.1. There might be other such cases though.
 + Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
++ When a UAV is being actively piloted and a cTab user is already connected to the UAV's gunner turret, it is currently impossible to detect that there is a gunner connected in order to prevent a second player to connect to the same gunner turret. Wonky things happen to the player in the gunner seat if a second player connects and it might break the game. [Please vote for a fix](http://feedback.arma3.com/view.php?id=23693).
 
 Required
 --------
