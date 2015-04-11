@@ -338,9 +338,8 @@ cTab_fnc_onIfMainPressed = {
 	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
-		objNull remoteControl ((crew cTabActUav) select 1);
-		player switchCamera 'internal';
-		selectPlayer cTab_player;
+		objNull remoteControl (gunner cTabActUav);
+		vehicle cTab_player switchCamera 'internal';
 		cTabUavViewActive = false;
 		call cTab_fnc_onIfTertiaryPressed;
 		true
@@ -408,9 +407,8 @@ cTab_fnc_onIfSecondaryPressed = {
 	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
-		objNull remoteControl ((crew cTabActUav) select 1);
-		player switchCamera 'internal';
-		selectPlayer cTab_player;
+		objNull remoteControl (gunner cTabActUav);
+		vehicle cTab_player switchCamera 'internal';
 		cTabUavViewActive = false;
 		call cTab_fnc_onIfTertiaryPressed;
 		true
@@ -477,9 +475,8 @@ cTab_fnc_onIfTertiaryPressed = {
 	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) then {
-		objNull remoteControl ((crew cTabActUav) select 1);
-		player switchCamera 'internal';
-		selectPlayer cTab_player;
+		objNull remoteControl (gunner cTabActUav);
+		vehicle cTab_player switchCamera 'internal';
 		cTabUavViewActive = false;
 		true
 	};

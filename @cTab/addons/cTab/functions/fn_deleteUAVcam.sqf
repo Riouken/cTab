@@ -41,6 +41,5 @@ if (_terminate) then {
 } count cTabUAVcams;
 
 cTabUAVcams = [];
-cTabActUav = nil;
 
 true
