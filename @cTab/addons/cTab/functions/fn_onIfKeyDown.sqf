@@ -24,7 +24,7 @@
 
 #include "\a3\editor_f\Data\Scripts\dikCodes.h"
 
-private["_display","_handled","_dikCode","_shiftKey","_ctrlKey","_altKey","_displayName","_mapTypes","_currentMapType","_currentMapTypeIndex","_ctrlScreen","_markerIndex"];
+private["_display","_dikCode","_shiftKey","_ctrlKey","_altKey","_displayName","_mapTypes","_currentMapType","_currentMapTypeIndex","_ctrlScreen","_markerIndex"];
 
 _display = _this select 0;
 _displayName = cTabIfOpen select 1;
@@ -32,7 +32,6 @@ _dikCode = _this select 1;
 _shiftKey = _this select 2;
 _ctrlKey = _this select 3;
 _altKey = _this select 4;
-_handled = false;
 
 if (_dikCode == DIK_F1 && {_displayName in ["cTab_Tablet_dlg","cTab_Android_dlg"]}) exitWith {
 	[_displayName,[["mode","BFT"]]] call cTab_fnc_setSettings;
