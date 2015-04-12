@@ -40,6 +40,13 @@ if (isNil "cTab_encryptionKey_civ") then {
 	cTab_encryptionKey_civ = "c";
 };
 
+// Set up empty lists
+cTabBFTmembers = [];
+cTabBFTgroups = [];
+cTabBFTvehicles = [];
+cTabUAVlist = [];
+cTabHcamlist = [];
+
 // set current player object in cTab_player and run a check on every frame to see if there is a change
 cTab_player = objNull;
 ["cTab_checkForPlayerChange", "onEachFrame", {
