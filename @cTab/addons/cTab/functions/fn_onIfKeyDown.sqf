@@ -73,8 +73,5 @@ if (_dikCode == DIK_DELETE && {cTabCursorOnMap}) exitWith {
 	};
 	true
 };
-if (_dikCode == DIK_K) exitWith {
-	cTabActUav setDamage 1;
-};
 
 false
