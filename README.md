@@ -192,6 +192,7 @@ Changelog
 * Added own helmet cam back into the list of accessible helmet cams (to reduce confusion)
 * Made area around the map gray instead of black to increas readability of off-map markers / units
 * Made TAD map tools follow mouse cursor instead of map center. This also allows for measuring distances to off-map destinations.
+* Discrepancies between cTab client and server versions will now be reported to RPT on both client and server via CBA versioning
 
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
