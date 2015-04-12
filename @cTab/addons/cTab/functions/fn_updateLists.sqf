@@ -30,7 +30,7 @@
 		call cTab_fnc_updateLists;
 */
 
-private ["_cTabBFTmembers","_cTabBFTgroups","_cTabBFTvehicles","_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup"];
+private ["_cTabBFTmembers","_cTabBFTgroups","_cTabBFTvehicles","_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup","_updateInterface"];
 
 _cTabBFTmembers = []; // members of player's group
 _cTabBFTgroups = []; // other groups
@@ -146,11 +146,22 @@ Units on our side, that have either helmets that have been specified to include 
 	};
 } count allUnits;
 
+// array to hold interface update commands
+_updateInterface = [];
+
 // replace the global list arrays in the end so that we avoid them being empty unnecessarily
 cTabBFTmembers = [] + _cTabBFTmembers;
 cTabBFTgroups = [] + _cTabBFTgroups;
 cTabBFTvehicles = [] + _cTabBFTvehicles;
-cTabUAVlist = [] + _cTabUAVlist;
+if !(cTabUAVlist isEqualTo _cTabUAVlist) then {
+	cTabUAVlist = [] + _cTabUAVlist;
+	_updateInterface pushBack ["uavListUpdate",true];
+};
 cTabHcamlist = [] + _cTabHcamlist;
+
+// call interface updates
+if (count _updateInterface > 0) then {
+	[_updateInterface] call cTab_fnc_updateInterface;
+};
 
 true

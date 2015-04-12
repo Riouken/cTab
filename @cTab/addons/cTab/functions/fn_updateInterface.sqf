@@ -138,29 +138,8 @@ if (isNil "_mode") then {
 							IDC_CTAB_MINIMAPBG,
 							IDC_CTAB_CTABUAVMAP
 						];
-						_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
-						_btnActCtrl ctrlSetTooltip "View Optics";
-						_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
-						lbClear _uavListCtrl;
-						// Populate list of UAVs
-						{
-							if (!(crew _x isEqualTo [])) then {
-								_index = _uavListCtrl lbAdd format ["%1:%2",groupId group _x,[_x] call CBA_fnc_getGroupIndex];
-								_uavListCtrl lbSetData [_index,str _x];
-							};
-						} count cTabUAVlist;
-						lbSort [_uavListCtrl, "ASC"];
-						for "_x" from 0 to (lbSize _uavListCtrl - 1) do {
-							if (_data == _uavListCtrl lbData _x) exitWith {
-								if (lbCurSel _uavListCtrl != _x) then {
-									_uavListCtrl lbSetCurSel _x;
-									[_data,[[0,"rendertarget8"],[1,"rendertarget9"]]] spawn cTab_fnc_createUavCam;
-								};
-							};
-						};
-						if (lbCurSel _uavListCtrl == -1) then {
-							[] call cTab_fnc_deleteUAVcam;
-						};
+						_btnActCtrl ctrlSetTooltip "View Gunner Optics";
+						_settings pushBack ["uavListUpdate",true];
 					};
 					// ---------- HELMET CAM -----------
 					if (_mode == "HCAM") exitWith {
@@ -326,6 +305,8 @@ if (isNil "_mode") then {
 				_data = _x select 1;
 				if (_data != "") then {
 					[_data,[[0,"rendertarget8"],[1,"rendertarget9"]]] spawn cTab_fnc_createUavCam;
+				} else {
+					[] call cTab_fnc_deleteUAVcam;
 				};
 			};
 		};
@@ -372,6 +353,36 @@ if (isNil "_mode") then {
 			if (!isNull _osdCtrl) then {
 				if (_mode == "BFT") then {
 					_osdCtrl ctrlShow (_x select 1);
+				};
+			};
+		};
+		// ------------ UAV List Update ------------
+		if (_x select 0 == "uavListUpdate") exitWith {
+			if (_mode == "UAV") then {
+				_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
+				_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
+				lbClear _uavListCtrl;
+				// Populate list of UAVs
+				{
+					if (!(crew _x isEqualTo [])) then {
+						_index = _uavListCtrl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,getText (configfile >> "cfgVehicles" >> typeOf _x >> "displayname")];
+						_uavListCtrl lbSetData [_index,str _x];
+					};
+				} count cTabUAVlist;
+				lbSort [_uavListCtrl, "ASC"];
+				if (_data != "") then {
+					// Find last selected UAV and select if found
+					for "_x" from 0 to (lbSize _uavListCtrl - 1) do {
+						if (_data == _uavListCtrl lbData _x) exitWith {
+							if (lbCurSel _uavListCtrl != _x) then {
+								_uavListCtrl lbSetCurSel _x;
+							};
+						};
+					};
+					// If no UAV could be selected, clear last selected UAV
+					if (lbCurSel _uavListCtrl == -1) then {
+						[_displayName,[["uavCam",""]]] call cTab_fnc_setSettings;
+					};
 				};
 			};
 		};
