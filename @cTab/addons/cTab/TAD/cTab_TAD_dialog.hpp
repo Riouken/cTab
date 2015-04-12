@@ -49,19 +49,6 @@ class cTab_TAD_dlg
 		class movingHandle_B: cTab_TAD_movingHandle_B{};
 		class movingHandle_L: cTab_TAD_movingHandle_L{};
 		class movingHandle_R: cTab_TAD_movingHandle_R{};
-		class cursor: cTab_RscPicture
-		{
-			idc = -1;
-			text = "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa";
-				// "\a3\ui_f\data\map\Markers\Military\destroy_ca.paa";
-				// "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
-				// "\a3\ui_f\data\map\MarkerBrushes\cross_ca.paa"
-			x = pxToScreen_X(cTab_GUI_TAD_MAP_X + cTab_GUI_TAD_MAP_W / 2 - 128 / 33 * cTab_GUI_TAD_CURSOR / 2);
-			y = pxToScreen_Y(cTab_GUI_TAD_MAP_Y + cTab_GUI_TAD_MAP_H / 2 - 128 / 33 * cTab_GUI_TAD_CURSOR / 2);
-			w = pxToScreen_W(128 / 33 * cTab_GUI_TAD_CURSOR);
-			h = pxToScreen_H(128 / 33 * cTab_GUI_TAD_CURSOR);
-			colorText[] = COLOR_NEON_GREEN;
-		};
 		class on_screen_mode: cTab_RscText_TAD
 		{
 			idc = -1;

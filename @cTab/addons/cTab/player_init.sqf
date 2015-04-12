@@ -794,9 +794,9 @@ cTabOnDrawbftTADdialog = {
 	// update hook information
 	call {
 		if (cTabDrawMapTools) exitWith {
-			[_display,_cntrlScreen,_playerPos,cTabMapWorldPos,0,true] call cTab_fnc_drawHook;
+			[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,true] call cTab_fnc_drawHook;
 		};
-		[_display,_cntrlScreen,_playerPos,cTabMapWorldPos,1,true] call cTab_fnc_drawHook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,1,true] call cTab_fnc_drawHook;
 	};
 	true
 };
