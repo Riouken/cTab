@@ -148,27 +148,8 @@ if (isNil "_mode") then {
 							IDC_CTAB_MINIMAPBG,
 							IDC_CTAB_CTABHCAMMAP
 						];
-						_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
 						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
-						_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
-						// Populate list of HCAMs
-						lbClear _hcamListCtrl;
-						{
-							_index = _hcamListCtrl lbAdd format ["%2 (%1:%3)",groupId group _x,name _x,[_x] call CBA_fnc_getGroupIndex];
-							_hcamListCtrl lbSetData [_index,str _x];
-						} count cTabHcamlist;
-						lbSort [_hcamListCtrl, "ASC"];
-						for "_x" from 0 to (lbSize _hcamListCtrl - 1) do {
-							if (_data == _hcamListCtrl lbData _x) exitWith {
-								if (lbCurSel _hcamListCtrl != _x) then {
-									_hcamListCtrl lbSetCurSel _x;
-									['rendertarget12',_data] spawn cTab_fnc_createHelmetCam;
-								};
-							};
-						};
-						if (lbCurSel _hcamListCtrl == -1) then {
-							call cTab_fnc_deleteHelmetCam;
-						};
+						_settings pushBack ["hCamListUpdate",true];
 					};
 					// ---------- MESSAGING -----------
 					if (_mode == "MESSAGE") exitWith {
@@ -320,7 +301,9 @@ if (isNil "_mode") then {
 				_data = _x select 1;
 				if (_data != "") then {
 					[_renderTarget,_data] spawn cTab_fnc_createHelmetCam;
-				};
+				} else {
+					[] call cTab_fnc_deleteHelmetCam;
+				}
 			};
 		};
 		// ------------ MAP TOOLS ------------
@@ -382,6 +365,35 @@ if (isNil "_mode") then {
 					// If no UAV could be selected, clear last selected UAV
 					if (lbCurSel _uavListCtrl == -1) then {
 						[_displayName,[["uavCam",""]]] call cTab_fnc_setSettings;
+					};
+				};
+			};
+		};
+		// ------------ HCAM List Update ------------
+		if (_x select 0 == "hCamListUpdate") exitWith {
+			if (_mode == "HCAM") then {
+				_data = [_displayName,"hCam"] call cTab_fnc_getSettings;
+				_hcamListCtrl = _display displayCtrl IDC_CTAB_CTABHCAMLIST;
+				// Populate list of HCAMs
+				lbClear _hcamListCtrl;
+				_hcamListCtrl lbSetCurSel -1;
+				{
+					_index = _hcamListCtrl lbAdd format ["%2 (%1:%3)",groupId group _x,name _x,[_x] call CBA_fnc_getGroupIndex];
+					_hcamListCtrl lbSetData [_index,str _x];
+				} count cTabHcamlist;
+				lbSort [_hcamListCtrl, "ASC"];
+				if (_data != "") then {
+					// Find last selected hCam and select if found
+					for "_x" from 0 to (lbSize _hcamListCtrl - 1) do {
+						if (_data == _hcamListCtrl lbData _x) exitWith {
+							if (lbCurSel _hcamListCtrl != _x) then {
+								_hcamListCtrl lbSetCurSel _x;
+							};
+						};
+					};
+					// If no hCam could be selected, clear last selected hCam
+					if (lbCurSel _hcamListCtrl == -1) then {
+						[_displayName,[["hCam",""]]] call cTab_fnc_setSettings;
 					};
 				};
 			};

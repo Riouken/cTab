@@ -193,7 +193,7 @@ Changelog
 * Made area around the map gray instead of black to increas readability of off-map markers / units
 * Made TAD map tools follow mouse cursor instead of map center. This also allows for measuring distances to off-map destinations.
 * Discrepancies between cTab client and server versions will now be reported to RPT on both client and server via CBA versioning
-* Available UAVs are now automatically refreshed on tablet whenever the list of available UAVs changes (checked every 30 seconds), eliminating the need to switch modes or close and reopen the tablet for the display to refresh
+* Available UAVs / helmet cams are now automatically refreshed on tablet whenever the lists have changed (lists are updated every 30 seconds), eliminating the need to switch modes or close and reopen the tablet for the display to refresh
 * Added UAV type to list of available UAVs to help with orientation
 
 ### 2.1.0 ###

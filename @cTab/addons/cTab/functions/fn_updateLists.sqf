@@ -157,7 +157,10 @@ if !(cTabUAVlist isEqualTo _cTabUAVlist) then {
 	cTabUAVlist = [] + _cTabUAVlist;
 	_updateInterface pushBack ["uavListUpdate",true];
 };
-cTabHcamlist = [] + _cTabHcamlist;
+if !(cTabHcamlist isEqualTo _cTabHcamlist) then {
+	cTabHcamlist = [] + _cTabHcamlist;
+	_updateInterface pushBack ["hCamListUpdate",true];
+};
 
 // call interface updates
 if (count _updateInterface > 0) then {
