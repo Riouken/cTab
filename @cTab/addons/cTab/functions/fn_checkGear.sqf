@@ -23,7 +23,9 @@ private ["_unit","_items","_chk_all_items"];
 _unit = _this select 0;
 _items = _this select 1;
 
-_chk_all_items = (items _unit) + (assignedItems _unit);
+_chk_all_items = items _unit;
+_chk_all_items append (assignedItems _unit);
+_chk_all_items pushBack (goggles _unit);
 
 // Some "units" don't return assignedItems, for example the Headquater module
 if (isNil "_chk_all_items") exitWith {false};
