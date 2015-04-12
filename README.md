@@ -43,7 +43,7 @@ Known Issues
 
 Required
 --------
-+ [CBA_A3](http://www.armaholic.com/page.php?id=18767)
++ [CBA_A3 1.20 or later](http://www.armaholic.com/page.php?id=18767)
 
 Media
 -----

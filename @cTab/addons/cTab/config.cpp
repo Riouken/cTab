@@ -6,14 +6,13 @@
 
 
 #define PREFIX cTab
-#define COMPONENT main
 #define MAJOR 2
 #define MINOR 1
 #define PATCHLVL 1
 #define BUILD 10
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
-#define REQUIRED_VERSION 1.0
+#define REQUIRED_VERSION 1.32
 #include "\x\cba\addons\main\script_macros_common.hpp"
 #define AUTHOR "Gundy, Riouken, Raspu"
 
@@ -27,7 +26,6 @@ class CfgPatches
 			requiredVersion = REQUIRED_VERSION;
 			requiredAddons[] = {"CBA_MAIN"};
 			versionDesc = "cTab";
-			versionAct = "";
 			VERSION_CONFIG;
 			author[] = {"Gundy","Riouken","Raspu"};
 			authorUrl = "https://github.com/Riouken/cTab";
@@ -42,6 +40,7 @@ class CfgSettings
 		{
 			class PREFIX 
 			{
+				main_addon = PREFIX;
 				class Dependencies 
 				{
 					CBA[] = {"cba_main", { 1,0,0 },"true"};
