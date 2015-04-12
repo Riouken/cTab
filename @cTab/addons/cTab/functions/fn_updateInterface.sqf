@@ -345,6 +345,7 @@ if (isNil "_mode") then {
 				_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
 				_uavListCtrl = _display displayCtrl IDC_CTAB_CTABUAVLIST;
 				lbClear _uavListCtrl;
+				_uavListCtrl lbSetCurSel -1;
 				// Populate list of UAVs
 				{
 					if (!(crew _x isEqualTo [])) then {
