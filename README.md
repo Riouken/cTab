@@ -195,6 +195,7 @@ Changelog
 * Discrepancies between cTab client and server versions will now be reported to RPT on both client and server via CBA versioning
 * Available UAVs / helmet cams are now automatically refreshed on tablet whenever the lists have changed (lists are updated every 30 seconds), eliminating the need to switch modes or close and reopen the tablet for the display to refresh
 * Added UAV type to list of available UAVs to help with orientation
+* Re-Categorized helmet cam item to show up as face-wear in Arsenal. Note: It can still be moved anywhere else in the inventory without losing its capability
 
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
