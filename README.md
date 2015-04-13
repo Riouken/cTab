@@ -39,10 +39,11 @@ Known Issues
 + Even though items go into the GPS slot they are not required to be there for cTab to operate, they can go anywhere in your inventory, i.e. your vest or uniform
 + Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This used to be an issue with Zeus but has been resolved as of cTab version 2.1. There might be other such cases though.
 + Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
++ When a UAV is being actively piloted and a cTab user is already connected to the UAV's gunner turret, it is currently impossible to detect that there is a gunner connected in order to prevent a second player to connect to the same gunner turret. Wonky things happen to the player in the gunner seat if a second player connects and it might break the game. [Please vote for a fix](http://feedback.arma3.com/view.php?id=23693).
 
 Required
 --------
-+ [CBA_A3](http://www.armaholic.com/page.php?id=18767)
++ [CBA_A3 1.20 or later](http://www.armaholic.com/page.php?id=18767)
 
 Media
 -----
@@ -56,7 +57,6 @@ Media
 [![Android large topo](http://i.imgur.com/2RpXNyDm.jpg)](http://i.imgur.com/2RpXNyD.jpg)
 [![MicroDAGR small](http://i.imgur.com/ZoQjPMXm.jpg)](http://i.imgur.com/ZoQjPMX.jpg)
 [![MicroDAGR large](http://i.imgur.com/vEuteq0m.jpg)](http://i.imgur.com/vEuteq0.jpg)
-[![3D Models](http://i.imgur.com/ZPWtwkSm.jpg)](http://i.imgur.com/ZPWtwkS.jpg)
 [![cTab 1.0 release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
 
 Install
@@ -211,7 +211,20 @@ Changelog
 * Added night mode to Android and MicroDAGR (switches automatically based on light conditions outside)
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 * Replaced tablet model with new model made by Raspu
+
+### 2.1.1 ###
+* Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)
+* Prevent TAD from being accessible when using a parachute
 * Added 500m zoom-level to small TAD
+* Fixed player's camera breaking when exiting UAV full screen view while in a vehicle
+* Fixed control of new target designator turrets (introduced with marksman DLC) from the Tablet's UAV screen
+* Immediately terminate UAV cameras if UAV is distroyed
+* Added own helmet cam back into the list of accessible helmet cams (to reduce confusion)
+* Made area around the map gray instead of black to increas readability of off-map markers / units
+* Made TAD map tools follow mouse cursor instead of map center. This also allows for measuring distances to off-map destinations.
+* Discrepancies between cTab client and server versions will now be reported to RPT on both client and server via CBA versioning
+* Available UAVs / helmet cams are now automatically refreshed on tablet whenever the lists have changed (lists are updated every 30 seconds), eliminating the need to switch modes or close and reopen the tablet for the display to refresh
+* Added UAV type to list of available UAVs to help with orientation
 
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.

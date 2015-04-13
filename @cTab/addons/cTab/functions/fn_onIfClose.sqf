@@ -21,7 +21,7 @@ private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_ve
 
 // remove helmet and UAV cameras
 [] call cTab_fnc_deleteHelmetCam;
-[true] call cTab_fnc_deleteUAVcam;
+[] call cTab_fnc_deleteUAVcam;
 
 if !(isNil "cTabIfOpen") then {
 	// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]

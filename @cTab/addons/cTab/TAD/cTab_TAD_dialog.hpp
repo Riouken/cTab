@@ -47,7 +47,6 @@ class cTab_TAD_dlg
 		/*
 			### OSD GUI controls ###
 		*/
-		class cursor: cTab_TAD_OSD_cursor {};
 		class navMode: cTab_TAD_OSD_navModeOrScale
 		{
 			text = "EXT1";

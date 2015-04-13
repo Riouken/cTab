@@ -33,11 +33,14 @@ _data = _this select 0;
 	if (_data == str _x) exitWith {_uav = _x;};
 } count cTabUAVlist;
 
+// remove exisitng UAV cameras
+[] call cTab_fnc_deleteUAVcam;
+
 // exit if requested UAV could not be found
 if (isNull _uav) exitWith {false};
 
-// remove exisitng UAV cameras
-[false] call cTab_fnc_deleteUAVcam;
+// exit if requested UAV is not alive
+if (!alive _uav) exitWith {false};
 
 _uavCams = _this select 1;
 {
@@ -83,8 +86,12 @@ if !(cTabUAVcams isEqualTo []) exitWith {
 				if !(isNil "_x") then {
 					_uav = _x select 0;
 					_cam = _x select 2;
-					_dir = (_uav selectionPosition (_x select 3)) vectorFromTo (_uav selectionPosition (_x select 4));
-					_cam setVectorDirAndUp [_dir,_dir vectorCrossProduct [-(_dir select 1), _dir select 0, 0]];
+					if (alive _uav) then {
+						_dir = (_uav selectionPosition (_x select 3)) vectorFromTo (_uav selectionPosition (_x select 4));
+						_cam setVectorDirAndUp [_dir,_dir vectorCrossProduct [-(_dir select 1), _dir select 0, 0]];
+					} else {
+						[_cam] call cTab_fnc_deleteUAVcam;
+					};
 				};
 			} count cTabUAVcams;
 		}];

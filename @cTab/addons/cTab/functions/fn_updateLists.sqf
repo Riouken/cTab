@@ -30,7 +30,7 @@
 		call cTab_fnc_updateLists;
 */
 
-private ["_cTabBFTmembers","_cTabBFTgroups","_cTabBFTvehicles","_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup"];
+private ["_cTabBFTmembers","_cTabBFTgroups","_cTabBFTvehicles","_cTabUAVlist","_cTabHcamlist","_validSides","_playerEncryptionKey","_playerVehicle","_playerGroup","_updateInterface"];
 
 _cTabBFTmembers = []; // members of player's group
 _cTabBFTgroups = []; // other groups
@@ -103,14 +103,14 @@ Vehciles on our side, that are not empty and that player is not sitting in.
 			if (_x isKindOf "MRAP_02_base_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
 			if (_x isKindOf "MRAP_03_base_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
 			if (_x isKindOf "Wheeled_APC_F") exitWith {_iconA = "\cTab\img\b_mech_inf_wheeled.paa";};
-			if (_x isKindOf "Truck_F" && {getnumber (configfile >> "cfgVehicles" >> typeOf _x >> "transportSoldier") > 2}) exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
+			if (_x isKindOf "Truck_F" && {getNumber (configfile >> "cfgVehicles" >> typeOf _x >> "transportSoldier") > 2}) exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
 			if (_x isKindOf "Truck_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_support.paa";};
 			if (_x isKindOf "Car_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_motor_inf.paa";};
 			if (_x isKindOf "UAV") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
 			if (_x isKindOf "UAV_01_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_uav.paa";};
 			if (_x isKindOf "Helicopter") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_air.paa"; _iconB = "\cTab\img\icon_air_contact_ca.paa";};
 			if (_x isKindOf "Plane") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_plane.paa"; _iconB = "\cTab\img\icon_air_contact_ca.paa";};
-			if (_x isKindOf "Tank" && {getnumber (configfile >> "cfgVehicles" >> typeOf _x >> "transportSoldier") > 6}) exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_mech_inf.paa";};
+			if (_x isKindOf "Tank" && {getNumber (configfile >> "cfgVehicles" >> typeOf _x >> "transportSoldier") > 6}) exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_mech_inf.paa";};
 			if (_x isKindOf "MBT_01_arty_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
 			if (_x isKindOf "MBT_01_mlrs_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
 			if (_x isKindOf "MBT_02_arty_base_F") exitWith {_iconA = "\A3\ui_f\data\map\markers\nato\b_art.paa";};
@@ -136,21 +136,35 @@ cTabUAVlist --- UAVs
 
 /*
 cTabHcamlist --- HELMET CAMS
-Units on our side, that are no the player and have either helmets that have been specified to include a helmet cam, or ItemCTabHCAM in their inventory.
+Units on our side, that have either helmets that have been specified to include a helmet cam, or ItemCTabHCAM in their inventory.
 */
 {
-	if ((side _x in _validSides) && {_x != cTab_player}) then {
+	if (side _x in _validSides) then {
 		if (headgear _x in cTab_helmetClass_has_HCam || {[_x,["ItemcTabHCam"]] call cTab_fnc_checkGear}) then {
 			0 = _cTabHcamlist pushBack _x;
 		};
 	};
 } count allUnits;
 
+// array to hold interface update commands
+_updateInterface = [];
+
 // replace the global list arrays in the end so that we avoid them being empty unnecessarily
 cTabBFTmembers = [] + _cTabBFTmembers;
 cTabBFTgroups = [] + _cTabBFTgroups;
 cTabBFTvehicles = [] + _cTabBFTvehicles;
-cTabUAVlist = [] + _cTabUAVlist;
-cTabHcamlist = [] + _cTabHcamlist;
+if !(cTabUAVlist isEqualTo _cTabUAVlist) then {
+	cTabUAVlist = [] + _cTabUAVlist;
+	_updateInterface pushBack ["uavListUpdate",true];
+};
+if !(cTabHcamlist isEqualTo _cTabHcamlist) then {
+	cTabHcamlist = [] + _cTabHcamlist;
+	_updateInterface pushBack ["hCamListUpdate",true];
+};
+
+// call interface updates
+if (count _updateInterface > 0) then {
+	[_updateInterface] call cTab_fnc_updateInterface;
+};
 
 true

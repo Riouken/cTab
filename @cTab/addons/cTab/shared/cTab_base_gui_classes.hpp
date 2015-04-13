@@ -1521,7 +1521,7 @@ class cTab_RscMapControl
 	colorRailWay[] = {0.8,0.2,0.0,1.0};
 	colorNames[] = {0,0,0,1};
 	colorInactive[] = {1.0,1.0,1.0,0.5};
-	colorOutside[] = {0.0,0.0,0.0,1.0};
+	colorOutside[] = {0.5,0.5,0.5,1.0};
 	colorTracks[] = {0.84,0.76,0.65,1.0};
 	colorTracksFill[] = {0.84,0.76,0.65,1.0};
 	colorRoads[] = {1.0,0.8,0.0,1.0};

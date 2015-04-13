@@ -6,14 +6,13 @@
 
 
 #define PREFIX cTab
-#define COMPONENT main
 #define MAJOR 2
 #define MINOR 2
 #define PATCHLVL 0
 #define BUILD 0
 #define VERSION MAJOR.MINOR.PATCHLVL.BUILD
 #define VERSION_AR MAJOR,MINOR,PATCHLVL,BUILD
-#define REQUIRED_VERSION 1.0
+#define REQUIRED_VERSION 1.32
 #include "\x\cba\addons\main\script_macros_common.hpp"
 #define AUTHOR "Gundy, Riouken, Raspu"
 
@@ -23,11 +22,10 @@ class CfgPatches
 	class PREFIX  // cTab
 		{
 			units[] = {Box_cTab_items};
-			weapons[] = {ItemcTab,ItemAndroid,ItemMicroDAGR,ItemcTabHCam};
+			weapons[] = {ItemcTab,ItemAndroid,ItemMicroDAGR};
 			requiredVersion = REQUIRED_VERSION;
 			requiredAddons[] = {"CBA_MAIN"};
 			versionDesc = "cTab";
-			versionAct = "";
 			VERSION_CONFIG;
 			author[] = {"Gundy","Riouken","Raspu"};
 			authorUrl = "https://github.com/Riouken/cTab";
@@ -42,6 +40,7 @@ class CfgSettings
 		{
 			class PREFIX 
 			{
+				main_addon = PREFIX;
 				class Dependencies 
 				{
 					CBA[] = {"cba_main", { 1,0,0 },"true"};
@@ -128,17 +127,21 @@ class CfgWeapons
 		};
 		author = AUTHOR;
 	};
-	
-	class ItemcTabHCam: ItemCore {
+};
+
+class CfgGlasses
+{
+	class ItemcTabHCam {
 		descriptionshort = "HD Helmet Mounted Camera";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Used to record and stream video";
 		displayname = "Helmet Camera";
 		picture = "\cTab\img\cTab_helmet_cam_ico.paa";
 		scope = 2;
-		class ItemInfo: InventoryItem_Base_F {
-			mass = 4;
-			type = 201;
-		};
+		scopeArsenal = 2;
+		scopeCurator = 2;
+		identityTypes[]={};
+		model = "\A3\weapons_f\DummyHeadgear.p3d";
+		mass = 4;
 		author = AUTHOR;
 	};	
 };
