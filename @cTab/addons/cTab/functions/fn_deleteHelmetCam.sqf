@@ -33,10 +33,18 @@ if (_terminate) then {
 
 if (!isNil "cTabHcams") then {
 	_cam = cTabHcams select 0;
+	_cameraTarget = cTabHcams select 1;
+	_leaningIndicator = cTabHcams select 2;
+	cTabHcams = nil;
 	_cam cameraEffect ["TERMINATE","BACK"];
 	camDestroy _cam;
-	deleteVehicle (cTabHcams select 1);
-	cTabHcams = nil;
+    deleteVehicle _leaningIndicator;
+    deleteVehicle _cameraTarget;
+};
+
+if (!isNil "cTabHcamEventHandle") then {
+	removeMissionEventHandler ["Draw3D",cTabHcamEventHandle];
+	cTabHcamEventHandle = nil;
 };
 
 true
