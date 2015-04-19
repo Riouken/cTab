@@ -190,6 +190,7 @@ Changelog
 * Fixed control of new target designator turrets (introduced with marksman DLC) from the Tablet's UAV screen
 * Immediately terminate UAV cameras if UAV is distroyed
 * Added own helmet cam back into the list of accessible helmet cams (to reduce confusion)
+* Sorted helmet cams by group ID
 * Made area around the map gray instead of black to increas readability of off-map markers / units
 * Made TAD map tools follow mouse cursor instead of map center. This also allows for measuring distances to off-map destinations.
 * Discrepancies between cTab client and server versions will now be reported to RPT on both client and server via CBA versioning
