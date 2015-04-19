@@ -23,14 +23,21 @@ private ["_keys", "_pressed", "_result"];
 
 _pressed = _this select 0;
 _result = false;
-{		
-	if (_x select 0 == "cTab") then {
-		_keys = _x select 2;				
-		if ((_keys select 0 == _pressed select 1) && {(_keys select 1) isEqualTo (_pressed select 2)} && {(_keys select 2) isEqualTo  (_pressed select 3)} && {(_keys select 3) isEqualTo (_pressed select 4)}) exitWith {
-			_result = _this call CBA_events_fnc_keyHandler;
+
+_processKeys = {
+	private ["_mods","_key_pressed","_handler"];
+	
+	if ([_key, "ctab_"] call CBA_fnc_find == 0) then {
+		_key_pressed = _value select 0;
+		_mods = _value select 1;
+		_handler = _value select 2;
+		
+		if ((_key_pressed == _pressed select 1) and {(_mods select 0) isEqualTo (_pressed select 2)} and {(_mods select 1) isEqualTo  (_pressed select 3)} and {(_mods select 2) isEqualTo (_pressed select 4)}) exitWith {
+			_result = call _handler;
 		};
 	};
-	true;
-} count cba_keybinding_handlers;
+};
+
+[if ((_this select 1) isEqualTo "keyup") then {CBA_events_keyhandlers_up} else {CBA_events_keyhandlers_down}, _processKeys] call CBA_fnc_hashEachPair;
 
 _result;
