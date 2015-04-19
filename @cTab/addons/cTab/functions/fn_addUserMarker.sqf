@@ -1,34 +1,78 @@
 /*
-	Name: cTab_fnc_addUserMarkerList
+	Name: cTab_fnc_addUserMarker
 	
 	Author(s):
 		Gundy
-
+	
 	Description:
 		Add a new user marker to the list and broadcast it. This function is called on the server.
 	
 	Parameters:
-		0: STRING - Encryption Key for this marker
-		1: ARRAY  - markerData
+		0: STRING  - Encryption Key for this marker
+		1: ARRAY   - markerData
+	Optional:
+		2: INTEGER - Transaction ID
 	
 	Returns:
 		BOOLEAN - Always TRUE
 	
 	Example:
-		["bluefor",[[1714.35,5716.82],0,0,0,"12:00"]]call cTab_fnc_addUserMarkerList;
+		// Client requesting marker addition and server receiving request
+		["bluefor",[[1714.35,5716.82],0,0,0,"12:00"]]call cTab_fnc_addUserMarker;
+		
+		// Client receiving marker addition (from server)
+		["bluefor",[21,[[1714.35,5716.82],0,0,0,"12:00"]],157]call cTab_fnc_addUserMarker;
 */
 
-private ["_encryptionKey","_newIndex"];
+private ["_encryptionKey","_markerData","_transactionId"];
 
 _encryptionKey = _this select 0;
-_newIndex = [cTab_userMarkerIndices,_encryptionKey,1] call cTab_fnc_addToPairs;
+_markerData = _this select 1;
+_transactionId = _this select 2; // not set when initiated from client
 
-[cTab_userMarkerLists,_encryptionKey,[[_newIndex,_this select 1]]] call cTab_fnc_addToPairs;
+call {
+	// If received on the server
+	if (isServer) exitWith {
+		if (isNil "_transactionId") then {
+			// Increase transaction ID
+			cTab_userMarkerTransactionId = cTab_userMarkerTransactionId + 1;
+			_transactionId = cTab_userMarkerTransactionId;
+			
+			// Add marker data to list
+			[cTab_userMarkerLists,_encryptionKey,[[_transactionId,_markerData]]] call cTab_fnc_addToPairs;
+			
+			// Send addUserMarker command to all clients
+			[[_encryptionKey,[_transactionId,_markerData],_transactionId],"cTab_fnc_addUserMarker",true,false,true] call bis_fnc_MP;
+			
+			// If this was run on a client-server (i.e. in single player or locally hosted), update the marker list
+			if (hasInterface && {_encryptionKey == call cTab_fnc_getPlayerEncryptionKey}) then {
+				call cTab_fnc_updateUserMarkerList;
+			};
+		};
+	};
 
-// Push the updated marker list out to all clients
-publicVariable "cTab_userMarkerLists";
+	// If received on a client, sent by the server
+	if (hasInterface && !isNil "_transactionId") exitWith {
+		call {
+			if (cTab_userMarkerTransactionId == _transactionId) exitWith {};
+			if (cTab_userMarkerTransactionId != (_transactionId -1)) exitWith {
+				// get full list
+				["Transaction ID check failed! Had %1, received %2. Requesting user marker list.",cTab_userMarkerTransactionId,_transactionId] call bis_fnc_error;
+				[] call cTab_fnc_getUserMarkerList;
+			};
+			cTab_userMarkerTransactionId = _transactionId;
+			[cTab_userMarkerLists,_encryptionKey,[_markerData]] call cTab_fnc_addToPairs;
+			// only update the user marker list if the marker was added to the player's side
+			if (_encryptionKey == call cTab_fnc_getPlayerEncryptionKey) then {
+				call cTab_fnc_updateUserMarkerList;
+			};
+		};
+	};
 
-// If this got called on a client, make sure the list is updated
-if (hasInterface) then {call cTab_fnc_updateUserMarkerList};
+	// If received on a client, to be sent to the server
+	if (hasInterface) then {
+		[_this,"cTab_fnc_addUserMarker",false,false,true] call bis_fnc_MP;
+	};
+};
 
 true

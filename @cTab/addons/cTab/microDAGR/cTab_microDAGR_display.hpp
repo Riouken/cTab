@@ -19,7 +19,7 @@ class cTab_microDAGR_dsp
 	duration = 10e10;
 	fadeIn = 0;
 	fadeOut = 0;
-	onLoad = "uiNamespace setVariable ['cTab_microDAGR_dsp', (_this select 0)];";
+	onLoad = "_this call cTab_fnc_onIfOpen;";
 	class controlsBackground
 	{
 		class screen: cTab_microDAGR_RscMapControl
@@ -37,6 +37,9 @@ class cTab_microDAGR_dsp
 
 	class controls
 	{
+		/*
+			### OSD GUI controls ###
+		*/
 		class header: cTab_microDAGR_header {};
 		class footer: cTab_microDAGR_footer {};
 		class battery: cTab_microDAGR_on_screen_battery {};
@@ -46,9 +49,15 @@ class cTab_microDAGR_dsp
 		class dirDegree: cTab_microDAGR_on_screen_dirDegree {};
 		class grid: cTab_microDAGR_on_screen_grid {};
 		class dirOctant: cTab_microDAGR_on_screen_dirOctant {};
-		class background: cTab_microDAGR_background {};
 
+		/*
+			### Overlays ###
+		*/
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_microDAGR_loadingtxt {};
+		// ---------- BRIGHTNESS ------------
+		class brightness: cTab_microDAGR_brightness {};
+		// ---------- BACKGROUND ------------
+		class background: cTab_microDAGR_background {};
 	};
 };

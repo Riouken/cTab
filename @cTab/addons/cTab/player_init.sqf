@@ -7,32 +7,45 @@
 // keys.sqf parses the userconfig
 #include "functions\keys.sqf"
 #include "\cTab\shared\cTab_gui_macros.hpp"
+#include "\a3\editor_f\Data\Scripts\dikCodes.h"
 
 // Get a rsc layer for for our displays
 cTabRscLayer = ["cTab"] call BIS_fnc_rscLayer;
 cTabRscLayerMailNotification = ["cTab_mailNotification"] call BIS_fnc_rscLayer;
 
+// Set up user markers
+cTab_userMarkerTransactionId = -1;
+cTab_userMarkerLists = [];
+[] call cTab_fnc_getUserMarkerList;
+
 // Set up side specific encryption keys
 if (isNil "cTab_encryptionKey_west") then {
-	cTab_encryptionKey_west = "bluefor";
+	cTab_encryptionKey_west = "b";
 };
 if (isNil "cTab_encryptionKey_east") then {
-	cTab_encryptionKey_east = "opfor";
+	cTab_encryptionKey_east = "o";
 };
 if (isNil "cTab_encryptionKey_guer") then {
 	cTab_encryptionKey_guer = call {
 		if (([west,resistance] call BIS_fnc_areFriendly) and {!([east,resistance] call BIS_fnc_areFriendly)}) exitWith {
-			"bluefor"
+			"b"
 		};
 		if (([east,resistance] call BIS_fnc_areFriendly) and {!([west,resistance] call BIS_fnc_areFriendly)}) exitWith {
-			"opfor"
+			"o"
 		};
-		"independent"
+		"i"
 	};
 };
 if (isNil "cTab_encryptionKey_civ") then {
-	cTab_encryptionKey_civ = "civilian";
+	cTab_encryptionKey_civ = "c";
 };
+
+// Set up empty lists
+cTabBFTmembers = [];
+cTabBFTgroups = [];
+cTabBFTvehicles = [];
+cTabUAVlist = [];
+cTabHcamlist = [];
 
 // set current player object in cTab_player and run a check on every frame to see if there is a change
 cTab_player = objNull;
@@ -120,7 +133,8 @@ cTabSettings = [];
 	["mode","DESKTOP"],
 	["showIconText",true],
 	["mapWorldPos",[]],
-	["mapScale",2],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["uavCam",""],
@@ -132,17 +146,21 @@ cTabSettings = [];
 	["mode","BFT"],
 	["showIconText",true],
 	["mapWorldPos",[]],
-	["mapScale",0.4],
+	["mapScaleDsp",0.4],
+	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["showMenu",false],
-	["mapTools",true]
+	["mapTools",true],
+	["nightMode",2],
+	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"FBCB2",[
 	["mapWorldPos",[]],
 	["showIconText",true],
-	["mapScale",2],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
 	["mapTools",true]
@@ -164,11 +182,14 @@ cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 [cTabSettings,"TAD",[
 	["mapWorldPos",[]],
 	["showIconText",true],
-	["mapScale",2],
-	["mapScaleMin",2],
+	["mapScaleDsp",2],
+	["mapScaleDlg",2],
+	["mapScaleMin",1],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO],["BLK",IDC_CTAB_SCREEN_BLACK]]],
 	["mapType","SAT"],
-	["mapTools",true]
+	["mapTools",true],
+	["nightMode",0],
+	["brightness",0.8]
 ]] call BIS_fnc_setToPairs;
 
 /*
@@ -184,10 +205,13 @@ cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 [cTabSettings,"MicroDAGR",[
 	["mapWorldPos",[]],
 	["showIconText",true],
-	["mapScale",0.4],
+	["mapScaleDsp",0.4],
+	["mapScaleDlg",0.4],
 	["mapTypes",[["SAT",IDC_CTAB_SCREEN],["TOPO",IDC_CTAB_SCREEN_TOPO]]],
 	["mapType","SAT"],
-	["mapTools",true]
+	["mapTools",true],
+	["nightMode",2],
+	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
 // set base colors from BI -- Helps keep colors matching if user changes colors in options.
@@ -273,10 +297,6 @@ cTab_helmetClass_has_HCam = [] + _classNames;
 // add cTab_updatePulse event handler triggered periodically by the server
 ["cTab_updatePulse",cTab_fnc_updateLists] call CBA_fnc_addEventHandler;
 
-// add event handler for when user markers get updated
-"cTab_userMarkerLists" addPublicVariableEventHandler {call cTab_fnc_updateUserMarkerList};
-
-
 // fnc to set various text and icon sizes
 cTab_fnc_update_txt_size = {
 	cTabIconSize = cTabTxtFctr * 2;
@@ -299,7 +319,6 @@ cTabDrawMapTools = false;
 // Base defines.
 cTabUavViewActive = false;
 cTabUAVcams = [];
-cTabUavScriptHandle = scriptNull;
 cTabHcamScriptHandle = scriptNull;
 cTabCursorOnMap = false;
 cTabMapCursorPos = [0,0];
@@ -319,57 +338,8 @@ uiNamespace setVariable ["cTab_microDAGR_dlg", displayNull];
 // Set up the array that will hold text messages.
 player setVariable ["ctab_messages",[]];
 
+// cTabIfOpenStart will be set to true while interface is starting and prevent further open attempts
 cTabIfOpenStart = false;
-
-/*
-Function handling post dialog / display load handling (register event handlers)
-Parameter 0: Interface type, 0 = Main, 1 = Secondary
-Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
-Parameter 2: Unit to register killed eventhandler for
-Parameter 3: Vehicle to register GetOut eventhandler for
-Returns: TRUE
-
-This function will define cTabIfOpen, using the following format:
-Parameter 0: Interface type, 0 = Main, 1 = Secondary
-Parameter 1: Name of uiNameSpace variable for display / dialog (i.e. "cTab_Tablet_dlg")
-Parameter 2: Unit we registered the killed eventhandler for
-Parameter 3: ID of registered eventhandler for killed event
-Optional (only if unit is in a vehicle):
-Parameter 4: Vehicle we registered the GetOut eventhandler for
-Parameter 5: ID of registered eventhandler for GetOut event
-*/
-cTab_fnc_onIfOpen = {
-	if (cTabIfOpenStart || (!isNil "cTabIfOpen")) exitWith {false};
-	cTabIfOpenStart = true;
-	
-	_interfaceType = _this select 0;
-	_displayName = _this select 1;
-	_player = _this select 2;
-	_vehicle = _this select 3;
-	
-	if ([_displayName] call cTab_fnc_isDialog) then {
-		closeDialog 0;
-		waitUntil {!dialog};
-		createDialog _displayName;
-		waitUntil {dialog};
-	} else {
-		cTabRscLayer cutRsc [_displayName,"PLAIN",0, false];
-		waitUntil {!isNull (uiNamespace getVariable _displayName)};
-	};
-	
-	_playerKilledEhId = _player addEventHandler ["killed",{call cTab_fnc_close}];
-	if (_vehicle != _player) then {
-		_vehicleGetOutEhId = _vehicle addEventHandler ["GetOut",{if (_this select 2 == cTab_player) then {call cTab_fnc_close}}];
-		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId];
-	} else {
-		cTabIfOpen = [_interfaceType,_displayName,_player,_playerKilledEhId,_vehicle,nil];
-	};
-	
-	call cTab_fnc_updateInterface;
-	cTabIfOpenStart = false;
-	
-	true
-};
 
 /*
 Function handling IF_Main keydown event
@@ -382,9 +352,10 @@ cTab_fnc_onIfMainPressed = {
 	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
-		objNull remoteControl ((crew cTabActUav) select 1);
-		player switchCamera 'internal';
+		objNull remoteControl (gunner cTabActUav);
+		vehicle cTab_player switchCamera 'internal';
 		cTabUavViewActive = false;
+		call cTab_fnc_onIfTertiaryPressed;
 		true
 	};
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 0}) exitWith {
@@ -397,39 +368,41 @@ cTab_fnc_onIfMainPressed = {
 		// close Secondary / Tertiary
 		call cTab_fnc_close;
 	};
+	
+	// see if onIfOpen is still being executed and terminate it if thats the case
+	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
+	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
-	
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dsp") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			//[0,_player,_vehicle] execVM "cTab\TAD\cTab_TAD_display_start.sqf";
-			[0,"cTab_TAD_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dsp") then {
-			[0,"cTab_Android_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_Android_dsp",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dsp") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			[0,"cTab_microDAGR_dsp",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_microDAGR_dsp",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			[0,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			[0,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [0,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
@@ -448,9 +421,10 @@ cTab_fnc_onIfSecondaryPressed = {
 	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
 	if (cTabUavViewActive) exitWith {
-		objNull remoteControl ((crew cTabActUav) select 1);
-		player switchCamera 'internal';
+		objNull remoteControl (gunner cTabActUav);
+		vehicle cTab_player switchCamera 'internal';
 		cTabUavViewActive = false;
+		call cTab_fnc_onIfTertiaryPressed;
 		true
 	};
 	if (!isNil "cTabIfOpen" && {cTabIfOpen select 0 == 1}) exitWith {
@@ -463,37 +437,41 @@ cTab_fnc_onIfSecondaryPressed = {
 		// close Main / Tertiary
 		call cTab_fnc_close;
 	};
+	
+	// see if onIfOpen is still being executed and terminate it if thats the case
+	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
+	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dlg") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			[1,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			[1,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dlg") then {
-			[1,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dlg") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			[1,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			[1,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [1,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
@@ -510,9 +488,9 @@ Returns FALSE when no action was taken (i.e. player has no cTab device / is not 
 cTab_fnc_onIfTertiaryPressed = {
 	if (cTabIfOpenStart) exitWith {false};
 	_previousInterface = "";
-	if (cTabUavViewActive) exitWith {
-		objNull remoteControl ((crew cTabActUav) select 1);
-		player switchCamera 'internal';
+	if (cTabUavViewActive) then {
+		objNull remoteControl (gunner cTabActUav);
+		vehicle cTab_player switchCamera 'internal';
 		cTabUavViewActive = false;
 		true
 	};
@@ -526,37 +504,41 @@ cTab_fnc_onIfTertiaryPressed = {
 		// close Main / Secondary
 		call cTab_fnc_close;
 	};
+	
+	// see if onIfOpen is still being executed and terminate it if thats the case
+	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
+	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
 	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Tablet_dlg") then {
-			[2,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_Android_dlg") then {
-			[2,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 		if (_previousInterface != "cTab_microDAGR_dlg") then {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			[2,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_TAD_dlg") then {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			[2,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
 	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			[2,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_onIfOpen;
+			cTabOnIfOpenScriptHandler = [2,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
 		};
 		true
 	};
@@ -573,12 +555,12 @@ cTab_fnc_onZoomInPressed = {
 	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if !([_displayName] call cTab_fnc_isDialog) exitWith {
-		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) / 2;
+		_mapScale = ([_displayName,"mapScaleDsp"] call cTab_fnc_getSettings) / 2;
 		_mapScaleMin = [_displayName,"mapScaleMin"] call cTab_fnc_getSettings;
 		if (_mapScale < _mapScaleMin) then {
 			_mapScale = _mapScaleMin;
 		};
-		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
+		_mapScale = [_displayName,[["mapScaleDsp",_mapScale]]] call cTab_fnc_setSettings;
 		true
 	};
 	false
@@ -594,58 +576,15 @@ cTab_fnc_onZoomOutPressed = {
 	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
 	_displayName = cTabIfOpen select 1;
 	if !([_displayName] call cTab_fnc_isDialog) exitWith {
-		_mapScale = ([_displayName,"mapScale"] call cTab_fnc_getSettings) * 2;
+		_mapScale = ([_displayName,"mapScaleDsp"] call cTab_fnc_getSettings) * 2;
 		_mapScaleMax = [_displayName,"mapScaleMax"] call cTab_fnc_getSettings;
 		if (_mapScale > _mapScaleMax) then {
 			_mapScale = _mapScaleMax;
 		};
-		_mapScale = [_displayName,[["mapScale",_mapScale]]] call cTab_fnc_setSettings;
+		_mapScale = [_displayName,[["mapScaleDsp",_mapScale]]] call cTab_fnc_setSettings;
 		true
 	};
 	false
-};
-
-/*
-Function to close cTab interface
-This function will close the currently open interface and remove any previously registered eventhandlers.
-No Parameters.
-No Return.
-*/
-cTab_fnc_close = {
-	if (cTabIfOpenStart || (isNil "cTabIfOpen")) exitWith {false};
-		
-	// [_ifType,_displayName,_player,_playerKilledEhId,_vehicle,_vehicleGetOutEhId]
-	_ifType = cTabIfOpen select 0;
-	_displayName = cTabIfOpen select 1;
-	_player = cTabIfOpen select 2;
-	_playerKilledEhId = cTabIfOpen select 3;
-	_vehicle = cTabIfOpen select 4;
-	_vehicleGetOutEhId = cTabIfOpen select 5;
-	
-	_display = uiNamespace getVariable _displayName;
-	if (!isNil "_display") then {
-		_display closeDisplay 0;
-		uiNamespace setVariable [_displayName, displayNull];
-	};
-	if (!isNil "_playerKilledEhId") then {_player removeEventHandler ["killed",_playerKilledEhId]};
-	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
-	[] spawn cTab_fnc_deleteHelmetCam;
-	[] spawn cTab_fnc_deleteUAVcam;
-	
-	// Save mapWorldPos and mapScale of current interface so it can be restored later
-	call {
-		if ([_displayName] call cTab_fnc_isDialog) exitWith {
-			_mapScale = cTabMapScale * cTabMapScaleFactor / 0.86 * (safezoneH * 0.8);
-			[_displayName,[["mapWorldPos",cTabMapWorldPos],["mapScale",_mapScale]],false] call cTab_fnc_setSettings;
-		};
-		[_displayName,[["mapWorldPos",[]]],false] call cTab_fnc_setSettings;
-	};
-	
-	cTabCursorOnMap = false;
-	cTabIfOpen = nil;
-	cTabIfOpenStart = false;
-	
-	true
 };
 
 /*
@@ -712,6 +651,55 @@ cTab_fnc_mode_toggle = {
 	true
 };
 
+/*
+Function to toggle night mode
+Parameter 0: String of uiNamespace variable for which to toggle nightMode for
+Returns TRUE
+*/
+cTab_fnc_toggleNightMode = {
+	_displayName = _this select 0;
+	_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;
+	
+	if (_nightMode != 2) then {
+		if (_nightMode == 0) then {_nightMode = 1} else {_nightMode = 0};
+		[_displayName,[["nightMode",_nightMode]]] call cTab_fnc_setSettings;
+	};
+	
+	true
+};
+
+/*
+Function to increase brightness
+Parameter 0: String of uiNamespace variable for which to increase brightness for
+Returns TRUE
+*/
+cTab_fnc_incBrightness = {
+	_displayName = _this select 0;
+	_brightness = [_displayName,"brightness"] call cTab_fnc_getSettings;
+	_brightness = _brightness + 0.1;
+	// make sure brightness is not larger than 1
+	if (_brightness > 1) then {_brightness = 1};
+	[_displayName,[["brightness",_brightness]]] call cTab_fnc_setSettings;
+	
+	true
+};
+
+/*
+Function to decrease brightness
+Parameter 0: String of uiNamespace variable for which to decreas brightness for
+Returns TRUE
+*/
+cTab_fnc_decBrightness = {
+	_displayName = _this select 0;
+	_brightness = [_displayName,"brightness"] call cTab_fnc_getSettings;
+	_brightness = _brightness - 0.1;
+	// make sure brightness is not larger than 0.5
+	if (_brightness < 0.5) then {_brightness = 0.5};
+	[_displayName,[["brightness",_brightness]]] call cTab_fnc_setSettings;
+	
+	true
+};
+
 // fnc to increase icon and text size
 cTab_fnc_txt_size_inc = {
 	cTabTxtFctr = cTabTxtFctr + 1;
@@ -741,16 +729,6 @@ cTabOnDrawbft = {
 	_heading = direction _veh;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
-	// update time on Tablet
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position on Tablet
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on Tablet
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
-	
 	// update hook information
 	if (cTabDrawMapTools) then {
 		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,false] call cTab_fnc_drawHook;
@@ -775,16 +753,6 @@ cTabOnDrawbftVeh = {
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
-	
-	// update time on FBCB2
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position on FBCB2
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on FBCB2
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
@@ -819,18 +787,6 @@ cTabOnDrawbftTAD = {
 	// draw TAD overlay (two circles, one at full scale, the other at half scale + current heading)
 	_cntrlScreen drawIcon ["\cTab\img\TAD_overlay_ca.paa",cTabTADfontColour,_playerPos,250,250,_heading,"",1,cTabTxtSize,"TahomaB"];
 	
-	// update time on TAD
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position on TAD
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on TAD
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	
-	// update current elevation (ASL) on TAD
-	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),3] call CBA_fnc_formatNumber];
-	
 	true
 };
 
@@ -854,24 +810,12 @@ cTabOnDrawbftTADdialog = {
 	_heading = direction _veh;
 	_cntrlScreen drawIcon [cTabPlayerVehicleIcon,cTabTADfontColour,_playerPos,cTabTADownIconScaledSize,cTabTADownIconScaledSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
-	// update time on TAD	
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position of the current player position
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on TAD
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	
-	// update current elevation (ASL) on TAD
-	(_display displayCtrl IDC_CTAB_OSD_ELEVATION) ctrlSetText format ["%1m",[round (_playerPos select 2),3] call CBA_fnc_formatNumber];
-	
 	// update hook information
 	call {
 		if (cTabDrawMapTools) exitWith {
-			[_display,_cntrlScreen,_playerPos,cTabMapWorldPos,0,true] call cTab_fnc_drawHook;
+			[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,0,true] call cTab_fnc_drawHook;
 		};
-		[_display,_cntrlScreen,_playerPos,cTabMapWorldPos,1,true] call cTab_fnc_drawHook;
+		[_display,_cntrlScreen,_playerPos,cTabMapCursorPos,1,true] call cTab_fnc_drawHook;
 	};
 	true
 };
@@ -892,16 +836,6 @@ cTabOnDrawbftAndroid = {
 	_playerPos = getPosASL _veh;
 	_heading = direction _veh;
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
-	
-	// update time on android	
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position on android
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on android
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
@@ -930,16 +864,6 @@ cTabOnDrawbftAndroidDsp = {
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
-	// update time on android	
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position on android
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on android
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
-	
 	true
 };
 
@@ -962,16 +886,6 @@ cTabOnDrawbftmicroDAGRdsp = {
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
 	
-	// update time on MicroDAGR
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position on MicroDAGR
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on MicroDAGR
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
-	
 	true
 };
 
@@ -993,16 +907,6 @@ cTabOnDrawbftMicroDAGRdlg = {
 	
 	// draw directional arrow at own location
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,_playerPos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,_heading,"", 1,cTabTxtSize,"TahomaB"];
-	
-	// update time on MicroDAGR	
-	(_display displayCtrl IDC_CTAB_OSD_TIME) ctrlSetText call cTab_fnc_currentTime;
-	
-	// update grid position on MicroDAGR
-	(_display displayCtrl IDC_CTAB_OSD_GRID) ctrlSetText format ["%1", mapGridPosition _playerPos];
-	
-	// update current heading on MicroDAGR
-	(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
-	(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 	
 	// update hook information
 	if (cTabDrawMapTools) then {
@@ -1029,7 +933,7 @@ cTabOnDrawUAV = {
 	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabMicroDAGRfontColour,getPosASL _veh,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction _veh,"", 1,cTabTxtSize,"TahomaB"];
 	
 	// draw icon at UAV location
-	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabTADhighlightColour,_pos,cTabIconSize,cTabIconSize,direction cTabActUav,"",0,cTabTxtSize,"TahomaB"];
+	_cntrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabTADhighlightColour,_pos,cTabTADownIconBaseSize,cTabTADownIconBaseSize,direction cTabActUav,"",0,cTabTxtSize,"TahomaB"];
 	
 	_cntrlScreen ctrlMapAnimAdd [0,cTabMapScaleUAV,_pos];
 	ctrlMapAnimCommit _cntrlScreen;
@@ -1067,126 +971,32 @@ cTabOnDrawHCam = {
 	waitUntil {sleep 0.1;!(IsNull (findDisplay 46))};
 	
 	if (cTab_key_if_main_scancode != 0) then {
-		["cTab","Toggle Main Interface",{call cTab_fnc_onIfMainPressed},[cTab_key_if_main_scancode] + cTab_key_if_main_modifiers] call cba_fnc_registerKeybind;
-		["cTab","Toggle Secondary Interface",{call cTab_fnc_onIfSecondaryPressed},[cTab_key_if_secondary_scancode] + cTab_key_if_secondary_modifiers] call cba_fnc_registerKeybind;
-		["cTab","Toggle Tertiary Interface",{call cTab_fnc_onIfTertiaryPressed},[cTab_key_if_tertiary_scancode] + cTab_key_if_tertiary_modifiers] call cba_fnc_registerKeybind;
-		["cTab","Zoom In",{call cTab_fnc_onZoomInPressed},[cTab_key_zoom_in_scancode] + cTab_key_zoom_in_modifiers] call cba_fnc_registerKeybind;
-		["cTab","Zoom Out",{call cTab_fnc_onZoomOutPressed},[cTab_key_zoom_out_scancode] + cTab_key_zoom_out_modifiers] call cba_fnc_registerKeybind;
+		["cTab","ifMain",["Toggle Main Interface","Open cTab device in small overlay mode if available"],{call cTab_fnc_onIfMainPressed},"",[cTab_key_if_main_scancode,cTab_key_if_main_modifiers]] call cba_fnc_addKeybind;
+		["cTab","ifSecondary",["Toggle Secondary Interface","Open cTab device in interactable mode"],{call cTab_fnc_onIfSecondaryPressed},"",[cTab_key_if_secondary_scancode,cTab_key_if_secondary_modifiers]] call cba_fnc_addKeybind;
+		["cTab","ifTertiary",["Toggle Tertiary Interface","Open private cTab device when in a vehicle with its own cTab device, or to open Tablet while also carrying a MicroDAGR"],{call cTab_fnc_onIfTertiaryPressed},"",[cTab_key_if_tertiary_scancode,cTab_key_if_tertiary_modifiers]] call cba_fnc_addKeybind;
+		["cTab","zoomIn",["Zoom In","Zoom In on map while cTab is in small overlay mode"],{call cTab_fnc_onZoomInPressed},"",[cTab_key_zoom_in_scancode,cTab_key_zoom_in_modifiers]] call cba_fnc_addKeybind;
+		["cTab","zoomOut",["Zoom Out","Zoom Out on map while cTab is in small overlay mode"],{call cTab_fnc_onZoomOutPressed},"",[cTab_key_zoom_out_scancode,cTab_key_zoom_out_modifiers]] call cba_fnc_addKeybind;
 	} else {
-		["cTab","Toggle Main Interface",{call cTab_fnc_onIfMainPressed},[actionKeys "User12" select 0,false,false,false]] call cba_fnc_registerKeybind;
-		["cTab","Toggle Secondary Interface",{call cTab_fnc_onIfSecondaryPressed},[actionKeys "User12" select 0,false,true,false]] call cba_fnc_registerKeybind;
-		["cTab","Toggle Tertiary Interface",{call cTab_fnc_onIfTertiaryPressed},[actionKeys "User12" select 0,false,false,true]] call cba_fnc_registerKeybind;
-		["cTab","Zoom In",{call cTab_fnc_onZoomInPressed},[201,true,true,false]] call cba_fnc_registerKeybind;
-		["cTab","Zoom Out",{call cTab_fnc_onZoomOutPressed},[209,true,true,false]] call cba_fnc_registerKeybind;
+		["cTab","ifMain",["Toggle Main Interface","Open cTab device in small overlay mode if available"],{call cTab_fnc_onIfMainPressed},"",[DIK_H,[false,false,false]]] call cba_fnc_addKeybind;
+		["cTab","ifSecondary",["Toggle Secondary Interface","Open cTab device in interactable mode"],{call cTab_fnc_onIfSecondaryPressed},"",[DIK_H,[false,true,false]]] call cba_fnc_addKeybind;
+		["cTab","ifTertiary",["Toggle Tertiary Interface","Open private cTab device when in a vehicle with its own cTab device, or to open Tablet while also carrying a MicroDAGR"],{call cTab_fnc_onIfTertiaryPressed},"",[DIK_H,[false,false,true]]] call cba_fnc_addKeybind;
+		["cTab","zoomIn",["Zoom In","Zoom In on map while cTab is in small overlay mode"],{call cTab_fnc_onZoomInPressed},"",[DIK_PGUP,[true,true,false]]] call cba_fnc_addKeybind;
+		["cTab","zoomOut",["Zoom Out","Zoom Out on map while cTab is in small overlay mode"],{call cTab_fnc_onZoomOutPressed},"",[DIK_PGDN,[true,true,false]]] call cba_fnc_addKeybind;
 	};
-};
-
-// fnc for user menu opperation.
-cTabUsrMenuSelect = {
-	private ["_type","_displayName","_display","_idcToShow","_control","_uav"];
 	
-	disableSerialization;
-	_type = _this select 0;
-	_displayName = cTabIfOpen select 1;
-	_display = (uiNamespace getVariable _displayName);
-	
-	_idcToShow = 0;
-	
-	call {
-		// send cTabUserSelIcon to server
-		if (_type == 1) exitWith {
-			cTabUserMarkerList pushBack [-1,cTabUserSelIcon call cTab_fnc_translateUserMarker];
-			['cTab_addUserMarker',[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon]] call CBA_fnc_clientToServerEvent;
-		};
-		
-		// Lock UAV cam to clicked position
-		if (_type == 2) exitWith {
-			_uav = objNull;
-			_data = [_displayName,"uavCam"] call cTab_fnc_getSettings;
-			// see if given UAV name is still in the list of valid UAVs
-			{
-				if (_data == str _x) exitWith {_uav = _x;};
-			} count cTabUAVlist;
-			if !(isNull _uav) then {
-				_camPos = cTabUserSelIcon select 0;
-				_uav lockCameraTo [_camPos + [getTerrainHeightASL _camPos],[0]];
+	// if player is curator (ZEUS), setup key handlers
+	waitUntil {sleep 0.1;!(isNull player)};
+	sleep 2;
+	if (player in (call BIS_fnc_listCuratorPlayers)) then {	
+		[] spawn {
+			while {true} do {
+				waitUntil {sleep 0.1;!(isNull (findDisplay 312))};			
+				(findDisplay 312) displayAddEventHandler ["KeyDown","[_this,'keydown'] call cTab_fnc_processCuratorKey"];
+				(findDisplay 312) displayAddEventHandler ["KeyUp","[_this,'keyup'] call cTab_fnc_processCuratorKey"];
+				waitUntil {sleep 0.1;isNull (findDisplay 312)};
 			};
 		};
-	
-		_idcToShow = call {
-			if (_type == 11) exitWith {3301};
-			if (_type == 12) exitWith {3303};
-			if (_type == 13) exitWith {3304};
-			if (_type == 14) exitWith {
-				if (cTabUserSelIcon select 1 != 0) then {
-					cTabUserSelIcon set [2,0];
-					3304
-				} else {3307};
-			};
-			if (_type == 21) exitWith {3305};
-			if (_type == 31) exitWith {3306};
-		};
 	};
-	
-	// Hide all menu controls
-	{ctrlShow [_x,false];} count [3300,3301,3302,3303,3304,3305,3306,3307];
-	
-	// Bring the menu control we want to show into position and show it
-	if (_idcToShow != 0) then {
-		_control = _display displayCtrl _idcToShow;
-		_control ctrlSetPosition cTabUserPos;
-		_control ctrlCommit 0;
-		_control ctrlShow true;
-	};
-	
-	true
-};
-
-cTabUavTakeControl = {
-	if (isNil 'cTabActUav') exitWith {false};
-	_uav = cTabActUav;
-	_controlArray = uavControl _uav;
-	_canControl = true;
-	_return = true;
-	
-	if (count _controlArray > 0) then 
-	{
-		if (_controlArray select 1 == "GUNNER") then
-			{
-				_canControl = false;
-			};
-	};	
-	
-	if (count _controlArray > 2) then 
-	{	
-		if (_controlArray select 1 == "GUNNER") then
-			{
-				_canControl = false;
-			};
-		if (_controlArray select 3 == "GUNNER") then
-			{
-				_canControl = false;
-			};	
-	};
-	
-	if (_canControl) then
-	{
-		player remoteControl ((crew _uav) select 1);
-		_uav switchCamera "Gunner";
-		closeDialog 0;
-		cTabUavViewActive = true;
-		[_uav] spawn {
-			_remote = _this select 0;
-			waitUntil {cameraOn != _remote};
-			cTabUavViewActive = false;
-		};
-	}else
-	{
-	
-		["cTabUavNotAval",["Unable to access the UAV stream... Another user is streaming"]] call BIS_fnc_showNotification;
-	
-	};
-_return;
 };
 
 cTab_msg_gui_load = {
@@ -1348,7 +1158,7 @@ Returns TRUE
 cTab_Tablet_btnACT = {
 	_mode = ["cTab_Tablet_dlg","mode"] call cTab_fnc_getSettings;
 	call {
-		if (_mode == "UAV") exitWith {_nop = [] call cTabUavTakeControl;};
+		if (_mode == "UAV") exitWith {[] call cTab_fnc_remoteControlUav;};
 		if (_mode == "HCAM") exitWith {["cTab_Tablet_dlg",[["mode","HCAM_FULL"]]] call cTab_fnc_setSettings;};
 		if (_mode == "HCAM_FULL") exitWith {["cTab_Tablet_dlg",[["mode","HCAM"]]] call cTab_fnc_setSettings;};
 	};

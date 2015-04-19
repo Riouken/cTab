@@ -50,6 +50,10 @@ _texture1 = call {
 	if (_markerIcon == 7) exitWith {"\cTab\img\o_inf_rifle.paa"};
 	if (_markerIcon == 8) exitWith {"\cTab\img\o_inf_mg.paa"};
 	if (_markerIcon == 9) exitWith {"\cTab\img\o_inf_at.paa"};
+	if (_markerIcon == 10) exitWith {"\cTab\img\o_inf_mmg.paa"};
+	if (_markerIcon == 11) exitWith {"\cTab\img\o_inf_mat.paa"};
+	if (_markerIcon == 12) exitWith {"\cTab\img\o_inf_mmortar.paa"};
+	if (_markerIcon == 13) exitWith {"\cTab\img\o_inf_aa.paa"};
 	_color = cTabColorGreen;
 	if (_markerIcon == 20) exitWith {"\A3\ui_f\data\map\markers\military\join_CA.paa"};
 	if (_markerIcon == 21) exitWith {"\A3\ui_f\data\map\markers\military\circle_CA.paa"};

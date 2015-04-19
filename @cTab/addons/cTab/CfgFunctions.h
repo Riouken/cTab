@@ -9,6 +9,7 @@ class CfgFunctions
 			class addUserMarker{};
 			class centerMapOnPlayerPosition{};
 			class checkGear{};
+			class close{};
 			class createHelmetCam{};
 			class createUavCam{};
 			class ctrlMapCenter{};
@@ -22,13 +23,21 @@ class CfgFunctions
 			class drawMarkers{};
 			class drawUserMarkers{};
 			class findUserMarker{};
+			class getCopilot{};
 			class getFromPairs{};
 			class getInfMarkerIcon{};
 			class getPlayerEncryptionKey{};
 			class getPlayerSides{};
 			class getSettings{};
+			class getUserMarkerList{};
 			class isDialog{};
+			class lockUavCamTo{}
 			class onIfKeyDown{};
+			class onIfClose{};
+			class onIfOpen{};
+			class open{};
+			class processCuratorKey{};
+			class remoteControlUav{};
 			class setSettings{};
 			class setToPairs{};
 			class toggleMapTools{};
@@ -37,6 +46,7 @@ class CfgFunctions
 			class updateLists{};
 			class updateInterface{};
 			class updateUserMarkerList{};
+			class userMenuSelect{};
 		};
 	};
 };

@@ -174,7 +174,7 @@ class cTab_android_RscMapControl: cTab_RscMapControl
 class cTab_android_background: cTab_RscPicture
 {
 	idc = IDC_CTAB_BACKGROUND;
-	text = "\cTab\img\android_background_ca.paa";
+	text = ""; // will be set during onLoad event
 	x = GUI_GRID_X;
 	y = GUI_GRID_Y;
 	w = GUI_GRID_W;
@@ -292,7 +292,7 @@ class cTab_android_on_screen_hookDir: cTab_android_on_screen_hookGrid
 	idc = IDC_CTAB_OSD_HOOK_DIR;
 	y = pxToScreen_Y(cTab_GUI_android_OSD_EDGE_B - cTab_GUI_android_OSD_MARGIN - cTab_GUI_android_OSD_ELEMENT_STD_H);
 };
-class cTab_android_loadingtxt: cTab_RscText
+class cTab_android_loadingtxt: cTab_RscText_android
 {
 	idc = IDC_CTAB_LOADINGTXT;
 	style = ST_CENTER;
@@ -311,4 +311,43 @@ class cTab_android_windowsBG: cTab_RscPicture
 	y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_android_MAP_W);
 	h = pxToScreen_H(cTab_GUI_android_MAP_H);
+};
+
+// Define areas around the screen as interaction areas to allow screen movement
+class cTab_android_movingHandle_T: cTab_RscText_android
+{
+	idc = -1;
+	moving = 1;
+	colorBackground[] = COLOR_TRANSPARENT;
+	x = pxToScreen_X(0);
+	y = pxToScreen_Y(0);
+	w = pxToScreen_W(GUI_GRID_PX_W);
+	h = pxToScreen_H(cTab_GUI_android_MAP_Y);
+};
+class cTab_android_movingHandle_B: cTab_android_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_android_MAP_Y + cTab_GUI_android_MAP_H);
+	h = pxToScreen_H(GUI_GRID_PX_H - (cTab_GUI_android_MAP_Y + cTab_GUI_android_MAP_H));
+};
+class cTab_android_movingHandle_L: cTab_android_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_android_MAP_X);
+	h = pxToScreen_H(cTab_GUI_android_MAP_H);
+};
+class cTab_android_movingHandle_R: cTab_android_movingHandle_L
+{
+	x = pxToScreen_X(cTab_GUI_android_MAP_X + cTab_GUI_android_MAP_W);
+	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_android_MAP_X + cTab_GUI_android_MAP_W));
+};
+
+// transparent control that gets placed on top of the GUI to adjust brightness
+class cTab_android_brightness: cTab_RscText_Android
+{
+	idc = IDC_CTAB_BIGHTNESS;
+	x = pxToScreen_X(cTab_GUI_android_MAP_X);
+	y = pxToScreen_Y(cTab_GUI_android_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_android_MAP_W);
+	h = pxToScreen_H(cTab_GUI_android_MAP_H);
+	colorBackground[] = COLOR_TRANSPARENT;
 };

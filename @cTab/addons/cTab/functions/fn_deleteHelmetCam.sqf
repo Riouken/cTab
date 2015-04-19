@@ -14,7 +14,7 @@
 		BOOLEAN - TRUE
 	
 	Example:
-		call cTab_fnc_deleteUAVcam;
+		call cTab_fnc_deleteHelmetCam;
 
 */
 

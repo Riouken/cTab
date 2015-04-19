@@ -150,7 +150,7 @@ class cTab_microDAGR_RscMapControl: cTab_RscMapControl
 class cTab_microDAGR_background: cTab_RscPicture
 {
 	idc = IDC_CTAB_BACKGROUND;
-	text = "\cTab\img\microDAGR_background_ca.paa";
+	text = ""; // will be set during onLoad event
 	x = GUI_GRID_X;
 	y = GUI_GRID_Y;
 	w = GUI_GRID_W;
@@ -284,5 +284,44 @@ class cTab_microDAGR_loadingtxt: cTab_RscText_microDAGR
 	y = pxToScreen_Y(cTab_GUI_microDAGR_SCREEN_CONTENT_Y);
 	w = pxToScreen_W(cTab_GUI_microDAGR_SCREEN_CONTENT_W);
 	h = pxToScreen_H(cTab_GUI_microDAGR_SCREEN_CONTENT_H);
+	colorBackground[] = COLOR_TRANSPARENT;
+};
+
+// Define areas around the screen as interaction areas to allow screen movement
+class cTab_microDAGR_movingHandle_T: cTab_RscText_microDAGR
+{
+	idc = -1;
+	moving = 1;
+	colorBackground[] = COLOR_TRANSPARENT;
+	x = pxToScreen_X(0);
+	y = pxToScreen_Y(0);
+	w = pxToScreen_W(GUI_GRID_PX_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_Y);
+};
+class cTab_microDAGR_movingHandle_B: cTab_microDAGR_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H);
+	h = pxToScreen_H(GUI_GRID_PX_H - (cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H));
+};
+class cTab_microDAGR_movingHandle_L: cTab_microDAGR_movingHandle_T
+{
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_X);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H);
+};
+class cTab_microDAGR_movingHandle_R: cTab_microDAGR_movingHandle_L
+{
+	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W);
+	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W));
+};
+
+// transparent control that gets placed on top of the GUI to adjust brightness
+class cTab_microDAGR_brightness: cTab_RscText_microDAGR
+{
+	idc = IDC_CTAB_BIGHTNESS;
+	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
+	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
+	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);
+	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H);
 	colorBackground[] = COLOR_TRANSPARENT;
 };
