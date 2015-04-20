@@ -121,7 +121,7 @@ cTabHcams = [_camera,_cameraTarget,_leaningIndicator,_newHost];
 
 // Set up cam direction update event handler
 if (isNil "cTabHcamEventHandle") then {
-	cTabHcamEventHandle = addMissionEventHandler ["Draw3D", {
+	cTabHcamEventHandle = addMissionEventHandler ["Draw3D",{
 		if (!isNil "cTabHcams") then {
 			_camera = cTabHcams select 0;
 			_cameraTarget = cTabHcams select 1;
@@ -137,22 +137,37 @@ if (isNil "cTabHcamEventHandle") then {
 			_d = _d + "_isDriver: " + (str _isDriver) + "\n";
 			
 			// todo: check what if unit is cargo, what does assignedVehicleRole return?
+			// returns ["cargo",[1]] if in a cargo turret. ["cargo"] if just cargo
 			_inTurret = if (_inVehicle) then {(count assignedVehicleRole _viewablePlayer) > 1} else {false};
 			_d = _d + "_inTurret: " + (str _inTurret) + "\n";
-
+			
 			_allTurretConfigs = [];
 			_turretConfig = if (_inTurret) then {
-				// pretty sure this only returns a single turret, riht?
-				_turretIndex = assignedVehicleRole _viewablePlayer select 1;
-				_turretConfig = (configFile >> "CfgVehicles" >> typeOf (vehicle _viewablePlayer));
-				// a) why are we looping through turret index
+				// too many calls to assignedVehicleRole, its slow
+				_turretIndex = assignedVehicleRole _viewablePlayer select 1 select 0;
+				// get a list of all turrets
+				_turrets = (configFile >> "CfgVehicles" >> typeOf (vehicle _viewablePlayer) >> "Turrets");
+				
+				_turretNumber = -1;
+				_turretConfig = "";
+				
+				// iterate through the list of turrets
+				for "_i" from 0 to (count _turrets -1) do {
+					_turretConfig = _turrets select _i;
+					// filter non classes; count turrets; find out if this is the index we are looking for, if so exit the loop
+					if (isClass(_turretConfig) && {_turretNumber = _turretNumber + 1; _turretNumber == _turretIndex}) exitWith {
+					};
+				};
+				_d = _d + "_turretConfig: " + (configName _turretConfig) + "\n";
+				_turretConfig
+				/*// a) why are we looping through turret index
 				// b) just selecting the turret index from _turretConfig is problematic, as not all turrets from the config are actually turrets that are counted, a check for class is reuired, see coPilot function
 				{
 					_turretConfig = (_turretConfig >> "Turrets") select _x;
 					_allTurretConfigs pushBack _turretConfig;
 				} forEach _turretIndex;
 				_d = _d + "_turretConfig: " + (configName _turretConfig) + "\n";
-				_turretConfig
+				_turretConfig*/
 			} else {objNull};
 
 			_inGunTurret = if (_inTurret) then {getText (_turretConfig >> "body") != ""} else {false};
@@ -179,14 +194,15 @@ if (isNil "cTabHcamEventHandle") then {
 			_eyeDirection = ((vehicle _viewablePlayer) worldToModel (_eyePos vectorAdd eyeDirection _viewablePlayer)) vectorDiff _eyeAttachPoint;
 
 			_aimingVector = if (!_inTurret) then {
-				// todo: check if use of isTouchingGround is solid as it probablz won't return true if in water
+				// todo: check if use of isTouchingGround is solid as it probably won't return true if in water
 				if (!_inVehicle && isTouchingGround _viewablePlayer) then {
 					_leaningIndicator attachTo [_viewablePlayer, [0, 0, 0], "leaning_axis"];
 					_leaningAxisAttachPoint = (getPos _leaningIndicator) vectorDiff (getPos _viewablePlayer);
 					_frontLeaningVector = vectorNormalized (_eyeAttachPoint vectorDiff _leaningAxisAttachPoint) vectorCrossProduct [1, 1, 0];
 					_sideLeaningVector = vectorNormalized (_eyeAttachPoint vectorDiff _leaningAxisAttachPoint) vectorCrossProduct [0, 0, 1];
-
-					_frontLeaningAngle = (-1 * aCos (_frontLeaningVector select 1)) + ([31.5, 35, 70] select (["STAND", "CROUCH", "PRONE"] find stance _viewablePlayer));
+					
+					// while unit is going through the enter-vehicle animation, _inTurret will return false, but stance will return UNDEFINED
+					_frontLeaningAngle = (-1 * aCos (_frontLeaningVector select 1)) + ([31.5,35,70,31.5] select (["STAND","CROUCH","PRONE","UNDEFINED"] find stance _viewablePlayer));
 
 					_a = _eyeDirection vectorMultiply (cos _frontLeaningAngle);
 					_b = vectorNormalized _eyeDirection vectorCrossProduct [0, 0, 1];
@@ -197,12 +213,8 @@ if (isNil "cTabHcamEventHandle") then {
 				};
 			} else {
 				if (_inGunTurret) then {
-					_turretBodyDir = 0;
-					{
-						_turretBodyAnimationName = getText (_x >> "animationSourceBody");
-						_turretBodyDir = _turretBodyDir + (deg ((vehicle _viewablePlayer) animationPhase _turretBodyAnimationName));
-					} forEach _allTurretConfigs;
-					_turretBodyDir = _turretBodyDir + 90;
+					_turretBodyAnimationName = getText (_turretConfig >> "animationSourceBody");
+					_turretBodyDir = (deg ((vehicle _viewablePlayer) animationPhase _turretBodyAnimationName)) + 90;
 
 					_turretGunAnimationName = getText (_turretConfig >> "animationSourceGun");
 					_turretGunDir = deg ((vehicle _viewablePlayer) animationPhase _turretGunAnimationName);
@@ -227,7 +239,7 @@ if (isNil "cTabHcamEventHandle") then {
 
 			hint _d;
 		};
-	};
+	}];
 };
 
 true
