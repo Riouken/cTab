@@ -857,7 +857,7 @@ cTabOnDrawbftAndroidDsp = {
 	_cntrlScreen ctrlMapAnimAdd [0, cTabMapScale, _playerPos];
 	ctrlMapAnimCommit _cntrlScreen;
 	
-	[_cntrlScreen,true] call cTab_fnc_drawUserMarkers;
+	[_cntrlScreen,false] call cTab_fnc_drawUserMarkers;
 	[_cntrlScreen,0] call cTab_fnc_drawBftMarkers;
 	
 	// draw directional arrow at own location
