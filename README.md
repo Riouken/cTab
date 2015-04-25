@@ -192,12 +192,14 @@ Changelog
 * Fixed control of new target designator turrets (introduced with marksman DLC) from the Tablet's UAV screen
 * Immediately terminate UAV cameras if UAV is distroyed
 * Added own helmet cam back into the list of accessible helmet cams (to reduce confusion)
+* Sorted helmet cams by group ID
 * Made area around the map gray instead of black to increas readability of off-map markers / units
 * Made TAD map tools follow mouse cursor instead of map center. This also allows for measuring distances to off-map destinations.
 * Discrepancies between cTab client and server versions will now be reported to RPT on both client and server via CBA versioning
 * Available UAVs / helmet cams are now automatically refreshed on tablet whenever the lists have changed (lists are updated every 30 seconds), eliminating the need to switch modes or close and reopen the tablet for the display to refresh
 * Added UAV type to list of available UAVs to help with orientation
-* Re-Categorized helmet cam item to show up as face-wear in Arsenal. Note: It can still be moved anywhere else in the inventory without losing its capability
+* Re-Categorized helmet cam item to show up as face-wear (goggles) in Arsenal. Note: It can still be moved anywhere else in the inventory without losing its capability
+* Fixed keybinds not working in Zeus and causing RPT errors after update to CBA 1.20 RC6
 
 ### 2.1.0 ###
 * Added basic TvT support, so now cTab will work on any side out of the box. Note: A stolen enemy device will currently _not_ provide you with enemy intel, instead the device will inherit your encryption key.
@@ -284,5 +286,5 @@ Download / Links
 ----------------
 [Armaholic](http://www.armaholic.com/page.php?id=22992)
 [ArmA World](http://armaworld.de/threads/156-cTab-Commander-s-Tablet)
-[withSix](http://play.withsix.com/Arma-3/mods/4KfaixFS4xGnygAVF72WTA/Commander's-Tablet-FBCB2-Bluforce-Tracker-UAV-and-Helmetcam-Interface)
+[withSix](http://play.withsix.com/Arma-3/mods/4KfaixFS4xGnygAVF72WTA)
 [GitHub](https://github.com/Riouken/cTab)

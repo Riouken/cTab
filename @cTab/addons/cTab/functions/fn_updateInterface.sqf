@@ -379,7 +379,7 @@ if (isNil "_mode") then {
 				lbClear _hcamListCtrl;
 				_hcamListCtrl lbSetCurSel -1;
 				{
-					_index = _hcamListCtrl lbAdd format ["%2 (%1:%3)",groupId group _x,name _x,[_x] call CBA_fnc_getGroupIndex];
+					_index = _hcamListCtrl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,name _x];
 					_hcamListCtrl lbSetData [_index,str _x];
 				} count cTabHcamlist;
 				lbSort [_hcamListCtrl, "ASC"];
