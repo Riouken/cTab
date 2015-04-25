@@ -89,9 +89,11 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | `F5` |  Toggles map tools (grid/elevation/range/direction to mouse cursor). |
 | `F6` |  Toggles map mode (satellite/topographical/black). |
 | `F7` |  Center map on current position. |
-| `CTRL` + `SHIFT` `PAGE_UP` | Zoom in on the "small" TAD, MicroDAGR and Android. |
-| `CTRL` + `SHIFT` `PAGE_DOWN` | Zoom out on the "small" TAD, MicroDAGR and Android. |
+| `CTRL` + `SHIFT` + `PAGE_UP` | Zoom in on the "small" TAD, MicroDAGR and Android. |
+| `CTRL` + `SHIFT` + `PAGE_DOWN` | Zoom out on the "small" TAD, MicroDAGR and Android. |
 | `ESC` | Closes all interactive cTab devices (i.e. all but the "small" variants) as well as the UAV view. |
+
+Note: To unlock a UAV turret, use the lock / unlock control command available to UAVs (default `CTRL` + `T`) when controlling the UAV turret in full-screen mode (either via the UAV terminal or the UAV gunner view accessible from the tablet).
 
 ### Define vehicle types that have FBCB2 or TAD available ###
 To configure the list of vehicle types that have FBCB2 or TAD available, edit the `cTab_vehicleClass_has_FBCB2` and `cTab_vehicleClass_has_TAD` arrays in the configuration file on the server, which can be found in the ArmA 3 folder `...\Arma 3\userconfig\cTab\ctab_settings.hpp`.
