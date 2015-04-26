@@ -236,6 +236,10 @@ _b = profilenamespace getvariable ['Map_Independent_B',1];
 _a = profilenamespace getvariable ['Map_OPFOR_A',0.8];
 cTabColorGreen = [_r,_g,_b,_a];
 
+// Define Fire-Team colors
+// MAIN,RED,GREEN,BLUE,YELLOW
+cTabColorTeam = [[1,1,1,0.8],[200/255,0,0,0.8],[0,199/255,0,0.8],[0,0,200/255,0.8],[225/255,225/255,0,0.8]];
+
 // define vehicles that have FBCB2 monitor
 if (isNil "cTab_vehicleClass_has_FBCB2") then {
 	if (!isNil "cTab_vehicleClass_has_FBCB2_server") then {

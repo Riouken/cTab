@@ -215,6 +215,8 @@ Changelog
 * Replaced tablet model with new model made by Raspu
 * No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
 * Interface will not be closed if ACE3 Medical reports the player to be unconscious
+* On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as white.
+* Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

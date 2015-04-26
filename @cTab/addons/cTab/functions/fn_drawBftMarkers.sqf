@@ -26,7 +26,7 @@
 		[_ctrlScreen,0] call cTab_fnc_drawBftMarkers;
 */
 
-private ["_ctrlScreen","_mode","_veh","_iconB","_text","_groupID","_pos","_vehicles","_vehIndex","_mountedLabels","_mountedIndex","_drawText","_playerVehicle","_playerGroup"];
+private ["_ctrlScreen","_mode","_veh","_iconB","_text","_groupID","_pos","_vehicles","_vehIndex","_mountedLabels","_mountedIndex","_drawText","_playerVehicle","_playerGroup","_teamColor"];
 
 _ctrlScreen = _this select 0;
 _mode = _this select 1;
@@ -116,6 +116,12 @@ if (_mode != 2) then {
 	_veh = vehicle (_x select 0);
 	
 	call {
+		// make sure we are still in the same team
+		if (group cTab_player != group (_x select 0)) exitWith {};
+		
+		// get the fire-team color
+		_teamColor = cTabColorTeam select (["MAIN","RED","GREEN","BLUE","YELLOW"] find (assignedTeam (_x select 0)));
+		
 		if (_mode != 2 && {_veh == _playerVehicle || {_veh in _vehicles}}) exitWith {
 			if (_drawText) then {
 				// we want to draw text on anything but MicroDAGR and the unit sits in a vehicle that has already been drawn
@@ -144,9 +150,9 @@ if (_mode != 2) then {
 			};
 		};
 		_pos = getPosASL _veh;
-		_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconManSize,cTabIconManSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
+		_ctrlScreen drawIcon [_x select 1,_teamColor,_pos,cTabIconManSize,cTabIconManSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
 		if (_drawText) then {
-			_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,cTabIconManSize,cTabIconManSize,0,_x select 4,0,cTabTxtSize,"TahomaB"];
+			_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",_teamColor,_pos,cTabIconManSize,cTabIconManSize,0,_x select 4,0,cTabTxtSize,"TahomaB"];
 		};
 	};
 } count cTabBFTmembers;
