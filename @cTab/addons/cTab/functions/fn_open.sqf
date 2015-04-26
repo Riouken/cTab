@@ -53,8 +53,11 @@ if (_vehicle != _player) then {
 };
 
 if ([_displayName] call cTab_fnc_isDialog) then {
-	closeDialog 0;
-	waitUntil {!dialog};
+	// Check if map and / or a dialog is open and close them
+	if (visibleMap) then {openMap false};
+	while {dialog} do {
+ 		closeDialog 0;
+	};
 	createDialog _displayName;
 	waitUntil {dialog};
 } else {
