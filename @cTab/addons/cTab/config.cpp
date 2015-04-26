@@ -22,7 +22,7 @@ class CfgPatches
 	class PREFIX  // cTab
 		{
 			units[] = {Box_cTab_items};
-			weapons[] = {ItemcTab,ItemAndroid,ItemMicroDAGR};
+			weapons[] = {ItemcTab,ItemAndroid,ItemMicroDAGR,ItemcTabHCam};
 			requiredVersion = REQUIRED_VERSION;
 			requiredAddons[] = {"CBA_MAIN"};
 			versionDesc = "cTab";
@@ -127,21 +127,19 @@ class CfgWeapons
 		};
 		author = AUTHOR;
 	};
-};
-
-class CfgGlasses
-{
-	class ItemcTabHCam {
+	
+	class ItemcTabHCam: ItemCore {
 		descriptionshort = "HD Helmet Mounted Camera";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Used to record and stream video";
 		displayname = "Helmet Camera";
 		picture = "\cTab\img\cTab_helmet_cam_ico.paa";
 		scope = 2;
-		scopeArsenal = 2;
-		scopeCurator = 2;
-		identityTypes[]={};
-		model = "\A3\weapons_f\DummyHeadgear.p3d";
-		mass = 4;
+		simulation = "ItemMineDetector";
+		detectRange = -1;
+		type = 0;
+		class ItemInfo: InventoryItem_Base_F {
+			mass = 4;
+		};
 		author = AUTHOR;
 	};	
 };
