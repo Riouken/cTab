@@ -213,6 +213,7 @@ Changelog
 * Added night mode to Android and MicroDAGR (switches automatically based on light conditions outside)
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 * Replaced tablet model with new model made by Raspu
+* No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

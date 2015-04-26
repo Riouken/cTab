@@ -42,17 +42,19 @@ _displayName = _this select 1;
 _player = _this select 2;
 _vehicle = _this select 3;
 
+_isDialog = [_displayName] call cTab_fnc_isDialog;
+
 cTabIfOpen = [_interfaceType,_displayName,_player,
 	_player addEventHandler ["killed",{[] call cTab_fnc_close}]
 ,_vehicle,nil,nil];
 
-if (_vehicle != _player) then {
+if (_vehicle != _player && (_isDialog || _displayName in ["cTab_TAD_dsp"])) then {
 	cTabIfOpen set [5,
 		_vehicle addEventHandler ["GetOut",{if (_this select 2 == cTab_player) then {[] call cTab_fnc_close}}]
 	];
 };
 
-if ([_displayName] call cTab_fnc_isDialog) then {
+if (_isDialog) then {
 	// Check if map and / or a dialog is open and close them
 	if (visibleMap) then {openMap false};
 	while {dialog} do {
