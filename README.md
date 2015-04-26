@@ -214,6 +214,7 @@ Changelog
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 * Replaced tablet model with new model made by Raspu
 * No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
+* Interface will not be closed if ACE3 Medical reports the player to be unconscious
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

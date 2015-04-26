@@ -15,6 +15,7 @@
 			Parameter 4: Vehicle we registered the GetOut eventhandler for (even if no EH is registered)
 			Parameter 5: ID of registered eventhandler for GetOut event (nil if no EH is registered)
 			Parameter 6: ID of registered eventhandler for Draw3D event (nil if no EH is registered)
+			Parameter 7: ID of registered eventhandler A.C.E medical_onUnconscious event (nil if no EH is registered)
 	
 	Parameters:
 		0: INTEGER - Interface type, 0 = Main, 1 = Secondary
@@ -45,8 +46,8 @@ _vehicle = _this select 3;
 _isDialog = [_displayName] call cTab_fnc_isDialog;
 
 cTabIfOpen = [_interfaceType,_displayName,_player,
-	_player addEventHandler ["killed",{[] call cTab_fnc_close}]
-,_vehicle,nil,nil];
+	_player addEventHandler ["killed",{[] call cTab_fnc_close}],
+	_vehicle,nil,nil,nil];
 
 if (_vehicle != _player && (_isDialog || _displayName in ["cTab_TAD_dsp"])) then {
 	cTabIfOpen set [5,
@@ -104,6 +105,18 @@ if (_displayName in ["cTab_TAD_dsp","cTab_TAD_dlg"]) then {
 			(_display displayCtrl IDC_CTAB_OSD_DIR_DEGREE) ctrlSetText format ["%1°",[_heading,3] call CBA_fnc_formatNumber];
 			(_display displayCtrl IDC_CTAB_OSD_DIR_OCTANT) ctrlSetText format ["%1",[_heading] call cTab_fnc_degreeToOctant];
 		}]
+	];
+};
+
+
+// If ace_medical is used, register with medical_onUnconscious event
+if (isClass (configfile >> "CfgPatches" >> "ace_medical")) then {
+	cTabIfOpen set [7,
+		["medical_onUnconscious",{
+			if (_this select 0 == cTab_player && _this select 1) then {
+				[] call cTab_fnc_close;
+			};
+		}] call ace_common_fnc_addEventHandler
 	];
 };
 
