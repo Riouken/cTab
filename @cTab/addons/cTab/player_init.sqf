@@ -9,6 +9,9 @@
 #include "\cTab\shared\cTab_gui_macros.hpp"
 #include "\a3\editor_f\Data\Scripts\dikCodes.h"
 
+// Exit if this is machine has no interface, i.e. is a headless client (HC)
+if (!hasInterface) exitWith {};
+
 // Get a rsc layer for for our displays
 cTabRscLayer = ["cTab"] call BIS_fnc_rscLayer;
 cTabRscLayerMailNotification = ["cTab_mailNotification"] call BIS_fnc_rscLayer;
