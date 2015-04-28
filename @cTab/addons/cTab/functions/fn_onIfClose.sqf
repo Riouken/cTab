@@ -17,7 +17,7 @@
 		[] call cTab_fnc_onIfclose;
 */
 
-private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_vehicle","_vehicleGetOutEhId"];
+private ["_displayName","_mapScale","_ifType","_player","_playerKilledEhId","_vehicle","_vehicleGetOutEhId","_draw3dEhId","_aceUnconciousEhId","_acePlayerInventoryChangedEhId"];
 
 // remove helmet and UAV cameras
 [] call cTab_fnc_deleteHelmetCam;
@@ -33,6 +33,7 @@ if !(isNil "cTabIfOpen") then {
 	_vehicleGetOutEhId = cTabIfOpen select 5;
 	_draw3dEhId = cTabIfOpen select 6;
 	_aceUnconciousEhId = cTabIfOpen select 7;
+	_acePlayerInventoryChangedEhId = cTabIfOpen select 8;
 	
 	uiNamespace setVariable [_displayName, displayNull];
 	
@@ -40,6 +41,7 @@ if !(isNil "cTabIfOpen") then {
 	if (!isNil "_vehicleGetOutEhId") then {_vehicle removeEventHandler ["GetOut",_vehicleGetOutEhId]};
 	if (!isNil "_draw3dEhId") then {removeMissionEventHandler ["Draw3D",_draw3dEhId]};
 	if (!isNil "_aceUnconciousEhId") then {["medical_onUnconscious",_aceUnconciousEhId] call ace_common_fnc_removeEventHandler};
+	if (!isNil "_acePlayerInventoryChangedEhId") then {["playerInventoryChanged",_acePlayerInventoryChangedEhId] call ace_common_fnc_removeEventHandler};
 	
 	// don't call this part if we are closing down before setup has finished
 	if (!cTabIfOpenStart) then {

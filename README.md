@@ -45,6 +45,10 @@ Required
 --------
 + [CBA_A3 1.20 or later](http://www.armaholic.com/page.php?id=18767)
 
+Optional
+--------
++ ACE3
+
 Media
 -----
 [![Tablet BFT](http://i.imgur.com/hKVHT6Sm.jpg)](http://i.imgur.com/hKVHT6S.jpg)
@@ -214,7 +218,8 @@ Changelog
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 * Replaced tablet model with new model made by Raspu
 * No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
-* Interface will not be closed if ACE3 Medical reports the player to be unconscious
+* Interface will now be closed if player is unconscious (requires ACE3 Medical)
+* Interface will now be closed if player lost the required device (requires ACE3 Common)
 * On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as white.
 * Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
 * Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen

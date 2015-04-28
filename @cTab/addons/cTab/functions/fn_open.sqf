@@ -16,6 +16,7 @@
 			Parameter 5: ID of registered eventhandler for GetOut event (nil if no EH is registered)
 			Parameter 6: ID of registered eventhandler for Draw3D event (nil if no EH is registered)
 			Parameter 7: ID of registered eventhandler A.C.E medical_onUnconscious event (nil if no EH is registered)
+			Parameter 8: ID of registered eventhandler A.C.E playerInventoryChanged event (nil if no EH is registered)
 	
 	Parameters:
 		0: INTEGER - Interface type, 0 = Main, 1 = Secondary
@@ -47,7 +48,7 @@ _isDialog = [_displayName] call cTab_fnc_isDialog;
 
 cTabIfOpen = [_interfaceType,_displayName,_player,
 	_player addEventHandler ["killed",{[] call cTab_fnc_close}],
-	_vehicle,nil,nil,nil];
+	_vehicle,nil,nil,nil,nil];
 
 if (_vehicle != _player && (_isDialog || _displayName in ["cTab_TAD_dsp"])) then {
 	cTabIfOpen set [5,
@@ -116,6 +117,15 @@ if (isClass (configfile >> "CfgPatches" >> "ace_medical")) then {
 			if (_this select 0 == cTab_player && _this select 1) then {
 				[] call cTab_fnc_close;
 			};
+		}] call ace_common_fnc_addEventHandler
+	];
+};
+
+// If ace_common is used, register with playerInventoryChanged event
+if (isClass (configfile >> "CfgPatches" >> "ace_common")) then {
+	cTabIfOpen set [8,
+		["playerInventoryChanged",{
+			_this call cTab_fnc_onPlayerInventoryChanged;
 		}] call ace_common_fnc_addEventHandler
 	];
 };

@@ -36,6 +36,7 @@ class CfgFunctions
 			class onIfClose{};
 			class onIfOpen{};
 			class open{};
+			class onPlayerInventoryChanged{};
 			class processCuratorKey{};
 			class remoteControlUav{};
 			class setSettings{};
