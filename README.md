@@ -223,6 +223,8 @@ Changelog
 * On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as white.
 * Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
 * Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen
+* Added ability to message oneself to take notes
+* Changed the way names are displayed in messaging to be more in line with Helmet Cam screen
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

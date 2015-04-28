@@ -1016,6 +1016,8 @@ cTab_msg_gui_load = {
 	lbClear _msgControl;
 	lbClear _plrlistControl;
 	_plrList = playableUnits;
+	// since playableUnits will return an empty array in single player, add the player if array is empty
+	if (_plrList isEqualTo []) then {_plrList pushBack cTab_player};
 	_validSides = call cTab_fnc_getPlayerSides;
 	
 	// turn this on for testing, otherwise not really usefull, since sending to an AI controlled, but switchable unit will send the message to the player himself
@@ -1037,8 +1039,8 @@ cTab_msg_gui_load = {
 	} count _msgArray;
 	
 	{
-		if ((side _x in _validSides) && {_x != cTab_player} && {isPlayer _x} && {[_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear}) then {
-			_index = _plrlistControl lbAdd name _x;
+		if ((side _x in _validSides) && {isPlayer _x} && {[_x,["ItemcTab","ItemAndroid"]] call cTab_fnc_checkGear}) then {
+			_index = _plrlistControl lbAdd format ["%1:%2 (%3)",groupId group _x,[_x] call CBA_fnc_getGroupIndex,name _x];
 			_plrlistControl lbSetData [_index,str _x];
 		};
 	} count _plrList;
@@ -1087,7 +1089,7 @@ cTab_msg_Send = {
 	if (_indices isEqualTo []) exitWith {false};
 	
 	_time = call cTab_fnc_currentTime;
-	_msgTitle = format ["%1 - %2",_time,name cTab_player];
+	_msgTitle = format ["%1 - %2:%3 (%4)",_time,groupId group cTab_player,[cTab_player] call CBA_fnc_getGroupIndex,name cTab_player];
 	_msgBody = ctrlText _msgBodyctrl;
 	if (_msgBody isEqualTo "") exitWith {false};
 	_recipientNames = "";
@@ -1101,7 +1103,7 @@ cTab_msg_Send = {
 		
 		if !(IsNull _recip) then {
 			if (_recipientNames isEqualTo "") then {
-				_recipientNames = name _recip;
+				_recipientNames = format ["%1:%2 (%3)",groupId group _recip,[_recip] call CBA_fnc_getGroupIndex,name _recip];
 			} else {
 				_recipientNames = format ["%1; %2",_recipientNames,name _recip];
 			};
