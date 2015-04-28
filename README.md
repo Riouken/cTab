@@ -225,6 +225,7 @@ Changelog
 * Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen
 * Added ability to message oneself to take notes
 * Changed the way names are displayed in messaging to be more in line with Helmet Cam screen
+* Fixed icons in list of messages being black
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

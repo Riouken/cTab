@@ -444,6 +444,12 @@ class cTab_RscListBox
 		0,
 		0.3
 	};
+	colorPicture[] = {1,1,1,1};
+	colorPictureDisabled[] = {1,1,1,0.25};
+	colorPictureRight[] = {1,1,1,1};
+	colorPictureRightDisabled[] = {1,1,1,0.25};
+	colorPictureRightSelected[] = {1,1,1,1};
+	colorPictureSelected[] = {1,1,1,1};
 	soundSelect[] =
 	{
 		"\A3\ui_f\data\sound\RscListbox\soundSelect",
