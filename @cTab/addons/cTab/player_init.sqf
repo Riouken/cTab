@@ -375,41 +375,32 @@ cTab_fnc_onIfMainPressed = {
 		call cTab_fnc_close;
 	};
 	
-	// see if onIfOpen is still being executed and terminate it if thats the case
-	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
-	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
-	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		if (_previousInterface != "cTab_TAD_dsp") then {
+	_interfaceName = call {
+		if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",_player,_vehicle] spawn cTab_fnc_open;
+			"cTab_TAD_dsp"
 		};
-		true
-	};
-	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_Android_dsp") then {
-			cTabOnIfOpenScriptHandler = [0,"cTab_Android_dsp",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
-	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_microDAGR_dsp") then {
+		if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {"cTab_Android_dsp"};
+		if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			cTabOnIfOpenScriptHandler = [0,"cTab_microDAGR_dsp",_player,_vehicle] spawn cTab_fnc_open;
+			"cTab_microDAGR_dsp"
 		};
-		true
+		if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {"cTab_FBCB2_dlg"};
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {"cTab_Tablet_dlg"};
+		// default
+		""
 	};
-	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			cTabOnIfOpenScriptHandler = [0,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
-	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_Tablet_dlg") then {
-			cTabOnIfOpenScriptHandler = [0,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
+	
+	if (_interfaceName != "" && _interfaceName != _previousInterface) exitWith {
+		// queue the start up of the interface as we might still have one closing down
+		[{
+			if (isNil "cTabIfOpen") then {
+				[_this select 1] call CBA_fnc_removePerFrameHandler;
+				(_this select 0) call cTab_fnc_open;
+			};
+		},0,[0,_interfaceName,_player,_vehicle]] call CBA_fnc_addPerFrameHandler;
 		true
 	};
 	
@@ -444,43 +435,35 @@ cTab_fnc_onIfSecondaryPressed = {
 		call cTab_fnc_close;
 	};
 	
-	// see if onIfOpen is still being executed and terminate it if thats the case
-	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
-	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
-	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		if (_previousInterface != "cTab_TAD_dlg") then {
+	_interfaceName = call {
+		if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			cTabOnIfOpenScriptHandler = [1,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_open;
+			"cTab_TAD_dlg"
 		};
-		true
-	};
-	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			cTabOnIfOpenScriptHandler = [1,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
-	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_Android_dlg") then {
-			cTabOnIfOpenScriptHandler = [1,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
-	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_microDAGR_dlg") then {
+		if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {"cTab_FBCB2_dlg"};
+		if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {"cTab_Android_dlg"};
+		if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			cTabOnIfOpenScriptHandler = [1,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_open;
+			"cTab_microDAGR_dlg"
 		};
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {"cTab_Tablet_dlg"};
+		// default
+		""
+	};
+	
+	if (_interfaceName != "" && _interfaceName != _previousInterface) exitWith {
+		// queue the start up of the interface as we might still have one closing down
+		[{
+			if (isNil "cTabIfOpen") then {
+				(_this select 0) call cTab_fnc_open;
+				[_this select 1] call CBA_fnc_removePerFrameHandler;
+			};
+		},0,[1,_interfaceName,_player,_vehicle]] call CBA_fnc_addPerFrameHandler;
 		true
 	};
-	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_Tablet_dlg") then {
-			cTabOnIfOpenScriptHandler = [1,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
+	
 	false
 };
 
@@ -511,43 +494,35 @@ cTab_fnc_onIfTertiaryPressed = {
 		call cTab_fnc_close;
 	};
 	
-	// see if onIfOpen is still being executed and terminate it if thats the case
-	if !(scriptDone cTabOnIfOpenScriptHandler) then {terminate cTabOnIfOpenScriptHandler};
-	
 	_player = cTab_player;
 	_vehicle = vehicle _player;
-	if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_Tablet_dlg") then {
-			cTabOnIfOpenScriptHandler = [2,"cTab_Tablet_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
-	if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_Android_dlg") then {
-			cTabOnIfOpenScriptHandler = [2,"cTab_Android_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
-	if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
-		if (_previousInterface != "cTab_microDAGR_dlg") then {
+	_interfaceName = call {
+		if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) exitWith {"cTab_Tablet_dlg"};
+		if ([_player,["ItemAndroid"]] call cTab_fnc_checkGear) exitWith {"cTab_Android_dlg"};
+		if ([_player,["ItemMicroDAGR"]] call cTab_fnc_checkGear) exitWith {
 			cTabMicroDAGRmode = if ([_player,["ItemcTab"]] call cTab_fnc_checkGear) then {0} else {2};
-			cTabOnIfOpenScriptHandler = [2,"cTab_microDAGR_dlg",_player,_vehicle] spawn cTab_fnc_open;
+			"cTab_microDAGR_dlg"
 		};
-		true
-	};
-	if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		if (_previousInterface != "cTab_TAD_dlg") then {
+		if ([_player,_vehicle,"TAD"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
 			cTabPlayerVehicleIcon = getText (configFile/"CfgVehicles"/typeOf _vehicle/"Icon");
-			cTabOnIfOpenScriptHandler = [2,"cTab_TAD_dlg",_player,_vehicle] spawn cTab_fnc_open;
+			"cTab_TAD_dlg"
 		};
+		if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {"cTab_FBCB2_dlg"};
+		// default
+		""
+	};
+	
+	if (_interfaceName != "" && _interfaceName != _previousInterface) exitWith {
+		// queue the start up of the interface as we might still have one closing down
+		[{
+			if (isNil "cTabIfOpen") then {
+				(_this select 0) call cTab_fnc_open;
+				[_this select 1] call CBA_fnc_removePerFrameHandler;
+			};
+		},0,[2,_interfaceName,_player,_vehicle]] call CBA_fnc_addPerFrameHandler;
 		true
 	};
-	if ([_player,_vehicle,"FBCB2"] call cTab_fnc_unitInEnabledVehicleSeat) exitWith {
-		if (_previousInterface != "cTab_FBCB2_dlg") then {
-			cTabOnIfOpenScriptHandler = [2,"cTab_FBCB2_dlg",_player,_vehicle] spawn cTab_fnc_open;
-		};
-		true
-	};
+	
 	false
 };
 

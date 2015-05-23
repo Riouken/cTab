@@ -227,6 +227,7 @@ Changelog
 * Changed the way names are displayed in messaging to be more in line with Helmet Cam screen
 * Fixed icons in list of messages being black
 * Fix marker text alignment (some recent ArmA update changed the default from right to center)
+* Massive speedup of interface startup
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

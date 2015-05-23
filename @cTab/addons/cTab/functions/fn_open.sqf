@@ -29,7 +29,7 @@
 	
 	Example:
 		// open TAD display as main interface type
-		cTabOnIfOpenScriptHandler = [0,"cTab_TAD_dsp",player,vehicle player] spawn cTab_fnc_open;
+		[0,"cTab_TAD_dsp",player,vehicle player] call cTab_fnc_open;
 */
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
@@ -54,19 +54,6 @@ if (_vehicle != _player && (_isDialog || _displayName in ["cTab_TAD_dsp"])) then
 	cTabIfOpen set [5,
 		_vehicle addEventHandler ["GetOut",{if (_this select 2 == cTab_player) then {[] call cTab_fnc_close}}]
 	];
-};
-
-if (_isDialog) then {
-	// Check if map and / or a dialog is open and close them
-	if (visibleMap) then {openMap false};
-	while {dialog} do {
- 		closeDialog 0;
-	};
-	createDialog _displayName;
-	waitUntil {dialog};
-} else {
-	cTabRscLayer cutRsc [_displayName,"PLAIN",0, false];
-	waitUntil {!isNull (uiNamespace getVariable _displayName)};
 };
 
 // Set up event handler to update display header / footer
@@ -130,6 +117,15 @@ if (isClass (configfile >> "CfgPatches" >> "ace_common")) then {
 	];
 };
 
-cTabIfOpenStart = false;
+if (_isDialog) then {
+	// Check if map and / or a dialog is open and close them
+	if (visibleMap) then {openMap false};
+	while {dialog} do {
+ 		closeDialog 0;
+	};
+	createDialog _displayName;
+} else {
+	cTabRscLayer cutRsc [_displayName,"PLAIN",0, false];
+};
 
 true
