@@ -55,7 +55,7 @@ Media
 [![Tablet UAV](http://i.imgur.com/CzQ0HhUm.jpg)](http://i.imgur.com/CzQ0HhU.jpg)
 [![Vehicle FBCB2](http://i.imgur.com/bjarZTqm.jpg)](http://i.imgur.com/bjarZTq.jpg)
 [![TAD small](http://i.imgur.com/ngtjm2Dm.jpg)](http://i.imgur.com/ngtjm2D.jpg)
-[![TAD large](http://i.imgur.com/Rt9IVQ2m.jpg)](http://i.imgur.com/Rt9IVQ2.jpg)
+[![TAD large](http://i.imgur.com/OVyYrkpm.jpg)](http://i.imgur.com/OVyYrkp.jpg)
 [![Android small](http://i.imgur.com/0lOIuvem.jpg)](http://i.imgur.com/0lOIuve.jpg)
 [![Android large](http://i.imgur.com/g6frBhdm.jpg)](http://i.imgur.com/g6frBhd.jpg)
 [![Android large topo](http://i.imgur.com/2RpXNyDm.jpg)](http://i.imgur.com/2RpXNyD.jpg)
@@ -220,7 +220,7 @@ Changelog
 * No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
 * Interface will now be closed if player is unconscious (requires ACE3 Medical)
 * Interface will now be closed if player lost the required device (requires ACE3 Common)
-* On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as white.
+* On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as the standard blue (slightly different colour than the blue fire team).
 * Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
 * Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen
 * Added ability to message oneself to take notes
