@@ -457,8 +457,8 @@ cTab_fnc_onIfSecondaryPressed = {
 		// queue the start up of the interface as we might still have one closing down
 		[{
 			if (isNil "cTabIfOpen") then {
-				(_this select 0) call cTab_fnc_open;
 				[_this select 1] call CBA_fnc_removePerFrameHandler;
+				(_this select 0) call cTab_fnc_open;
 			};
 		},0,[1,_interfaceName,_player,_vehicle]] call CBA_fnc_addPerFrameHandler;
 		true
@@ -516,8 +516,8 @@ cTab_fnc_onIfTertiaryPressed = {
 		// queue the start up of the interface as we might still have one closing down
 		[{
 			if (isNil "cTabIfOpen") then {
-				(_this select 0) call cTab_fnc_open;
 				[_this select 1] call CBA_fnc_removePerFrameHandler;
+				(_this select 0) call cTab_fnc_open;
 			};
 		},0,[2,_interfaceName,_player,_vehicle]] call CBA_fnc_addPerFrameHandler;
 		true
