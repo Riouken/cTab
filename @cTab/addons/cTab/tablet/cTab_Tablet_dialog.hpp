@@ -308,7 +308,7 @@ class cTab_Tablet_dlg {
 				};
 				class deletebtn: cTab_RscButton_Tablet
 				{
-					idc = IDS_CTAB_MSG_BTNDELETE;
+					idc = IDC_CTAB_MSG_BTNDELETE;
 					text = "Delete"; //--- ToDo: Localize;
 					tooltip = "Delete Selected Message(s)";
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_BUTTON_DELETE_X);
@@ -319,7 +319,7 @@ class cTab_Tablet_dlg {
 				};
 				class sendbtn: cTab_RscButton_Tablet
 				{
-					idc = IDS_CTAB_MSG_BTNSEND;
+					idc = IDC_CTAB_MSG_BTNSEND;
 					text = "Send"; //--- ToDo: Localize;
 					x = pxToGroup_X(cTab_GUI_tablet_MESSAGE_BUTTON_SEND_X);
 					y = pxToGroup_Y(cTab_GUI_tablet_MESSAGE_BUTTON_SEND_Y);
