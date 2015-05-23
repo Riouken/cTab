@@ -21,15 +21,11 @@
 		["cTab_TAD_dsp"] call cTab_fnc_isDialog;
 */
 
-private ["_interfaceName","_charArray","_charArraylen","_subArray","_subString"];
+private ["_interfaceName","_subArray"];
 
 _interfaceName = _this select 0;
-_charArray = toArray _interfaceName;
-_charArraylen = count _charArray;
-_subArray = [];
-for "_i" from (_charArraylen - 3) to (_charArraylen - 1) do {
-	_subArray pushBack (_charArray select _i);
-};
-_subString = toString _subArray;
+
+// select the last three characters from the interface name
+_subString = _interfaceName select [(count _interfaceName) - 3];
 
 if (_subString == "dlg") then {true} else {false};
