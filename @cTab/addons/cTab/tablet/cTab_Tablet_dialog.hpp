@@ -437,14 +437,14 @@ class cTab_Tablet_dlg {
 		class btnUP: cTab_Tablet_btnBrtUp
 		{
 			idc = IDC_CTAB_BTNUP;
-			action = "call cTab_fnc_txt_size_dec;";
-			tooltip = "Decrease Font";
+			action = "call cTab_fnc_txt_size_inc;";
+			tooltip = "Increase Font";
 		};
 		class btnDWN: cTab_Tablet_btnBrtDn
 		{
 			idc = IDC_CTAB_BTNDWN;
-			action = "call cTab_fnc_txt_size_inc;";
-			tooltip = "Increase Font";
+			action = "call cTab_fnc_txt_size_dec;";
+			tooltip = "Decrease Font";
 		};
 		class btnACT: cTab_Tablet_btnMouse
 		{
