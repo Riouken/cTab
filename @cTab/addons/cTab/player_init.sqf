@@ -238,7 +238,7 @@ cTabColorGreen = [_r,_g,_b,_a];
 
 // Define Fire-Team colors
 // MAIN,RED,GREEN,BLUE,YELLOW
-cTabColorTeam = [[1,1,1,0.8],[200/255,0,0,0.8],[0,199/255,0,0.8],[0,0,200/255,0.8],[225/255,225/255,0,0.8]];
+cTabColorTeam = [cTabColorBlue,[200/255,0,0,0.8],[0,199/255,0,0.8],[0,0,200/255,0.8],[225/255,225/255,0,0.8]];
 
 // define vehicles that have FBCB2 monitor
 if (isNil "cTab_vehicleClass_has_FBCB2") then {
