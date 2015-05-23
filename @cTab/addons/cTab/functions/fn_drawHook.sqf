@@ -34,12 +34,12 @@ _secondPos = _this select 3;
 _dirToSecondPos = call {
 	if (_this select 4 == 0) exitWith {
 		_ctrlScreen drawArrow [_pos,_secondPos,cTabMicroDAGRhighlightColour];
-		[_pos,_secondPos] call BIS_fnc_dirTo
+		[_pos,_secondPos] call cTab_fnc_dirTo
 	};
 	_ctrlScreen drawArrow [_secondPos,_pos,cTabMicroDAGRhighlightColour];
-	[_secondPos,_pos] call BIS_fnc_dirTo
+	[_secondPos,_pos] call cTab_fnc_dirTo
 };
-_dstToSecondPos = [_pos,_secondPos] call BIS_fnc_distance2D;
+_dstToSecondPos = [_pos,_secondPos] call cTab_fnc_distance2D;
 call {
 	// Call this if we are drawing for a TAD
 	if (_this select 5) exitWith {
