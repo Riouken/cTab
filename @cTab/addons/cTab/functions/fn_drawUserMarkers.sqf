@@ -47,7 +47,7 @@ _cursorMarkerIndex = if (_this select 1) then {[_ctrlScreen,cTabMapCursorPos] ca
 	if (cTabBFTtxt) then {_text = _markerData select 5;};
 	_ctrlScreen drawIcon [_texture1,_color,_pos, cTabIconSize, cTabIconSize, 0, _text, 0, cTabTxtSize,"TahomaB",_markerData select 6];
 	if (_texture2 != "") then {
-		_ctrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB"];
+		_ctrlScreen drawIcon [_texture2,_color,_pos, cTabGroupOverlayIconSize, cTabGroupOverlayIconSize, 0, "", 0, cTabTxtSize,"TahomaB","right"];
 	};
 } count cTabUserMarkerList;
 

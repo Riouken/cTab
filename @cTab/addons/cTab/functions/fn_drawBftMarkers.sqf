@@ -52,13 +52,13 @@ if (_mode != 2) then {
 				call {
 					if (_groupID != "") exitWith {
 						// air contact is in our group
-						_ctrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
+						_ctrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
 						_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupID,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
 					};
 					// air contact is _not_ in our group
-					_ctrlScreen drawIcon [_iconB,cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
+					_ctrlScreen drawIcon [_iconB,cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
 					if (_drawText) then {
-						_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB"];
+						_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB","right"];
 					};
 				};
 			};
@@ -66,11 +66,11 @@ if (_mode != 2) then {
 			call {
 				if (_veh != _playerVehicle) exitWith {
 					// player is not sitting in this vehicle
-					_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
+					_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
 				};
 				if (group _veh != _playerGroup) then {
 					// player is not in the same group as this vehicle
-					_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
+					_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
 				};
 			};
 		};
@@ -105,8 +105,8 @@ if (_mode != 2) then {
 			};
 			_text = if (_drawText) then {_x select 3} else {""};
 			_pos = getPosASL _veh;
-			_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB"];
-			_ctrlScreen drawIcon [_x select 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB"];
+			_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
+			_ctrlScreen drawIcon [_x select 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB","right"];
 		};
 	} count cTabBFTgroups;
 };
@@ -145,14 +145,14 @@ if (_mode != 2) then {
 					0 = _mountedLabels pushBack (_x select 4);
 				};
 				if (_veh != _playerVehicle) then {
-					_ctrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabColorBlue,getPosASL _veh,cTabIconSize,cTabIconSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
+					_ctrlScreen drawIcon ["\A3\ui_f\data\map\VehicleIcons\iconmanvirtual_ca.paa",cTabColorBlue,getPosASL _veh,cTabIconSize,cTabIconSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
 				};
 			};
 		};
 		_pos = getPosASL _veh;
-		_ctrlScreen drawIcon [_x select 1,_teamColor,_pos,cTabIconManSize,cTabIconManSize,direction _veh,"",0,cTabTxtSize,"TahomaB"];
+		_ctrlScreen drawIcon [_x select 1,_teamColor,_pos,cTabIconManSize,cTabIconManSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
 		if (_drawText) then {
-			_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",_teamColor,_pos,cTabIconManSize,cTabIconManSize,0,_x select 4,0,cTabTxtSize,"TahomaB"];
+			_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",_teamColor,_pos,cTabIconManSize,cTabIconManSize,0,_x select 4,0,cTabTxtSize,"TahomaB","right"];
 		};
 	};
 } count cTabBFTmembers;

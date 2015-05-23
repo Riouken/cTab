@@ -51,7 +51,7 @@ _ctrlScreen = _this select 0;
 	
 	switch (_shape) do {
 	    case "ICON": {
-	    	_ctrlScreen drawIcon [_icon,_color,_pos,(_size select 0) * cTabIconSize,(_size select 1) * cTabIconSize,_dir,_text,0,cTabTxtSize,"TahomaB"];
+	    	_ctrlScreen drawIcon [_icon,_color,_pos,(_size select 0) * cTabIconSize,(_size select 1) * cTabIconSize,_dir,_text,0,cTabTxtSize,"TahomaB","right"];
 	    };
 	    case "RECTANGLE": {
 	    	_ctrlScreen drawRectangle [_pos,_size select 0,_size select 1,_dir,_color,_brush];
