@@ -57,7 +57,6 @@ class cTab_TAD_dsp
 		*/
 		class navModeOrScale: cTab_TAD_OSD_navModeOrScale
 		{
-			idc = IDC_CTAB_OSD_MAP_SCALE;
 			x = pxToScreen_X(cTab_GUI_TAD_OSD_EDGE_R - cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 2);
 			w = pxToScreen_W(cTab_GUI_TAD_OSD_ELEMENT_MODE_W * 2);
 		};
