@@ -18,9 +18,9 @@ class CfgFunctions
 			class deleteHelmetCam{};
 			class deleteUAVcam{};
 			class deleteUserMarker{};
-			class drawBftMarkers{};
 			class dirTo{};
 			class distance2D{};
+			class drawBftMarkers{};
 			class drawHook{};
 			class drawMarkers{};
 			class drawUserMarkers{};
