@@ -48,9 +48,13 @@
 // On-screen map centre cursor
 #define cTab_GUI_microDAGR_CURSOR (38)
 
+// set IDC counter to 0
+__EXEC(cTab_IDC = 0);
+#define IDC_COUNTER __EXEC(cTab_IDC = cTab_IDC + 1); idc = __EVAL(cTab_IDC);
+
 class cTab_microDAGR_header: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "#(argb,8,8,3)color(0,0,0,1)";
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
@@ -59,6 +63,7 @@ class cTab_microDAGR_header: cTab_RscPicture
 };
 class cTab_microDAGR_footer: cTab_microDAGR_header
 {
+	IDC_COUNTER
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H - cTab_GUI_microDAGR_OSD_FOOTER_H);
 	h = pxToScreen_H(cTab_GUI_microDAGR_OSD_FOOTER_H);
 };
@@ -158,7 +163,7 @@ class cTab_microDAGR_background: cTab_RscPicture
 };
 class cTab_microDAGR_cursor: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa";
 		// "\a3\ui_f\data\map\Markers\Military\destroy_ca.paa";
 		// "\a3\ui_f\data\IGUI\Cfg\WeaponCursors\cursoraimon_gs.paa"
@@ -171,7 +176,7 @@ class cTab_microDAGR_cursor: cTab_RscPicture
 };
 class cTab_microDAGR_btnF7: cTab_RscButton_microDAGR_LeftBtn
 {
-	idc = -1;
+	IDC_COUNTER
 	tooltip = "Center Map On Current Position (F7)";
 };
 class cTab_microDAGR_btnbrtpls: cTab_RscButton_microDAGR_RightUp
@@ -193,17 +198,17 @@ class cTab_microDAGR_btnfunction: cTab_RscButton_microDAGR_RightBtn
 };
 class cTab_microDAGR_btnMapType: cTab_RscButton_microDAGR_LeftUp
 {
-	idc = -1;
+	IDC_COUNTER
 	tooltip = "Toggle Map Type (F6)";
 };
 class cTab_microDAGR_btnMapTools: cTab_RscButton_microDAGR_LeftDown
 {
-	idc = -1;
+	IDC_COUNTER
 	tooltip = "Toggle Map Tools (F5)";
 };
 class cTab_microDAGR_on_screen_battery: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_battery_ca.paa";
 	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_LEFT_X);
 	y = pxToScreen_Y(cTab_GUI_microDAGR_OSD_EDGE_T + (cTab_GUI_microDAGR_OSD_ELEMENT_STD_H - cTab_GUI_microDAGR_OSD_ICON_STD_SIZE) / 2);
@@ -220,14 +225,14 @@ class cTab_microDAGR_on_screen_time: cTab_RscText_microDAGR
 };
 class cTab_microDAGR_on_screen_signalStrength: cTab_microDAGR_on_screen_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_signalStrength_ca.paa";
 	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_RIGHT_X + cTab_GUI_microDAGR_OSD_ELEMENT_STD_W - cTab_GUI_microDAGR_OSD_ICON_STD_SIZE * 2);
 	colorText[] = COLOR_WHITE;
 };
 class cTab_microDAGR_on_screen_satellite: cTab_microDAGR_on_screen_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\a3\ui_f\data\map\Diary\signal_ca.paa";
 	x = pxToScreen_X(cTab_GUI_microDAGR_OSD_RIGHT_X + cTab_GUI_microDAGR_OSD_ELEMENT_STD_W - cTab_GUI_microDAGR_OSD_ICON_STD_SIZE);
 	colorText[] = COLOR_WHITE;
@@ -290,7 +295,7 @@ class cTab_microDAGR_loadingtxt: cTab_RscText_microDAGR
 // Define areas around the screen as interaction areas to allow screen movement
 class cTab_microDAGR_movingHandle_T: cTab_RscText_microDAGR
 {
-	idc = -1;
+	IDC_COUNTER
 	moving = 1;
 	colorBackground[] = COLOR_TRANSPARENT;
 	x = pxToScreen_X(0);
@@ -300,17 +305,20 @@ class cTab_microDAGR_movingHandle_T: cTab_RscText_microDAGR
 };
 class cTab_microDAGR_movingHandle_B: cTab_microDAGR_movingHandle_T
 {
+	IDC_COUNTER
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H);
 	h = pxToScreen_H(GUI_GRID_PX_H - (cTab_GUI_microDAGR_MAP_Y + cTab_GUI_microDAGR_MAP_H));
 };
 class cTab_microDAGR_movingHandle_L: cTab_microDAGR_movingHandle_T
 {
+	IDC_COUNTER
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_X);
 	h = pxToScreen_H(cTab_GUI_microDAGR_MAP_H);
 };
 class cTab_microDAGR_movingHandle_R: cTab_microDAGR_movingHandle_L
 {
+	IDC_COUNTER
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W);
 	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_microDAGR_MAP_X + cTab_GUI_microDAGR_MAP_W));
 };

@@ -114,13 +114,13 @@ class cTab_TAD_dlg
 		};
 		class btnBrtInc: cTab_RscButton_TAD_BRT_INC
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_incBrightness;";
 			tooltip = "Increase Brightness";
 		};
 		class btnBrtDec: cTab_RscButton_TAD_BRT_DEC
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_decBrightness;";
 			tooltip = "Decrease Brightness";
 		};
@@ -132,19 +132,19 @@ class cTab_TAD_dlg
 		};
 		class btnMapType: cTab_RscButton_TAD_OSB20
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_mapType_toggle;";
 			tooltip = "Toggle Map Type (F6)";
 		};
 		class btnMapTools: cTab_RscButton_TAD_OSB18
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_toggleMapTools;";
 			tooltip = "Toggle Map Tools (F5)";
 		};
 		class btnF7: cTab_RscButton_TAD_OSB19
 		{
-			idc = -1;
+			IDC_COUNTER
 			action = "['cTab_TAD_dlg'] call cTab_fnc_centerMapOnPlayerPosition;";
 			tooltip = "Center Map On Current Position (F7)";
 		};

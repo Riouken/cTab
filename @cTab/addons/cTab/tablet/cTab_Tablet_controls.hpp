@@ -150,6 +150,10 @@
 // On-screen map centre cursor
 #define cTab_GUI_tablet_CURSOR (38)
 
+// set IDC counter to 0
+__EXEC(cTab_IDC = 0);
+#define IDC_COUNTER __EXEC(cTab_IDC = cTab_IDC + 1); idc = __EVAL(cTab_IDC);
+
 class cTab_RscText_Tablet: cTab_RscText
 {
 	style = ST_CENTER;
@@ -185,7 +189,7 @@ class cTab_Tablet_background: cTab_RscPicture
 };
 class cTab_tablet_header: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "#(argb,8,8,3)color(0,0,0,1)";
 	x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
@@ -194,7 +198,7 @@ class cTab_tablet_header: cTab_RscPicture
 };
 class cTab_Tablet_OSD_battery: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_battery_ca.paa";
 	x = pxToScreen_X(cTab_GUI_tablet_OSD_X(1));
 	y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y + (cTab_GUI_tablet_OSD_HEADER_H - cTab_GUI_tablet_OSD_ICON_STD_SIZE) / 2);
@@ -211,14 +215,14 @@ class cTab_Tablet_OSD_time: cTab_RscText_Tablet
 };
 class cTab_Tablet_OSD_signalStrength: cTab_Tablet_OSD_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_signalStrength_ca.paa";
 	x = pxToScreen_X(cTab_GUI_tablet_OSD_X(7) + cTab_GUI_tablet_OSD_ELEMENT_STD_W - cTab_GUI_tablet_OSD_ICON_STD_SIZE * 2);
 	colorText[] = COLOR_WHITE;
 };
 class cTab_Tablet_OSD_satellite: cTab_Tablet_OSD_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\a3\ui_f\data\map\Diary\signal_ca.paa";
 	x = pxToScreen_X(cTab_GUI_tablet_OSD_X(7) + cTab_GUI_tablet_OSD_ELEMENT_STD_W - cTab_GUI_tablet_OSD_ICON_STD_SIZE);
 	colorText[] = COLOR_WHITE;
@@ -368,7 +372,7 @@ class cTab_Tablet_loadingtxt: cTab_RscText_Tablet
 // Define areas around the screen as interaction areas to allow screen movement
 class cTab_Tablet_movingHandle_T: cTab_RscText_Tablet
 {
-	idc = -1;
+	IDC_COUNTER
 	moving = 1;
 	colorBackground[] = COLOR_TRANSPARENT;
 	x = pxToScreen_X(0);
@@ -378,17 +382,20 @@ class cTab_Tablet_movingHandle_T: cTab_RscText_Tablet
 };
 class cTab_Tablet_movingHandle_B: cTab_Tablet_movingHandle_T
 {
+	IDC_COUNTER
 	y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_MAP_H);
 	h = pxToScreen_H(GUI_GRID_PX_H - (cTab_GUI_tablet_MAP_Y + cTab_GUI_tablet_MAP_H));
 };
 class cTab_Tablet_movingHandle_L: cTab_Tablet_movingHandle_T
 {
+	IDC_COUNTER
 	y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_tablet_MAP_X);
 	h = pxToScreen_H(cTab_GUI_tablet_MAP_H);
 };
 class cTab_Tablet_movingHandle_R: cTab_Tablet_movingHandle_L
 {
+	IDC_COUNTER
 	x = pxToScreen_X(cTab_GUI_tablet_MAP_X + cTab_GUI_tablet_MAP_W);
 	w = pxToScreen_W(GUI_GRID_PX_W - (cTab_GUI_tablet_MAP_X + cTab_GUI_tablet_MAP_W));
 };

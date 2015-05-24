@@ -98,6 +98,10 @@
 // On-screen map centre cursor
 #define cTab_GUI_FBCB2_CURSOR (76)
 
+// set IDC counter to 0
+__EXEC(cTab_IDC = 0);
+#define IDC_COUNTER __EXEC(cTab_IDC = cTab_IDC + 1); idc = __EVAL(cTab_IDC);
+
 class cTab_RscText_FBCB2: cTab_RscText
 {
 	style = ST_CENTER;
@@ -120,7 +124,7 @@ class cTab_FBCB2_background: cTab_RscPicture
 };
 class cTab_FBCB2_header: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "#(argb,8,8,3)color(0,0,0,1)";
 	x = pxToScreen_X(cTab_GUI_FBCB2_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_FBCB2_MAP_Y);
@@ -129,7 +133,7 @@ class cTab_FBCB2_header: cTab_RscPicture
 };
 class cTab_FBCB2_on_screen_battery: cTab_RscPicture
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_battery_ca.paa";
 	x = pxToScreen_X(cTab_GUI_FBCB2_OSD_X(1));
 	y = pxToScreen_Y(cTab_GUI_FBCB2_MAP_Y + (cTab_GUI_FBCB2_OSD_HEADER_H - cTab_GUI_FBCB2_OSD_ICON_STD_SIZE) / 2);
@@ -146,14 +150,14 @@ class cTab_FBCB2_on_screen_time: cTab_RscText_FBCB2
 };
 class cTab_FBCB2_on_screen_signalStrength: cTab_FBCB2_on_screen_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\cTab\img\icon_signalStrength_ca.paa";
 	x = pxToScreen_X(cTab_GUI_FBCB2_OSD_X(5) + cTab_GUI_FBCB2_OSD_ELEMENT_STD_W - cTab_GUI_FBCB2_OSD_ICON_STD_SIZE * 2);
 	colorText[] = COLOR_WHITE;
 };
 class cTab_FBCB2_on_screen_satellite: cTab_FBCB2_on_screen_battery
 {
-	idc = -1;
+	IDC_COUNTER
 	text = "\a3\ui_f\data\map\Diary\signal_ca.paa";
 	x = pxToScreen_X(cTab_GUI_FBCB2_OSD_X(5) + cTab_GUI_FBCB2_OSD_ELEMENT_STD_W - cTab_GUI_FBCB2_OSD_ICON_STD_SIZE);
 	colorText[] = COLOR_WHITE;
