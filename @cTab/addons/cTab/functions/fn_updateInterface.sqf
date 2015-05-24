@@ -21,7 +21,7 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_displayConfigContainers","_backgroundCtrl","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundClassName","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_ctrl","_ctrlPosition","_idc","_displayConfigClasses"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -56,6 +56,62 @@ if (isNil "_mode") then {
 
 {
 	call {
+		// ------------ DISPLAY POSITION ------------
+		if (_x select 0 == "dspIfPosition") exitWith {
+			_dspIfPosition = _x select 1;
+			
+			if !(_isDialog) then {
+				// get both classes "controls" and "controlsBackground" if they exist
+				_displayConfigContainers = "true" configClasses (configFile >> "RscTitles" >> _displayName);
+				
+				// get the current position of the background control
+				_backgroundCtrl = _display displayCtrl IDC_CTAB_BACKGROUND;
+				_backgroundPosition = ctrlPosition _backgroundCtrl;
+				_backgroundPositionX = _backgroundPosition select 0;
+				_backgroundPositionW = _backgroundPosition select 2;
+				_backgroundClassName = ctrlClassName _backgroundCtrl;
+				
+				// get the original position of the background control
+				_backgroundConfigPositionX = 0;
+				{
+					if (isClass _x) then {
+						if (isClass (_x >> _backgroundClassName)) exitWith {
+							_backgroundConfigPositionX = getNumber (_x >> _backgroundClassName >> "x");
+						};
+					};
+				} forEach _displayConfigContainers;
+				
+				// figure out if we need to do anything
+				if !((_backgroundPositionX != _backgroundConfigPositionX) isEqualTo _dspIfPosition) then {
+					// calculate offset required to shift position to the opposite
+					_xOffset = if (_backgroundPositionX == _backgroundConfigPositionX) then {
+							2 * safeZoneX + safeZoneW - _backgroundPositionW - 2 * _backgroundPositionX
+						} else {
+							_backgroundConfigPositionX - _backgroundPositionX
+						};
+					{
+						if (isClass _x) then {
+							_displayConfigClasses = "true" configClasses _x;
+							{
+								if (isClass _x) then {
+									if (isNumber (_x >> "idc")) then {
+										_idc = getNumber (_x >> "idc");
+										if (_idc > 0) then {
+											_ctrl = _display displayCtrl _idc;
+											_ctrlPosition = ctrlPosition _ctrl;
+											_ctrlPosition set [0,(_ctrlPosition select 0) + _xOffset];
+											_ctrl ctrlSetPosition _ctrlPosition;
+											_ctrl ctrlCommit 0;
+										};
+									};
+								};
+							} forEach _displayConfigClasses;
+						};
+					} forEach _displayConfigContainers;
+				};
+			};
+		};
+		
 		// ------------ BRIGHTNESS ------------
 		// Value ranges from 0 to 1, 0 being off and 1 being full brightness
 		if (_x select 0 == "brightness") exitWith {

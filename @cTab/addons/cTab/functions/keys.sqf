@@ -56,3 +56,14 @@ if (isNumber (_keyConfig >> "zoom_out" >> "key")) then {
 		cTab_key_zoom_out_modifiers set [_forEachIndex,getNumber (_keyConfig >> "zoom_out" >> _x) == 1];
 	};
 } forEach ["shift","ctrl","alt"];
+
+cTab_key_toggleIfPosition_scancode = DIK_HOME;
+cTab_key_toggleIfPosition_modifiers = [true,true,false];
+if (isNumber (_keyConfig >> "toggleIfPosition" >> "key")) then {
+	cTab_key_zoom_out_scancode = getNumber (_keyConfig >> "toggleIfPosition" >> "key")
+};
+{
+	if (isNumber (_keyConfig >> "toggleIfPosition" >> _x)) then {
+		cTab_key_zoom_out_modifiers set [_forEachIndex,getNumber (_keyConfig >> "toggleIfPosition" >> _x) == 1];
+	};
+} forEach ["shift","ctrl","alt"];

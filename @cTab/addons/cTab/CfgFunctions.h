@@ -43,6 +43,7 @@ class CfgFunctions
 			class remoteControlUav{};
 			class setSettings{};
 			class setToPairs{};
+			class toggleIfPosition{};
 			class toggleMapTools{};
 			class translateUserMarker{};
 			class unitInEnabledVehicleSeat{};

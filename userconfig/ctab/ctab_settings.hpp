@@ -47,6 +47,13 @@ class cTab_keys {
 		alt = 0;
 	};
 
+	class toggleIfPosition {
+		key = 199; // HOME / POS1
+		ctrl = 1;
+		shift = 1;
+		alt = 0;
+	};
+
 };
 
 /* KEY LIST // US keyboard layout*/
