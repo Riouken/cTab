@@ -40,6 +40,7 @@ Known Issues
 + Players that are experiencing conflicts with help screens (uses `H`as a key as well) are advised to rebind cTab `IF_MAIN`, for example to `SHIFT`+ `H`. This used to be an issue with Zeus but has been resolved as of cTab version 2.1. There might be other such cases though.
 + Helicopter pilots (and co-pilots) that are using RAVEN's LIFTER mod are advised to rebind cTab `IF_MAIN` to something other than the default as `H` is used by that mod and cannot be changed (as of this writing).
 + When a UAV is being actively piloted and a cTab user is already connected to the UAV's gunner turret, it is currently impossible to detect that there is a gunner connected in order to prevent a second player to connect to the same gunner turret. Wonky things happen to the player in the gunner seat if a second player connects and it might break the game. [Please vote for a fix](http://feedback.arma3.com/view.php?id=23693).
++ When helmet cam item is added to the inventory prior to a mine detector, the mine detector will not work. Please vote for a fix [here](http://feedback.arma3.com/view.php?id=23925) and [here](http://feedback.arma3.com/view.php?id=23926).
 
 Required
 --------
@@ -227,7 +228,7 @@ Changelog
 * Changed the way names are displayed in messaging to be more in line with Helmet Cam screen
 * Fixed icons in list of messages being black
 * Fix marker text alignment (some recent ArmA update changed the default from right to center)
-* Massive speedup of interface startup
+* Speedup of interface startup
 * General performance improvements
 
 ### 2.1.1 ###
