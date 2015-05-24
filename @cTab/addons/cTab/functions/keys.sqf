@@ -1,34 +1,58 @@
-cTab_key_if_main_scancode = getNumber (configFile >> "cTab_keys" >>  "if_main"  >> "key");
-cTab_key_if_main_modifiers = [
-	getNumber (configFile >> "cTab_keys" >>  "if_main"  >> "shift") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "if_main"  >> "ctrl") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "if_main"  >> "alt") == 1
-];
+#include "\a3\editor_f\Data\Scripts\dikCodes.h"
 
-cTab_key_if_secondary_scancode = getNumber (configFile >> "cTab_keys" >>  "if_secondary"  >> "key");
-cTab_key_if_secondary_modifiers = [
-	getNumber (configFile >> "cTab_keys" >>  "if_secondary"  >> "shift") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "if_secondary"  >> "ctrl") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "if_secondary"  >> "alt") == 1
-];
+_keyConfig = (configFile >> "cTab_keys");
 
-cTab_key_if_tertiary_scancode = getNumber (configFile >> "cTab_keys" >>  "if_tertiary"  >> "key");
-cTab_key_if_tertiary_modifiers = [
-	getNumber (configFile >> "cTab_keys" >>  "if_tertiary"  >> "shift") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "if_tertiary"  >> "ctrl") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "if_tertiary"  >> "alt") == 1
-];
+cTab_key_if_main_scancode = DIK_H;
+cTab_key_if_main_modifiers = [false,false,false];
+if (isNumber (_keyConfig >> "if_main" >> "key")) then {
+	cTab_key_if_main_scancode = getNumber (_keyConfig >> "if_main" >> "key")
+};
+{
+	if (isNumber (_keyConfig >> "if_main" >> _x)) then {
+		cTab_key_if_main_modifiers set [_forEachIndex,getNumber (_keyConfig >> "if_main" >> _x) == 1];
+	};
+} forEach ["shift","ctrl","alt"];
 
-cTab_key_zoom_in_scancode = getNumber (configFile >> "cTab_keys" >>  "zoom_in"  >> "key");
-cTab_key_zoom_in_modifiers = [
-	getNumber (configFile >> "cTab_keys" >>  "zoom_in"  >> "shift") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "zoom_in"  >> "ctrl") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "zoom_in"  >> "alt") == 1
-];
+cTab_key_if_secondary_scancode = DIK_H;
+cTab_key_if_secondary_modifiers = [false,true,false];
+if (isNumber (_keyConfig >> "if_secondary" >> "key")) then {
+	cTab_key_if_secondary_scancode = getNumber (_keyConfig >> "if_secondary" >> "key")
+};
+{
+	if (isNumber (_keyConfig >> "if_secondary" >> _x)) then {
+		cTab_key_if_secondary_modifiers set [_forEachIndex,getNumber (_keyConfig >> "if_secondary" >> _x) == 1];
+	};
+} forEach ["shift","ctrl","alt"];
 
-cTab_key_zoom_out_scancode = getNumber (configFile >> "cTab_keys" >>  "zoom_out"  >> "key");
-cTab_key_zoom_out_modifiers = [
-	getNumber (configFile >> "cTab_keys" >>  "zoom_out"  >> "shift") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "zoom_out"  >> "ctrl") == 1,
-	getNumber (configFile >> "cTab_keys" >>  "zoom_out"  >> "alt") == 1
-];
+cTab_key_if_tertiary_scancode = DIK_H;
+cTab_key_if_tertiary_modifiers = [false,false,true];
+if (isNumber (_keyConfig >> "if_tertiary" >> "key")) then {
+	cTab_key_if_tertiary_scancode = getNumber (_keyConfig >> "if_tertiary" >> "key")
+};
+{
+	if (isNumber (_keyConfig >> "if_tertiary" >> _x)) then {
+		cTab_key_if_tertiary_modifiers set [_forEachIndex,getNumber (_keyConfig >> "if_tertiary" >> _x) == 1];
+	};
+} forEach ["shift","ctrl","alt"];
+
+cTab_key_zoom_in_scancode = DIK_PGUP;
+cTab_key_zoom_in_modifiers = [true,true,false];
+if (isNumber (_keyConfig >> "zoom_in" >> "key")) then {
+	cTab_key_zoom_in_scancode = getNumber (_keyConfig >> "zoom_in" >> "key")
+};
+{
+	if (isNumber (_keyConfig >> "zoom_in" >> _x)) then {
+		cTab_key_zoom_in_modifiers set [_forEachIndex,getNumber (_keyConfig >> "zoom_in" >> _x) == 1];
+	};
+} forEach ["shift","ctrl","alt"];
+
+cTab_key_zoom_out_scancode = DIK_PGDN;
+cTab_key_zoom_out_modifiers = [true,true,false];
+if (isNumber (_keyConfig >> "zoom_out" >> "key")) then {
+	cTab_key_zoom_out_scancode = getNumber (_keyConfig >> "zoom_out" >> "key")
+};
+{
+	if (isNumber (_keyConfig >> "zoom_out" >> _x)) then {
+		cTab_key_zoom_out_modifiers set [_forEachIndex,getNumber (_keyConfig >> "zoom_out" >> _x) == 1];
+	};
+} forEach ["shift","ctrl","alt"];
