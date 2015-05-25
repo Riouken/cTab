@@ -167,11 +167,11 @@ class cTab_RscText_Tablet: cTab_RscText
 };
 class cTab_RscListbox_Tablet: cTab_RscListbox
 {
-	sizeEx = pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE * 1.5);
+	sizeEx = pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE * 1.2);
 };
 class cTab_RscEdit_Tablet: cTab_RscEdit
 {
-	sizeEx = pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE * 1.5);
+	sizeEx = pxToScreen_H(cTab_GUI_tablet_OSD_TEXT_STD_SIZE * 1.2);
 };
 class cTab_RscButton_Tablet: cTab_RscButton
 {

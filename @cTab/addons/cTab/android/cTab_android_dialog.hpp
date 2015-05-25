@@ -149,6 +149,7 @@ class cTab_Android_dlg {
 				{
 					idc = IDC_CTAB_MSG_LIST;
 					style = LB_MULTI;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE * 0.8);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGELIST_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGELIST_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGELIST_W);
@@ -171,6 +172,7 @@ class cTab_Android_dlg {
 					style = ST_MULTI;
 					lineSpacing = 0.2;
 					text = "No Message Selected"; //--- ToDo: Localize;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_MESSAGETEXT_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_MESSAGETEXT_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_MESSAGETEXT_W);
@@ -227,6 +229,7 @@ class cTab_Android_dlg {
 				{
 					idc = IDC_CTAB_MSG_RECIPIENTS;
 					style = LB_MULTI;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE * 0.8);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_PLAYERLIST_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_PLAYERLIST_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_PLAYERLIST_W);
@@ -249,12 +252,13 @@ class cTab_Android_dlg {
 					style = ST_MULTI;
 					lineSpacing = 0.2;
 					text = ""; //--- ToDo: Localize;
+					sizeEx = pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE);
 					x = pxToGroup_X(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_X);
 					y = pxToGroup_Y(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_Y);
 					w = pxToScreen_W(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_W);
 					h = pxToScreen_H(cTab_GUI_android_MESSAGE_COMPOSE_TEXT_H);
 				};
-			class toRead: cTab_RscButton
+				class toRead: cTab_RscButton
 				{
 					IDC_COUNTER
 					text = "Read >>"; //--- ToDo: Localize;
