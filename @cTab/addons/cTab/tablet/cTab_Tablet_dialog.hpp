@@ -6,9 +6,13 @@
 
 
 //--- cTab
-#define GUI_GRID_H	(safezoneH * 1.15)
+#define GUI_GRID_H	(safezoneH * 1.2)
 #define GUI_GRID_W	(GUI_GRID_H * 3/4)
-#define GUI_GRID_X	(safezoneX + (safezoneW - GUI_GRID_W) / 2)
+// since the actual map position is not in the center, we correct for it by shifting it right
+// cTab_GUI_tablet_MAP_X - (GUI_GRID_PX_W - cTab_GUI_tablet_MAP_W) / 2
+// is 96.5, that is the pixel amount we have to shift by, devided by GUI_GRID_PX_W
+// to make it a ratio that we can apply to GUI_GRID_W in order to get a screen value to shift by
+#define GUI_GRID_X	(safezoneX + (safezoneW - GUI_GRID_W) / 2 + (GUI_GRID_W * 96.5 / 2048))
 #define GUI_GRID_Y	(safezoneY + (safezoneH - GUI_GRID_H) / 2)
 
 #include <\cTab\tablet\cTab_Tablet_controls.hpp>

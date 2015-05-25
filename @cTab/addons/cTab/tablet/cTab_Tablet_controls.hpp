@@ -9,13 +9,13 @@
 #define pxToScreen_H(PIXEL) (PIXEL) / GUI_GRID_PX_H * GUI_GRID_H
 
 // Map position within background, pixel based
-#define cTab_GUI_tablet_MAP_X (233)
-#define cTab_GUI_tablet_MAP_Y (387)
-#define cTab_GUI_tablet_MAP_W (1605)
-#define cTab_GUI_tablet_MAP_H (1188)
+#define cTab_GUI_tablet_MAP_X (257)
+#define cTab_GUI_tablet_MAP_Y (491)
+#define cTab_GUI_tablet_MAP_W (1341)
+#define cTab_GUI_tablet_MAP_H (993)
 
 // Height of header and footer OSD elements
-#define cTab_GUI_tablet_OSD_HEADER_H (50)
+#define cTab_GUI_tablet_OSD_HEADER_H (42)
 #define cTab_GUI_tablet_OSD_FOOTER_H (0)
 
 // Screen content (the stuff that changes, so map area - header and footer)
@@ -75,17 +75,17 @@
 #define cTab_GUI_tablet_WINDOW_CONTENT_B_Y (cTab_GUI_tablet_WINDOW_BACK_B_Y + cTab_GUI_tablet_WINDOW_CONTENT_OFFSET_Y)
 
 // Desktop icon size and offset from tablet screen edge in pixels
-#define cTab_GUI_tablet_DESKTOP_ICON_OFFSET_X (30)
-#define cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y (30)
-#define cTab_GUI_tablet_DESKTOP_ICON_W (120)
-#define cTab_GUI_tablet_DESKTOP_ICON_H (120)
+#define cTab_GUI_tablet_DESKTOP_ICON_OFFSET_X (25)
+#define cTab_GUI_tablet_DESKTOP_ICON_OFFSET_Y (25)
+#define cTab_GUI_tablet_DESKTOP_ICON_W (100)
+#define cTab_GUI_tablet_DESKTOP_ICON_H (100)
 
 // Message element positions in pixels
 #define cTab_GUI_tablet_MESSAGE_MARGIN_OUTER (20)
 #define cTab_GUI_tablet_MESSAGE_MARGIN_INNER (10)
 
-#define cTab_GUI_tablet_MESSAGE_BUTTON_W (180)
-#define cTab_GUI_tablet_MESSAGE_BUTTON_H (60)
+#define cTab_GUI_tablet_MESSAGE_BUTTON_W (150)
+#define cTab_GUI_tablet_MESSAGE_BUTTON_H (50)
 
 #define cTab_GUI_tablet_MESSAGE_MESSAGETEXT_FRAME_X (cTab_GUI_tablet_SCREEN_CONTENT_X + cTab_GUI_tablet_MESSAGE_MARGIN_OUTER)
 #define cTab_GUI_tablet_MESSAGE_MESSAGETEXT_FRAME_Y (cTab_GUI_tablet_SCREEN_CONTENT_Y + cTab_GUI_tablet_MESSAGE_MARGIN_INNER)
@@ -144,11 +144,11 @@
 
 // On-screen text sizes, hight in pixels
 // Standard text elements
-#define cTab_GUI_tablet_OSD_TEXT_STD_SIZE (32)
-#define cTab_GUI_tablet_OSD_ICON_STD_SIZE (42)
+#define cTab_GUI_tablet_OSD_TEXT_STD_SIZE (27)
+#define cTab_GUI_tablet_OSD_ICON_STD_SIZE (35)
 
 // On-screen map centre cursor
-#define cTab_GUI_tablet_CURSOR (38)
+#define cTab_GUI_tablet_CURSOR (32)
 
 // set IDC counter to 0
 __EXEC(cTab_IDC = 0);
@@ -267,72 +267,72 @@ class cTab_Tablet_window_back_BR: cTab_Tablet_window_back_TR
 };
 class cTab_Tablet_btnF1: cTab_RscButtonInv
 {
-	x = pxToScreen_X(531);
-	y = pxToScreen_Y(1650);
-	w = pxToScreen_W(61);
-	h = pxToScreen_H(61);
+	x = pxToScreen_X(506);
+	y = pxToScreen_Y(1545);
+	w = pxToScreen_W(52);
+	h = pxToScreen_H(52);
 };
 class cTab_Tablet_btnF2: cTab_Tablet_btnF1
 {
-	x = pxToScreen_X(607);
+	x = pxToScreen_X(569);
 };
 class cTab_Tablet_btnF3: cTab_Tablet_btnF1
 {
-	x = pxToScreen_X(691);
+	x = pxToScreen_X(639);
 };
 class cTab_Tablet_btnF4: cTab_Tablet_btnF1
 {
-	x = pxToScreen_X(767);
+	x = pxToScreen_X(703);
 };
 class cTab_Tablet_btnF5: cTab_Tablet_btnF1
 {
-	x = pxToScreen_X(845);
+	x = pxToScreen_X(768);
 };
 class cTab_Tablet_btnF6: cTab_Tablet_btnF1
 {
-	x = pxToScreen_X(923);
+	x = pxToScreen_X(833);
 };
 class cTab_Tablet_btnFn: cTab_Tablet_btnF1
 {
-	x = pxToScreen_X(1088);
+	x = pxToScreen_X(970);
 };
 class cTab_Tablet_btnPower: cTab_Tablet_btnFn
 {
-	x = pxToScreen_X(1164);
+	x = pxToScreen_X(1034);
 };
 class cTab_Tablet_btnBrtDn: cTab_Tablet_btnFn
 {
-	x = pxToScreen_X(1243);
+	x = pxToScreen_X(1100);
 };
 class cTab_Tablet_btnBrtUp: cTab_Tablet_btnFn
 {
-	x = pxToScreen_X(1319);
+	x = pxToScreen_X(1163);
 };
 class cTab_Tablet_btnTrackpad: cTab_Tablet_btnFn
 {
-	x = pxToScreen_X(1438);
-	y = pxToScreen_Y(1655);
-	w = pxToScreen_W(56);
-	h = pxToScreen_H(51);
+	x = pxToScreen_X(1262);
+	y = pxToScreen_Y(1550);
+	w = pxToScreen_W(48);
+	h = pxToScreen_H(43);
 };
 class cTab_Tablet_btnMouse: cTab_Tablet_btnFn
 {
-	x = pxToScreen_X(1605);
-	w = pxToScreen_W(107);
+	x = pxToScreen_X(1401);
+	w = pxToScreen_W(91);
 };
 class cTab_Tablet_btnHome: cTab_Tablet_btnMouse
 {
-	x = pxToScreen_X(999);
-	y = pxToScreen_Y(1636);
-	w = pxToScreen_W(73);
-	h = pxToScreen_H(58);
+	x = pxToScreen_X(897);
+	y = pxToScreen_Y(1534);
+	w = pxToScreen_W(61);
+	h = pxToScreen_H(49);
 };
 class cTab_Tablet_notificationLight
 {
-	x = pxToScreen_X(1546);
-	y = pxToScreen_Y(1664);
-	w = pxToScreen_W(33);
-	h = pxToScreen_H(33);
+	x = pxToScreen_X(1353);
+	y = pxToScreen_Y(1557);
+	w = pxToScreen_W(28);
+	h = pxToScreen_H(28);
 };
 class cTab_Tablet_OSD_hookGrid: cTab_RscText_Tablet
 {
