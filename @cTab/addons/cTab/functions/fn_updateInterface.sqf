@@ -212,10 +212,8 @@ if (isNil "_mode") then {
 						// update scale and world position when not on interface init
 						if (!_interfaceInit) then {
 							if (_isDialog) then {
-								[[
-									["mapScaleDlg",[_displayName,"mapScaleDlg"] call cTab_fnc_getSettings],
-									["mapWorldPos",[_displayName,"mapWorldPos"] call cTab_fnc_getSettings]
-								]] call cTab_fnc_updateInterface;
+								_settings pushBack ["mapScaleDlg",[_displayName,"mapScaleDlg"] call cTab_fnc_getSettings];
+								_settings pushBack ["mapWorldPos",[_displayName,"mapWorldPos"] call cTab_fnc_getSettings];
 							};
 						};
 					};
