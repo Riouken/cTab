@@ -18,6 +18,8 @@
 		[] call cTab_fnc_toggleIfPosition;
 */
 
+private ["_displayName"];
+
 // bail if there is no interface open
 if (isNil "cTabIfOpen") exitWith {false};
 

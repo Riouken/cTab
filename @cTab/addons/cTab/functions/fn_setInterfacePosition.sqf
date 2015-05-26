@@ -18,8 +18,6 @@
 		["cTab_Tablet_dlg",[0.2,0.1]] call cTab_fnc_setInterfacePosition;
 */
 
-#include "\cTab\shared\cTab_gui_macros.hpp"
-
 private ["_displayName","_xOffset","_yOffset","_display","_isDialog","_backgroundCtrl","_backgroundClassName","_displayConfigContainers","_displayConfigClasses","_idc","_ctrl","_ctrlPosition"];
 
 _displayName = _this select 0;
