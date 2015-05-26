@@ -143,13 +143,16 @@ if (isNil "_mode") then {
 				if (_displayName in ["cTab_microDAGR_dsp","cTab_microDAGR_dlg"]) exitWith {
 					if (_nightMode) then {"\cTab\img\microDAGR_background_night_ca.paa"} else {"\cTab\img\microDAGR_background_ca.paa"};
 				};
+				if (_displayName in ["cTab_Tablet_dlg"]) exitWith {
+					if (_nightMode) then {"\cTab\img\tablet_background_night_ca.paa"} else {"\cTab\img\tablet_background_ca.paa"};
+				};
 				""
 			};
 			if (_background != "") then {
 				(_display displayCtrl IDC_CTAB_BACKGROUND) ctrlSetText _background;
 				// call brightness adjustment if this is outside of interface init
 				if (!_interfaceInit) then {
-					[[["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings]]] call cTab_fnc_updateInterface;
+					_settings pushBack ["brightness",[_displayName,"brightness"] call cTab_fnc_getSettings];
 				};
 			};
 		};

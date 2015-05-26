@@ -141,7 +141,9 @@ cTabSettings = [];
 	["mapType","SAT"],
 	["uavCam",""],
 	["hCam",""],
-	["mapTools",true]
+	["mapTools",true],
+	["nightMode",2],
+	["brightness",0.9]
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"Android",[

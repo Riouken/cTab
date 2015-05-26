@@ -181,7 +181,7 @@ class cTab_RscButton_Tablet: cTab_RscButton
 class cTab_Tablet_background: cTab_RscPicture
 {
 	idc = IDC_CTAB_BACKGROUND;
-	text = "\cTab\img\Tablet_background_ca.paa";
+	text = "";
 	x = GUI_GRID_X;
 	y = GUI_GRID_Y;
 	w = GUI_GRID_W;
