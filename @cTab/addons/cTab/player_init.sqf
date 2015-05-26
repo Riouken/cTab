@@ -132,6 +132,7 @@ cTabSettings = [];
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"Tablet",[
+	["dlgIfPosition",[]],
 	["mode","DESKTOP"],
 	["showIconText",true],
 	["mapWorldPos",[]],
@@ -147,6 +148,7 @@ cTabSettings = [];
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"Android",[
+	["dlgIfPosition",[]],
 	["dspIfPosition",false],
 	["mode","BFT"],
 	["showIconText",true],
@@ -162,6 +164,7 @@ cTabSettings = [];
 ]] call BIS_fnc_setToPairs;
 
 [cTabSettings,"FBCB2",[
+	["dlgIfPosition",[]],
 	["mapWorldPos",[]],
 	["showIconText",true],
 	["mapScaleDsp",2],
@@ -185,6 +188,7 @@ cTabTADgroupColour = [255/255, 0/255, 255/255, 1];
 cTabTADhighlightColour = [243/255, 243/255, 21/255, 1];
 
 [cTabSettings,"TAD",[
+	["dlgIfPosition",[]],
 	["dspIfPosition",false],
 	["mapWorldPos",[]],
 	["showIconText",true],
@@ -209,6 +213,7 @@ cTabMicroDAGRgroupColour = [25/255, 25/255, 112/255, 1];
 cTabMicroDAGRhighlightColour = [243/255, 243/255, 21/255, 1];
 
 [cTabSettings,"MicroDAGR",[
+	["dlgIfPosition",[]],
 	["dspIfPosition",false],
 	["mapWorldPos",[]],
 	["showIconText",true],

@@ -21,7 +21,7 @@
 
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
-private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_displayConfigContainers","_backgroundCtrl","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundClassName","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_ctrl","_ctrlPosition","_idc","_displayConfigClasses"];
+private ["_interfaceInit","_settings","_display","_displayName","_null","_osdCtrl","_text","_mode","_mapTypes","_mapType","_mapIDC","_targetMapName","_targetMapIDC","_targetMapCtrl","_previousMapCtrl","_previousMapIDC","_renderTarget","_loadingCtrl","_targetMapScale","_mapScaleKm","_mapScaleMin","_mapScaleMax","_mapScaleTxt","_mapWorldPos","_targetMapWorldPos","_displayItems","_btnActCtrl","_displayItemsToShow","_mapTools","_showMenu","_data","_uavListCtrl","_hcamListCtrl","_index","_isDialog","_background","_brightness","_nightMode","_backgroundPosition","_backgroundPositionX","_backgroundPositionW","_backgroundConfigPositionX","_xOffset","_dspIfPosition","_backgroundOffset"];
 disableSerialization;
 
 if (isNil "cTabIfOpen") exitWith {false};
@@ -81,7 +81,14 @@ if (isNil "_mode") then {
 				};
 			};
 		};
-		
+		// ------------ DIALOG POSITION ------------
+		if (_x select 0 == "dlgIfPosition") exitWith {
+			_backgroundOffset = _x select 1;
+			
+			if (_isDialog && !(_backgroundOffset isEqualTo []) && _interfaceInit) then {
+				[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
+			};
+		};
 		// ------------ BRIGHTNESS ------------
 		// Value ranges from 0 to 1, 0 being off and 1 being full brightness
 		if (_x select 0 == "brightness") exitWith {
