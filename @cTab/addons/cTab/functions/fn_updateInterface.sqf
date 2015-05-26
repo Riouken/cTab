@@ -251,6 +251,9 @@ if (isNil "_mode") then {
 						];
 						_btnActCtrl ctrlSetTooltip "View Gunner Optics";
 						_settings pushBack ["uavListUpdate",true];
+						if (!_interfaceInit) then {
+							_settings pushBack ["uavCam",[_displayName,"uavCam"] call cTab_fnc_getSettings];
+						};
 					};
 					// ---------- HELMET CAM -----------
 					if (_mode == "HCAM") exitWith {
@@ -261,6 +264,9 @@ if (isNil "_mode") then {
 						];
 						_btnActCtrl ctrlSetTooltip "Toggle Fullscreen";
 						_settings pushBack ["hCamListUpdate",true];
+						if (!_interfaceInit) then {
+							_settings pushBack ["hCam",[_displayName,"hCam"] call cTab_fnc_getSettings];
+						};
 					};
 					// ---------- MESSAGING -----------
 					if (_mode == "MESSAGE") exitWith {
