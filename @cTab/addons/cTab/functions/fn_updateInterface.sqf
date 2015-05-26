@@ -61,25 +61,13 @@ if (isNil "_mode") then {
 			_dspIfPosition = _x select 1;
 			
 			if !(_isDialog) then {
-				// get both classes "controls" and "controlsBackground" if they exist
-				_displayConfigContainers = "true" configClasses (configFile >> "RscTitles" >> _displayName);
-				
 				// get the current position of the background control
-				_backgroundCtrl = _display displayCtrl IDC_CTAB_BACKGROUND;
-				_backgroundPosition = ctrlPosition _backgroundCtrl;
-				_backgroundPositionX = _backgroundPosition select 0;
-				_backgroundPositionW = _backgroundPosition select 2;
-				_backgroundClassName = ctrlClassName _backgroundCtrl;
+				_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+				_backgroundPositionX = _backgroundPosition select 0 select 0;
+				_backgroundPositionW = _backgroundPosition select 0 select 2;
 				
 				// get the original position of the background control
-				_backgroundConfigPositionX = 0;
-				{
-					if (isClass _x) then {
-						if (isClass (_x >> _backgroundClassName)) exitWith {
-							_backgroundConfigPositionX = getNumber (_x >> _backgroundClassName >> "x");
-						};
-					};
-				} forEach _displayConfigContainers;
+				_backgroundConfigPositionX = _backgroundPosition select 1 select 0;
 				
 				// figure out if we need to do anything
 				if !((_backgroundPositionX != _backgroundConfigPositionX) isEqualTo _dspIfPosition) then {
@@ -89,25 +77,7 @@ if (isNil "_mode") then {
 						} else {
 							_backgroundConfigPositionX - _backgroundPositionX
 						};
-					{
-						if (isClass _x) then {
-							_displayConfigClasses = "true" configClasses _x;
-							{
-								if (isClass _x) then {
-									if (isNumber (_x >> "idc")) then {
-										_idc = getNumber (_x >> "idc");
-										if (_idc > 0) then {
-											_ctrl = _display displayCtrl _idc;
-											_ctrlPosition = ctrlPosition _ctrl;
-											_ctrlPosition set [0,(_ctrlPosition select 0) + _xOffset];
-											_ctrl ctrlSetPosition _ctrlPosition;
-											_ctrl ctrlCommit 0;
-										};
-									};
-								};
-							} forEach _displayConfigClasses;
-						};
-					} forEach _displayConfigContainers;
+					[_displayName,[_xOffset,0]] call cTab_fnc_setInterfacePosition;
 				};
 			};
 		};

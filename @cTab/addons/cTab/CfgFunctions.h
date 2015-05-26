@@ -25,6 +25,7 @@ class CfgFunctions
 			class drawMarkers{};
 			class drawUserMarkers{};
 			class findUserMarker{};
+			class getBackgroundPosition{};
 			class getCopilot{};
 			class getFromPairs{};
 			class getInfMarkerIcon{};
@@ -41,6 +42,7 @@ class CfgFunctions
 			class onPlayerInventoryChanged{};
 			class processCuratorKey{};
 			class remoteControlUav{};
+			class setInterfacePosition{};
 			class setSettings{};
 			class setToPairs{};
 			class toggleIfPosition{};
