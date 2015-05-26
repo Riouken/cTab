@@ -273,6 +273,7 @@ if (isNil "_mode") then {
 						_displayItemsToShow = [IDC_CTAB_GROUP_MESSAGE];
 						call cTab_msg_gui_load;
 						cTabRscLayerMailNotification cutText ["", "PLAIN"];
+						_btnActCtrl ctrlSetTooltip "";
 					};
 					// ---------- MESSAGING COMPOSE -----------
 					if (_mode == "COMPOSE") exitWith {
