@@ -85,8 +85,20 @@ if (isNil "_mode") then {
 		if (_x select 0 == "dlgIfPosition") exitWith {
 			_backgroundOffset = _x select 1;
 			
-			if (_isDialog && !(_backgroundOffset isEqualTo []) && _interfaceInit) then {
-				[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
+			if (_isDialog) then {
+				if (_backgroundOffset isEqualTo []) then {
+					_backgroundOffset = if (_interfaceInit) then {
+							[0,0]
+						} else {
+							// reset to defaults
+							_backgroundPosition = [_displayName] call cTab_fnc_getBackgroundPosition;
+							[(_backgroundPosition select 1 select 0) - (_backgroundPosition select 0 select 0),(_backgroundPosition select 1 select 1) - (_backgroundPosition select 0 select 1)]
+						};
+				};
+				if !(_backgroundOffset isEqualTo [0,0]) then {
+					// move by offset
+					[_displayName,_backgroundOffset] call cTab_fnc_setInterfacePosition;
+				};
 			};
 		};
 		// ------------ BRIGHTNESS ------------

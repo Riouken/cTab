@@ -96,7 +96,7 @@ You can reconfigure the default keys in the configuration file, which can be fou
 | `F7` |  Center map on current position. |
 | `CTRL` + `SHIFT` + `PAGE_UP` | Zoom in on the "small" TAD, MicroDAGR and Android. |
 | `CTRL` + `SHIFT` + `PAGE_DOWN` | Zoom out on the "small" TAD, MicroDAGR and Android. |
-| `CTRL` + `SHIFT` + `HOME` | Toggle interface position from left to right on the "small" TAD, MicroDAGR and Android. |
+| `CTRL` + `SHIFT` + `HOME` | Toggle interface position from left to right on the "small" TAD, MicroDAGR and Android. Reset all "large" interfaces to default position. |
 | `ESC` | Closes all interactive cTab devices (i.e. all but the "small" variants) as well as the UAV view. |
 
 Note: To unlock a UAV turret, use the lock / unlock control command available to UAVs (default `CTRL` + `T`) when controlling the UAV turret in full-screen mode (either via the UAV terminal or the UAV gunner view accessible from the tablet).
@@ -231,7 +231,8 @@ Changelog
 * Fix marker text alignment (some recent ArmA update changed the default from right to center)
 * Speedup of interface startup
 * General performance improvements
-* Added ability to switch interface position of TAD, Android and MicroDAGR in overlay mode from left to right
+* Added ability to switch interface position of TAD, Android and MicroDAGR in overlay mode from left to right (using default `CTRL + SHIFT + HOME`)
+* Interactive mode (large interfaces) screen position will now be remembered and restored on load (can be reset to screen center using default `CTRL + SHIFT + HOME`)
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

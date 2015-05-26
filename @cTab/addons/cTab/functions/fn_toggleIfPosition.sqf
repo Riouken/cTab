@@ -5,7 +5,7 @@
 		Gundy
 	
 	Description:
-		Toggle position of interface (display only) from left to right
+		Toggle position of interface (display only) from left to right or reset dialog to default position
 		
 	
 	Parameters:
@@ -23,15 +23,13 @@ if (isNil "cTabIfOpen") exitWith {false};
 
 _displayName = cTabIfOpen select 1;
 
-// bail if this is a dialog
-if ([_displayName] call cTab_fnc_isDialog) exitWith {false};
-
-_dspIfPosition = [_displayName,"dspIfPosition"] call cTab_fnc_getSettings;
-
-// bail if that setting doesn't exist
-if (isNil "_dspIfPosition") exitWith {false};
-
-// toggle position
-[_displayName,[["dspIfPosition",!_dspIfPosition]]] call cTab_fnc_setSettings;
+if ([_displayName] call cTab_fnc_isDialog) then {
+	// reset position to default
+	[_displayName,[["dlgIfPosition",[]]],true,true] call cTab_fnc_setSettings;
+} else {
+	_dspIfPosition = [_displayName,"dspIfPosition"] call cTab_fnc_getSettings;
+	// toggle position
+	[_displayName,[["dspIfPosition",!_dspIfPosition]]] call cTab_fnc_setSettings;
+};
 
 true

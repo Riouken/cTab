@@ -965,7 +965,7 @@ cTabOnDrawHCam = {
 	["cTab","ifTertiary",["Toggle Tertiary Interface","Open private cTab device when in a vehicle with its own cTab device, or to open Tablet while also carrying a MicroDAGR"],{call cTab_fnc_onIfTertiaryPressed},"",[cTab_key_if_tertiary_scancode,cTab_key_if_tertiary_modifiers],false] call cba_fnc_addKeybind;
 	["cTab","zoomIn",["Zoom In","Zoom In on map while cTab is in small overlay mode"],{call cTab_fnc_onZoomInPressed},"",[cTab_key_zoom_in_scancode,cTab_key_zoom_in_modifiers],false] call cba_fnc_addKeybind;
 	["cTab","zoomOut",["Zoom Out","Zoom Out on map while cTab is in small overlay mode"],{call cTab_fnc_onZoomOutPressed},"",[cTab_key_zoom_out_scancode,cTab_key_zoom_out_modifiers],false] call cba_fnc_addKeybind;
-	["cTab","toggleIfPosition",["Toggle Interface Position","Toggle overlay mode position from left to right"],{[] call cTab_fnc_toggleIfPosition},"",[cTab_key_toggleIfPosition_scancode,cTab_key_toggleIfPosition_modifiers],false] call cba_fnc_addKeybind;
+	["cTab","toggleIfPosition",["Toggle Interface Position","Toggle overlay mode interface position from left to right or reset interactive mode interface position to default"],{[] call cTab_fnc_toggleIfPosition},"",[cTab_key_toggleIfPosition_scancode,cTab_key_toggleIfPosition_modifiers],false] call cba_fnc_addKeybind;
 	
 	// if player is curator (ZEUS), setup key handlers
 	waitUntil {sleep 0.1;!(isNull player)};
