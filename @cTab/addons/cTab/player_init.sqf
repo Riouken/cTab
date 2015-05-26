@@ -1089,15 +1089,19 @@ cTab_msg_Send = {
 		};
 	} forEach _indices;
 	
-	_msgArray = cTab_player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
-	_msgArray pushBack [format ["%1 - %2",_time,_recipientNames],_msgBody,2];
-	cTab_player setVariable [format ["cTab_messages_%1",_playerEncryptionKey],_msgArray];
+	if (_recipientNames != "") then {
+		_msgArray = cTab_player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
+		_msgArray pushBack [format ["%1 - %2",_time,_recipientNames],_msgBody,2];
+		cTab_player setVariable [format ["cTab_messages_%1",_playerEncryptionKey],_msgArray];
 	
-	if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then {
-		call cTab_msg_gui_load;
+		if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then {
+			call cTab_msg_gui_load;
+		};
+		
+		playSound "cTab_mailSent";
+		_msgBodyctrl ctrlSetText "";
+		_plrLBctrl lbSetCurSel -1;
 	};
-	
-	playSound "cTab_mailSent";
 	
 	_return;
 };
