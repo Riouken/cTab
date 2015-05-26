@@ -216,7 +216,7 @@ Changelog
 ---------
 ### 2.2.0 ###
 * Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left)
-* Added night mode to Android and MicroDAGR (switches automatically based on light conditions outside)
+* Added night mode to Tablet, Android and MicroDAGR (switches automatically based on light conditions outside)
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 * Replaced tablet model with new model made by Raspu
 * No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
