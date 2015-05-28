@@ -860,7 +860,7 @@ class cTab_TAD_movingHandle_R: cTab_TAD_movingHandle_L
 // transparent control that gets placed on top of the GUI to adjust brightness
 class cTab_TAD_brightness: cTab_RscText_TAD
 {
-	idc = IDC_CTAB_BIGHTNESS;
+	idc = IDC_CTAB_BRIGHTNESS;
 	x = pxToScreen_X(cTab_GUI_TAD_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_TAD_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_TAD_MAP_W);

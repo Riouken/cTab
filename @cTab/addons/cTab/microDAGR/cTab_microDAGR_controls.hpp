@@ -326,7 +326,7 @@ class cTab_microDAGR_movingHandle_R: cTab_microDAGR_movingHandle_L
 // transparent control that gets placed on top of the GUI to adjust brightness
 class cTab_microDAGR_brightness: cTab_RscText_microDAGR
 {
-	idc = IDC_CTAB_BIGHTNESS;
+	idc = IDC_CTAB_BRIGHTNESS;
 	x = pxToScreen_X(cTab_GUI_microDAGR_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_microDAGR_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_microDAGR_MAP_W);

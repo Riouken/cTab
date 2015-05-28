@@ -104,7 +104,7 @@ if (isNil "_mode") then {
 		// ------------ BRIGHTNESS ------------
 		// Value ranges from 0 to 1, 0 being off and 1 being full brightness
 		if (_x select 0 == "brightness") exitWith {
-			_osdCtrl = _display displayCtrl IDC_CTAB_BIGHTNESS;
+			_osdCtrl = _display displayCtrl IDC_CTAB_BRIGHTNESS;
 			if (!isNull _osdCtrl) then {
 				_brightness = _x select 1;
 				_nightMode = [_displayName,"nightMode"] call cTab_fnc_getSettings;

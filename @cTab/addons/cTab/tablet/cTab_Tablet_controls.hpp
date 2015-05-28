@@ -403,7 +403,7 @@ class cTab_Tablet_movingHandle_R: cTab_Tablet_movingHandle_L
 // transparent control that gets placed on top of the GUI to adjust brightness
 class cTab_Tablet_brightness: cTab_RscText_Tablet
 {
-	idc = IDC_CTAB_BIGHTNESS;
+	idc = IDC_CTAB_BRIGHTNESS;
 	x = pxToScreen_X(cTab_GUI_tablet_MAP_X);
 	y = pxToScreen_Y(cTab_GUI_tablet_MAP_Y);
 	w = pxToScreen_W(cTab_GUI_tablet_MAP_W);
