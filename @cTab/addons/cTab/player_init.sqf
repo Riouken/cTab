@@ -1090,6 +1090,7 @@ cTab_msg_Send = {
 		};
 	} forEach _indices;
 	
+	// If the message was sent
 	if (_recipientNames != "") then {
 		_msgArray = cTab_player getVariable [format ["cTab_messages_%1",_playerEncryptionKey],[]];
 		_msgArray pushBack [format ["%1 - %2",_time,_recipientNames],_msgBody,2];
@@ -1099,8 +1100,12 @@ cTab_msg_Send = {
 			call cTab_msg_gui_load;
 		};
 		
+		// add a notification
+		["MSG","Message sent successfully"] call cTab_fnc_addNotification;
 		playSound "cTab_mailSent";
+		// remove message body
 		_msgBodyctrl ctrlSetText "";
+		// clear selected recipients
 		_plrLBctrl lbSetCurSel -1;
 	};
 	
@@ -1125,6 +1130,9 @@ cTab_msg_Send = {
 			
 			if (!isNil "cTabIfOpen" && {[cTabIfOpen select 1,"mode"] call cTab_fnc_getSettings == "MESSAGE"}) then {
 				_nop = [] call cTab_msg_gui_load;
+				
+				// add a notification
+				["MSG",format ["New message from %1",name _sender]] call cTab_fnc_addNotification;
 			} else {
 				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; //show
 			};
