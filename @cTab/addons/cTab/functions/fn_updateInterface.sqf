@@ -209,7 +209,7 @@ if (isNil "_mode") then {
 						
 						_mapTools = [_displayName,"mapTools"] call cTab_fnc_getSettings;
 						if (!isNil "_mapTools" && {_mapTools}) then {
-							_displayItemsToShow = _displayItemsToShow + [
+							_displayItemsToShow append [
 								IDC_CTAB_OSD_HOOK_GRID,
 								IDC_CTAB_OSD_HOOK_ELEVATION,
 								IDC_CTAB_OSD_HOOK_DST,
