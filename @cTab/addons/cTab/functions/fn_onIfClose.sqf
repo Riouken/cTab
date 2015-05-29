@@ -41,6 +41,12 @@ if !(isNil "cTabIfOpen") then {
 	if (!isNil "_aceUnconciousEhId") then {["medical_onUnconscious",_aceUnconciousEhId] call ace_common_fnc_removeEventHandler};
 	if (!isNil "_acePlayerInventoryChangedEhId") then {["playerInventoryChanged",_acePlayerInventoryChangedEhId] call ace_common_fnc_removeEventHandler};
 	
+	// remove notification system related PFH
+	if !(isNil "cTabProcessNotificationsPFH") then {
+		[cTabProcessNotificationsPFH] call CBA_fnc_removePerFrameHandler;
+		cTabProcessNotificationsPFH = nil;
+	};
+	
 	// don't call this part if we are closing down before setup has finished
 	if (!cTabIfOpenStart) then {
 		if ([_displayName] call cTab_fnc_isDialog) then {

@@ -48,6 +48,7 @@ cTabBFTgroups = [];
 cTabBFTvehicles = [];
 cTabUAVlist = [];
 cTabHcamlist = [];
+cTabNotificationCache = [];
 
 // set current player object in cTab_player and run a check on every frame to see if there is a change
 cTab_player = objNull;

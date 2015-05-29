@@ -166,7 +166,8 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_GRID,
 					IDC_CTAB_OSD_HOOK_ELEVATION,
 					IDC_CTAB_OSD_HOOK_DST,
-					IDC_CTAB_OSD_HOOK_DIR]
+					IDC_CTAB_OSD_HOOK_DIR,
+					IDC_CTAB_NOTIFICATION]
 				};
 				if (_displayName == "cTab_Android_dlg") exitWith {
 					[3300,3301,3302,3303,3304,3305,3306,3307,
@@ -178,12 +179,14 @@ if (isNil "_mode") then {
 					IDC_CTAB_OSD_HOOK_GRID,
 					IDC_CTAB_OSD_HOOK_ELEVATION,
 					IDC_CTAB_OSD_HOOK_DST,
-					IDC_CTAB_OSD_HOOK_DIR]
+					IDC_CTAB_OSD_HOOK_DIR,
+					IDC_CTAB_NOTIFICATION]
 				};
 				if (_displayName in ["cTab_FBCB2_dlg","cTab_TAD_dlg"]) exitWith {
-					[3300,3301,3302,3303,3304,3305,3306,3307]
+					[3300,3301,3302,3303,3304,3305,3306,3307,
+					IDC_CTAB_NOTIFICATION]
 				};
-				[] // default
+				[IDC_CTAB_NOTIFICATION] // default
 			};
 			if !(_displayItems isEqualTo []) then {
 				_btnActCtrl = _display displayCtrl IDC_CTAB_BTNACT;
@@ -544,5 +547,8 @@ if (!isNull _loadingCtrl) then {
 	_loadingCtrl ctrlShow false;
 	while {ctrlShown _loadingCtrl} do {};
 };
+
+// call notification system
+if (_interfaceInit) then {[] call cTab_fnc_processNotifications};
 
 true

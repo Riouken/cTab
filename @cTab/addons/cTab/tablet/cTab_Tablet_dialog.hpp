@@ -363,6 +363,8 @@ class cTab_Tablet_dlg {
 		/*
 			### Overlays ###
 		*/
+		// ---------- NOTIFICATION ------------
+		class notification: cTab_Tablet_notification {};
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_Tablet_loadingtxt {};
 		// ---------- BRIGHTNESS ------------

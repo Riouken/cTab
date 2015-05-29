@@ -867,3 +867,11 @@ class cTab_TAD_brightness: cTab_RscText_TAD
 	h = pxToScreen_H(cTab_GUI_TAD_MAP_H);
 	colorBackground[] = COLOR_TRANSPARENT;
 };
+class cTab_TAD_notification: cTab_RscText_TAD {
+	idc = IDC_CTAB_NOTIFICATION;
+	x = pxToScreen_X(cTab_GUI_TAD_MAP_X + (cTab_GUI_TAD_MAP_W * 0.2) / 2);
+	y = pxToScreen_Y(cTab_GUI_TAD_OSD_EDGE_B - cTab_GUI_TAD_OSD_ELEMENT_STD_H * 3);
+	w = pxToScreen_W(cTab_GUI_TAD_MAP_W * 0.8);
+	colorText[] = COLOR_NAVYBLUE;
+	colorBackground[] = COLOR_WHITE;
+};

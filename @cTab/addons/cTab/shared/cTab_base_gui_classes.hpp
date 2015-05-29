@@ -115,6 +115,7 @@
 #define COLOR_WHITE {1,1,1,1}
 #define COLOR_LIGHT_BLUE {0.2,0.431,0.647,1}
 #define COLOR_TRANSPARENT {0,0,0,0}
+#define COLOR_NAVYBLUE {0,0,128/255,1}
 
 ///////////////////////////////////////////////////////////////////////////
 /// Base Classes

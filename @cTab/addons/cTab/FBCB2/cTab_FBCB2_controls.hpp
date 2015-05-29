@@ -293,3 +293,10 @@ class cTab_FBCB2_loadingtxt: cTab_RscText_FBCB2
 	h = pxToScreen_H(cTab_GUI_FBCB2_SCREEN_CONTENT_H);
 	colorBackground[] = COLOR_BLACK;
 };
+class cTab_FBCB2_notification: cTab_RscText_FBCB2 {
+	idc = IDC_CTAB_NOTIFICATION;
+	x = pxToScreen_X(cTab_GUI_FBCB2_SCREEN_CONTENT_X + (cTab_GUI_FBCB2_SCREEN_CONTENT_W * 0.2) / 2);
+	y = pxToScreen_Y(cTab_GUI_FBCB2_SCREEN_CONTENT_Y + cTab_GUI_FBCB2_SCREEN_CONTENT_H - 2 * cTab_GUI_FBCB2_OSD_TEXT_STD_SIZE);
+	w = pxToScreen_W(cTab_GUI_FBCB2_SCREEN_CONTENT_W * 0.8);
+	colorBackground[] = COLOR_BLACK;
+};

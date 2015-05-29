@@ -434,3 +434,10 @@ class cTab_Tablet_RscMapControl: cTab_RscMapControl
 	ptsPerSquareRoad = 1.5 / (0.86 / GUI_GRID_H);		// roads
 	ptsPerSquareObj = 4 / (0.86 / GUI_GRID_H);		// other objects
 };
+class cTab_Tablet_notification: cTab_RscText_Tablet {
+    idc = IDC_CTAB_NOTIFICATION;
+    x = pxToScreen_X(cTab_GUI_tablet_SCREEN_CONTENT_X + (cTab_GUI_tablet_SCREEN_CONTENT_W * 0.5) / 2);
+    y = pxToScreen_Y(cTab_GUI_tablet_SCREEN_CONTENT_Y + cTab_GUI_tablet_SCREEN_CONTENT_H - 2 * cTab_GUI_tablet_OSD_TEXT_STD_SIZE);
+    w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W * 0.5);
+    colorBackground[] = COLOR_BLACK;
+};

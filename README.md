@@ -233,6 +233,7 @@ Changelog
 * General performance improvements
 * Added ability to switch interface position of TAD, Android and MicroDAGR in overlay mode from left to right (using default `CTRL + SHIFT + HOME`)
 * Interactive mode (large interfaces) screen position will now be remembered and restored on load (can be reset to screen center using default `CTRL + SHIFT + HOME`)
+* Added on-device notifications that will appear when for example a message has been received or a new marker was added
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)

@@ -5,6 +5,7 @@ class CfgFunctions
 		class Functions
 		{
 			file="cTab\functions";
+			class addNotification{};
 			class addToPairs{};
 			class addUserMarker{};
 			class centerMapOnPlayerPosition{};
@@ -41,6 +42,7 @@ class CfgFunctions
 			class open{};
 			class onPlayerInventoryChanged{};
 			class processCuratorKey{};
+			class processNotifications{};
 			class remoteControlUav{};
 			class setInterfacePosition{};
 			class setSettings{};

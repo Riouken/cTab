@@ -358,3 +358,10 @@ class cTab_android_brightness: cTab_RscText_Android
 	h = pxToScreen_H(cTab_GUI_android_MAP_H);
 	colorBackground[] = COLOR_TRANSPARENT;
 };
+class cTab_android_notification: cTab_RscText_Android {
+	idc = IDC_CTAB_NOTIFICATION;
+	x = pxToScreen_X(cTab_GUI_android_SCREEN_CONTENT_X + (cTab_GUI_android_SCREEN_CONTENT_W * 0.2) / 2);
+	y = pxToScreen_Y(cTab_GUI_android_SCREEN_CONTENT_Y + cTab_GUI_android_SCREEN_CONTENT_H - 2 * cTab_GUI_android_OSD_TEXT_STD_SIZE);
+	w = pxToScreen_W(cTab_GUI_android_SCREEN_CONTENT_W * 0.8);
+	colorBackground[] = COLOR_BLACK;
+};

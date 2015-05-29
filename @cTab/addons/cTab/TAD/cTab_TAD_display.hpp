@@ -82,6 +82,8 @@ class cTab_TAD_dsp
 		/*
 			### Overlays ###
 		*/
+		// ---------- NOTIFICATION ------------
+		class notification: cTab_TAD_notification {};
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_TAD_loadingtxt {};
 		// ---------- BRIGHTNESS ------------

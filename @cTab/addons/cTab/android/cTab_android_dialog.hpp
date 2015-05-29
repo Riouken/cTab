@@ -278,6 +278,8 @@ class cTab_Android_dlg {
 		/*
 			### Overlays ###
 		*/
+		// ---------- NOTIFICATION ------------
+		class notification: cTab_android_notification {};
 		// ---------- LOADING ------------
 		class loadingtxt: cTab_android_loadingtxt {};
 		// ---------- BRIGHTNESS ------------
