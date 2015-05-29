@@ -13,6 +13,7 @@
 			Index 2: INTEGER - size type
 			Index 3: INTEGER - octant of reported movement
 			Index 4: STRING  - marker time
+			Index 5: OBJECT  - marker creator
 			
 		Translated marker data format:
 			Index 0: ARRAY  - marker position

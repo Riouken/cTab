@@ -18,10 +18,10 @@
 	
 	Example:
 		// Client requesting marker addition and server receiving request
-		["bluefor",[[1714.35,5716.82],0,0,0,"12:00"]]call cTab_fnc_addUserMarker;
+		["bluefor",[[1714.35,5716.82],0,0,0,"12:00",player]]call cTab_fnc_addUserMarker;
 		
 		// Client receiving marker addition (from server)
-		["bluefor",[21,[[1714.35,5716.82],0,0,0,"12:00"]],157]call cTab_fnc_addUserMarker;
+		["bluefor",[21,[[1714.35,5716.82],0,0,0,"12:00",player]],157]call cTab_fnc_addUserMarker;
 */
 
 private ["_encryptionKey","_markerData","_transactionId"];
@@ -47,6 +47,7 @@ call {
 			// If this was run on a client-server (i.e. in single player or locally hosted), update the marker list
 			if (hasInterface && {_encryptionKey == call cTab_fnc_getPlayerEncryptionKey}) then {
 				call cTab_fnc_updateUserMarkerList;
+				["BFT","Marker added succesfully"] call cTab_fnc_addNotification;
 			};
 		};
 	};
@@ -65,6 +66,13 @@ call {
 			// only update the user marker list if the marker was added to the player's side
 			if (_encryptionKey == call cTab_fnc_getPlayerEncryptionKey) then {
 				call cTab_fnc_updateUserMarkerList;
+				
+				// add notification if marker was issued by someone else
+				if ((_markerData select 5) != cTab_player) then {
+					["BFT",format ["New marker at #%1",mapGridPosition _markerData select 0]] call cTab_fnc_addNotification;
+				} else {
+					["BFT","Marker added succesfully"] call cTab_fnc_addNotification;
+				};
 			};
 		};
 	};

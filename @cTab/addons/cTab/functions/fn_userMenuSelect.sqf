@@ -31,6 +31,7 @@ _idcToShow = 0;
 call {
 	// send cTabUserSelIcon to server
 	if (_type == 1) exitWith {
+		cTabUserSelIcon pushBack cTab_player;
 		[call cTab_fnc_getPlayerEncryptionKey,cTabUserSelIcon] call cTab_fnc_addUserMarker;
 	};
 	
