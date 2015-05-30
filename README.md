@@ -215,24 +215,25 @@ this setVariable ["cTab_groupId","Fox",true];
 Changelog
 ---------
 ### 2.2.0 ###
+* Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 * Added ability to message oneself to take notes
-* Added ability to switch interface position of TAD, Android and MicroDAGR in overlay mode from left to right (using * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
-* Added new and improved tablet model made by Raspu
-* Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left)
-* Added night mode to Tablet, Android and MicroDAGR (switches automatically based on light conditions outside)
-default `CTRL + SHIFT + HOME`)
+* Added ability to switch interface position of TAD, Android and MicroDAGR in overlay mode from left to right default `CTRL + SHIFT + HOME`)
+* Added new and improved tablet interface background and 3D model, both made by Raspu
+* Added night mode to Tablet, Android and MicroDAGR (switches automatically based on light conditions outside), graphics mad by Raspu
+* Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left), graphics mad by Raspu
 * Added on-device notifications that will appear when for example a message has been received or a new marker was added
 * Changed the way names are displayed in messaging to be more in line with Helmet Cam screen
+* Changed to reworked Android and MicroDAGR 3D models, both made by Raspu
 * Fixed icons in list of messages being black
 * Fixed marker text alignment (some recent ArmA update changed the default from right to center)
 * General performance improvements
+* Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
 * Interactive mode (large interfaces) screen position will now be remembered and restored on load (can be reset to screen center using default `CTRL + SHIFT + HOME`)
 * Interface will now be closed if player is unconscious and ACE3 Medical is used
 * Interface will now be closed if player lost the required device and ACE3 is used
 * Minor interface tweaks
 * No longer closes small MicroDAGR or Android interfaces when exeting a vehicle
 * On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as the standard blue (slightly different colour than the blue fire team).
-* Immediately stop showing team-members when player is leaving the group. Note: When joining a new group it will take up to 30 seconds for any cTab carrying group members to appear
 * Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen
 * Speedup of interface startup
 
