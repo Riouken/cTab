@@ -96,6 +96,7 @@ class CfgWeapons
 		descriptionuse = "<t color='#9cf953'>Use: </t>Show Commander's Tablet";
 		displayname = "Rugged Tablet";
 		picture = "\cTab\img\15th_rugged_tab_ico.paa";
+		model = "\ctab\data\itemDK10.p3d";
 		scope = 2;
 		simulation = "ItemGPS";
 		class ItemInfo {
