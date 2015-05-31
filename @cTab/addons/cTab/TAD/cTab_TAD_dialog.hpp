@@ -73,9 +73,6 @@ class cTab_TAD_dlg
 		class on_screen_currentElevation: cTab_TAD_OSD_currentElevation {};
 		class on_screen_centerMapText: cTab_TAD_OSD_centerMapText {};
 
-		// ---------- USER MARKER MENU ------------
-		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
-
 		/*
 			### Overlays ###
 		*/
@@ -85,6 +82,8 @@ class cTab_TAD_dlg
 		class loadingtxt: cTab_TAD_loadingtxt {};
 		// ---------- BRIGHTNESS ------------
 		class brightness: cTab_TAD_brightness {};
+		// ---------- USER MARKERS ------------
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 		// ---------- BACKGROUND ------------
 		class background: cTab_TAD_background {};
 		// ---------- MOVING HANDLEs ------------

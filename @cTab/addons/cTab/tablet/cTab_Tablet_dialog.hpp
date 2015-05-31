@@ -355,10 +355,6 @@ class cTab_Tablet_dlg {
 			w = pxToScreen_W(cTab_GUI_tablet_SCREEN_CONTENT_W);
 			h = pxToScreen_H(cTab_GUI_tablet_SCREEN_CONTENT_H);
 		};
-		// ---------- USER MARKER MENU ------------
-		#define cTab_IS_TABLET
-		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
-		#undef cTab_IS_TABLET
 
 		/*
 			### Overlays ###
@@ -369,6 +365,10 @@ class cTab_Tablet_dlg {
 		class loadingtxt: cTab_Tablet_loadingtxt {};
 		// ---------- BRIGHTNESS ------------
 		class brightness: cTab_Tablet_brightness {};
+		// ---------- USER MARKERS ------------
+		#define cTab_IS_TABLET
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
+		#undef cTab_IS_TABLET
 		// ---------- BACKGROUND ------------
 		class background: cTab_Tablet_background {};
 		// ---------- MOVING HANDLEs ------------

@@ -272,9 +272,6 @@ class cTab_Android_dlg {
 			};
 		};
 
-		// User Placed markers
-		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
-
 		/*
 			### Overlays ###
 		*/
@@ -284,6 +281,8 @@ class cTab_Android_dlg {
 		class loadingtxt: cTab_android_loadingtxt {};
 		// ---------- BRIGHTNESS ------------
 		class brightness: cTab_android_brightness {};
+		// ---------- USER MARKERS ------------
+		#include "\cTab\shared\cTab_markerMenu_controls.hpp"
 		// ---------- BACKGROUND ------------
 		class background: cTab_android_background {};
 		// ---------- MOVING HANDLEs ------------
