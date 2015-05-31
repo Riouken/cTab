@@ -133,7 +133,7 @@ class CfgWeapons
 		descriptionshort = "HD Helmet Mounted Camera";
 		descriptionuse = "<t color='#9cf953'>Use: </t>Used to record and stream video";
 		displayname = "Helmet Camera";
-		picture = "\cTab\img\cTab_helmet_cam_ico.paa";
+		picture = "\cTab\img\cTab_helmetCam_ico.paa";
 		scope = 2;
 		simulation = "ItemMineDetector";
 		detectRange = -1;

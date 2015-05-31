@@ -215,6 +215,8 @@ this setVariable ["cTab_groupId","Fox",true];
 
 Changelog
 ---------
+### 2.2.1 ###
+* Fixed error regarding the helmet cam icon when looking at a cTab-box placed with Zeus
 ### 2.2.0 ###
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
 * Added ability to message oneself to take notes
