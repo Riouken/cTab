@@ -217,6 +217,7 @@ Changelog
 ---------
 ### 2.2.1 ###
 * Fixed error regarding the helmet cam icon when looking at a cTab-box placed with Zeus
+* Marker menu will now stay inside the device screen boundaries
 * Moved marker menu above brightness layer to allow it to show tool-tips properly
 ### 2.2.0 ###
 * Added ability to increase / decrease screen brightness of TAD (via BRT+/- rocker on lower right)
