@@ -47,7 +47,11 @@ call {
 			// If this was run on a client-server (i.e. in single player or locally hosted), update the marker list
 			if (hasInterface && {_encryptionKey == call cTab_fnc_getPlayerEncryptionKey}) then {
 				call cTab_fnc_updateUserMarkerList;
-				["BFT","Marker added succesfully"] call cTab_fnc_addNotification;
+				if ((_markerData select 5) != cTab_player) then {
+					["BFT",format ["New marker at #%1",mapGridPosition (_markerData select 0)],20] call cTab_fnc_addNotification;
+				} else {
+					["BFT","Marker added succesfully",3] call cTab_fnc_addNotification;
+				};
 			};
 		};
 	};
@@ -68,10 +72,10 @@ call {
 				call cTab_fnc_updateUserMarkerList;
 				
 				// add notification if marker was issued by someone else
-				if ((_markerData select 5) != cTab_player) then {
-					["BFT",format ["New marker at #%1",mapGridPosition _markerData select 0]] call cTab_fnc_addNotification;
+				if ((_markerData select 1 select 5) != cTab_player) then {
+					["BFT",format ["New marker at #%1",mapGridPosition (_markerData select 1 select 0)],20] call cTab_fnc_addNotification;
 				} else {
-					["BFT","Marker added succesfully"] call cTab_fnc_addNotification;
+					["BFT","Marker added succesfully",3] call cTab_fnc_addNotification;
 				};
 			};
 		};

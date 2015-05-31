@@ -40,11 +40,11 @@ if (UAVControl cTabActUav select 1 != "GUNNER") then {
 		};
 	} else {
 		// show notification
-		["UAV","No gunner optics available"] call cTab_fnc_addNotification;
+		["UAV","No gunner optics available",5] call cTab_fnc_addNotification;
 	};
 } else {
 	// show notification
-	["UAV","Another user has control"]call cTab_fnc_addNotification;
+	["UAV","Another user has control",5] call cTab_fnc_addNotification;
 };
 
 true

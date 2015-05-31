@@ -216,7 +216,9 @@ this setVariable ["cTab_groupId","Fox",true];
 Changelog
 ---------
 ### 2.2.1 ###
+* Added variable message decay to notification system (new-marker notifications are now shown for longer)
 * Fixed error regarding the helmet cam icon when looking at a cTab-box placed with Zeus
+* Fixed issue with notification system upon marker creation
 * Marker menu will now stay inside the device screen boundaries
 * Moved marker menu above brightness layer to allow it to show tool-tips properly
 * Tweaked marker menu size on Android

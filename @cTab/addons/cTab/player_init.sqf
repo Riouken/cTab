@@ -1101,7 +1101,7 @@ cTab_msg_Send = {
 		};
 		
 		// add a notification
-		["MSG","Message sent successfully"] call cTab_fnc_addNotification;
+		["MSG","Message sent successfully",3] call cTab_fnc_addNotification;
 		playSound "cTab_mailSent";
 		// remove message body
 		_msgBodyctrl ctrlSetText "";
@@ -1132,7 +1132,7 @@ cTab_msg_Send = {
 				_nop = [] call cTab_msg_gui_load;
 				
 				// add a notification
-				["MSG",format ["New message from %1",name _sender]] call cTab_fnc_addNotification;
+				["MSG",format ["New message from %1",name _sender],6] call cTab_fnc_addNotification;
 			} else {
 				cTabRscLayerMailNotification cutRsc ["cTab_Mail_ico_disp", "PLAIN"]; //show
 			};
