@@ -1,6 +1,7 @@
 cTab
 ====
-**Commander's Tablet - FBCB2, Blue Force Tracker, UAV, and Helmet Cam Interface**
+**Commander's Tablet - FBCB2, Blue Force Tracker, UAV, Helmet Cam and Messaging Interface**
+*Initially created by Riouken, currently maintained by Gundy*
 
 Thanks to
 ---------
@@ -52,16 +53,16 @@ Optional
 
 Media
 -----
-[![Tablet BFT](http://i.imgur.com/hKVHT6Sm.jpg)](http://i.imgur.com/hKVHT6S.jpg)
-[![Tablet UAV](http://i.imgur.com/CzQ0HhUm.jpg)](http://i.imgur.com/CzQ0HhU.jpg)
+[![Tablet BFT](http://i.imgur.com/HnHLiv7m.jpg)](http://i.imgur.com/HnHLiv7.jpg)
+[![Tablet UAV night](http://i.imgur.com/ehvx1tFm.jpg)](http://i.imgur.com/ehvx1tF.jpg)
+[![3D models](http://i.imgur.com/Niynrvmm.jpg)](http://i.imgur.com/Niynrvm.jpg)
 [![Vehicle FBCB2](http://i.imgur.com/bjarZTqm.jpg)](http://i.imgur.com/bjarZTq.jpg)
 [![TAD small](http://i.imgur.com/ngtjm2Dm.jpg)](http://i.imgur.com/ngtjm2D.jpg)
-[![TAD large](http://i.imgur.com/OVyYrkpm.jpg)](http://i.imgur.com/OVyYrkp.jpg)
+[![TAD large night](http://i.imgur.com/OVyYrkpm.jpg)](http://i.imgur.com/OVyYrkp.jpg)
 [![Android small](http://i.imgur.com/0lOIuvem.jpg)](http://i.imgur.com/0lOIuve.jpg)
-[![Android large](http://i.imgur.com/g6frBhdm.jpg)](http://i.imgur.com/g6frBhd.jpg)
-[![Android large topo](http://i.imgur.com/2RpXNyDm.jpg)](http://i.imgur.com/2RpXNyD.jpg)
-[![MicroDAGR small](http://i.imgur.com/ZoQjPMXm.jpg)](http://i.imgur.com/ZoQjPMX.jpg)
-[![MicroDAGR large](http://i.imgur.com/vEuteq0m.jpg)](http://i.imgur.com/vEuteq0.jpg)
+[![Android large night](http://i.imgur.com/aaPccktm.jpg)](http://i.imgur.com/aaPcckt.jpg)
+[![MicroDAGR small](http://i.imgur.com/ZI6XZznm.jpg)](http://i.imgur.com/ZI6XZzn.jpg)
+[![MicroDAGR large](http://i.imgur.com/aE3zcxj.jpg)](http://i.imgur.com/aE3zcxj.jpg)
 [![cTab 1.0 release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
 
 Install
@@ -223,6 +224,7 @@ Changelog
 * Added night mode to TAD (switched via the DAY/NIGHT switch on the lower left), graphics mad by Raspu
 * Added on-device notifications that will appear when for example a message has been received or a new marker was added
 * Changed the way names are displayed in messaging to be more in line with Helmet Cam screen
+* Changed to brighter MicroDAGR interface background, made by Raspu
 * Changed to reworked Android and MicroDAGR 3D models, both made by Raspu
 * Fixed icons in list of messages being black
 * Fixed marker text alignment (some recent ArmA update changed the default from right to center)
@@ -236,6 +238,7 @@ Changelog
 * On-foot team members that have been assigned to a fire-team will now be coloured accordingly. If no fire team has been set, they will show up as the standard blue (slightly different colour than the blue fire team).
 * Reclassified helmet cam item to show up as a generic item in Arsenal. You will find it by for example selecting your vest and selecting the `+` icon on the right side of the screen
 * Speedup of interface startup
+* Updated all device iventory icons to match, made by Raspu
 
 ### 2.1.1 ###
 * Support for updated CBA keybinding API (introduced with CBA 1.20 RC6)
