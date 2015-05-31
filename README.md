@@ -62,7 +62,7 @@ Media
 [![Android small](http://i.imgur.com/0lOIuvem.jpg)](http://i.imgur.com/0lOIuve.jpg)
 [![Android large night](http://i.imgur.com/aaPccktm.jpg)](http://i.imgur.com/aaPcckt.jpg)
 [![MicroDAGR small](http://i.imgur.com/ZI6XZznm.jpg)](http://i.imgur.com/ZI6XZzn.jpg)
-[![MicroDAGR large](http://i.imgur.com/aE3zcxj.jpg)](http://i.imgur.com/aE3zcxj.jpg)
+[![MicroDAGR large](http://i.imgur.com/aE3zcxjm.jpg)](http://i.imgur.com/aE3zcxj.jpg)
 [![cTab 1.0 release overview](http://img.youtube.com/vi/2fFSOej_GPk/0.jpg)](http://youtu.be/2fFSOej_GPk)
 
 Install
