@@ -19,6 +19,7 @@
 #include "\cTab\shared\cTab_gui_macros.hpp"
 
 private ["_displayName","_display","_ctrl","_currentTime","_text","_notification","_decayTime"];
+disableSerialization;
 
 // make sure there is no PFH already, the interface is open and notifications are available
 if (isNil "cTabProcessNotificationsPFH" && !(isNil "cTabIfOpen") && count cTabNotificationCache != 0) then {
