@@ -13,7 +13,7 @@
 
 #include <\cTab\android\cTab_android_controls.hpp>
 
-#define MENU_sizeEx pxToScreen_H(cTab_GUI_android_OSD_TEXT_STD_SIZE)
+#define MENU_sizeEx pxToScreen_H(27)
 #include "\cTab\shared\cTab_markerMenu_macros.hpp"
 
 class cTab_Android_dlg {
