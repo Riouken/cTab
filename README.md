@@ -215,6 +215,9 @@ this setVariable ["cTab_groupId","Fox",true];
 
 Changelog
 ---------
+### 2.2.2 ###
+* Fixed message composition and display elements having a black background after ArmA3 1.46 update
+
 ### 2.2.1 ###
 * Added variable message decay to notification system (new-marker notifications are now shown for longer)
 * Fixed error regarding the helmet cam icon when looking at a cTab-box placed with Zeus
