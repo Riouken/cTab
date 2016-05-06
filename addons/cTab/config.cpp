@@ -66,7 +66,6 @@ class CfgMods {
 };
 
 #include "\cTab\CfgFunctions.h"
-#include "\userconfig\ctab\ctab_settings.hpp"
 
 class Extended_PostInit_EventHandlers
 {
