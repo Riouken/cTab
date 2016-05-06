@@ -36,80 +36,77 @@ _playerGroup = group cTab_player;
 _mountedLabels = [];
 _drawText = cTabBFTtxt;
 
-// Anything but MicroDAGR
-if (_mode != 2) then {
-	// ------------------ VEHICLES ------------------
-	{
-		_veh = _x select 0;
-		_iconB = _x select 2;
-		_text = if (_drawText) then {_x select 3} else {""};
-		_groupID = _x select 4;
-		_pos = getPosASL _veh;
-		
-		call {
-			if (_mode == 1 && {_iconB != "" && {_veh != _playerVehicle}}) exitWith {
-				// Drawing on TAD && vehicle is an air contact
-				call {
-					if (_groupID != "") exitWith {
-						// air contact is in our group
-						_ctrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
-						_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupID,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
-					};
-					// air contact is _not_ in our group
-					_ctrlScreen drawIcon [_iconB,cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
-					if (_drawText) then {
-						_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB","right"];
-					};
-				};
-			};
-			// Draw on anything but TAD
+// ------------------ VEHICLES ------------------
+{
+	_veh = _x select 0;
+	_iconB = _x select 2;
+	_text = if (_drawText) then {_x select 3} else {""};
+	_groupID = _x select 4;
+	_pos = getPosASL _veh;
+	
+	call {
+		if (_mode == 1 && {_iconB != "" && {_veh != _playerVehicle}}) exitWith {
+			// Drawing on TAD && vehicle is an air contact
 			call {
-				if (_veh != _playerVehicle) exitWith {
-					// player is not sitting in this vehicle
-					_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
+				if (_groupID != "") exitWith {
+					// air contact is in our group
+					_ctrlScreen drawIcon [_iconB,cTabTADgroupColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
+					_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADgroupColour,_pos,0,0,0,_groupID,0,cTabAirContactGroupTxtSize * 0.8,"TahomaB","center"];
 				};
-				if (group _veh != _playerGroup) then {
-					// player is not in the same group as this vehicle
-					_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
+				// air contact is _not_ in our group
+				_ctrlScreen drawIcon [_iconB,cTabTADfontColour,_pos,cTabAirContactSize,cTabAirContactSize,direction _veh,"",0,cTabTxtSize,"TahomaB","right"];
+				if (_drawText) then {
+					_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabTADfontColour,_pos,cTabAirContactDummySize,cTabAirContactDummySize,0,_text,0,cTabTxtSize,"TahomaB","right"];
 				};
 			};
 		};
-		0 = _vehicles pushBack _veh;
-	} count cTabBFTvehicles;
-
-	// ------------------ GROUPS ------------------
-	{
-		_veh = vehicle (_x select 0);
-		
+		// Draw on anything but TAD
 		call {
-			// See if the group leader's vehicle is in the list of drawn vehicles
-			_vehIndex = _vehicles find _veh;
-			
-			// Only do this if the vehicle has not been drawn yet, or the player is sitting in the same vehicle as the group leader
-			if (_vehIndex != -1 || {_veh == _playerVehicle}) exitWith {
-				if (_drawText) then {
-					// we want to draw text and the group leader is in a vehicle that has already been drawn
-					_text = _x select 3;
-					// _vehIndex == -1 means that the player sits in the vehicle
-					if (_vehIndex == -1 || {(groupID group _veh) != _text}) then {
-						// group name is not the same as that of the vehicle the leader is sitting in
-						_mountedIndex = _mountedLabels find _veh;
-						if (_mountedIndex != -1) then {
-							_mountedLabels set [_mountedIndex + 1,(_mountedLabels select (_mountedIndex + 1)) + "/" + (_text)];
-						} else {
-							0 = _mountedLabels pushBack _veh;
-							0 = _mountedLabels pushBack _text;
-						};
+			if (_veh != _playerVehicle) exitWith {
+				// player is not sitting in this vehicle
+				_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
+			};
+			if (group _veh != _playerGroup) then {
+				// player is not in the same group as this vehicle
+				_ctrlScreen drawIcon ["\A3\ui_f\data\map\Markers\System\dummy_ca.paa",cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
+			};
+		};
+	};
+	0 = _vehicles pushBack _veh;
+} count cTabBFTvehicles;
+
+// ------------------ GROUPS ------------------
+{
+	_veh = vehicle (_x select 0);
+	
+	call {
+		// See if the group leader's vehicle is in the list of drawn vehicles
+		_vehIndex = _vehicles find _veh;
+		
+		// Only do this if the vehicle has not been drawn yet, or the player is sitting in the same vehicle as the group leader
+		if (_vehIndex != -1 || {_veh == _playerVehicle}) exitWith {
+			if (_drawText) then {
+				// we want to draw text and the group leader is in a vehicle that has already been drawn
+				_text = _x select 3;
+				// _vehIndex == -1 means that the player sits in the vehicle
+				if (_vehIndex == -1 || {(groupID group _veh) != _text}) then {
+					// group name is not the same as that of the vehicle the leader is sitting in
+					_mountedIndex = _mountedLabels find _veh;
+					if (_mountedIndex != -1) then {
+						_mountedLabels set [_mountedIndex + 1,(_mountedLabels select (_mountedIndex + 1)) + "/" + (_text)];
+					} else {
+						0 = _mountedLabels pushBack _veh;
+						0 = _mountedLabels pushBack _text;
 					};
 				};
 			};
-			_text = if (_drawText) then {_x select 3} else {""};
-			_pos = getPosASL _veh;
-			_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
-			_ctrlScreen drawIcon [_x select 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB","right"];
 		};
-	} count cTabBFTgroups;
-};
+		_text = if (_drawText) then {_x select 3} else {""};
+		_pos = getPosASL _veh;
+		_ctrlScreen drawIcon [_x select 1,cTabColorBlue,_pos,cTabIconSize,cTabIconSize,0,_text,0,cTabTxtSize,"TahomaB","right"];
+		_ctrlScreen drawIcon [_x select 2,cTabColorBlue,_pos,cTabGroupOverlayIconSize,cTabGroupOverlayIconSize,0,"",0,cTabTxtSize,"TahomaB","right"];
+	};
+} count cTabBFTgroups;
 
 // ------------------ MEMBERS ------------------
 {
