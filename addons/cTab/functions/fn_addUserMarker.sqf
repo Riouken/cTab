@@ -34,6 +34,22 @@ call {
 	// If received on the server
 	if (isServer) exitWith {
 		if (isNil "_transactionId") then {
+			// Set incremented counter texts for appropriate markers.
+			if (_markerData select 1 == 32) then {
+				cTab_markerObjCounter = cTab_markerObjCounter + 1;
+				_markerData set [4, format ["OBJ%1", cTab_markerObjCounter]];
+			};
+			
+			if (_markerData select 1 == 33) then {
+				cTab_markerPoiCounter = cTab_markerPoiCounter + 1;
+				_markerData set [4, format ["POI%1", cTab_markerPoiCounter]];
+			};
+			
+			if (_markerData select 1 == 34) then {
+				cTab_markerWpCounter = cTab_markerWpCounter + 1;
+				_markerData set [4, format ["WP%1", cTab_markerWpCounter]];
+			};
+		
 			// Increase transaction ID
 			cTab_userMarkerTransactionId = cTab_userMarkerTransactionId + 1;
 			_transactionId = cTab_userMarkerTransactionId;

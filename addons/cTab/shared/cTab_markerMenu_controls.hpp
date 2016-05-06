@@ -601,7 +601,7 @@ class CasulSub1: cTab_RscControlsGroup
 
 class GenSub1: cTab_RscControlsGroup
 {
-	#define cTab_MENU_MAX_ELEMENTS 3
+	#define cTab_MENU_MAX_ELEMENTS 6
 	idc = 3306;
 	x = MENU_X;
 	y = MENU_Y;
@@ -640,6 +640,42 @@ class GenSub1: cTab_RscControlsGroup
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
 			action = "cTabUserSelIcon set [1,31];[1] call cTab_fnc_userMenuSelect;";
+		};
+		class objbtn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_OBJBTN;
+			text = "OBJ"; //--- ToDo: Localize;
+			toolTip = "Objective";
+			x = 0;
+			y = MENU_elementY(3);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,32];[1] call cTab_fnc_userMenuSelect;";
+		};
+		class poibtn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_POIBTN;
+			text = "POI"; //--- ToDo: Localize;
+			toolTip = "Point of Interest";
+			x = 0;
+			y = MENU_elementY(4);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,33];[1] call cTab_fnc_userMenuSelect;";
+		};
+		class wpbtn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_WPBTN;
+			text = "WP"; //--- ToDo: Localize;
+			toolTip = "Waypoint";
+			x = 0;
+			y = MENU_elementY(5);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,34];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{

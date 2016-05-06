@@ -63,6 +63,9 @@ _texture1 = call {
 	_color = cTabColorBlue;
 	if (_markerIcon == 30) exitWith {"\A3\ui_f\data\map\markers\nato\b_hq.paa"};
 	if (_markerIcon == 31) exitWith {"\A3\ui_f\data\map\markers\military\end_CA.paa"};
+	if (_markerIcon == 32) exitWith {"\A3\ui_f\data\map\markers\military\objective_CA.paa"};
+	if (_markerIcon == 33) exitWith {"\A3\ui_f\data\map\markers\military\dot_CA.paa"};
+	if (_markerIcon == 34) exitWith {"\A3\ui_f\data\map\markers\military\triangle_CA.paa"};
 	""
 };
 

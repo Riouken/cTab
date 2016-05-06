@@ -16,6 +16,14 @@ publicVariable "cTab_vehicleClass_has_TAD_server";
 cTab_helmetClass_has_HCam_server = ["H_HelmetB_light","H_Helmet_Kerry","H_HelmetSpecB","H_HelmetO_ocamo","BWA3_OpsCore_Fleck_Camera","BWA3_OpsCore_Schwarz_Camera","BWA3_OpsCore_Tropen_Camera"];
 publicVariable "cTab_helmetClass_has_HCam_server";
 
+// define marker counters and broadcast them
+cTab_markerObjCounter = 0;
+cTab_markerPoiCounter = 0;
+cTab_markerWpCounter = 0;
+publicVariable "cTab_markerObjCounter";
+publicVariable "cTab_markerPoiCounter";
+publicVariable "cTab_markerWpCounter";
+
 cTab_userMarkerLists = [];
 cTab_userMarkerTransactionId = -1;
 
