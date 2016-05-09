@@ -17,12 +17,14 @@ cTab_helmetClass_has_HCam_server = ["H_HelmetB_light","H_Helmet_Kerry","H_Helmet
 publicVariable "cTab_helmetClass_has_HCam_server";
 
 // define marker counters and broadcast them
-cTab_markerObjCounter = 0;
-cTab_markerPoiCounter = 0;
-cTab_markerWpCounter = 0;
-publicVariable "cTab_markerObjCounter";
-publicVariable "cTab_markerPoiCounter";
-publicVariable "cTab_markerWpCounter";
+cTab_markerCounterMKR = 0;
+cTab_markerCounterWP = 0;
+cTab_markerCounterLZDZ = 0;
+cTab_markerCounterOBJ = 0;
+publicVariable "cTab_markerCounterMKR";
+publicVariable "cTab_markerCounterWP";
+publicVariable "cTab_markerCounterLZDZ";
+publicVariable "cTab_markerCounterOBJ";
 
 cTab_userMarkerLists = [];
 cTab_userMarkerTransactionId = -1;
