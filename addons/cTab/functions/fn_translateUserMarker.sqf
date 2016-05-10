@@ -56,13 +56,20 @@ _texture1 = call {
 	if (_markerIcon == 12) exitWith {"\cTab\img\o_inf_mmortar.paa"};
 	if (_markerIcon == 13) exitWith {"\cTab\img\o_inf_aa.paa"};
 	_color = cTabColorGreen;
-	if (_markerIcon == 20) exitWith {"\A3\ui_f\data\map\markers\military\join_CA.paa"};
+	if (_markerIcon == 20) exitWith {"\A3\ui_f\data\map\markers\military\circle_CA.paa"};
 	if (_markerIcon == 21) exitWith {"\A3\ui_f\data\map\markers\military\circle_CA.paa"};
 	if (_markerIcon == 22) exitWith {"\A3\ui_f\data\map\mapcontrol\Hospital_CA.paa"};
-	if (_markerIcon == 23) exitWith {"\A3\ui_f\data\map\markers\military\warning_CA.paa"};
 	_color = cTabColorBlue;
-	if (_markerIcon == 30) exitWith {"\A3\ui_f\data\map\markers\nato\b_hq.paa"};
-	if (_markerIcon == 31) exitWith {"\A3\ui_f\data\map\markers\military\end_CA.paa"};
+	if (_markerIcon == 23) exitWith {"\A3\ui_f\data\map\markers\nato\b_hq.paa"};
+	_color = cTabColorGreen;
+	if (_markerIcon == 30) exitWith {"\A3\ui_f\data\map\markers\military\marker_CA.paa"};
+	if (_markerIcon == 31) exitWith {"\A3\ui_f\data\map\markers\military\triangle_CA.paa"};
+	_color = cTabColorBlue;
+	if (_markerIcon == 32) exitWith {"\A3\ui_f\data\map\markers\military\end_CA.paa"};
+	if (_markerIcon == 33) exitWith {"\A3\ui_f\data\map\markers\military\end_CA.paa"};
+	if (_markerIcon == 34) exitWith {"\A3\ui_f\data\map\markers\military\objective_CA.paa"};
+	_color = cTabColorRed;
+	if (_markerIcon == 35) exitWith {"\A3\ui_f\data\map\markers\military\warning_CA.paa"};
 	""
 };
 

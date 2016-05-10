@@ -34,6 +34,47 @@ call {
 	// If received on the server
 	if (isServer) exitWith {
 		if (isNil "_transactionId") then {
+			_phoneticAlphabet = ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "Xray", "Yankee", "Zulu"];
+		
+			// Label logistics markers.
+			if (_markerData select 1 == 20) then { _markerData set [4, "VRP"]; };
+			if (_markerData select 1 == 21) then { _markerData set [4, "CCP"]; };
+			if (_markerData select 1 == 22) then { _markerData set [4, "BAS"]; };
+			if (_markerData select 1 == 23) then { _markerData set [4, "HQ"]; };
+		
+			// Increment marker label.
+			if (_markerData select 1 == 30) then {
+				cTab_markerCounterMKR = cTab_markerCounterMKR + 1;
+				_markerData set [4, format ["%1", cTab_markerCounterMKR]];
+			};
+			
+			// Increment waypoint label.
+			if (_markerData select 1 == 31) then {
+				cTab_markerCounterWP = cTab_markerCounterWP + 1;
+				_markerData set [4, format ["WP%1", cTab_markerCounterWP]];
+			};
+			
+			// Increment LZ phonetic label (shared with DZ).
+			if (_markerData select 1 == 32) then {
+				_markerData set [4, format ["LZ %1", _phoneticAlphabet select cTab_markerCounterLZDZ]];
+				cTab_markerCounterLZDZ = cTab_markerCounterLZDZ + 1;
+				if (cTab_markerCounterLZDZ >= 25) then { cTab_markerCounterLZDZ = 0; };
+			};
+			
+			// Increment DZ phonetic label (shared with LZ).
+			if (_markerData select 1 == 33) then {
+				_markerData set [4, format ["DZ %1", _phoneticAlphabet select cTab_markerCounterLZDZ]];
+				cTab_markerCounterLZDZ = cTab_markerCounterLZDZ + 1;
+				if (cTab_markerCounterLZDZ >= 25) then { cTab_markerCounterLZDZ = 0; };
+			};
+			
+			// Increment OBJ phonetic label.
+			if (_markerData select 1 == 34) then {
+				_markerData set [4, format ["%1", _phoneticAlphabet select cTab_markerCounterOBJ]];
+				cTab_markerCounterOBJ = cTab_markerCounterOBJ + 1;
+				if (cTab_markerCounterOBJ >= 25) then { cTab_markerCounterOBJ = 0; };
+			};
+		
 			// Increase transaction ID
 			cTab_userMarkerTransactionId = cTab_userMarkerTransactionId + 1;
 			_transactionId = cTab_userMarkerTransactionId;

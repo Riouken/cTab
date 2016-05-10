@@ -23,7 +23,7 @@ class MainSubmenu: cTab_RscControlsGroup
 		class op4btn: cTab_MenuItem
 		{
 			idc = IDC_USRMN_OP4BTN;
-			text = "Enemy SALUTE"; //--- ToDo: Localize;
+			text = "Enemy"; //--- ToDo: Localize;
 			x = 0;
 			y = MENU_elementY(1);
 			w = MENU_W;
@@ -34,7 +34,7 @@ class MainSubmenu: cTab_RscControlsGroup
 		class medbtn: cTab_MenuItem
 		{
 			idc = IDC_USRMN_MEDBTN;
-			text = "Medical"; //--- ToDo: Localize;
+			text = "Logistics"; //--- ToDo: Localize;
 			x = 0;
 			y = MENU_elementY(2);
 			w = MENU_W;
@@ -537,10 +537,11 @@ class CasulSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
-		class casltybtn: cTab_MenuItem
+		class vrpbtn: cTab_MenuItem
 		{
-			idc = IDC_USRMN_CASLTYBTN;
-			text = "Casualty"; //--- ToDo: Localize;
+			idc = IDC_USRMN_VRPBTN;
+			text = "VRP"; //--- ToDo: Localize;
+			toolTip = "Vehicle Resupply Point";
 			x = 0;
 			y = MENU_elementY(1);
 			w = MENU_W;
@@ -572,12 +573,11 @@ class CasulSub1: cTab_RscControlsGroup
 			sizeEx = MENU_sizeEx;
 			action = "cTabUserSelIcon set [1,22];[1] call cTab_fnc_userMenuSelect;";
 		};
-		// Mass Casualty Incident
-		class mcibtn: cTab_MenuItem
+		class hqbtn: cTab_MenuItem
 		{
-			idc = IDC_USRMN_MCIBTN;
-			text = "MCI"; //--- ToDo: Localize;
-			toolTip = "Mass Casualty Incident";
+			idc = IDC_USRMN_HQBTN;
+			text = "HQ"; //--- ToDo: Localize;
+			toolTip = "Headquarters";
 			x = 0;
 			y = MENU_elementY(4);
 			w = MENU_W;
@@ -601,7 +601,7 @@ class CasulSub1: cTab_RscControlsGroup
 
 class GenSub1: cTab_RscControlsGroup
 {
-	#define cTab_MENU_MAX_ELEMENTS 3
+	#define cTab_MENU_MAX_ELEMENTS 7
 	idc = 3306;
 	x = MENU_X;
 	y = MENU_Y;
@@ -617,11 +617,11 @@ class GenSub1: cTab_RscControlsGroup
 			w = MENU_W;
 			h = MENU_H(cTab_MENU_MAX_ELEMENTS);
 		};
-		class hqbtn: cTab_MenuItem
+		class mkrbtn: cTab_MenuItem
 		{
-			idc = IDC_USRMN_HQBTN;
-			text = "HQ"; //--- ToDo: Localize;
-			toolTip = "Headquaters";
+			idc = IDC_USRMN_MKRBTN;
+			text = "MKR"; //--- ToDo: Localize;
+			toolTip = "Marker";
 			x = 0;
 			y = MENU_elementY(1);
 			w = MENU_W;
@@ -629,17 +629,65 @@ class GenSub1: cTab_RscControlsGroup
 			sizeEx = MENU_sizeEx;
 			action = "cTabUserSelIcon set [1,30];[1] call cTab_fnc_userMenuSelect;";
 		};
-		class lzbtn: cTab_MenuItem
+		class wpbtn: cTab_MenuItem
 		{
-			idc = IDC_USRMN_LZBTN;
-			text = "LZ"; //--- ToDo: Localize;
-			toolTip = "Landing Zone";
+			idc = IDC_USRMN_WPBTN;
+			text = "WP"; //--- ToDo: Localize;
+			toolTip = "Waypoint";
 			x = 0;
 			y = MENU_elementY(2);
 			w = MENU_W;
 			h = MENU_elementH;
 			sizeEx = MENU_sizeEx;
 			action = "cTabUserSelIcon set [1,31];[1] call cTab_fnc_userMenuSelect;";
+		};
+		class lzbtn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_LZBTN;
+			text = "LZ"; //--- ToDo: Localize;
+			toolTip = "Landing Zone";
+			x = 0;
+			y = MENU_elementY(3);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,32];[1] call cTab_fnc_userMenuSelect;";
+		};
+		class dzbtn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_DZBTN;
+			text = "DZ"; //--- ToDo: Localize;
+			toolTip = "Drop Zone";
+			x = 0;
+			y = MENU_elementY(4);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,33];[1] call cTab_fnc_userMenuSelect;";
+		};
+		class objbtn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_OBJBTN;
+			text = "OBJ"; //--- ToDo: Localize;
+			toolTip = "Objective";
+			x = 0;
+			y = MENU_elementY(5);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,34];[1] call cTab_fnc_userMenuSelect;";
+		};
+		class wrnbtn: cTab_MenuItem
+		{
+			idc = IDC_USRMN_WRNBTN;
+			text = "WRN"; //--- ToDo: Localize;
+			toolTip = "Warning";
+			x = 0;
+			y = MENU_elementY(6);
+			w = MENU_W;
+			h = MENU_elementH;
+			sizeEx = MENU_sizeEx;
+			action = "cTabUserSelIcon set [1,35];[1] call cTab_fnc_userMenuSelect;";
 		};
 		class exit: cTab_MenuExit
 		{
