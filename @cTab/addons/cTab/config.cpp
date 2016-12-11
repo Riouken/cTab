@@ -27,7 +27,8 @@ class CfgPatches
 			requiredAddons[] = {"CBA_MAIN"};
 			versionDesc = "cTab";
 			VERSION_CONFIG;
-			author[] = {"Gundy","Riouken","Raspu"};
+			author = "cTab";
+			authors[] = {"Gundy","Riouken","Raspu"};
 			authorUrl = "https://github.com/Riouken/cTab";
 		};
 };
