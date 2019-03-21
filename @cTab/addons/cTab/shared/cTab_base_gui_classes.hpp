@@ -1495,6 +1495,7 @@ class cTab_RscMapControl
   w = 0.80;
   h = 0.60;
 
+	widthRailWay = 1;
     moveOnEdges = 1;
 	shadow = 0;
 	ptsPerSquareSea = 5;
